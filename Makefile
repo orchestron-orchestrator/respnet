@@ -14,3 +14,6 @@ gen:
 .PHONY: gen-ldep
 gen-ldep:
 	$(MAKE) gen DEP_OVERRIDES="--dep netconf=../../netconf --dep orchestron=../../orchestron --dep yang=../../acton-yang"
+
+build-junos:
+	acton --dev src/respnet/devices/JuniperCRPD_23_4R1_9.act
