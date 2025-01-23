@@ -354,24 +354,6 @@ module: junos-conf-protocols
        |  |  |  +--:(case_1)
        |  |  |     +--rw disable?       empty
        |  |  +--rw wide-metrics-only?   empty
-       |  +--rw traceoptions
-       |  |  +--rw flag* [name]
-       |  |  |  +--rw name       enumeration
-       |  |  |  +--rw send?      empty
-       |  |  |  +--rw receive?   empty
-       |  |  |  +--rw detail?    empty
-       |  |  |  +--rw disable?   empty
-       |  |  +--rw file
-       |  |     +--rw filename?                  string
-       |  |     x--rw replace?                   empty
-       |  |     +--rw size?                      string
-       |  |     +--rw files?                     uint32
-       |  |     x--rw no-stamp?                  empty
-       |  |     +--rw (world-readable-choice)?
-       |  |        +--:(world-readable)
-       |  |        |  +--rw world-readable?      empty
-       |  |        +--:(no-world-readable)
-       |  |           +--rw no-world-readable?   empty
        |  +--rw lsp-lifetime?            uint32
        +--rw ldp
        |  +--rw traffic-statistics

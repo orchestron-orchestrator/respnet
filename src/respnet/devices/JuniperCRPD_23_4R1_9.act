@@ -7261,230 +7261,6 @@ class junos_conf_root__configuration__protocols__isis__level(yang.adata.MNode):
 
 
 
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__flag__name(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("enumeration", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__flag__send(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__flag__receive(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__flag__detail(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__flag__disable(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-class junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry(yang.adata.MNode):
-    name: str
-    send: ?bool
-    receive: ?bool
-    detail: ?bool
-    disable: ?bool
-
-    mut def __init__(self, name: str, send: ?bool, receive: ?bool, detail: ?bool, disable: ?bool):
-        self._ns = "http://yang.juniper.net/junos/conf/protocols"
-        self.name = name
-        self.send = send
-        self.receive = receive
-        self.detail = detail
-        self.disable = disable
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _name = self.name
-        _send = self.send
-        _receive = self.receive
-        _detail = self.detail
-        _disable = self.disable
-        if _name is not None:
-            children['name'] = yang.gdata.Leaf('enumeration', _name)
-        if _send is not None:
-            children['send'] = yang.gdata.Leaf('empty', _send)
-        if _receive is not None:
-            children['receive'] = yang.gdata.Leaf('empty', _receive)
-        if _detail is not None:
-            children['detail'] = yang.gdata.Leaf('empty', _detail)
-        if _disable is not None:
-            children['disable'] = yang.gdata.Leaf('empty', _disable)
-        return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
-
-    @staticmethod
-    mut def from_gdata(n: yang.gdata.Node) -> junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry:
-        return junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry(name=n.get_str("name"), send=n.get_opt_bool("send"), receive=n.get_opt_bool("receive"), detail=n.get_opt_bool("detail"), disable=n.get_opt_bool("disable"))
-
-    @staticmethod
-    mut def from_xml(n: xml.Node) -> junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry:
-        return junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry(name=yang.gdata.from_xml_str(n, "name"), send=yang.gdata.from_xml_opt_bool(n, "send"), receive=yang.gdata.from_xml_opt_bool(n, "receive"), detail=yang.gdata.from_xml_opt_bool(n, "detail"), disable=yang.gdata.from_xml_opt_bool(n, "disable"))
-
-class junos_conf_root__configuration__protocols__isis__traceoptions__flag(yang.adata.MNode):
-    elements: list[junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry]
-    mut def __init__(self, elements=[]):
-        self._ns = "http://yang.juniper.net/junos/conf/protocols"
-        self._name = 'flag'
-        self.elements = elements
-
-    mut def create(self, name):
-        for e in self.elements:
-            match = True
-            if e.name != name:
-                match = False
-                continue
-            if match:
-                return e
-
-        res = junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry(name)
-        self.elements.append(res)
-        return res
-
-    mut def to_gdata(self):
-        elements = []
-        for e in self.elements:
-            e_gdata = e.to_gdata()
-            if isinstance(e_gdata, yang.gdata.ListElement):
-                elements.append(e_gdata)
-        return yang.gdata.List(['name'], elements)
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.List) -> list[junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry]:
-        res = []
-        if n is not None:
-            for e in n.elements:
-                res.append(junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry.from_gdata(e))
-        return res
-
-    @staticmethod
-    mut def from_xml(nodes: list[xml.Node]) -> list[junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry]:
-        res = []
-        for node in nodes:
-            res.append(junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry.from_xml(node))
-        return res
-
-
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__filename(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__replace(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__size(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__files(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint32", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__no_stamp(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__world_readable(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-mut def from_json_junos_conf_root__configuration__protocols__isis__traceoptions__file__no_world_readable(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("empty", val)
-
-class junos_conf_root__configuration__protocols__isis__traceoptions__file(yang.adata.MNode):
-    filename: ?str
-    replace: ?bool
-    size: ?str
-    files: int
-    no_stamp: ?bool
-    world_readable: ?bool
-    no_world_readable: ?bool
-
-    mut def __init__(self, filename: ?str, replace: ?bool, size: ?str, files: ?int=None, no_stamp: ?bool, world_readable: ?bool, no_world_readable: ?bool):
-        self._ns = "http://yang.juniper.net/junos/conf/protocols"
-        self.filename = filename
-        self.replace = replace
-        self.size = size
-        if files != None:
-            self.files = files
-        else:
-            self.files = 10
-        self.no_stamp = no_stamp
-        self.world_readable = world_readable
-        self.no_world_readable = no_world_readable
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _filename = self.filename
-        _replace = self.replace
-        _size = self.size
-        _files = self.files
-        _no_stamp = self.no_stamp
-        _world_readable = self.world_readable
-        _no_world_readable = self.no_world_readable
-        if _filename is not None:
-            children['filename'] = yang.gdata.Leaf('string', _filename)
-        if _replace is not None:
-            children['replace'] = yang.gdata.Leaf('empty', _replace)
-        if _size is not None:
-            children['size'] = yang.gdata.Leaf('string', _size)
-        if _files is not None:
-            children['files'] = yang.gdata.Leaf('uint32', _files)
-        if _no_stamp is not None:
-            children['no-stamp'] = yang.gdata.Leaf('empty', _no_stamp)
-        if _world_readable is not None:
-            children['world-readable'] = yang.gdata.Leaf('empty', _world_readable)
-        if _no_world_readable is not None:
-            children['no-world-readable'] = yang.gdata.Leaf('empty', _no_world_readable)
-        return yang.gdata.Container(children)
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> junos_conf_root__configuration__protocols__isis__traceoptions__file:
-        if n != None:
-            return junos_conf_root__configuration__protocols__isis__traceoptions__file(filename=n.get_opt_str("filename"), replace=n.get_opt_bool("replace"), size=n.get_opt_str("size"), files=n.get_opt_int("files"), no_stamp=n.get_opt_bool("no-stamp"), world_readable=n.get_opt_bool("world-readable"), no_world_readable=n.get_opt_bool("no-world-readable"))
-        return junos_conf_root__configuration__protocols__isis__traceoptions__file()
-
-    @staticmethod
-    mut def from_xml(n: ?xml.Node) -> junos_conf_root__configuration__protocols__isis__traceoptions__file:
-        if n != None:
-            return junos_conf_root__configuration__protocols__isis__traceoptions__file(filename=yang.gdata.from_xml_opt_str(n, "filename"), replace=yang.gdata.from_xml_opt_bool(n, "replace"), size=yang.gdata.from_xml_opt_str(n, "size"), files=yang.gdata.from_xml_opt_int(n, "files"), no_stamp=yang.gdata.from_xml_opt_bool(n, "no-stamp"), world_readable=yang.gdata.from_xml_opt_bool(n, "world-readable"), no_world_readable=yang.gdata.from_xml_opt_bool(n, "no-world-readable"))
-        return junos_conf_root__configuration__protocols__isis__traceoptions__file()
-
-
-
-class junos_conf_root__configuration__protocols__isis__traceoptions(yang.adata.MNode):
-    flag: junos_conf_root__configuration__protocols__isis__traceoptions__flag
-    file: junos_conf_root__configuration__protocols__isis__traceoptions__file
-
-    mut def __init__(self, flag: list[junos_conf_root__configuration__protocols__isis__traceoptions__flag_entry]=[], file: ?junos_conf_root__configuration__protocols__isis__traceoptions__file=None):
-        self._ns = "http://yang.juniper.net/junos/conf/protocols"
-        self.flag = junos_conf_root__configuration__protocols__isis__traceoptions__flag(elements=flag)
-        self.flag._parent = self
-        if file is not None:
-            self.file = file
-        else:
-            self.file = junos_conf_root__configuration__protocols__isis__traceoptions__file()
-        self_file = self.file
-        if self_file is not None:
-            self_file._parent = self
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _flag = self.flag
-        _file = self.file
-        if _flag is not None:
-            children['flag'] = _flag.to_gdata()
-        if _file is not None:
-            children['file'] = _file.to_gdata()
-        return yang.gdata.Container(children)
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> junos_conf_root__configuration__protocols__isis__traceoptions:
-        if n != None:
-            return junos_conf_root__configuration__protocols__isis__traceoptions(flag=junos_conf_root__configuration__protocols__isis__traceoptions__flag.from_gdata(n.get_opt_list("flag")), file=junos_conf_root__configuration__protocols__isis__traceoptions__file.from_gdata(n.get_opt_container("file")))
-        return junos_conf_root__configuration__protocols__isis__traceoptions()
-
-    @staticmethod
-    mut def from_xml(n: ?xml.Node) -> junos_conf_root__configuration__protocols__isis__traceoptions:
-        if n != None:
-            return junos_conf_root__configuration__protocols__isis__traceoptions(flag=junos_conf_root__configuration__protocols__isis__traceoptions__flag.from_xml(yang.gdata.get_xml_children(n, "flag")), file=junos_conf_root__configuration__protocols__isis__traceoptions__file.from_xml(yang.gdata.get_xml_opt_child(n, "file")))
-        return junos_conf_root__configuration__protocols__isis__traceoptions()
-
-
-
 mut def from_json_junos_conf_root__configuration__protocols__isis__lsp_lifetime(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("uint32", val)
 
@@ -7492,10 +7268,9 @@ class junos_conf_root__configuration__protocols__isis(yang.adata.MNode):
     interface: junos_conf_root__configuration__protocols__isis__interface
     source_packet_routing: ?junos_conf_root__configuration__protocols__isis__source_packet_routing
     level: junos_conf_root__configuration__protocols__isis__level
-    traceoptions: junos_conf_root__configuration__protocols__isis__traceoptions
     lsp_lifetime: ?int
 
-    mut def __init__(self, interface: list[junos_conf_root__configuration__protocols__isis__interface_entry]=[], source_packet_routing: ?junos_conf_root__configuration__protocols__isis__source_packet_routing=None, level: list[junos_conf_root__configuration__protocols__isis__level_entry]=[], traceoptions: ?junos_conf_root__configuration__protocols__isis__traceoptions=None, lsp_lifetime: ?int):
+    mut def __init__(self, interface: list[junos_conf_root__configuration__protocols__isis__interface_entry]=[], source_packet_routing: ?junos_conf_root__configuration__protocols__isis__source_packet_routing=None, level: list[junos_conf_root__configuration__protocols__isis__level_entry]=[], lsp_lifetime: ?int):
         self._ns = "http://yang.juniper.net/junos/conf/protocols"
         self.interface = junos_conf_root__configuration__protocols__isis__interface(elements=interface)
         self.interface._parent = self
@@ -7505,13 +7280,6 @@ class junos_conf_root__configuration__protocols__isis(yang.adata.MNode):
             self_source_packet_routing._parent = self
         self.level = junos_conf_root__configuration__protocols__isis__level(elements=level)
         self.level._parent = self
-        if traceoptions is not None:
-            self.traceoptions = traceoptions
-        else:
-            self.traceoptions = junos_conf_root__configuration__protocols__isis__traceoptions()
-        self_traceoptions = self.traceoptions
-        if self_traceoptions is not None:
-            self_traceoptions._parent = self
         self.lsp_lifetime = lsp_lifetime
 
     mut def create_source_packet_routing(self):
@@ -7524,7 +7292,6 @@ class junos_conf_root__configuration__protocols__isis(yang.adata.MNode):
         _interface = self.interface
         _source_packet_routing = self.source_packet_routing
         _level = self.level
-        _traceoptions = self.traceoptions
         _lsp_lifetime = self.lsp_lifetime
         if _interface is not None:
             children['interface'] = _interface.to_gdata()
@@ -7532,8 +7299,6 @@ class junos_conf_root__configuration__protocols__isis(yang.adata.MNode):
             children['source-packet-routing'] = _source_packet_routing.to_gdata()
         if _level is not None:
             children['level'] = _level.to_gdata()
-        if _traceoptions is not None:
-            children['traceoptions'] = _traceoptions.to_gdata()
         if _lsp_lifetime is not None:
             children['lsp-lifetime'] = yang.gdata.Leaf('uint32', _lsp_lifetime)
         return yang.gdata.Container(children)
@@ -7541,13 +7306,13 @@ class junos_conf_root__configuration__protocols__isis(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> junos_conf_root__configuration__protocols__isis:
         if n != None:
-            return junos_conf_root__configuration__protocols__isis(interface=junos_conf_root__configuration__protocols__isis__interface.from_gdata(n.get_opt_list("interface")), source_packet_routing=junos_conf_root__configuration__protocols__isis__source_packet_routing.from_gdata(n.get_opt_container("source-packet-routing")), level=junos_conf_root__configuration__protocols__isis__level.from_gdata(n.get_opt_list("level")), traceoptions=junos_conf_root__configuration__protocols__isis__traceoptions.from_gdata(n.get_opt_container("traceoptions")), lsp_lifetime=n.get_opt_int("lsp-lifetime"))
+            return junos_conf_root__configuration__protocols__isis(interface=junos_conf_root__configuration__protocols__isis__interface.from_gdata(n.get_opt_list("interface")), source_packet_routing=junos_conf_root__configuration__protocols__isis__source_packet_routing.from_gdata(n.get_opt_container("source-packet-routing")), level=junos_conf_root__configuration__protocols__isis__level.from_gdata(n.get_opt_list("level")), lsp_lifetime=n.get_opt_int("lsp-lifetime"))
         return junos_conf_root__configuration__protocols__isis()
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> junos_conf_root__configuration__protocols__isis:
         if n != None:
-            return junos_conf_root__configuration__protocols__isis(interface=junos_conf_root__configuration__protocols__isis__interface.from_xml(yang.gdata.get_xml_children(n, "interface")), source_packet_routing=junos_conf_root__configuration__protocols__isis__source_packet_routing.from_xml(yang.gdata.get_xml_opt_child(n, "source-packet-routing")), level=junos_conf_root__configuration__protocols__isis__level.from_xml(yang.gdata.get_xml_children(n, "level")), traceoptions=junos_conf_root__configuration__protocols__isis__traceoptions.from_xml(yang.gdata.get_xml_opt_child(n, "traceoptions")), lsp_lifetime=yang.gdata.from_xml_opt_int(n, "lsp-lifetime"))
+            return junos_conf_root__configuration__protocols__isis(interface=junos_conf_root__configuration__protocols__isis__interface.from_xml(yang.gdata.get_xml_children(n, "interface")), source_packet_routing=junos_conf_root__configuration__protocols__isis__source_packet_routing.from_xml(yang.gdata.get_xml_opt_child(n, "source-packet-routing")), level=junos_conf_root__configuration__protocols__isis__level.from_xml(yang.gdata.get_xml_children(n, "level")), lsp_lifetime=yang.gdata.from_xml_opt_int(n, "lsp-lifetime"))
         return junos_conf_root__configuration__protocols__isis()
 
 

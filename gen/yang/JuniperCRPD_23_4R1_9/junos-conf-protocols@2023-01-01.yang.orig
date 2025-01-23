@@ -30991,6 +30991,11 @@
        }
      }
      */
+     /* XXX
+     // This is a "broken" model - the file container includes a files leaf with a
+     // default value of 10, meaning the value is included in XML sent to the
+     // device. But at the same time the filename leaf is not marked as mandatory,
+     // so the device rejects the config. The file container should include a presence attribute.
      container traceoptions {
        description "Trace options for IS-IS";
        // XXX uses apply-advanced;
@@ -31152,6 +31157,7 @@
          }
        }
      }
+     */
      /* XXX
      container backup-spf-options {
        description "Configure backup SPF attributes";
