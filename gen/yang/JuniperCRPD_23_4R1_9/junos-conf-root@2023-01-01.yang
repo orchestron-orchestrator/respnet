@@ -186,6 +186,19 @@
              }
            }
          }
+         container iso {
+           presence "enable iso";
+           description "OSI ISO protocol parameters";
+           list address {
+             key name;
+             ordered-by user;
+             description "Interface address";
+             leaf name {
+               description "Interface address";
+               type jt:isoaddr;
+             }
+           }
+         }
        }
        leaf mtu {
          description "Maximum transmission unit packet size";
