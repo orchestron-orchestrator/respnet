@@ -6378,6 +6378,33 @@ module junos-conf-protocols {
           }
         }
       }
+      leaf authentication-key {
+        type "jt:unreadable";
+        description "Authentication key (password)";
+      }
+      leaf authentication-type {
+        type enumeration {
+          enum md5 {
+            description "MD5 authentication";
+          }
+          enum simple {
+            description "Simple password authentication";
+          }
+        }
+        description "Authentication type";
+      }
+      leaf no-hello-authentication {
+        type empty;
+        description "Disable authentication for hello packets";
+      }
+      leaf no-csnp-authentication {
+        type empty;
+        description "Disable authentication for CSN packets";
+      }
+      leaf no-psnp-authentication {
+        type empty;
+        description "Disable authentication for PSN packets";
+      }
       leaf wide-metrics-only {
         type empty;
         description "Generate wide metrics only";

@@ -30468,7 +30468,6 @@
            }
          }
        }
-       /* XXX
        leaf authentication-key {
          description "Authentication key (password)";
          type jt:unreadable;
@@ -30484,6 +30483,7 @@
            }
          }
        }
+       /* XXX
        leaf purge-originator {
          description "Add Purge Originator information";
          type enumeration {
@@ -30495,6 +30495,7 @@
            }
          }
        }
+       */
        leaf no-hello-authentication {
          description "Disable authentication for hello packets";
          type empty;
@@ -30507,6 +30508,7 @@
          description "Disable authentication for PSN packets";
          type empty;
        }
+       /* XXX
        leaf no-lsp-authentication {
          description "Disable authentication for LSP packets";
          type empty;

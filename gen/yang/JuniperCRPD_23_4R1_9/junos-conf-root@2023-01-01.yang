@@ -186,6 +186,19 @@
              }
            }
          }
+         container inet6 {
+           presence "enable inet6";
+           description "IPv6 parameters";
+           list address {
+             key name;
+             ordered-by user;
+             description "Interface address/destination prefix";
+             leaf name {
+               description "Interface address/destination prefix";
+               type jt:ipv6prefix;
+             }
+           }
+         }
          container iso {
            presence "enable iso";
            description "OSI ISO protocol parameters";
