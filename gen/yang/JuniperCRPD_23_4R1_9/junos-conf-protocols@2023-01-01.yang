@@ -5985,6 +5985,18 @@ module junos-conf-protocols {
         type empty;
         description "Treat interface as point to point";
       }
+      container passive {
+        description "Do not run IS-IS, but advertise it";
+        presence "enable passive";
+        leaf remote-node-iso {
+          type "jt:sysid";
+          description "ISO System-ID of the remote node";
+        }
+        leaf remote-node-id {
+          type "jt:ipv4addr";
+          description "Remote address of the link";
+        }
+      }
       list family {
         description "Address family specific interface attributes";
         key name;

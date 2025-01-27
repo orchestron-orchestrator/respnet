@@ -29649,7 +29649,6 @@
          description "Treat interface as point to point";
          type empty;
        }
-       /* XXX
        container passive {
          presence "enable passive";
          description "Do not run IS-IS, but advertise it";
@@ -29663,6 +29662,7 @@
            type jt:ipv4addr;
          }
        }
+       /* XXX
        leaf checksum {
          description "Enable checksum for packets on this interface";
          type empty;
