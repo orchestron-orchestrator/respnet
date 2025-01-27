@@ -32464,6 +32464,7 @@
          type empty;
        }
      }
+     */
      leaf preference {
        description "Route preference";
        type union {
@@ -32473,6 +32474,7 @@
          }
        }
      }
+     /* XXX
      leaf no-forwarding {
        description "Do not use LDP ingress routes for forwarding";
        type empty;

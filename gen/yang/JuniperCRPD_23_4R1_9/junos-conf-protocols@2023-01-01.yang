@@ -6813,6 +6813,10 @@ module junos-conf-protocols {
         description "No penultimate hop statistics collection";
       }
     }
+    leaf preference {
+      type uint32;
+      description "Route preference";
+    }
     container transport-address {
       description "Address used for TCP sessions";
       choice address-choice {
