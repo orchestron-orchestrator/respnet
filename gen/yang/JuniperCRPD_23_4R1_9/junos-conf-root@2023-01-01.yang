@@ -32,6 +32,7 @@
        description "Configuration groups";
        uses juniper-group;
      }
+     uses routing-options-group;
    }
    grouping juniper-config {
      leaf rcsid {
@@ -466,6 +467,22 @@
        description "Hostname for this router";
        type string {
          length "1 .. 255";
+       }
+     }
+   }
+   grouping routing-options-group {
+     container routing-options {
+       description "Protocol-independent routing option configuration";
+       uses juniper-routing-options;
+     }
+   }
+   grouping juniper-routing-options {
+     container autonomous-system {
+       description "Autonomous system number";
+       leaf as-number {
+         description " Autonomous system number in plain number or 'higher 16bits'.'Lower 16 bits' (asdot notation) format";
+         type string {
+         }
        }
      }
    }
