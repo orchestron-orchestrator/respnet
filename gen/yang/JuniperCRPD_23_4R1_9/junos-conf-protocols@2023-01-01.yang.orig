@@ -20447,12 +20447,14 @@
              }
            }
          }
+         */
          leaf description {
            description "Text description";
            type string {
              length "1 .. 255";
            }
          }
+         /* XXX
          container metric-out {
            description "Route metric sent in MED";
            choice metric_param {
@@ -20637,10 +20639,12 @@
              }
            }
          }
+         */
          leaf passive {
            description "Do not send open messages to a peer";
            type empty;
          }
+         /* XXX
          leaf advertise-inactive {
            description "Advertise inactive routes";
            type empty;

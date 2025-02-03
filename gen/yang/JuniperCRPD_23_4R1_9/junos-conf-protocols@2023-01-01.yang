@@ -2201,6 +2201,16 @@ module junos-conf-protocols {
         leaf name {
           type "jt:ipaddr-scoped";
         }
+        leaf description {
+          type string {
+            length "1 .. 255";
+          }
+          description "Text description";
+        }
+        leaf passive {
+          type empty;
+          description "Do not send open messages to a peer";
+        }
       }
     }
     leaf log-updown {
