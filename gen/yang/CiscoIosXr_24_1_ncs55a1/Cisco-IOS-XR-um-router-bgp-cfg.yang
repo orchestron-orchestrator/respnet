@@ -414,53 +414,6 @@ local BGP speaker's decision process";
     description "Grouping for vrf";
     container import {
       description "VRF import";
-      leaf route-policy {
-        type "xr:Route-policy-name";
-        description "Use route-policy for import filtering";
-      }
-      container from {
-        description "Import routes from a VRF";
-        container default-vrf {
-          description "Import routes from the default VRF";
-          leaf route-policy {
-            type "xr:Route-policy-name";
-            description "Use route-policy for import filtering";
-          }
-          container advertise-as-vpn {
-            must "../route-policy";
-            presence "Indicates a advertise-as-vpn node is configured.";
-            description "Advertise imported routes to PEs";
-          }
-        }
-        container vrf {
-          must "advertise-as-vpn or allow";
-          presence "Indicates a vrf node is configured.";
-          description "VRF import";
-          container advertise-as-vpn {
-            presence "Indicates a advertise-as-vpn node is configured.";
-            description "Advertise imported routes to PEs";
-          }
-          container allow {
-            must "backup or best-external";
-            description "Allow import of paths based on path-types";
-            container backup {
-              presence "Indicates a backup node is configured.";
-              description "Allow import of backup path";
-            }
-            container best-external {
-              presence "Indicates a best-external node is configured.";
-              description "Allow import of best-external path";
-            }
-          }
-        }
-        container bridge-domain {
-          description "VRF import";
-          container advertise-as-vpn {
-            presence "Indicates a advertise-as-vpn node is configured.";
-            description "Advertise local EVPN imported routes to PEs";
-          }
-        }
-      }
       container route-target {
         description "Specify import route target extended communities";
         container two-byte-as-rts {
@@ -488,99 +441,10 @@ local BGP speaker's decision process";
             }
           }
         }
-        container four-byte-as-rts {
-          description "Four Byte AS number Route Target";
-          list four-byte-as-rt {
-            key "as-number index stitching";
-            description "Four Byte AS number Route Target";
-            leaf as-number {
-              type uint32 {
-                range "65536..4294967295";
-              }
-              description "Four Byte AS number";
-            }
-            leaf index {
-              type uint32 {
-                range "0..65535" {
-                  description "ASN2:index (hex or decimal format)";
-                }
-              }
-              description "ASN2:index (hex or decimal format)";
-            }
-            leaf stitching {
-              type boolean;
-              description "These are stitching RTs";
-            }
-          }
-        }
-        container ip-addresse-rts {
-          description "IP address Route Target";
-          list ip-address-rt {
-            key "ip-address index stitching";
-            description "IP address";
-            leaf ip-address {
-              type "inet:ipv4-address-no-zone";
-              description "IP address";
-            }
-            leaf index {
-              type uint32 {
-                range "0..65535" {
-                  description "IPv4Address:index (hex or decimal format)";
-                }
-              }
-              description "IPv4Address:index (hex or decimal format)";
-            }
-            leaf stitching {
-              type boolean;
-              description "These are stitching RTs";
-            }
-          }
-        }
       }
     }
     container export {
       description "VRF export";
-      leaf route-policy {
-        type "xr:Route-policy-name";
-        description "Use route-policy for export";
-      }
-      container to {
-        description "Export routes to a VRF";
-        container default-vrf {
-          description "Export routes to the default VRF";
-          leaf route-policy {
-            type "xr:Route-policy-name";
-            description "Use route-policy for export";
-          }
-          container allow-imported-vpn {
-            presence "Indicates a allow-imported-vpn node is configured.";
-            description "Allow export of imported VPN routes to default VRF";
-          }
-        }
-        container vrf {
-          presence "Indicates a vrf node is configured.";
-          description "VRF export";
-          container allow-imported-vpn {
-            presence "Indicates a allow-imported-vpn node is configured.";
-            description "Allow export of imported VPN routes to non-default VRF";
-            container disable-adv-source-vrf-vni {
-              presence "Indicates a disable-adv-source-vrf-vni node is configured.";
-              description "Disable advertisement of source vrf vni for leaked route";
-            }
-          }
-          container allow {
-            description "Allow export of paths based on path-types";
-            container backup {
-              presence "Indicates a backup node is configured.";
-              description "Allow Export of backup path";
-            }
-            container best-external {
-              presence "Indicates a best-external node is configured.";
-              description "Allow Export of best-external path";
-            }
-          }
-        }
-      }
       container route-target {
         description "Specify export route target extended communities";
         container two-byte-as-rts {
@@ -601,54 +465,6 @@ local BGP speaker's decision process";
                 }
               }
               description "ASN2:index (hex or decimal format)";
-            }
-            leaf stitching {
-              type boolean;
-              description "These are stitching RTs";
-            }
-          }
-        }
-        container four-byte-as-rts {
-          description "Four Byte AS number Route Target";
-          list four-byte-as-rt {
-            key "as-number index stitching";
-            description "Four Byte AS number Route Target";
-            leaf as-number {
-              type uint32 {
-                range "65536..4294967295";
-              }
-              description "Four Byte AS number";
-            }
-            leaf index {
-              type uint32 {
-                range "0..65535" {
-                  description "ASN2:index (hex or decimal format)";
-                }
-              }
-              description "ASN2:index (hex or decimal format)";
-            }
-            leaf stitching {
-              type boolean;
-              description "These are stitching RTs";
-            }
-          }
-        }
-        container ip-addresse-rts {
-          description "IP address Route Target";
-          list ip-address-rt {
-            key "ip-address index stitching";
-            description "IP address";
-            leaf ip-address {
-              type "inet:ipv4-address-no-zone";
-              description "IP address";
-            }
-            leaf index {
-              type uint32 {
-                range "0..65535" {
-                  description "IPv4Address:index (hex or decimal format)";
-                }
-              }
-              description "IPv4Address:index (hex or decimal format)";
             }
             leaf stitching {
               type boolean;

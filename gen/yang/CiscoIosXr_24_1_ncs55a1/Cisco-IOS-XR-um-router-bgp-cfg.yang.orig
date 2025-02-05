@@ -489,6 +489,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
     container import {
       description
         "VRF import";
+      /* XXX
       leaf route-policy {
         type xr:Route-policy-name;
         description
@@ -548,6 +549,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           }
         }
       }
+      */
       container route-target {
         description
           "Specify import route target extended communities";
@@ -582,6 +584,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        /* XXX
         container four-byte-as-rts {
           description
             "Four Byte AS number Route Target";
@@ -642,11 +645,13 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        */
       }
     }
     container export {
       description
         "VRF export";
+      /* XXX
       leaf route-policy {
         type xr:Route-policy-name;
         description
@@ -699,6 +704,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           }
         }
       }
+      */
       container route-target {
         description
           "Specify export route target extended communities";
@@ -733,6 +739,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        /* XXX
         container four-byte-as-rts {
           description
             "Four Byte AS number Route Target";
@@ -793,6 +800,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        */
       }
     }
   }
