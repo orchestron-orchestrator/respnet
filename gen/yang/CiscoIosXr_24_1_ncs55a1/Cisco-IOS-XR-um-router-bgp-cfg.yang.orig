@@ -7205,6 +7205,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
       }
       */
     }
+    /* XXX
     container af-groups {
       description
         "Specify a AF group";
@@ -9221,6 +9222,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
         }
       }
     }
+    */
     container neighbor-groups {
       description
         "Specify a Neighbor-group";
@@ -11379,6 +11381,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
         }
       }
     }
+    /* XXX
     container mpls {
       description
         "Enable mpls parameters";
@@ -11897,9 +11900,11 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
         }
       }
     }
+    */
     container bgp {
       description
         "BGP commands";
+      /* XXX
       container as-path-loopcheck {
         presence "Indicates a as-path-loopcheck node is configured.";
         description
@@ -12220,11 +12225,13 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
         description
           "Allow redistribution of iBGP into IGPs (dangerous)";
       }
+      */
       leaf router-id {
         type inet:ipv4-address-no-zone;
         description
           "Configure Router-id";
       }
+      /* XXX
       container unsafe-ebgp-policy {
         presence "Indicates a unsafe-ebgp-policy node is configured.";
         description
@@ -12321,7 +12328,9 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           }
         }
       }
+      */
     }
+    /* XXX
     container update {
       description
         "BGP Update configuration";
@@ -12528,6 +12537,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
         }
       }
     }
+    */
     container vrfs {
       description
         "Specify a vrf name";
@@ -12557,6 +12567,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               description
                 "Enter Address Family command mode";
             }
+            /* XXX
             container distance {
               description
                 "Define an administrative distance";
@@ -13753,6 +13764,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                 }
               }
             }
+            */
           }
         }
         /* XXX
