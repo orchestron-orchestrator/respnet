@@ -251,7 +251,9 @@ module: junos-conf-protocols
        |  |  +--rw export*                     jt:policy-algebra
        |  |  +--rw tcp-mss?                    uint32
        |  |  +--rw neighbor* [name]
-       |  |     +--rw name    jt:ipaddr-scoped
+       |  |     +--rw name           jt:ipaddr-scoped
+       |  |     +--rw description?   string
+       |  |     +--rw passive?       empty
        |  +--rw log-updown?       empty
        +--rw isis
        |  +--rw interface* [name]
@@ -269,6 +271,9 @@ module: junos-conf-protocols
        |  |  |  +--rw metric?          uint32
        |  |  +--rw lsp-interval?          uint32
        |  |  +--rw point-to-point?        empty
+       |  |  +--rw passive!
+       |  |  |  +--rw remote-node-iso?   jt:sysid
+       |  |  |  +--rw remote-node-id?    jt:ipv4addr
        |  |  +--rw family* [name]
        |  |     +--rw name                      enumeration
        |  |     +--rw bfd-liveness-detection
@@ -349,11 +354,16 @@ module: junos-conf-protocols
        |  |     +--rw congestion-protection?    empty
        |  |     +--rw auto-bandwidth?           string
        |  +--rw level* [name]
-       |  |  +--rw name                 uint32
+       |  |  +--rw name                       uint32
        |  |  +--rw (enable-disable)?
        |  |  |  +--:(case_1)
-       |  |  |     +--rw disable?       empty
-       |  |  +--rw wide-metrics-only?   empty
+       |  |  |     +--rw disable?             empty
+       |  |  +--rw authentication-key?        jt:unreadable
+       |  |  +--rw authentication-type?       enumeration
+       |  |  +--rw no-hello-authentication?   empty
+       |  |  +--rw no-csnp-authentication?    empty
+       |  |  +--rw no-psnp-authentication?    empty
+       |  |  +--rw wide-metrics-only?         empty
        |  +--rw lsp-lifetime?            uint32
        +--rw ldp
        |  +--rw traffic-statistics
@@ -371,6 +381,7 @@ module: junos-conf-protocols
        |  |  +--rw interval?             int32
        |  |  +--rw sensor-based-stats?   empty
        |  |  +--rw no-penultimate-hop?   empty
+       |  +--rw preference?           uint32
        |  +--rw transport-address
        |  |  +--rw (address-choice)?
        |  |     +--:(case_1)
