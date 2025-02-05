@@ -10285,6 +10285,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             */
           }
         }
+        /* XXX
         container graceful-maintenance {
           presence "Indicates a graceful-maintenance node is configured.";
           description
@@ -10435,11 +10436,13 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        */
         leaf remote-as {
           type xr:Bgp-as-number;
           description
             "bgp as-number";
         }
+        /* XXX
         leaf remote-as-list {
           type string {
             length "1..1024" {
@@ -10686,6 +10689,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               "Prevent local AS from being inherited from parent";
           }
         }
+        */
         container password {
           must "encrypted or inheritance-disable";
           presence "Indicates a password node is configured.";
@@ -10702,6 +10706,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               "Prevent password from being inherited from parent";
           }
         }
+        /* XXX
         container receive-buffer-size {
           presence "Indicates a receive-buffer-size node is configured.";
           description
@@ -10919,11 +10924,13 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        */
         leaf update-source {
           type xr:Interface-name;
           description
             "Source of routing updates";
         }
+        /*
         container local-address-subnet {
           description
             "Local address subnet of routing updates";
@@ -11391,6 +11398,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Restart timer interval";
         }
+        */
       }
     }
     /* XXX
