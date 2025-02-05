@@ -1113,6 +1113,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Enter Address Family command mode";
         }
+        /* XXX
         container vrf {
           when "../af-name = 'vpnv4-unicast' or ../af-name = 'vpnv6-unicast'";
           description
@@ -2935,6 +2936,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Enable the ASBR router for option-B label exchange.This option makes the router an Option B ASBR for EVPN.Its assumed no DCI configs are present";
         }
+        */
       }
     }
     container neighbors {
@@ -2961,6 +2963,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               description
                 "Enter Address Family command mode";
             }
+            /* XXX
             container use {
               description
                 "Inherit configuration for this address-family from a group";
@@ -3906,6 +3909,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                 }
               }
             }
+            */
           }
         }
         container update {
@@ -9246,6 +9250,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               description
                 "Enter Address Family command mode";
             }
+            /* XXX
             container multipath {
               presence "Indicates a multipath node is configured.";
               description
@@ -10263,6 +10268,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                 }
               }
             }
+            */
           }
         }
         container graceful-maintenance {
