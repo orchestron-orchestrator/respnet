@@ -1,0 +1,3189 @@
+module: Cisco-IOS-XR-um-router-bgp-cfg
+  +--rw as-format
+  |  +--rw asdot!
+  |  +--rw asplain!
+  +--rw bmp
+  |  +--rw servers
+  |     +--rw server* [bmp-server-id]
+  |     |  +--rw bmp-server-id             uint32
+  |     |  +--rw shutdown!
+  |     |  +--rw host!
+  |     |  |  +--rw host-name    string
+  |     |  |  +--rw port?        uint32
+  |     |  +--rw initial-delay?            uint32
+  |     |  +--rw flapping-delay?           uint32
+  |     |  +--rw max-buffer-size?          uint32
+  |     |  +--rw initial-refresh
+  |     |  |  +--rw delay!
+  |     |  |  |  +--rw initial-delay    uint32
+  |     |  |  |  +--rw spread?          uint32
+  |     |  |  +--rw skip!
+  |     |  +--rw stats-reporting-period?   uint32
+  |     |  +--rw description?              string
+  |     |  +--rw dscp?                     enumeration
+  |     |  +--rw precedence?               enumeration
+  |     |  +--rw update-source?            xr:Interface-name
+  |     |  +--rw vrf?                      string
+  |     |  +--rw tcp
+  |     |     +--rw keep-alive?   uint32
+  |     |     +--rw mss?          uint32
+  |     +--rw all
+  |        +--rw max-buffer-size?    uint32
+  |        +--rw route-monitoring
+  |           +--rw bmp-modes
+  |              +--rw bmp-mode* [mode-name]
+  |                 +--rw mode-name                 Bmp-mode
+  |                 +--rw advertisement-interval?   uint32
+  |                 +--rw scan-time?                uint32
+  +--rw router
+     +--rw bgp
+        +--rw as* [as-number]
+           +--rw as-number                   xr:Bgp-as-number
+           +--rw rpki
+           |  +--rw servers
+           |  |  +--rw server* [server-id]
+           |  |     +--rw server-id        xr:Cisco-ios-xr-string
+           |  |     +--rw bind-source
+           |  |     |  +--rw interface
+           |  |     |     +--rw interface-name?   xr:Interface-name
+           |  |     +--rw preference?      uint32
+           |  |     +--rw refresh-time
+           |  |     |  +--rw refresh-time-value?   uint32
+           |  |     |  +--rw off!
+           |  |     +--rw response-time
+           |  |     |  +--rw response-time-value?   uint32
+           |  |     |  +--rw off!
+           |  |     +--rw purge-time?      uint32
+           |  |     +--rw username?        string
+           |  |     +--rw password?        string
+           |  |     +--rw transport
+           |  |     |  +--rw tcp
+           |  |     |  |  +--rw port?   uint32
+           |  |     |  +--rw ssh
+           |  |     |     +--rw port?   uint32
+           |  |     +--rw shutdown!
+           |  +--rw routes
+           |  |  +--rw route* [address minimum-prefix-length maximum-prefix-length origin-as-number]
+           |  |     +--rw address                  inet:ip-address-no-zone
+           |  |     +--rw minimum-prefix-length    union
+           |  |     +--rw maximum-prefix-length    union
+           |  |     +--rw origin-as-number         uint32
+           |  +--rw datafile?   xr:Cisco-ios-xr-string
+           +--rw address-families
+           |  +--rw address-family* [af-name]
+           |     +--rw af-name                     Bgp-address-family
+           |     +--rw vrf
+           |     |  +--rw all!
+           |     |     +--rw source
+           |     |     |  +--rw rt
+           |     |     |     +--rw import-policy!
+           |     |     +--rw label
+           |     |     |  +--rw mode
+           |     |     |     +--rw per-ce!
+           |     |     |     +--rw per-vrf!
+           |     |     |     +--rw per-vrf-46!
+           |     |     |     +--rw route-policy?   xr:Route-policy-name
+           |     |     +--rw rnh
+           |     |     |  +--rw install
+           |     |     |     +--rw extcomm!
+           |     |     |        +--rw only!
+           |     |     +--rw table-policy?      xr:Route-policy-name
+           |     |     +--rw segment-routing
+           |     |        +--rw srv6!
+           |     |           +--rw alloc
+           |     |           |  +--rw mode
+           |     |           |     +--rw per-ce!
+           |     |           |     +--rw per-vrf!
+           |     |           |     +--rw per-vrf-46!
+           |     |           +--rw locator?   xr:Cisco-ios-xr-string
+           |     |           +--rw usid
+           |     |              +--rw allocation
+           |     |                 +--rw wide-local-id-block!
+           |     +--rw domain-distinguisher!
+           |     |  +--rw domain-distinguisher-id    uint32
+           |     |  +--rw ip-address                 inet:ipv4-address-no-zone
+           |     +--rw distance
+           |     |  +--rw bgp!
+           |     |     +--rw external-routes    uint32
+           |     |     +--rw internal-routes    uint32
+           |     |     +--rw local-routes       uint32
+           |     +--rw optimal-route-reflection
+           |     |  +--rw orr-group* [orr-group-name]
+           |     |  |  +--rw orr-group-name       string
+           |     |  |  +--rw primary-address      inet:ip-address-no-zone
+           |     |  |  +--rw secondary-address?   inet:ip-address-no-zone
+           |     |  |  +--rw tertiary-address?    inet:ip-address-no-zone
+           |     |  +--rw apply* [orr-group-name]
+           |     |  |  +--rw orr-group-name    xr:Cisco-ios-xr-string
+           |     |  +--rw fallback-default-bestpath!
+           |     +--rw maximum-paths
+           |     |  +--rw ebgp!
+           |     |  |  +--rw multipath       uint32
+           |     |  |  +--rw selective!
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  +--rw eibgp!
+           |     |  |  +--rw multipath       uint32
+           |     |  |  +--rw selective!
+           |     |  |  +--rw equal-cost!
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  +--rw ibgp!
+           |     |  |  +--rw multipath       uint32
+           |     |  |  +--rw selective!
+           |     |  |  +--rw unequal-cost!
+           |     |  |  |  +--rw deterministic!
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  +--rw unique-nexthop-check-disable!
+           |     +--rw import
+           |     |  +--rw from
+           |     |     +--rw bridge-domain!
+           |     +--rw additional-paths
+           |     |  +--rw send!
+           |     |  +--rw receive!
+           |     |  +--rw selection
+           |     |     +--rw route-policy?   xr:Route-policy-name
+           |     +--rw permanent-network
+           |     |  +--rw route-policy?   xr:Route-policy-name
+           |     +--rw advertise
+           |     |  +--rw best-external!
+           |     |  |  +--rw labeled-unicast!
+           |     |  |  +--rw disable!
+           |     |  +--rw local-labeled-route
+           |     |  |  +--rw safi-unicast
+           |     |  |     +--rw disable!
+           |     |  +--rw epe-bgp
+           |     |     +--rw labeled-unicast!
+           |     +--rw nexthop
+           |     |  +--rw resolution
+           |     |  |  +--rw prefix-length
+           |     |  |     +--rw minimum?   union
+           |     |  |     +--rw ipv6?      uint32
+           |     |  +--rw trigger-delay
+           |     |  |  +--rw critical?       uint32
+           |     |  |  +--rw non-critical?   uint32
+           |     |  +--rw route-policy?    xr:Route-policy-name
+           |     +--rw networks
+           |     |  +--rw network* [address masklength]
+           |     |     +--rw address         inet:ip-address-no-zone
+           |     |     +--rw masklength      uint16
+           |     |     +--rw route-policy?   xr:Route-policy-name
+           |     |     +--rw backdoor!
+           |     |     +--rw multipath!
+           |     +--rw aggregate-addresses
+           |     |  +--rw aggregate-address* [address masklength]
+           |     |     +--rw address          inet:ip-address-no-zone
+           |     |     +--rw masklength       uint16
+           |     |     +--rw as-set!
+           |     |     +--rw as-confed-set!
+           |     |     +--rw summary-only!
+           |     |     +--rw route-policy?    xr:Route-policy-name
+           |     |     +--rw description?     xr:Cisco-ios-xr-string
+           |     |     +--rw set-tag?         uint32
+           |     +--rw redistribute
+           |     |  +--rw ospf* [router-tag]
+           |     |  |  +--rw router-tag      xr:Cisco-ios-xr-string
+           |     |  |  +--rw match!
+           |     |  |  |  +--rw internal!
+           |     |  |  |  |  +--rw external!
+           |     |  |  |  |  |  +--rw one!
+           |     |  |  |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |  |  |     +--rw one!
+           |     |  |  |  |  |  |     +--rw two!
+           |     |  |  |  |  |  +--rw two!
+           |     |  |  |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |  |  |     +--rw one!
+           |     |  |  |  |  |  |     +--rw two!
+           |     |  |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |  |     +--rw one!
+           |     |  |  |  |  |     +--rw two!
+           |     |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |     +--rw one!
+           |     |  |  |  |     +--rw two!
+           |     |  |  |  +--rw external!
+           |     |  |  |  |  +--rw one!
+           |     |  |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |  |     +--rw one!
+           |     |  |  |  |  |     +--rw two!
+           |     |  |  |  |  +--rw two!
+           |     |  |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |  |     +--rw one!
+           |     |  |  |  |  |     +--rw two!
+           |     |  |  |  |  +--rw nssa-external!
+           |     |  |  |  |     +--rw one!
+           |     |  |  |  |     +--rw two!
+           |     |  |  |  +--rw nssa-external!
+           |     |  |  |     +--rw one!
+           |     |  |  |     +--rw two!
+           |     |  |  +--rw multipath!
+           |     |  |  +--rw metric?         uint32
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  +--rw eigrp* [instance-name]
+           |     |  |  +--rw instance-name    xr:Cisco-ios-xr-string
+           |     |  |  +--rw match
+           |     |  |  |  +--rw internal!
+           |     |  |  |  |  +--rw external!
+           |     |  |  |  +--rw external!
+           |     |  |  +--rw multipath!
+           |     |  |  +--rw metric?          uint32
+           |     |  |  +--rw route-policy?    xr:Route-policy-name
+           |     |  +--rw isis* [instance-name]
+           |     |  |  +--rw instance-name    xr:Cisco-ios-xr-string
+           |     |  |  +--rw level
+           |     |  |  |  +--rw one!
+           |     |  |  |  |  +--rw two!
+           |     |  |  |  |  |  +--rw one-inter-area!
+           |     |  |  |  |  +--rw one-inter-area!
+           |     |  |  |  +--rw two!
+           |     |  |  |  |  +--rw one-inter-area!
+           |     |  |  |  +--rw one-inter-area!
+           |     |  |  +--rw metric?          uint32
+           |     |  |  +--rw route-policy?    xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw application* [application-name]
+           |     |  |  +--rw application-name    string
+           |     |  |  +--rw metric?             uint32
+           |     |  |  +--rw route-policy?       xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw connected!
+           |     |  |  +--rw metric?         uint32
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw lisp!
+           |     |  |  +--rw metric?         uint32
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw mobile!
+           |     |  |  +--rw metric?         uint32
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw rip!
+           |     |  |  +--rw metric?         uint32
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw static!
+           |     |  |  +--rw metric?         uint32
+           |     |  |  +--rw route-policy?   xr:Route-policy-name
+           |     |  |  +--rw multipath!
+           |     |  +--rw subscriber!
+           |     |     +--rw metric?         uint32
+           |     |     +--rw route-policy?   xr:Route-policy-name
+           |     |     +--rw multipath!
+           |     +--rw table-policy?               xr:Route-policy-name
+           |     +--rw retain
+           |     |  +--rw local-label?    uint32
+           |     |  +--rw route-target
+           |     |     +--rw all!
+           |     |     +--rw route-policy?   xr:Route-policy-name
+           |     +--rw allocate-label
+           |     |  +--rw all!
+           |     |  |  +--rw unlabeled-path!
+           |     |  +--rw route-policy?   xr:Route-policy-name
+           |     +--rw label
+           |     |  +--rw mode
+           |     |     +--rw per-ce!
+           |     |     +--rw per-vrf!
+           |     |     +--rw per-vrf-46!
+           |     |     +--rw route-policy?                 xr:Route-policy-name
+           |     |     +--rw per-nexthop-received-label!
+           |     |        +--rw allocate-secondary-label!
+           |     +--rw table-version?              xr:Cisco-ios-xr-string
+           |     +--rw rnh
+           |     |  +--rw install
+           |     |     +--rw extcomm!
+           |     |        +--rw only!
+           |     +--rw bgp
+           |     |  +--rw client-to-client
+           |     |  |  +--rw reflection
+           |     |  |     +--rw disable!
+           |     |  |     +--rw cluster-id
+           |     |  |        +--rw cluster-id-32bits
+           |     |  |        |  +--rw cluster-id-32bit* [cluster-id]
+           |     |  |        |     +--rw cluster-id    uint32
+           |     |  |        |     +--rw disable!
+           |     |  |        +--rw cluster-id-ip-addresses
+           |     |  |           +--rw cluster-id-ip-address* [ip-address]
+           |     |  |              +--rw ip-address    inet:ipv4-address-no-zone
+           |     |  |              +--rw disable!
+           |     |  +--rw dampening!
+           |     |  |  +--rw half-life-time?            uint32
+           |     |  |  +--rw start-reusing-route?       uint32
+           |     |  |  +--rw start-suppressing-route?   uint32
+           |     |  |  +--rw maximum-duration?          uint32
+           |     |  |  +--rw route-policy?              xr:Route-policy-name
+           |     |  +--rw attribute-download!
+           |     |  +--rw implicit-import!
+           |     |  +--rw import-delay!
+           |     |  |  +--rw delay-seconds         uint32
+           |     |  |  +--rw delay-milliseconds    uint32
+           |     |  +--rw label-delay!
+           |     |  |  +--rw delay-seconds         uint32
+           |     |  |  +--rw delay-milliseconds    uint32
+           |     |  +--rw scan-time?            uint32
+           |     |  +--rw origin-as
+           |     |  |  +--rw validation
+           |     |  |     +--rw disable!
+           |     |  |     +--rw enable!
+           |     |  |     +--rw signal
+           |     |  |        +--rw ibgp!
+           |     |  +--rw bestpath
+           |     |     +--rw origin-as
+           |     |        +--rw use
+           |     |        |  +--rw validity!
+           |     |        +--rw allow
+           |     |           +--rw invalid!
+           |     +--rw event
+           |     |  +--rw prefix
+           |     |     +--rw route-policy?   xr:Route-policy-name
+           |     +--rw dynamic-med
+           |     |  +--rw interval?   uint32
+           |     +--rw weight
+           |     |  +--rw reset-on-import!
+           |     |     +--rw disable!
+           |     +--rw update
+           |     |  +--rw limit
+           |     |  |  +--rw address-family?   uint32
+           |     |  |  +--rw sub-group
+           |     |  |     +--rw ebgp?   uint32
+           |     |  |     +--rw ibgp?   uint32
+           |     |  +--rw wait-install!
+           |     |     +--rw delay
+           |     |        +--rw startup?   uint32
+           |     +--rw as-path-loopcheck
+           |     |  +--rw out
+           |     |     +--rw disable!
+           |     +--rw inter-as
+           |     |  +--rw install!
+           |     +--rw global-table-multicast!
+           |     +--rw segmented-multicast!
+           |     +--rw label-security
+           |     |  +--rw asbr
+           |     |     +--rw rpf!
+           |     +--rw epe
+           |     |  +--rw backup
+           |     |     +--rw enable!
+           |     +--rw default-martian-check
+           |     |  +--rw disable!
+           |     +--rw export
+           |     |  +--rw to
+           |     |     +--rw vrf
+           |     |        +--rw allow!
+           |     |           +--rw backup!
+           |     |           |  +--rw best-external!
+           |     |           +--rw best-external!
+           |     +--rw peer-set-ids
+           |     |  +--rw peer-set-id* [peer-set-id]
+           |     |     +--rw peer-set-id     uint32
+           |     |     +--rw peer-set-sid
+           |     |        +--rw index?   uint32
+           |     +--rw segment-routing
+           |     |  +--rw prefix-sid-map!
+           |     |  +--rw srv6!
+           |     |     +--rw alloc
+           |     |     |  +--rw mode
+           |     |     |     +--rw per-ce!
+           |     |     |     +--rw per-vrf!
+           |     |     |     +--rw per-vrf-46!
+           |     |     |     +--rw route-policy?   xr:Route-policy-name
+           |     |     +--rw locator?   xr:Cisco-ios-xr-string
+           |     |     +--rw usid
+           |     |        +--rw allocation
+           |     |           +--rw wide-local-id-block!
+           |     +--rw option-b-asbr-only!
+           +--rw neighbors
+           |  +--rw neighbor* [neighbor-address]
+           |  |  +--rw neighbor-address               inet:ip-address-no-zone
+           |  |  +--rw address-families
+           |  |  |  +--rw address-family* [af-name]
+           |  |  |     +--rw af-name                         Bgp-address-family
+           |  |  |     +--rw use
+           |  |  |     |  +--rw af-group?   string
+           |  |  |     +--rw capability
+           |  |  |     |  +--rw orf
+           |  |  |     |     +--rw prefix
+           |  |  |     |        +--rw receive!
+           |  |  |     |        +--rw send!
+           |  |  |     |        +--rw both!
+           |  |  |     |        +--rw none!
+           |  |  |     +--rw default-originate!
+           |  |  |     |  +--rw route-policy?          xr:Route-policy-name
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw maximum-prefix!
+           |  |  |     |  +--rw prefix-limit           uint32
+           |  |  |     |  +--rw threshold              uint32
+           |  |  |     |  +--rw warning-only!
+           |  |  |     |  +--rw restart?               uint32
+           |  |  |     |  +--rw discard-extra-paths!
+           |  |  |     +--rw optimal-route-reflection?       string
+           |  |  |     +--rw next-hop-self!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw next-hop-unchanged!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw next-hop-unchanged-multipath!
+           |  |  |     +--rw slow-peer
+           |  |  |     |  +--rw static!
+           |  |  |     |  +--rw dynamic!
+           |  |  |     |     +--rw threshold?   uint16
+           |  |  |     |     +--rw disable!
+           |  |  |     +--rw origin-as
+           |  |  |     |  +--rw validation
+           |  |  |     |     +--rw disable!
+           |  |  |     +--rw bestpath
+           |  |  |     |  +--rw origin-as
+           |  |  |     |     +--rw allow
+           |  |  |     |        +--rw invalid!
+           |  |  |     +--rw route-policy
+           |  |  |     |  +--rw in?          xr:Route-policy-name
+           |  |  |     |  +--rw out?         xr:Route-policy-name
+           |  |  |     |  +--rw retention
+           |  |  |     |     +--rw route-policy-name?   xr:Route-policy-name
+           |  |  |     |     +--rw retention-time?      uint32
+           |  |  |     +--rw orf
+           |  |  |     |  +--rw route-policy?   xr:Route-policy-name
+           |  |  |     +--rw replace-private-as!
+           |  |  |     |  +--rw internal
+           |  |  |     +--rw remove-private-as!
+           |  |  |     |  +--rw entire-aspath!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     |  +--rw internal!
+           |  |  |     |     +--rw inheritance-disable!
+           |  |  |     +--rw remove-private-as-inbound!
+           |  |  |     |  +--rw entire-aspath!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw enforce-multiple-labels!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw route-reflector-client!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw accept-route-legacy-rt!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw send-community-ebgp!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw send-community-gshut-ebgp!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw send-extended-community-ebgp!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw soft-reconfiguration
+           |  |  |     |  +--rw inbound!
+           |  |  |     |     +--rw rpki-dropped-only!
+           |  |  |     |     +--rw rpki-tested-only!
+           |  |  |     |     +--rw always!
+           |  |  |     |     +--rw inheritance-disable!
+           |  |  |     +--rw update
+           |  |  |     |  +--rw out
+           |  |  |     |     +--rw originator-loopcheck!
+           |  |  |     |        +--rw disable!
+           |  |  |     +--rw advertise
+           |  |  |     |  +--rw permanent-network!
+           |  |  |     |  +--rw local-labeled-route!
+           |  |  |     |  |  +--rw disable!
+           |  |  |     |  +--rw vpnv4
+           |  |  |     |  |  +--rw unicast
+           |  |  |     |  |     +--rw enable!
+           |  |  |     |  |     |  +--rw re-originated!
+           |  |  |     |  |     |     +--rw stitching-rt!
+           |  |  |     |  |     +--rw imported-from-default-vrf
+           |  |  |     |  |     |  +--rw disable!
+           |  |  |     |  |     +--rw imported-from-vrf
+           |  |  |     |  |     |  +--rw disable!
+           |  |  |     |  |     +--rw imported-from-bridgedomain
+           |  |  |     |  |        +--rw disable!
+           |  |  |     |  +--rw vpnv6
+           |  |  |     |  |  +--rw unicast
+           |  |  |     |  |     +--rw enable!
+           |  |  |     |  |     |  +--rw re-originated!
+           |  |  |     |  |     |     +--rw stitching-rt!
+           |  |  |     |  |     +--rw imported-from-default-vrf
+           |  |  |     |  |     |  +--rw disable!
+           |  |  |     |  |     +--rw imported-from-vrf
+           |  |  |     |  |     |  +--rw disable!
+           |  |  |     |  |     +--rw imported-from-bridgedomain
+           |  |  |     |  |        +--rw disable!
+           |  |  |     |  +--rw l2vpn
+           |  |  |     |     +--rw evpn!
+           |  |  |     |     |  +--rw re-originated!
+           |  |  |     |     |     +--rw stitching-rt!
+           |  |  |     |     +--rw evpn-disable!
+           |  |  |     |     +--rw vpls-vpws
+           |  |  |     |     |  +--rw disable!
+           |  |  |     |     +--rw mspw
+           |  |  |     |     |  +--rw disable!
+           |  |  |     |     +--rw gateway-ip-disable!
+           |  |  |     |        +--rw inheritance-disable!
+           |  |  |     +--rw encapsulation-type
+           |  |  |     |  +--rw vxlan!
+           |  |  |     |  +--rw srv6!
+           |  |  |     +--rw segment-routing
+           |  |  |     |  +--rw srv6
+           |  |  |     |     +--rw prefix-sid-type4!
+           |  |  |     +--rw import
+           |  |  |     |  +--rw stitching-rt!
+           |  |  |     |     +--rw re-originate!
+           |  |  |     |        +--rw stitching-rt!
+           |  |  |     +--rw weight?                         uint32
+           |  |  |     +--rw allowas-in!
+           |  |  |     |  +--rw number-of-occurences?   uint32
+           |  |  |     +--rw allowconfedas-in!
+           |  |  |     |  +--rw number-of-occurences?   uint32
+           |  |  |     +--rw long-lived-graceful-restart
+           |  |  |     |  +--rw stale-time
+           |  |  |     |  |  +--rw send?     uint32
+           |  |  |     |  |  +--rw accept?   uint32
+           |  |  |     |  +--rw capable!
+           |  |  |     +--rw as-override!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw aigp!
+           |  |  |     |  +--rw disable!
+           |  |  |     +--rw aigp-send
+           |  |  |     |  +--rw cost-community!
+           |  |  |     |  |  +--rw cost-community-id?   uint32
+           |  |  |     |  |  +--rw poi!
+           |  |  |     |  |  |  +--rw igp-cost!
+           |  |  |     |  |  |  |  +--rw transitive!
+           |  |  |     |  |  |  +--rw pre-bestpath!
+           |  |  |     |  |  |     +--rw transitive!
+           |  |  |     |  |  +--rw disable!
+           |  |  |     |  +--rw med!
+           |  |  |     |     +--rw disable!
+           |  |  |     +--rw validation!
+           |  |  |     |  +--rw disable!
+           |  |  |     |  +--rw redirect
+           |  |  |     |     +--rw disable!
+           |  |  |     +--rw send-multicast-attributes!
+           |  |  |     |  +--rw disable!
+           |  |  |     +--rw signalling
+           |  |  |     |  +--rw bgp
+           |  |  |     |  |  +--rw disable!
+           |  |  |     |  +--rw ldp
+           |  |  |     |     +--rw disable!
+           |  |  |     +--rw accept-own!
+           |  |  |     |  +--rw inheritance-disable!
+           |  |  |     +--rw cluster-id
+           |  |  |     |  +--rw allow-equal!
+           |  |  |     |     +--rw disable!
+           |  |  |     +--rw multipath!
+           |  |  |     +--rw additional-paths
+           |  |  |        +--rw receive!
+           |  |  |        |  +--rw disable!
+           |  |  |        +--rw send!
+           |  |  |           +--rw disable!
+           |  |  +--rw update
+           |  |  |  +--rw in
+           |  |  |     +--rw filtering!
+           |  |  |     |  +--rw message
+           |  |  |     |  |  +--rw buffers!
+           |  |  |     |  |     +--rw number-of-buffers    uint32
+           |  |  |     |  |     +--rw non-circular!
+           |  |  |     |  +--rw logging
+           |  |  |     |  |  +--rw disable!
+           |  |  |     |  +--rw attribute-filter
+           |  |  |     |     +--rw group?   string
+           |  |  |     +--rw merge
+           |  |  |     |  +--rw safi
+           |  |  |     |     +--rw unicast
+           |  |  |     |        +--rw labeled-unicast!
+           |  |  |     |           +--rw inheritance-disable!
+           |  |  |     +--rw error-handling
+           |  |  |        +--rw avoid-reset!
+           |  |  |        |  +--rw disable!
+           |  |  |        +--rw treat-as-withdraw!
+           |  |  |           +--rw disable!
+           |  |  +--rw graceful-maintenance!
+           |  |  |  +--rw local-preference!
+           |  |  |  |  +--rw local-preference-value?   uint32
+           |  |  |  |  +--rw inheritance-disable!
+           |  |  |  +--rw as-prepends!
+           |  |  |  |  +--rw number-of-as-prepends?   uint32
+           |  |  |  |  +--rw inheritance-disable!
+           |  |  |  +--rw activate!
+           |  |  |  |  +--rw inheritance-disable!
+           |  |  |  +--rw bandwidth-aware
+           |  |  |     +--rw bandwidth-threshold?         uint32
+           |  |  |     +--rw bandwidth-threshold-high?    uint32
+           |  |  |     +--rw percentage-threshold?        uint32
+           |  |  |     +--rw percentage-threshold-high?   uint32
+           |  |  |     +--rw inheritance-disable!
+           |  |  +--rw remote-as?                     xr:Bgp-as-number
+           |  |  +--rw remote-as-list?                string
+           |  |  +--rw use
+           |  |  |  +--rw session-group?    string
+           |  |  |  +--rw neighbor-group?   string
+           |  |  +--rw advertisement-interval!
+           |  |  |  +--rw time-in-seconds         uint32
+           |  |  |  +--rw time-in-milliseconds?   uint32
+           |  |  +--rw description?                   string
+           |  |  +--rw ignore-connected-check!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw ebgp-multihop!
+           |  |  |  +--rw maximum-hop-count    uint32
+           |  |  |  +--rw mpls!
+           |  |  +--rw tcp
+           |  |  |  +--rw mss!
+           |  |  |  |  +--rw initial-mss?           uint32
+           |  |  |  |  +--rw inheritance-disable!
+           |  |  |  +--rw mtu-discovery!
+           |  |  |     +--rw inheritance-disable!
+           |  |  +--rw bmp-activate
+           |  |  |  +--rw servers
+           |  |  |     +--rw server* [server-id]
+           |  |  |        +--rw server-id    uint32
+           |  |  +--rw bfd
+           |  |  |  +--rw fast-detect!
+           |  |  |  |  +--rw strict-mode!
+           |  |  |  |  +--rw inheritance-disable!
+           |  |  |  +--rw minimum-interval?   uint32
+           |  |  |  +--rw multiplier?         uint32
+           |  |  +--rw keychain!
+           |  |  |  +--rw name?                  string
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw local-as!
+           |  |  |  +--rw as-number?             xr:Bgp-as-number
+           |  |  |  +--rw no-prepend!
+           |  |  |  |  +--rw replace-as!
+           |  |  |  |     +--rw dual-as!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw password!
+           |  |  |  +--rw encrypted?             xr:Proprietary-password
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw receive-buffer-size!
+           |  |  |  +--rw receive-socket-buffer-size    uint32
+           |  |  |  +--rw bgp-read-buffer-size?         uint32
+           |  |  +--rw send-buffer-size!
+           |  |  |  +--rw send-socket-buffer-size    uint32
+           |  |  |  +--rw bgp-write-buffer-size?     uint32
+           |  |  +--rw shutdown!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw timers!
+           |  |  |  +--rw keepalive-interval             uint32
+           |  |  |  +--rw holdtime                       union
+           |  |  |  +--rw minimum-acceptable-holdtime?   union
+           |  |  +--rw local
+           |  |  |  +--rw address!
+           |  |  |     +--rw ip-address?            inet:ip-address-no-zone
+           |  |  |     +--rw inheritance-disable!
+           |  |  +--rw log
+           |  |  |  +--rw message
+           |  |  |  |  +--rw in
+           |  |  |  |  |  +--rw message-log-buffer-size?   uint32
+           |  |  |  |  |  +--rw disable!
+           |  |  |  |  |  +--rw inheritance-diable!
+           |  |  |  |  +--rw out
+           |  |  |  |     +--rw message-log-buffer-size?   uint32
+           |  |  |  |     +--rw disable!
+           |  |  |  |     +--rw inheritance-diable!
+           |  |  |  +--rw neighbor
+           |  |  |     +--rw changes
+           |  |  |        +--rw detail!
+           |  |  |        +--rw disable!
+           |  |  |        +--rw inheritance-disable!
+           |  |  +--rw update-source?                 xr:Interface-name
+           |  |  +--rw local-address-subnet
+           |  |  |  +--rw ip-address?    inet:ip-address-no-zone
+           |  |  |  +--rw mask-length?   uint32
+           |  |  +--rw dmz-link-bandwidth!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw ebgp-recv-extcommunity-dmz!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw ebgp-send-extcommunity-dmz!
+           |  |  |  +--rw cumulative!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw ttl-security!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw session-open-mode
+           |  |  |  +--rw active-only!
+           |  |  |  +--rw passive-only!
+           |  |  |  +--rw both!
+           |  |  +--rw dscp?                          enumeration
+           |  |  +--rw precedence?                    enumeration
+           |  |  +--rw capability
+           |  |  |  +--rw suppress
+           |  |  |  |  +--rw four-byte-as!
+           |  |  |  |  |  +--rw inheritance-disable!
+           |  |  |  |  +--rw all!
+           |  |  |  |  |  +--rw inheritance-disable!
+           |  |  |  |  +--rw extended-nexthop-encoding!
+           |  |  |  |     +--rw inheritance-disable!
+           |  |  |  +--rw additional-paths
+           |  |  |     +--rw send!
+           |  |  |     |  +--rw disable!
+           |  |  |     +--rw receive!
+           |  |  |        +--rw disable!
+           |  |  +--rw graceful-restart!
+           |  |  |  +--rw disable!
+           |  |  |  +--rw restart-time?     uint32
+           |  |  |  +--rw stalepath-time?   uint32
+           |  |  +--rw enforce-first-as!
+           |  |  |  +--rw disable!
+           |  |  +--rw cluster-id
+           |  |  |  +--rw route-reflector-cluster-id?   uint32
+           |  |  |  +--rw ip-address?                   inet:ipv4-address-no-zone
+           |  |  +--rw maximum-peers?                 uint32
+           |  |  +--rw idle-watch-time?               uint32
+           |  |  +--rw egress-engineering!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw peer-sets
+           |  |  |  +--rw peer-set* [peer-set-id]
+           |  |  |     +--rw peer-set-id    uint32
+           |  |  +--rw peer-node-sid
+           |  |  |  +--rw index?   uint32
+           |  |  +--rw ao
+           |  |  |  +--rw key-chain-name?        string
+           |  |  |  +--rw include-tcp-options
+           |  |  |  |  +--rw enable!
+           |  |  |  |  +--rw disable!
+           |  |  |  |  +--rw accept-ao-mismatch-connection!
+           |  |  |  +--rw inheritance-disable!
+           |  |  +--rw origin-as
+           |  |  |  +--rw validation
+           |  |  |     +--rw disable!
+           |  |  +--rw bestpath
+           |  |  |  +--rw origin-as
+           |  |  |     +--rw allow
+           |  |  |        +--rw invalid!
+           |  |  +--rw maximum-prefix-restart-time?   uint32
+           |  +--rw neighbor-range* [neighbor-address prefix-length]
+           |     +--rw neighbor-address              inet:ip-address-no-zone
+           |     +--rw prefix-length                 uint32
+           |     +--rw address-families
+           |     |  +--rw address-family* [af-name]
+           |     |     +--rw af-name                         Bgp-address-family
+           |     |     +--rw use
+           |     |     |  +--rw af-group?   string
+           |     |     +--rw capability
+           |     |     |  +--rw orf
+           |     |     |     +--rw prefix
+           |     |     |        +--rw receive!
+           |     |     |        +--rw send!
+           |     |     |        +--rw both!
+           |     |     |        +--rw none!
+           |     |     +--rw default-originate!
+           |     |     |  +--rw route-policy?          xr:Route-policy-name
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw maximum-prefix!
+           |     |     |  +--rw prefix-limit           uint32
+           |     |     |  +--rw threshold              uint32
+           |     |     |  +--rw warning-only!
+           |     |     |  +--rw restart?               uint32
+           |     |     |  +--rw discard-extra-paths!
+           |     |     +--rw optimal-route-reflection?       string
+           |     |     +--rw next-hop-self!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw next-hop-unchanged!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw next-hop-unchanged-multipath!
+           |     |     +--rw slow-peer
+           |     |     |  +--rw static!
+           |     |     |  +--rw dynamic!
+           |     |     |     +--rw threshold?   uint16
+           |     |     |     +--rw disable!
+           |     |     +--rw origin-as
+           |     |     |  +--rw validation
+           |     |     |     +--rw disable!
+           |     |     +--rw bestpath
+           |     |     |  +--rw origin-as
+           |     |     |     +--rw allow
+           |     |     |        +--rw invalid!
+           |     |     +--rw route-policy
+           |     |     |  +--rw in?          xr:Route-policy-name
+           |     |     |  +--rw out?         xr:Route-policy-name
+           |     |     |  +--rw retention
+           |     |     |     +--rw route-policy-name?   xr:Route-policy-name
+           |     |     |     +--rw retention-time?      uint32
+           |     |     +--rw orf
+           |     |     |  +--rw route-policy?   xr:Route-policy-name
+           |     |     +--rw replace-private-as!
+           |     |     |  +--rw internal
+           |     |     +--rw remove-private-as!
+           |     |     |  +--rw entire-aspath!
+           |     |     |  +--rw inheritance-disable!
+           |     |     |  +--rw internal!
+           |     |     |     +--rw inheritance-disable!
+           |     |     +--rw remove-private-as-inbound!
+           |     |     |  +--rw entire-aspath!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw enforce-multiple-labels!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw route-reflector-client!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw accept-route-legacy-rt!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw send-community-ebgp!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw send-community-gshut-ebgp!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw send-extended-community-ebgp!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw soft-reconfiguration
+           |     |     |  +--rw inbound!
+           |     |     |     +--rw rpki-dropped-only!
+           |     |     |     +--rw rpki-tested-only!
+           |     |     |     +--rw always!
+           |     |     |     +--rw inheritance-disable!
+           |     |     +--rw update
+           |     |     |  +--rw out
+           |     |     |     +--rw originator-loopcheck!
+           |     |     |        +--rw disable!
+           |     |     +--rw advertise
+           |     |     |  +--rw permanent-network!
+           |     |     |  +--rw local-labeled-route!
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw vpnv4
+           |     |     |  |  +--rw unicast
+           |     |     |  |     +--rw enable!
+           |     |     |  |     |  +--rw re-originated!
+           |     |     |  |     |     +--rw stitching-rt!
+           |     |     |  |     +--rw imported-from-default-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-bridgedomain
+           |     |     |  |        +--rw disable!
+           |     |     |  +--rw vpnv6
+           |     |     |  |  +--rw unicast
+           |     |     |  |     +--rw enable!
+           |     |     |  |     |  +--rw re-originated!
+           |     |     |  |     |     +--rw stitching-rt!
+           |     |     |  |     +--rw imported-from-default-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-bridgedomain
+           |     |     |  |        +--rw disable!
+           |     |     |  +--rw l2vpn
+           |     |     |     +--rw evpn!
+           |     |     |     |  +--rw re-originated!
+           |     |     |     |     +--rw stitching-rt!
+           |     |     |     +--rw evpn-disable!
+           |     |     |     +--rw vpls-vpws
+           |     |     |     |  +--rw disable!
+           |     |     |     +--rw mspw
+           |     |     |     |  +--rw disable!
+           |     |     |     +--rw gateway-ip-disable!
+           |     |     |        +--rw inheritance-disable!
+           |     |     +--rw encapsulation-type
+           |     |     |  +--rw vxlan!
+           |     |     |  +--rw srv6!
+           |     |     +--rw segment-routing
+           |     |     |  +--rw srv6
+           |     |     |     +--rw prefix-sid-type4!
+           |     |     +--rw import
+           |     |     |  +--rw stitching-rt!
+           |     |     |     +--rw re-originate!
+           |     |     |        +--rw stitching-rt!
+           |     |     +--rw weight?                         uint32
+           |     |     +--rw allowas-in!
+           |     |     |  +--rw number-of-occurences?   uint32
+           |     |     +--rw allowconfedas-in!
+           |     |     |  +--rw number-of-occurences?   uint32
+           |     |     +--rw long-lived-graceful-restart
+           |     |     |  +--rw stale-time
+           |     |     |  |  +--rw send?     uint32
+           |     |     |  |  +--rw accept?   uint32
+           |     |     |  +--rw capable!
+           |     |     +--rw as-override!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw aigp!
+           |     |     |  +--rw disable!
+           |     |     +--rw aigp-send
+           |     |     |  +--rw cost-community!
+           |     |     |  |  +--rw cost-community-id?   uint32
+           |     |     |  |  +--rw poi!
+           |     |     |  |  |  +--rw igp-cost!
+           |     |     |  |  |  |  +--rw transitive!
+           |     |     |  |  |  +--rw pre-bestpath!
+           |     |     |  |  |     +--rw transitive!
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw med!
+           |     |     |     +--rw disable!
+           |     |     +--rw validation!
+           |     |     |  +--rw disable!
+           |     |     |  +--rw redirect
+           |     |     |     +--rw disable!
+           |     |     +--rw send-multicast-attributes!
+           |     |     |  +--rw disable!
+           |     |     +--rw signalling
+           |     |     |  +--rw bgp
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw ldp
+           |     |     |     +--rw disable!
+           |     |     +--rw accept-own!
+           |     |        +--rw inheritance-disable!
+           |     +--rw update
+           |     |  +--rw in
+           |     |     +--rw filtering!
+           |     |     |  +--rw message
+           |     |     |  |  +--rw buffers!
+           |     |     |  |     +--rw number-of-buffers    uint32
+           |     |     |  |     +--rw non-circular!
+           |     |     |  +--rw logging
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw attribute-filter
+           |     |     |     +--rw group?   string
+           |     |     +--rw merge
+           |     |        +--rw safi
+           |     |           +--rw unicast
+           |     |              +--rw labeled-unicast!
+           |     |                 +--rw inheritance-disable!
+           |     +--rw graceful-maintenance!
+           |     |  +--rw local-preference!
+           |     |  |  +--rw local-preference-value?   uint32
+           |     |  |  +--rw inheritance-disable!
+           |     |  +--rw as-prepends!
+           |     |  |  +--rw number-of-as-prepends?   uint32
+           |     |  |  +--rw inheritance-disable!
+           |     |  +--rw activate!
+           |     |     +--rw inheritance-disable!
+           |     +--rw remote-as?                    xr:Bgp-as-number
+           |     +--rw remote-as-list?               string
+           |     +--rw use
+           |     |  +--rw session-group?    string
+           |     |  +--rw neighbor-group?   string
+           |     +--rw advertisement-interval!
+           |     |  +--rw time-in-seconds         uint32
+           |     |  +--rw time-in-milliseconds?   uint32
+           |     +--rw description?                  string
+           |     +--rw ignore-connected-check!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-multihop!
+           |     |  +--rw maximum-hop-count    uint32
+           |     |  +--rw mpls!
+           |     +--rw tcp
+           |     |  +--rw mss!
+           |     |     +--rw initial-mss?           uint32
+           |     |     +--rw inheritance-disable!
+           |     +--rw bmp-activate
+           |     |  +--rw servers
+           |     |     +--rw server* [server-id]
+           |     |        +--rw server-id    uint32
+           |     +--rw bfd
+           |     |  +--rw fast-detect!
+           |     |  |  +--rw strict-mode!
+           |     |  |  +--rw inheritance-disable!
+           |     |  +--rw minimum-interval?   uint32
+           |     |  +--rw multiplier?         uint32
+           |     +--rw keychain!
+           |     |  +--rw name?                  string
+           |     |  +--rw inheritance-disable!
+           |     +--rw local-as!
+           |     |  +--rw as-number?             xr:Bgp-as-number
+           |     |  +--rw no-prepend!
+           |     |  |  +--rw replace-as!
+           |     |  |     +--rw dual-as!
+           |     |  +--rw inheritance-disable!
+           |     +--rw password!
+           |     |  +--rw encrypted?             xr:Proprietary-password
+           |     |  +--rw inheritance-disable!
+           |     +--rw receive-buffer-size!
+           |     |  +--rw receive-socket-buffer-size    uint32
+           |     |  +--rw bgp-read-buffer-size?         uint32
+           |     +--rw send-buffer-size!
+           |     |  +--rw send-socket-buffer-size    uint32
+           |     |  +--rw bgp-write-buffer-size?     uint32
+           |     +--rw shutdown!
+           |     |  +--rw inheritance-disable!
+           |     +--rw timers!
+           |     |  +--rw keepalive-interval             uint32
+           |     |  +--rw holdtime                       union
+           |     |  +--rw minimum-acceptable-holdtime?   union
+           |     +--rw local
+           |     |  +--rw address!
+           |     |     +--rw ip-address?            inet:ip-address-no-zone
+           |     |     +--rw inheritance-disable!
+           |     +--rw log
+           |     |  +--rw message
+           |     |     +--rw in
+           |     |     |  +--rw message-log-buffer-size?   uint32
+           |     |     |  +--rw disable!
+           |     |     |  +--rw inheritance-diable!
+           |     |     +--rw out
+           |     |        +--rw message-log-buffer-size?   uint32
+           |     |        +--rw disable!
+           |     |        +--rw inheritance-diable!
+           |     +--rw update-source?                xr:Interface-name
+           |     +--rw local-address-subnet
+           |     |  +--rw ip-address?    inet:ip-address-no-zone
+           |     |  +--rw mask-length?   uint32
+           |     +--rw dmz-link-bandwidth!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-recv-extcommunity-dmz!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-send-extcommunity-dmz!
+           |     |  +--rw cumulative!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ttl-security!
+           |     |  +--rw inheritance-disable!
+           |     +--rw session-open-mode
+           |     |  +--rw active-only!
+           |     |  +--rw passive-only!
+           |     |  +--rw both!
+           |     +--rw dscp?                         enumeration
+           |     +--rw precedence?                   enumeration
+           |     +--rw capability
+           |     |  +--rw suppress
+           |     |  |  +--rw four-byte-as!
+           |     |  |  |  +--rw inheritance-disable!
+           |     |  |  +--rw all!
+           |     |  |  |  +--rw inheritance-disable!
+           |     |  |  +--rw extended-nexthop-encoding!
+           |     |  |     +--rw inheritance-disable!
+           |     |  +--rw additional-paths
+           |     |     +--rw send!
+           |     |     |  +--rw disable!
+           |     |     +--rw receive!
+           |     |        +--rw disable!
+           |     +--rw graceful-restart!
+           |     |  +--rw disable!
+           |     |  +--rw restart-time?     uint32
+           |     |  +--rw stalepath-time?   uint32
+           |     +--rw enforce-first-as!
+           |     |  +--rw disable!
+           |     +--rw cluster-id
+           |     |  +--rw route-reflector-cluster-id?   uint32
+           |     |  +--rw ip-address?                   inet:ipv4-address-no-zone
+           |     +--rw maximum-peers?                uint32
+           |     +--rw idle-watch-time?              uint32
+           |     +--rw egress-engineering!
+           |     |  +--rw inheritance-disable!
+           |     +--rw peer-sets
+           |     |  +--rw peer-set* [peer-set-id]
+           |     |     +--rw peer-set-id    uint32
+           |     +--rw peer-node-sid
+           |     |  +--rw index?   uint32
+           |     +--rw ao
+           |     |  +--rw key-chain-name?        string
+           |     |  +--rw include-tcp-options
+           |     |  |  +--rw enable!
+           |     |  |  +--rw disable!
+           |     |  |  +--rw accept-ao-mismatch-connection!
+           |     |  +--rw inheritance-disable!
+           |     +--rw origin-as
+           |     |  +--rw validation
+           |     |     +--rw disable!
+           |     +--rw bestpath
+           |        +--rw origin-as
+           |           +--rw allow
+           |              +--rw invalid!
+           +--rw af-groups
+           |  +--rw af-group* [af-group-name]
+           |     +--rw af-group-name       xr:Cisco-ios-xr-string
+           |     +--rw address-families
+           |        +--rw address-family* [af-name]
+           |           +--rw af-name                         Bgp-address-family
+           |           +--rw use
+           |           |  +--rw af-group?   string
+           |           +--rw capability
+           |           |  +--rw orf
+           |           |     +--rw prefix
+           |           |        +--rw receive!
+           |           |        +--rw send!
+           |           |        +--rw both!
+           |           |        +--rw none!
+           |           +--rw default-originate!
+           |           |  +--rw route-policy?          xr:Route-policy-name
+           |           |  +--rw inheritance-disable!
+           |           +--rw maximum-prefix!
+           |           |  +--rw prefix-limit           uint32
+           |           |  +--rw threshold              uint32
+           |           |  +--rw warning-only!
+           |           |  +--rw restart?               uint32
+           |           |  +--rw discard-extra-paths!
+           |           +--rw optimal-route-reflection?       string
+           |           +--rw next-hop-self!
+           |           |  +--rw inheritance-disable!
+           |           +--rw next-hop-unchanged!
+           |           |  +--rw inheritance-disable!
+           |           +--rw next-hop-unchanged-multipath!
+           |           +--rw multipath!
+           |           +--rw slow-peer
+           |           |  +--rw static!
+           |           |  +--rw dynamic!
+           |           |     +--rw threshold?   uint16
+           |           |     +--rw disable!
+           |           +--rw origin-as
+           |           |  +--rw validation
+           |           |     +--rw disable!
+           |           +--rw bestpath
+           |           |  +--rw origin-as
+           |           |     +--rw allow
+           |           |        +--rw invalid!
+           |           +--rw route-policy
+           |           |  +--rw in?          xr:Route-policy-name
+           |           |  +--rw out?         xr:Route-policy-name
+           |           |  +--rw retention
+           |           |     +--rw route-policy-name?   xr:Route-policy-name
+           |           |     +--rw retention-time?      uint32
+           |           +--rw orf
+           |           |  +--rw route-policy?   xr:Route-policy-name
+           |           +--rw replace-private-as!
+           |           |  +--rw internal
+           |           +--rw remove-private-as!
+           |           |  +--rw entire-aspath!
+           |           |  +--rw inheritance-disable!
+           |           |  +--rw internal!
+           |           |     +--rw inheritance-disable!
+           |           +--rw remove-private-as-inbound!
+           |           |  +--rw entire-aspath!
+           |           |  +--rw inheritance-disable!
+           |           +--rw enforce-multiple-labels!
+           |           |  +--rw inheritance-disable!
+           |           +--rw route-reflector-client!
+           |           |  +--rw inheritance-disable!
+           |           +--rw accept-route-legacy-rt!
+           |           |  +--rw inheritance-disable!
+           |           +--rw send-community-ebgp!
+           |           |  +--rw inheritance-disable!
+           |           +--rw send-community-gshut-ebgp!
+           |           |  +--rw inheritance-disable!
+           |           +--rw send-extended-community-ebgp!
+           |           |  +--rw inheritance-disable!
+           |           +--rw soft-reconfiguration
+           |           |  +--rw inbound!
+           |           |     +--rw rpki-dropped-only!
+           |           |     +--rw rpki-tested-only!
+           |           |     +--rw always!
+           |           |     +--rw inheritance-disable!
+           |           +--rw update
+           |           |  +--rw out
+           |           |     +--rw originator-loopcheck!
+           |           |        +--rw disable!
+           |           +--rw advertise
+           |           |  +--rw permanent-network!
+           |           |  +--rw local-labeled-route!
+           |           |  |  +--rw disable!
+           |           |  +--rw vpnv4
+           |           |  |  +--rw unicast
+           |           |  |     +--rw enable!
+           |           |  |     |  +--rw re-originated!
+           |           |  |     |     +--rw stitching-rt!
+           |           |  |     +--rw imported-from-default-vrf
+           |           |  |     |  +--rw disable!
+           |           |  |     +--rw imported-from-vrf
+           |           |  |     |  +--rw disable!
+           |           |  |     +--rw imported-from-bridgedomain
+           |           |  |        +--rw disable!
+           |           |  +--rw vpnv6
+           |           |  |  +--rw unicast
+           |           |  |     +--rw enable!
+           |           |  |     |  +--rw re-originated!
+           |           |  |     |     +--rw stitching-rt!
+           |           |  |     +--rw imported-from-default-vrf
+           |           |  |     |  +--rw disable!
+           |           |  |     +--rw imported-from-vrf
+           |           |  |     |  +--rw disable!
+           |           |  |     +--rw imported-from-bridgedomain
+           |           |  |        +--rw disable!
+           |           |  +--rw l2vpn
+           |           |     +--rw evpn!
+           |           |     |  +--rw re-originated!
+           |           |     |     +--rw stitching-rt!
+           |           |     +--rw evpn-disable!
+           |           |     +--rw vpls-vpws
+           |           |     |  +--rw disable!
+           |           |     +--rw mspw
+           |           |     |  +--rw disable!
+           |           |     +--rw gateway-ip-disable!
+           |           |        +--rw inheritance-disable!
+           |           +--rw encapsulation-type
+           |           |  +--rw vxlan!
+           |           |  +--rw srv6!
+           |           +--rw segment-routing
+           |           |  +--rw srv6
+           |           |     +--rw prefix-sid-type4!
+           |           +--rw import
+           |           |  +--rw stitching-rt!
+           |           |     +--rw re-originate!
+           |           |        +--rw stitching-rt!
+           |           +--rw weight?                         uint32
+           |           +--rw allowas-in!
+           |           |  +--rw number-of-occurences?   uint32
+           |           +--rw allowconfedas-in!
+           |           |  +--rw number-of-occurences?   uint32
+           |           +--rw long-lived-graceful-restart
+           |           |  +--rw stale-time
+           |           |  |  +--rw send?     uint32
+           |           |  |  +--rw accept?   uint32
+           |           |  +--rw capable!
+           |           +--rw as-override!
+           |           |  +--rw inheritance-disable!
+           |           +--rw aigp!
+           |           |  +--rw disable!
+           |           +--rw aigp-send
+           |           |  +--rw cost-community!
+           |           |  |  +--rw cost-community-id?   uint32
+           |           |  |  +--rw poi!
+           |           |  |  |  +--rw igp-cost!
+           |           |  |  |  |  +--rw transitive!
+           |           |  |  |  +--rw pre-bestpath!
+           |           |  |  |     +--rw transitive!
+           |           |  |  +--rw disable!
+           |           |  +--rw med!
+           |           |     +--rw disable!
+           |           +--rw validation!
+           |           |  +--rw disable!
+           |           |  +--rw redirect
+           |           |     +--rw disable!
+           |           +--rw send-multicast-attributes!
+           |           |  +--rw disable!
+           |           +--rw signalling
+           |           |  +--rw bgp
+           |           |  |  +--rw disable!
+           |           |  +--rw ldp
+           |           |     +--rw disable!
+           |           +--rw accept-own!
+           |           |  +--rw inheritance-disable!
+           |           +--rw cluster-id
+           |           |  +--rw allow-equal!
+           |           |     +--rw disable!
+           |           +--rw site-of-origin
+           |           |  +--rw two-byte-as!
+           |           |  |  +--rw as-number    xr:Bgp-as-number
+           |           |  |  +--rw index        uint32
+           |           |  +--rw four-byte-as!
+           |           |  |  +--rw as-number    xr:Bgp-as-number
+           |           |  |  +--rw index        uint32
+           |           |  +--rw ip-address!
+           |           |     +--rw ipv4-address    inet:ipv4-address-no-zone
+           |           |     +--rw index           uint32
+           |           +--rw additional-paths
+           |              +--rw receive!
+           |              |  +--rw disable!
+           |              +--rw send!
+           |                 +--rw disable!
+           +--rw session-groups
+           |  +--rw session-group* [session-group-name]
+           |     +--rw session-group-name             xr:Cisco-ios-xr-string
+           |     +--rw remote-as?                     xr:Bgp-as-number
+           |     +--rw remote-as-list?                string
+           |     +--rw use
+           |     |  +--rw session-group?   string
+           |     +--rw advertisement-interval!
+           |     |  +--rw time-in-seconds         uint32
+           |     |  +--rw time-in-milliseconds?   uint32
+           |     +--rw description?                   string
+           |     +--rw ignore-connected-check!
+           |     |  +--rw inheritance-disable!
+           |     +--rw internal-vpn-client!
+           |     +--rw ebgp-multihop!
+           |     |  +--rw maximum-hop-count    uint32
+           |     |  +--rw mpls!
+           |     +--rw tcp
+           |     |  +--rw mss!
+           |     |     +--rw initial-mss?           uint32
+           |     |     +--rw inheritance-disable!
+           |     +--rw bmp-activate
+           |     |  +--rw servers
+           |     |     +--rw server* [server-id]
+           |     |        +--rw server-id    uint32
+           |     +--rw bfd
+           |     |  +--rw fast-detect!
+           |     |  |  +--rw strict-mode!
+           |     |  |  +--rw disable!
+           |     |  +--rw minimum-interval?   uint32
+           |     |  +--rw multiplier?         uint32
+           |     +--rw keychain!
+           |     |  +--rw name?                  string
+           |     |  +--rw inheritance-disable!
+           |     +--rw local-as!
+           |     |  +--rw as-number?             xr:Bgp-as-number
+           |     |  +--rw no-prepend!
+           |     |  |  +--rw replace-as!
+           |     |  |     +--rw dual-as!
+           |     |  +--rw inheritance-disable!
+           |     +--rw password!
+           |     |  +--rw encrypted?             xr:Proprietary-password
+           |     |  +--rw inheritance-disable!
+           |     +--rw receive-buffer-size!
+           |     |  +--rw receive-socket-buffer-size    uint32
+           |     |  +--rw bgp-read-buffer-size?         uint32
+           |     +--rw send-buffer-size!
+           |     |  +--rw send-socket-buffer-size    uint32
+           |     |  +--rw bgp-write-buffer-size?     uint32
+           |     +--rw shutdown!
+           |     |  +--rw inheritance-disable!
+           |     +--rw timers!
+           |     |  +--rw keepalive-interval             uint32
+           |     |  +--rw holdtime                       union
+           |     |  +--rw minimum-acceptable-holdtime?   union
+           |     +--rw local
+           |     |  +--rw address!
+           |     |     +--rw ip-address?            inet:ip-address-no-zone
+           |     |     +--rw inheritance-disable!
+           |     +--rw log
+           |     |  +--rw message
+           |     |  |  +--rw in
+           |     |  |  |  +--rw message-log-buffer-size?   uint32
+           |     |  |  |  +--rw disable!
+           |     |  |  |  +--rw inheritance-diable!
+           |     |  |  +--rw out
+           |     |  |     +--rw message-log-buffer-size?   uint32
+           |     |  |     +--rw disable!
+           |     |  |     +--rw inheritance-diable!
+           |     |  +--rw neighbor
+           |     |     +--rw changes
+           |     |        +--rw detail!
+           |     |        +--rw disable!
+           |     |        +--rw inheritance-disable!
+           |     +--rw update-source?                 xr:Interface-name
+           |     +--rw local-address-subnet
+           |     |  +--rw ip-address?    inet:ip-address-no-zone
+           |     |  +--rw mask-length?   uint32
+           |     +--rw dmz-link-bandwidth!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-recv-extcommunity-dmz!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-send-extcommunity-dmz!
+           |     |  +--rw cumulative!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ttl-security!
+           |     |  +--rw inheritance-disable!
+           |     +--rw session-open-mode
+           |     |  +--rw active-only!
+           |     |  +--rw passive-only!
+           |     |  +--rw both!
+           |     +--rw dscp?                          enumeration
+           |     +--rw precedence?                    enumeration
+           |     +--rw capability
+           |     |  +--rw suppress
+           |     |  |  +--rw four-byte-as!
+           |     |  |  |  +--rw inheritance-disable!
+           |     |  |  +--rw all!
+           |     |  |  |  +--rw inheritance-disable!
+           |     |  |  +--rw extended-nexthop-encoding!
+           |     |  |     +--rw inheritance-disable!
+           |     |  +--rw additional-paths
+           |     |     +--rw send!
+           |     |     |  +--rw disable!
+           |     |     +--rw receive!
+           |     |        +--rw disable!
+           |     +--rw graceful-restart!
+           |     |  +--rw disable!
+           |     |  +--rw restart-time?     uint32
+           |     |  +--rw stalepath-time?   uint32
+           |     +--rw enforce-first-as!
+           |     |  +--rw disable!
+           |     +--rw cluster-id
+           |     |  +--rw route-reflector-cluster-id?   uint32
+           |     |  +--rw ip-address?                   inet:ipv4-address-no-zone
+           |     +--rw maximum-peers?                 uint32
+           |     +--rw idle-watch-time?               uint32
+           |     +--rw egress-engineering!
+           |     |  +--rw inheritance-disable!
+           |     +--rw peer-sets
+           |     |  +--rw peer-set* [peer-set-id]
+           |     |     +--rw peer-set-id    uint32
+           |     +--rw ao
+           |     |  +--rw key-chain-name?        string
+           |     |  +--rw include-tcp-options
+           |     |  |  +--rw enable!
+           |     |  |  +--rw disable!
+           |     |  |  +--rw accept-ao-mismatch-connection!
+           |     |  +--rw inheritance-disable!
+           |     +--rw maximum-prefix-restart-time?   uint32
+           +--rw neighbor-groups
+           |  +--rw neighbor-group* [neighbor-group-name]
+           |     +--rw neighbor-group-name            xr:Cisco-ios-xr-string
+           |     +--rw address-families
+           |     |  +--rw address-family* [af-name]
+           |     |     +--rw af-name                         Bgp-address-family
+           |     |     +--rw multipath!
+           |     |     +--rw use
+           |     |     |  +--rw af-group?   string
+           |     |     +--rw capability
+           |     |     |  +--rw orf
+           |     |     |     +--rw prefix
+           |     |     |        +--rw receive!
+           |     |     |        +--rw send!
+           |     |     |        +--rw both!
+           |     |     |        +--rw none!
+           |     |     +--rw default-originate!
+           |     |     |  +--rw route-policy?          xr:Route-policy-name
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw maximum-prefix!
+           |     |     |  +--rw prefix-limit           uint32
+           |     |     |  +--rw threshold              uint32
+           |     |     |  +--rw warning-only!
+           |     |     |  +--rw restart?               uint32
+           |     |     |  +--rw discard-extra-paths!
+           |     |     +--rw optimal-route-reflection?       string
+           |     |     +--rw next-hop-self!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw next-hop-unchanged!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw next-hop-unchanged-multipath!
+           |     |     +--rw slow-peer
+           |     |     |  +--rw static!
+           |     |     |  +--rw dynamic!
+           |     |     |     +--rw threshold?   uint16
+           |     |     |     +--rw disable!
+           |     |     +--rw origin-as
+           |     |     |  +--rw validation
+           |     |     |     +--rw disable!
+           |     |     +--rw bestpath
+           |     |     |  +--rw origin-as
+           |     |     |     +--rw allow
+           |     |     |        +--rw invalid!
+           |     |     +--rw route-policy
+           |     |     |  +--rw in?          xr:Route-policy-name
+           |     |     |  +--rw out?         xr:Route-policy-name
+           |     |     |  +--rw retention
+           |     |     |     +--rw route-policy-name?   xr:Route-policy-name
+           |     |     |     +--rw retention-time?      uint32
+           |     |     +--rw orf
+           |     |     |  +--rw route-policy?   xr:Route-policy-name
+           |     |     +--rw replace-private-as!
+           |     |     |  +--rw internal
+           |     |     +--rw remove-private-as!
+           |     |     |  +--rw entire-aspath!
+           |     |     |  +--rw inheritance-disable!
+           |     |     |  +--rw internal!
+           |     |     |     +--rw inheritance-disable!
+           |     |     +--rw remove-private-as-inbound!
+           |     |     |  +--rw entire-aspath!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw enforce-multiple-labels!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw route-reflector-client!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw accept-route-legacy-rt!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw send-community-ebgp!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw send-community-gshut-ebgp!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw send-extended-community-ebgp!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw soft-reconfiguration
+           |     |     |  +--rw inbound!
+           |     |     |     +--rw rpki-dropped-only!
+           |     |     |     +--rw rpki-tested-only!
+           |     |     |     +--rw always!
+           |     |     |     +--rw inheritance-disable!
+           |     |     +--rw update
+           |     |     |  +--rw out
+           |     |     |     +--rw originator-loopcheck!
+           |     |     |        +--rw disable!
+           |     |     +--rw advertise
+           |     |     |  +--rw permanent-network!
+           |     |     |  +--rw local-labeled-route!
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw vpnv4
+           |     |     |  |  +--rw unicast
+           |     |     |  |     +--rw enable!
+           |     |     |  |     |  +--rw re-originated!
+           |     |     |  |     |     +--rw stitching-rt!
+           |     |     |  |     +--rw imported-from-default-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-bridgedomain
+           |     |     |  |        +--rw disable!
+           |     |     |  +--rw vpnv6
+           |     |     |  |  +--rw unicast
+           |     |     |  |     +--rw enable!
+           |     |     |  |     |  +--rw re-originated!
+           |     |     |  |     |     +--rw stitching-rt!
+           |     |     |  |     +--rw imported-from-default-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-vrf
+           |     |     |  |     |  +--rw disable!
+           |     |     |  |     +--rw imported-from-bridgedomain
+           |     |     |  |        +--rw disable!
+           |     |     |  +--rw l2vpn
+           |     |     |     +--rw evpn!
+           |     |     |     |  +--rw re-originated!
+           |     |     |     |     +--rw stitching-rt!
+           |     |     |     +--rw evpn-disable!
+           |     |     |     +--rw vpls-vpws
+           |     |     |     |  +--rw disable!
+           |     |     |     +--rw mspw
+           |     |     |     |  +--rw disable!
+           |     |     |     +--rw gateway-ip-disable!
+           |     |     |        +--rw inheritance-disable!
+           |     |     +--rw encapsulation-type
+           |     |     |  +--rw vxlan!
+           |     |     |  +--rw srv6!
+           |     |     +--rw segment-routing
+           |     |     |  +--rw srv6
+           |     |     |     +--rw prefix-sid-type4!
+           |     |     +--rw import
+           |     |     |  +--rw stitching-rt!
+           |     |     |     +--rw re-originate!
+           |     |     |        +--rw stitching-rt!
+           |     |     +--rw weight?                         uint32
+           |     |     +--rw allowas-in!
+           |     |     |  +--rw number-of-occurences?   uint32
+           |     |     +--rw allowconfedas-in!
+           |     |     |  +--rw number-of-occurences?   uint32
+           |     |     +--rw long-lived-graceful-restart
+           |     |     |  +--rw stale-time
+           |     |     |  |  +--rw send?     uint32
+           |     |     |  |  +--rw accept?   uint32
+           |     |     |  +--rw capable!
+           |     |     +--rw as-override!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw aigp!
+           |     |     |  +--rw disable!
+           |     |     +--rw aigp-send
+           |     |     |  +--rw cost-community!
+           |     |     |  |  +--rw cost-community-id?   uint32
+           |     |     |  |  +--rw poi!
+           |     |     |  |  |  +--rw igp-cost!
+           |     |     |  |  |  |  +--rw transitive!
+           |     |     |  |  |  +--rw pre-bestpath!
+           |     |     |  |  |     +--rw transitive!
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw med!
+           |     |     |     +--rw disable!
+           |     |     +--rw validation!
+           |     |     |  +--rw disable!
+           |     |     |  +--rw redirect
+           |     |     |     +--rw disable!
+           |     |     +--rw send-multicast-attributes!
+           |     |     |  +--rw disable!
+           |     |     +--rw signalling
+           |     |     |  +--rw bgp
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw ldp
+           |     |     |     +--rw disable!
+           |     |     +--rw accept-own!
+           |     |     |  +--rw inheritance-disable!
+           |     |     +--rw cluster-id
+           |     |     |  +--rw allow-equal!
+           |     |     |     +--rw disable!
+           |     |     +--rw site-of-origin
+           |     |     |  +--rw two-byte-as!
+           |     |     |  |  +--rw as-number    xr:Bgp-as-number
+           |     |     |  |  +--rw index        uint32
+           |     |     |  +--rw four-byte-as!
+           |     |     |  |  +--rw as-number    xr:Bgp-as-number
+           |     |     |  |  +--rw index        uint32
+           |     |     |  +--rw ip-address!
+           |     |     |     +--rw ipv4-address    inet:ipv4-address-no-zone
+           |     |     |     +--rw index           uint32
+           |     |     +--rw additional-paths
+           |     |        +--rw receive!
+           |     |        |  +--rw disable!
+           |     |        +--rw send!
+           |     |           +--rw disable!
+           |     +--rw graceful-maintenance!
+           |     |  +--rw local-preference!
+           |     |  |  +--rw local-preference-value?   uint32
+           |     |  |  +--rw inheritance-disable!
+           |     |  +--rw as-prepends!
+           |     |  |  +--rw number-of-as-prepends?   uint32
+           |     |  |  +--rw inheritance-disable!
+           |     |  +--rw activate!
+           |     |     +--rw inheritance-disable!
+           |     +--rw update
+           |     |  +--rw in
+           |     |     +--rw filtering!
+           |     |     |  +--rw message
+           |     |     |  |  +--rw buffers?        uint32
+           |     |     |  |  +--rw non-circular!
+           |     |     |  +--rw logging
+           |     |     |  |  +--rw disable!
+           |     |     |  +--rw attribute-filter
+           |     |     |     +--rw group?   xr:Cisco-ios-xr-string
+           |     |     +--rw error-handling
+           |     |        +--rw avoid-reset!
+           |     |        |  +--rw disable!
+           |     |        +--rw treat-as-withdraw!
+           |     |           +--rw disable!
+           |     +--rw remote-as?                     xr:Bgp-as-number
+           |     +--rw remote-as-list?                string
+           |     +--rw use
+           |     |  +--rw session-group?    string
+           |     |  +--rw neighbor-group?   string
+           |     +--rw advertisement-interval!
+           |     |  +--rw time-in-seconds         uint32
+           |     |  +--rw time-in-milliseconds?   uint32
+           |     +--rw description?                   string
+           |     +--rw ignore-connected-check!
+           |     |  +--rw inheritance-disable!
+           |     +--rw internal-vpn-client!
+           |     +--rw ebgp-multihop!
+           |     |  +--rw maximum-hop-count    uint32
+           |     |  +--rw mpls!
+           |     +--rw tcp
+           |     |  +--rw mss!
+           |     |     +--rw initial-mss?           uint32
+           |     |     +--rw inheritance-disable!
+           |     +--rw bmp-activate
+           |     |  +--rw servers
+           |     |     +--rw server* [server-id]
+           |     |        +--rw server-id    uint32
+           |     +--rw bfd
+           |     |  +--rw fast-detect!
+           |     |  |  +--rw strict-mode!
+           |     |  |  +--rw inheritance-disable!
+           |     |  +--rw minimum-interval?   uint32
+           |     |  +--rw multiplier?         uint32
+           |     +--rw keychain!
+           |     |  +--rw name?                  string
+           |     |  +--rw inheritance-disable!
+           |     +--rw local-as!
+           |     |  +--rw as-number?             xr:Bgp-as-number
+           |     |  +--rw no-prepend!
+           |     |  |  +--rw replace-as!
+           |     |  |     +--rw dual-as!
+           |     |  +--rw inheritance-disable!
+           |     +--rw password!
+           |     |  +--rw encrypted?             xr:Proprietary-password
+           |     |  +--rw inheritance-disable!
+           |     +--rw receive-buffer-size!
+           |     |  +--rw receive-socket-buffer-size    uint32
+           |     |  +--rw bgp-read-buffer-size?         uint32
+           |     +--rw send-buffer-size!
+           |     |  +--rw send-socket-buffer-size    uint32
+           |     |  +--rw bgp-write-buffer-size?     uint32
+           |     +--rw shutdown!
+           |     |  +--rw inheritance-disable!
+           |     +--rw timers!
+           |     |  +--rw keepalive-interval             uint32
+           |     |  +--rw holdtime                       union
+           |     |  +--rw minimum-acceptable-holdtime?   union
+           |     +--rw local
+           |     |  +--rw address!
+           |     |     +--rw ip-address?            inet:ip-address-no-zone
+           |     |     +--rw inheritance-disable!
+           |     +--rw log
+           |     |  +--rw message
+           |     |  |  +--rw in
+           |     |  |  |  +--rw message-log-buffer-size?   uint32
+           |     |  |  |  +--rw disable!
+           |     |  |  |  +--rw inheritance-diable!
+           |     |  |  +--rw out
+           |     |  |     +--rw message-log-buffer-size?   uint32
+           |     |  |     +--rw disable!
+           |     |  |     +--rw inheritance-diable!
+           |     |  +--rw neighbor
+           |     |     +--rw changes
+           |     |        +--rw detail!
+           |     |        +--rw disable!
+           |     |        +--rw inheritance-disable!
+           |     +--rw update-source?                 xr:Interface-name
+           |     +--rw local-address-subnet
+           |     |  +--rw ip-address?    inet:ip-address-no-zone
+           |     |  +--rw mask-length?   uint32
+           |     +--rw dmz-link-bandwidth!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-recv-extcommunity-dmz!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ebgp-send-extcommunity-dmz!
+           |     |  +--rw cumulative!
+           |     |  +--rw inheritance-disable!
+           |     +--rw ttl-security!
+           |     |  +--rw inheritance-disable!
+           |     +--rw session-open-mode
+           |     |  +--rw active-only!
+           |     |  +--rw passive-only!
+           |     |  +--rw both!
+           |     +--rw dscp?                          enumeration
+           |     +--rw precedence?                    enumeration
+           |     +--rw capability
+           |     |  +--rw suppress
+           |     |  |  +--rw four-byte-as!
+           |     |  |  |  +--rw inheritance-disable!
+           |     |  |  +--rw all!
+           |     |  |  |  +--rw inheritance-disable!
+           |     |  |  +--rw extended-nexthop-encoding!
+           |     |  |     +--rw inheritance-disable!
+           |     |  +--rw additional-paths
+           |     |     +--rw send!
+           |     |     |  +--rw disable!
+           |     |     +--rw receive!
+           |     |        +--rw disable!
+           |     +--rw graceful-restart!
+           |     |  +--rw disable!
+           |     |  +--rw restart-time?     uint32
+           |     |  +--rw stalepath-time?   uint32
+           |     +--rw enforce-first-as!
+           |     |  +--rw disable!
+           |     +--rw cluster-id
+           |     |  +--rw route-reflector-cluster-id?   uint32
+           |     |  +--rw ip-address?                   inet:ipv4-address-no-zone
+           |     +--rw maximum-peers?                 uint32
+           |     +--rw idle-watch-time?               uint32
+           |     +--rw egress-engineering!
+           |     |  +--rw inheritance-disable!
+           |     +--rw peer-sets
+           |     |  +--rw peer-set* [peer-set-id]
+           |     |     +--rw peer-set-id    uint32
+           |     +--rw ao
+           |     |  +--rw key-chain-name?        string
+           |     |  +--rw include-tcp-options
+           |     |  |  +--rw enable!
+           |     |  |  +--rw disable!
+           |     |  |  +--rw accept-ao-mismatch-connection!
+           |     |  +--rw inheritance-disable!
+           |     +--rw maximum-prefix-restart-time?   uint32
+           +--rw mpls
+           |  +--rw activate
+           |     +--rw interfaces
+           |        +--rw interface* [interface-name]
+           |           +--rw interface-name    xr:Interface-name
+           +--rw as-league!
+           |  +--rw peers
+           |     +--rw as* [as-number]
+           |        +--rw as-number    xr:Bgp-as-number
+           +--rw attribute-filter
+           |  +--rw groups
+           |     +--rw group* [group-name]
+           |        +--rw group-name    string
+           |        +--rw attributes
+           |           +--rw ranges
+           |           |  +--rw range* [start end]
+           |           |     +--rw start                uint32
+           |           |     +--rw end                  uint32
+           |           |     +--rw discard!
+           |           |     +--rw treat-as-withdraw!
+           |           +--rw attribute* [attribute-code]
+           |           |  +--rw attribute-code       Bgp-attribute-code
+           |           |  +--rw discard!
+           |           |  +--rw treat-as-withdraw!
+           |           +--rw unrecognized!
+           |              +--rw discard!
+           |              +--rw treat-as-withdraw!
+           +--rw default-information
+           |  +--rw originate!
+           +--rw default-metric?             uint32
+           +--rw socket
+           |  +--rw send-buffer-size?        uint32
+           |  +--rw bgp-write-buffer-size?   uint32
+           |  +--rw receive-buffer-size?     uint32
+           |  +--rw bgp-read-buffer-size?    uint32
+           +--rw nexthop
+           |  +--rw mpls
+           |  |  +--rw forwarding
+           |  |     +--rw ibgp!
+           |  +--rw resolution
+           |  |  +--rw allow-default!
+           |  +--rw validation
+           |  |  +--rw color-extcomm
+           |  |     +--rw disable!
+           |  |     +--rw sr-policy!
+           |  +--rw srte-metric
+           |     +--rw disable!
+           +--rw slow-peer
+           |  +--rw dynamic!
+           |  |  +--rw threshold?   uint16
+           |  +--rw detection-disable!
+           +--rw timers
+           |  +--rw bgp!
+           |     +--rw keepalive-interval             uint32
+           |     +--rw holdtime                       union
+           |     +--rw minimum-acceptable-holdtime?   union
+           +--rw nsr!
+           |  +--rw disable!
+           +--rw ibgp
+           |  +--rw policy
+           |     +--rw out
+           |        +--rw enforce-modifications!
+           +--rw mvpn!
+           +--rw openconfig
+           |  +--rw rib-telemetry!
+           +--rw graceful-maintenance
+           |  +--rw activate!
+           |     +--rw all-neighbors!
+           |     +--rw retain-routes!
+           |     +--rw interfaces
+           |     |  +--rw interface* [interface-name]
+           |     |     +--rw interface-name    xr:Interface-name
+           |     +--rw locations
+           |        +--rw location* [location-name]
+           |           +--rw location-name    xr:Node-id
+           +--rw optimal-route-reflection
+           |  +--rw ipv4
+           |  |  +--rw orr-group* [orr-group-name]
+           |  |     +--rw orr-group-name       string
+           |  |     +--rw primary-address      inet:ipv4-address-no-zone
+           |  |     +--rw secondary-address?   inet:ipv4-address-no-zone
+           |  |     +--rw tertiary-address?    inet:ipv4-address-no-zone
+           |  |     +--rw flex-algo?           uint32
+           |  +--rw ipv6
+           |     +--rw orr-group* [orr-group-name]
+           |        +--rw orr-group-name       string
+           |        +--rw primary-address      inet:ipv6-address-no-zone
+           |        +--rw secondary-address?   inet:ipv6-address-no-zone
+           |        +--rw tertiary-address?    inet:ipv6-address-no-zone
+           +--rw bgp
+           |  +--rw as-path-loopcheck!
+           |  +--rw auto-policy-soft-reset
+           |  |  +--rw disable!
+           |  +--rw bestpath
+           |  |  +--rw as-path
+           |  |  |  +--rw ignore!
+           |  |  |  +--rw multipath-relax!
+           |  |  +--rw cost-community
+           |  |  |  +--rw ignore!
+           |  |  +--rw compare-routerid!
+           |  |  +--rw aigp
+           |  |  |  +--rw ignore!
+           |  |  +--rw igp-metric
+           |  |  |  +--rw ignore!
+           |  |  |  +--rw sr-policy!
+           |  |  +--rw med
+           |  |  |  +--rw always!
+           |  |  |  +--rw confed!
+           |  |  |  +--rw missing-as-worst!
+           |  |  +--rw origin-as
+           |  |  |  +--rw use
+           |  |  |  |  +--rw validity!
+           |  |  |  +--rw allow
+           |  |  |     +--rw invalid!
+           |  |  +--rw sr-policy
+           |  |     +--rw prefer!
+           |  |     +--rw force!
+           |  +--rw cluster-id
+           |  |  +--rw route-reflector-cluster-id?   uint32
+           |  |  +--rw ip-address?                   inet:ipv4-address-no-zone
+           |  +--rw confederation
+           |  |  +--rw identifier
+           |  |  |  +--rw as?   xr:Bgp-as-number
+           |  |  +--rw peers* [peer-as-number]
+           |  |     +--rw peer-as-number    xr:Bgp-as-number
+           |  +--rw default
+           |  |  +--rw local-preference?   uint32
+           |  +--rw enforce-first-as
+           |  |  +--rw disable!
+           |  +--rw fast-external-fallover
+           |  |  +--rw disable!
+           |  +--rw graceful-restart!
+           |  |  +--rw purge-time?          uint32
+           |  |  +--rw restart-time?        uint32
+           |  |  +--rw stalepath-time?      uint32
+           |  |  +--rw graceful-reset!
+           |  |  +--rw retain-nbr-routes
+           |  |     +--rw disable!
+           |  +--rw read-only!
+           |  +--rw install
+           |  |  +--rw diversion!
+           |  +--rw log
+           |  |  +--rw neighbor
+           |  |  |  +--rw changes
+           |  |  |     +--rw disable!
+           |  |  |     +--rw detail!
+           |  |  +--rw message
+           |  |     +--rw disable!
+           |  +--rw multipath
+           |  |  +--rw as-path
+           |  |     +--rw ignore
+           |  |        +--rw exact-match!
+           |  |        +--rw onwards!
+           |  +--rw redistribute-internal!
+           |  +--rw router-id?                inet:ipv4-address-no-zone
+           |  +--rw unsafe-ebgp-policy!
+           |  +--rw lpts-secure-binding!
+           |  +--rw update-delay!
+           |  |  +--rw delay     uint32
+           |  |  +--rw always!
+           |  +--rw scan-time?                uint32
+           |  +--rw maximum
+           |  |  +--rw neighbor?   uint32
+           |  +--rw origin-as
+           |     +--rw validation
+           |        +--rw signal
+           |        |  +--rw ibgp!
+           |        +--rw time
+           |        |  +--rw off!
+           |        |  +--rw prefix-validation-time?   uint32
+           |        +--rw disable!
+           +--rw update
+           |  +--rw out
+           |  |  +--rw logging!
+           |  +--rw limit?   uint32
+           |  +--rw in
+           |     +--rw error-handling
+           |        +--rw basic
+           |        |  +--rw ebgp
+           |        |  |  +--rw disable!
+           |        |  +--rw ibgp
+           |        |     +--rw disable!
+           |        +--rw extended
+           |           +--rw ebgp!
+           |           +--rw ibgp!
+           +--rw bfd
+           |  +--rw minimum-interval?   uint32
+           |  +--rw multiplier?         uint32
+           +--rw as-lists
+           |  +--rw as-list* [as-list-name]
+           |     +--rw as-list-name    xr:Cisco-ios-xr-string
+           |     +--rw as* [as-number]
+           |        +--rw as-number    xr:Bgp-as-number
+           +--rw adjacencies
+           |  +--rw ip-addresses
+           |     +--rw ip-address* [address]
+           |        +--rw address          inet:ip-address-no-zone
+           |        +--rw peer-sets
+           |        |  +--rw peer-set* [peer-set-id]
+           |        |     +--rw peer-set-id    uint32
+           |        +--rw adjacency-sid
+           |           +--rw index?   uint32
+           +--rw segment-routing
+           |  +--rw srv6!
+           |     +--rw locator?   xr:Cisco-ios-xr-string
+           |     +--rw usid
+           |        +--rw allocation
+           |           +--rw wide-local-id-block!
+           +--rw vrfs
+              +--rw vrf* [vrf-name]
+                 +--rw vrf-name                    xr:Cisco-ios-xr-string
+                 +--rw address-families
+                 |  +--rw address-family* [af-name]
+                 |     +--rw af-name                     Bgp-address-family
+                 |     +--rw distance
+                 |     |  +--rw bgp!
+                 |     |     +--rw external-routes    uint32
+                 |     |     +--rw internal-routes    uint32
+                 |     |     +--rw local-routes       uint32
+                 |     +--rw allow
+                 |     |  +--rw vpn
+                 |     |     +--rw default-originate!
+                 |     +--rw optimal-route-reflection
+                 |     |  +--rw orr-group* [orr-group-name]
+                 |     |  |  +--rw orr-group-name       xr:Cisco-ios-xr-string
+                 |     |  |  +--rw primary-address      inet:ip-address-no-zone
+                 |     |  |  +--rw secondary-address?   inet:ip-address-no-zone
+                 |     |  |  +--rw tertiary-address?    inet:ip-address-no-zone
+                 |     |  +--rw apply* [orr-group-name]
+                 |     |  |  +--rw orr-group-name    xr:Cisco-ios-xr-string
+                 |     |  +--rw fallback-default-bestpath!
+                 |     +--rw maximum-paths
+                 |     |  +--rw ebgp!
+                 |     |  |  +--rw multipath       uint32
+                 |     |  |  +--rw selective!
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  +--rw eibgp!
+                 |     |  |  +--rw multipath       uint32
+                 |     |  |  +--rw selective!
+                 |     |  |  +--rw equal-cost!
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  +--rw ibgp!
+                 |     |     +--rw multipath       uint32
+                 |     |     +--rw selective!
+                 |     |     +--rw unequal-cost!
+                 |     |     |  +--rw deterministic!
+                 |     |     +--rw route-policy?   xr:Route-policy-name
+                 |     +--rw additional-paths
+                 |     |  +--rw send!
+                 |     |  |  +--rw disable!
+                 |     |  +--rw receive!
+                 |     |  |  +--rw disable!
+                 |     |  +--rw selection
+                 |     |     +--rw disable!
+                 |     |     +--rw route-policy?   xr:Route-policy-name
+                 |     +--rw route-target
+                 |     |  +--rw download!
+                 |     +--rw enable
+                 |     |  +--rw label-mode!
+                 |     +--rw advertise
+                 |     |  +--rw best-external!
+                 |     |  |  +--rw labeled-unicast!
+                 |     |  |  +--rw disable!
+                 |     |  +--rw local-labeled-route
+                 |     |     +--rw safi-unicast!
+                 |     |        +--rw disable!
+                 |     +--rw nexthop
+                 |     |  +--rw resolution
+                 |     |  |  +--rw prefix-length
+                 |     |  |     +--rw minimum?        union
+                 |     |  |     +--rw minimum-ipv6?   uint32
+                 |     |  +--rw route-policy?   xr:Route-policy-name
+                 |     +--rw networks
+                 |     |  +--rw network* [address masklength]
+                 |     |     +--rw address         inet:ip-address-no-zone
+                 |     |     +--rw masklength      uint16
+                 |     |     +--rw route-policy?   xr:Route-policy-name
+                 |     |     +--rw backdoor!
+                 |     |     +--rw multipath!
+                 |     +--rw aggregate-addresses
+                 |     |  +--rw aggregate-address* [address masklength]
+                 |     |     +--rw address          inet:ip-address-no-zone
+                 |     |     +--rw masklength       uint16
+                 |     |     +--rw as-set!
+                 |     |     +--rw as-confed-set!
+                 |     |     +--rw summary-only!
+                 |     |     +--rw route-policy?    xr:Route-policy-name
+                 |     +--rw redistribute
+                 |     |  +--rw ospf* [router-tag]
+                 |     |  |  +--rw router-tag      xr:Cisco-ios-xr-string
+                 |     |  |  +--rw match!
+                 |     |  |  |  +--rw internal!
+                 |     |  |  |  |  +--rw external!
+                 |     |  |  |  |  |  +--rw one!
+                 |     |  |  |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |  |  |     +--rw one!
+                 |     |  |  |  |  |  |     +--rw two!
+                 |     |  |  |  |  |  +--rw two!
+                 |     |  |  |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |  |  |     +--rw one!
+                 |     |  |  |  |  |  |     +--rw two!
+                 |     |  |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |  |     +--rw one!
+                 |     |  |  |  |  |     +--rw two!
+                 |     |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |     +--rw one!
+                 |     |  |  |  |     +--rw two!
+                 |     |  |  |  +--rw external!
+                 |     |  |  |  |  +--rw one!
+                 |     |  |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |  |     +--rw one!
+                 |     |  |  |  |  |     +--rw two!
+                 |     |  |  |  |  +--rw two!
+                 |     |  |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |  |     +--rw one!
+                 |     |  |  |  |  |     +--rw two!
+                 |     |  |  |  |  +--rw nssa-external!
+                 |     |  |  |  |     +--rw one!
+                 |     |  |  |  |     +--rw two!
+                 |     |  |  |  +--rw nssa-external!
+                 |     |  |  |     +--rw one!
+                 |     |  |  |     +--rw two!
+                 |     |  |  +--rw multipath!
+                 |     |  |  +--rw metric?         uint32
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  +--rw eigrp* [instance-name]
+                 |     |  |  +--rw instance-name    xr:Cisco-ios-xr-string
+                 |     |  |  +--rw match
+                 |     |  |  |  +--rw internal!
+                 |     |  |  |  |  +--rw external!
+                 |     |  |  |  +--rw external!
+                 |     |  |  +--rw multipath!
+                 |     |  |  +--rw metric?          uint32
+                 |     |  |  +--rw route-policy?    xr:Route-policy-name
+                 |     |  +--rw application* [application-name]
+                 |     |  |  +--rw application-name    xr:Cisco-ios-xr-string
+                 |     |  |  +--rw metric?             uint32
+                 |     |  |  +--rw route-policy?       xr:Route-policy-name
+                 |     |  |  +--rw multipath!
+                 |     |  +--rw connected!
+                 |     |  |  +--rw metric?         uint32
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  |  +--rw multipath!
+                 |     |  +--rw lisp!
+                 |     |  |  +--rw metric?         uint32
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  |  +--rw multipath!
+                 |     |  +--rw mobile!
+                 |     |  |  +--rw metric?         uint32
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  |  +--rw multipath!
+                 |     |  +--rw rip!
+                 |     |  |  +--rw metric?         uint32
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  |  +--rw multipath!
+                 |     |  +--rw static!
+                 |     |  |  +--rw metric?         uint32
+                 |     |  |  +--rw route-policy?   xr:Route-policy-name
+                 |     |  |  +--rw multipath!
+                 |     |  +--rw subscriber!
+                 |     |     +--rw metric?         uint32
+                 |     |     +--rw route-policy?   xr:Route-policy-name
+                 |     |     +--rw multipath!
+                 |     +--rw table-policy?               xr:Route-policy-name
+                 |     +--rw allocate-label
+                 |     |  +--rw all!
+                 |     |  |  +--rw unlabeled-path!
+                 |     |  +--rw route-policy?   xr:Route-policy-name
+                 |     +--rw label
+                 |     |  +--rw mode
+                 |     |     +--rw per-prefix!
+                 |     |     +--rw per-ce!
+                 |     |     +--rw per-vrf!
+                 |     |     +--rw per-vrf-46!
+                 |     |     +--rw route-policy?   xr:Route-policy-name
+                 |     +--rw bgp
+                 |     |  +--rw dampening!
+                 |     |  |  +--rw half-life-time?            uint32
+                 |     |  |  +--rw start-reusing-route?       uint32
+                 |     |  |  +--rw start-suppressing-route?   uint32
+                 |     |  |  +--rw maximum-duration?          uint32
+                 |     |  |  +--rw route-policy?              xr:Route-policy-name
+                 |     |  +--rw attribute-download!
+                 |     |  +--rw origin-as
+                 |     |  |  +--rw validation
+                 |     |  |     +--rw disable!
+                 |     |  |     +--rw enable!
+                 |     |  |     +--rw signal
+                 |     |  |        +--rw ibgp!
+                 |     |  +--rw bestpath
+                 |     |     +--rw origin-as
+                 |     |        +--rw use
+                 |     |        |  +--rw validity!
+                 |     |        +--rw allow
+                 |     |           +--rw invalid!
+                 |     +--rw event
+                 |     |  +--rw prefix
+                 |     |     +--rw route-policy?   xr:Route-policy-name
+                 |     +--rw dynamic-med
+                 |     |  +--rw interval?   uint32
+                 |     +--rw weight
+                 |     |  +--rw reset-on-import!
+                 |     |     +--rw disable!
+                 |     +--rw as-path-loopcheck
+                 |     |  +--rw out
+                 |     |     +--rw disable!
+                 |     +--rw global-table-multicast!
+                 |     +--rw segmented-multicast!
+                 |     +--rw label-security
+                 |     |  +--rw asbr
+                 |     |     +--rw rpf!
+                 |     +--rw segment-routing
+                 |        +--rw srv6!
+                 |           +--rw alloc
+                 |           |  +--rw mode
+                 |           |     +--rw per-ce!
+                 |           |     +--rw per-vrf!
+                 |           |     +--rw per-vrf-46!
+                 |           |     +--rw route-policy?   xr:Route-policy-name
+                 |           +--rw locator?   string
+                 |           +--rw usid
+                 |              +--rw allocation
+                 |                 +--rw wide-local-id-block!
+                 +--rw neighbors
+                 |  +--rw neighbor* [neighbor-address]
+                 |  |  +--rw neighbor-address               inet:ip-address-no-zone
+                 |  |  +--rw address-families
+                 |  |  |  +--rw address-family* [af-name]
+                 |  |  |     +--rw af-name                         Bgp-address-family
+                 |  |  |     +--rw use
+                 |  |  |     |  +--rw af-group?   string
+                 |  |  |     +--rw capability
+                 |  |  |     |  +--rw orf
+                 |  |  |     |     +--rw prefix
+                 |  |  |     |        +--rw receive!
+                 |  |  |     |        +--rw send!
+                 |  |  |     |        +--rw both!
+                 |  |  |     |        +--rw none!
+                 |  |  |     +--rw default-originate!
+                 |  |  |     |  +--rw route-policy?          xr:Route-policy-name
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw maximum-prefix!
+                 |  |  |     |  +--rw prefix-limit           uint32
+                 |  |  |     |  +--rw threshold              uint32
+                 |  |  |     |  +--rw warning-only!
+                 |  |  |     |  +--rw restart?               uint32
+                 |  |  |     |  +--rw discard-extra-paths!
+                 |  |  |     +--rw optimal-route-reflection?       string
+                 |  |  |     +--rw next-hop-self!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw next-hop-unchanged!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw slow-peer
+                 |  |  |     |  +--rw static!
+                 |  |  |     |  +--rw dynamic!
+                 |  |  |     |     +--rw threshold?   uint16
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw origin-as
+                 |  |  |     |  +--rw validation
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw bestpath
+                 |  |  |     |  +--rw origin-as
+                 |  |  |     |     +--rw allow
+                 |  |  |     |        +--rw invalid!
+                 |  |  |     +--rw route-policy
+                 |  |  |     |  +--rw in?          xr:Route-policy-name
+                 |  |  |     |  +--rw out?         xr:Route-policy-name
+                 |  |  |     |  +--rw retention
+                 |  |  |     |     +--rw route-policy-name?   xr:Route-policy-name
+                 |  |  |     |     +--rw retention-time?      uint32
+                 |  |  |     +--rw orf
+                 |  |  |     |  +--rw route-policy?   xr:Route-policy-name
+                 |  |  |     +--rw replace-private-as!
+                 |  |  |     |  +--rw internal
+                 |  |  |     +--rw remove-private-as!
+                 |  |  |     |  +--rw entire-aspath!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     |  +--rw internal!
+                 |  |  |     |     +--rw inheritance-disable!
+                 |  |  |     +--rw remove-private-as-inbound!
+                 |  |  |     |  +--rw entire-aspath!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw enforce-multiple-labels!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw route-reflector-client!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw accept-route-legacy-rt!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw send-community-ebgp!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw send-community-gshut-ebgp!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw send-extended-community-ebgp!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw soft-reconfiguration
+                 |  |  |     |  +--rw inbound!
+                 |  |  |     |     +--rw rpki-dropped-only!
+                 |  |  |     |     +--rw rpki-tested-only!
+                 |  |  |     |     +--rw always!
+                 |  |  |     |     +--rw inheritance-disable!
+                 |  |  |     +--rw update
+                 |  |  |     |  +--rw out
+                 |  |  |     |     +--rw originator-loopcheck!
+                 |  |  |     |        +--rw disable!
+                 |  |  |     +--rw advertise
+                 |  |  |     |  +--rw permanent-network!
+                 |  |  |     |  +--rw local-labeled-route!
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw weight?                         uint32
+                 |  |  |     +--rw allowas-in!
+                 |  |  |     |  +--rw number-of-occurences?   uint32
+                 |  |  |     +--rw allowconfedas-in!
+                 |  |  |     |  +--rw number-of-occurences?   uint32
+                 |  |  |     +--rw long-lived-graceful-restart
+                 |  |  |     |  +--rw stale-time
+                 |  |  |     |  |  +--rw send?     uint32
+                 |  |  |     |  |  +--rw accept?   uint32
+                 |  |  |     |  +--rw capable!
+                 |  |  |     +--rw as-override!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw aigp!
+                 |  |  |     |  +--rw disable!
+                 |  |  |     +--rw aigp-send
+                 |  |  |     |  +--rw cost-community
+                 |  |  |     |  |  +--rw cost-community-id?   uint32
+                 |  |  |     |  |  +--rw poi!
+                 |  |  |     |  |  |  +--rw igp-cost!
+                 |  |  |     |  |  |  |  +--rw transitive!
+                 |  |  |     |  |  |  +--rw pre-bestpath!
+                 |  |  |     |  |  |     +--rw transitive!
+                 |  |  |     |  |  +--rw disable!
+                 |  |  |     |  +--rw med!
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw validation!
+                 |  |  |     |  +--rw disable!
+                 |  |  |     |  +--rw redirect
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw send-multicast-attributes!
+                 |  |  |     |  +--rw disable!
+                 |  |  |     +--rw signalling
+                 |  |  |     |  +--rw bgp
+                 |  |  |     |  |  +--rw disable!
+                 |  |  |     |  +--rw ldp
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw accept-own!
+                 |  |  |     |  +--rw inheritance-disable!
+                 |  |  |     +--rw cluster-id
+                 |  |  |     |  +--rw allow-equal!
+                 |  |  |     |     +--rw disable!
+                 |  |  |     +--rw site-of-origin
+                 |  |  |     |  +--rw two-byte-as!
+                 |  |  |     |  |  +--rw as-number    xr:Bgp-as-number
+                 |  |  |     |  |  +--rw index        uint32
+                 |  |  |     |  +--rw four-byte-as!
+                 |  |  |     |  |  +--rw as-number    xr:Bgp-as-number
+                 |  |  |     |  |  +--rw index        uint32
+                 |  |  |     |  +--rw ip-address!
+                 |  |  |     |     +--rw ipv4-address    inet:ipv4-address-no-zone
+                 |  |  |     |     +--rw index           uint32
+                 |  |  |     +--rw multipath!
+                 |  |  |     +--rw additional-paths
+                 |  |  |        +--rw receive!
+                 |  |  |        |  +--rw disable!
+                 |  |  |        +--rw send!
+                 |  |  |           +--rw disable!
+                 |  |  +--rw update
+                 |  |  |  +--rw in
+                 |  |  |     +--rw filtering!
+                 |  |  |     |  +--rw message
+                 |  |  |     |  |  +--rw buffers!
+                 |  |  |     |  |     +--rw number-of-buffers    uint32
+                 |  |  |     |  |     +--rw non-circular!
+                 |  |  |     |  +--rw logging
+                 |  |  |     |  |  +--rw disable!
+                 |  |  |     |  +--rw attribute-filter
+                 |  |  |     |     +--rw group?   string
+                 |  |  |     +--rw merge
+                 |  |  |     |  +--rw safi
+                 |  |  |     |     +--rw unicast
+                 |  |  |     |        +--rw labeled-unicast!
+                 |  |  |     |           +--rw inheritance-disable!
+                 |  |  |     +--rw error-handling
+                 |  |  |        +--rw avoid-reset!
+                 |  |  |        |  +--rw disable!
+                 |  |  |        +--rw treat-as-withdraw!
+                 |  |  |           +--rw disable!
+                 |  |  +--rw graceful-maintenance!
+                 |  |  |  +--rw local-preference!
+                 |  |  |  |  +--rw local-preference-value?   uint32
+                 |  |  |  |  +--rw inheritance-disable!
+                 |  |  |  +--rw as-prepends!
+                 |  |  |  |  +--rw number-of-as-prepends?   uint32
+                 |  |  |  |  +--rw inheritance-disable!
+                 |  |  |  +--rw activate!
+                 |  |  |     +--rw inheritance-disable!
+                 |  |  +--rw remote-as?                     xr:Bgp-as-number
+                 |  |  +--rw remote-as-list?                string
+                 |  |  +--rw use
+                 |  |  |  +--rw session-group?    string
+                 |  |  |  +--rw neighbor-group?   string
+                 |  |  +--rw advertisement-interval!
+                 |  |  |  +--rw time-in-seconds         uint32
+                 |  |  |  +--rw time-in-milliseconds?   uint32
+                 |  |  +--rw description?                   string
+                 |  |  +--rw ignore-connected-check!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw internal-vpn-client!
+                 |  |  +--rw ebgp-multihop!
+                 |  |  |  +--rw maximum-hop-count    uint32
+                 |  |  |  +--rw mpls!
+                 |  |  +--rw tcp
+                 |  |  |  +--rw mss!
+                 |  |  |     +--rw initial-mss?           uint32
+                 |  |  |     +--rw inheritance-disable!
+                 |  |  +--rw bmp-activate
+                 |  |  |  +--rw servers
+                 |  |  |     +--rw server* [server-id]
+                 |  |  |        +--rw server-id    uint32
+                 |  |  +--rw bfd
+                 |  |  |  +--rw fast-detect!
+                 |  |  |  |  +--rw strict-mode!
+                 |  |  |  |  +--rw disable!
+                 |  |  |  +--rw minimum-interval?   uint32
+                 |  |  |  +--rw multiplier?         uint32
+                 |  |  +--rw keychain!
+                 |  |  |  +--rw name?                  string
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw local-as!
+                 |  |  |  +--rw as-number?             xr:Bgp-as-number
+                 |  |  |  +--rw no-prepend!
+                 |  |  |  |  +--rw replace-as!
+                 |  |  |  |     +--rw dual-as!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw password!
+                 |  |  |  +--rw encrypted?             xr:Proprietary-password
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw receive-buffer-size!
+                 |  |  |  +--rw receive-socket-buffer-size    uint32
+                 |  |  |  +--rw bgp-read-buffer-size?         uint32
+                 |  |  +--rw send-buffer-size!
+                 |  |  |  +--rw send-socket-buffer-size    uint32
+                 |  |  |  +--rw bgp-write-buffer-size?     uint32
+                 |  |  +--rw shutdown!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw timers!
+                 |  |  |  +--rw keepalive-interval             uint32
+                 |  |  |  +--rw holdtime                       union
+                 |  |  |  +--rw minimum-acceptable-holdtime?   union
+                 |  |  +--rw local
+                 |  |  |  +--rw address!
+                 |  |  |     +--rw ip-address?            inet:ip-address-no-zone
+                 |  |  |     +--rw inheritance-disable!
+                 |  |  +--rw log
+                 |  |  |  +--rw message
+                 |  |  |  |  +--rw in
+                 |  |  |  |  |  +--rw message-log-buffer-size?   uint32
+                 |  |  |  |  |  +--rw disable!
+                 |  |  |  |  |  +--rw inheritance-diable!
+                 |  |  |  |  +--rw out
+                 |  |  |  |     +--rw range-for-message-log-buffer?   uint32
+                 |  |  |  |     +--rw disable!
+                 |  |  |  |     +--rw inheritance-diable!
+                 |  |  |  +--rw neighbor
+                 |  |  |     +--rw changes
+                 |  |  |        +--rw detail!
+                 |  |  |        +--rw disable!
+                 |  |  |        +--rw inheritance-disable!
+                 |  |  +--rw update-source?                 xr:Interface-name
+                 |  |  +--rw local-address-subnet
+                 |  |  |  +--rw ip-address?    inet:ip-address-no-zone
+                 |  |  |  +--rw mask-length?   uint32
+                 |  |  +--rw dmz-link-bandwidth!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw ebgp-recv-extcommunity-dmz!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw ebgp-send-extcommunity-dmz!
+                 |  |  |  +--rw cumulative!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw evpn-link-bandwidth!
+                 |  |  |  +--rw per-path?              uint32
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw ttl-security!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw session-open-mode
+                 |  |  |  +--rw active-only!
+                 |  |  |  +--rw passive-only!
+                 |  |  |  +--rw both!
+                 |  |  +--rw dscp?                          enumeration
+                 |  |  +--rw precedence?                    enumeration
+                 |  |  +--rw capability
+                 |  |  |  +--rw suppress
+                 |  |  |  |  +--rw four-byte-as!
+                 |  |  |  |  |  +--rw inheritance-disable!
+                 |  |  |  |  +--rw all!
+                 |  |  |  |  |  +--rw inheritance-disable!
+                 |  |  |  |  +--rw extended-nexthop-encoding!
+                 |  |  |  |     +--rw inheritance-disable!
+                 |  |  |  +--rw additional-paths
+                 |  |  |     +--rw send!
+                 |  |  |     |  +--rw disable!
+                 |  |  |     +--rw receive!
+                 |  |  |        +--rw disable!
+                 |  |  +--rw graceful-restart!
+                 |  |  |  +--rw disable!
+                 |  |  |  +--rw restart-time?     uint32
+                 |  |  |  +--rw stalepath-time?   uint32
+                 |  |  +--rw enforce-first-as!
+                 |  |  |  +--rw disable!
+                 |  |  +--rw maximum-peers?                 uint32
+                 |  |  +--rw idle-watch-time?               uint32
+                 |  |  +--rw egress-engineering!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw peer-sets
+                 |  |  |  +--rw peer-set* [peer-set-id]
+                 |  |  |     +--rw peer-set-id    uint32
+                 |  |  +--rw peer-node-sid
+                 |  |  |  +--rw index?   uint32
+                 |  |  +--rw ao
+                 |  |  |  +--rw key-chain-name?        string
+                 |  |  |  +--rw include-tcp-options
+                 |  |  |  |  +--rw enable!
+                 |  |  |  |  +--rw disable!
+                 |  |  |  |  +--rw accept-ao-mismatch-connection!
+                 |  |  |  +--rw inheritance-disable!
+                 |  |  +--rw origin-as
+                 |  |  |  +--rw validation
+                 |  |  |     +--rw disable!
+                 |  |  +--rw bestpath
+                 |  |  |  +--rw origin-as
+                 |  |  |     +--rw allow
+                 |  |  |        +--rw invalid!
+                 |  |  +--rw maximum-prefix-restart-time?   uint32
+                 |  +--rw neighbor-range* [neighbor-address prefix-length]
+                 |     +--rw neighbor-address              inet:ip-address-no-zone
+                 |     +--rw prefix-length                 uint32
+                 |     +--rw address-families
+                 |     |  +--rw address-family* [af-name]
+                 |     |     +--rw af-name                         Bgp-address-family
+                 |     |     +--rw use
+                 |     |     |  +--rw af-group?   string
+                 |     |     +--rw capability
+                 |     |     |  +--rw orf
+                 |     |     |     +--rw prefix
+                 |     |     |        +--rw receive!
+                 |     |     |        +--rw send!
+                 |     |     |        +--rw both!
+                 |     |     |        +--rw none!
+                 |     |     +--rw default-originate!
+                 |     |     |  +--rw route-policy?          xr:Route-policy-name
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw maximum-prefix!
+                 |     |     |  +--rw prefix-limit           uint32
+                 |     |     |  +--rw threshold              uint32
+                 |     |     |  +--rw warning-only!
+                 |     |     |  +--rw restart?               uint32
+                 |     |     |  +--rw discard-extra-paths!
+                 |     |     +--rw optimal-route-reflection?       string
+                 |     |     +--rw next-hop-self!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw next-hop-unchanged!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw slow-peer
+                 |     |     |  +--rw static!
+                 |     |     |  +--rw dynamic!
+                 |     |     |     +--rw threshold?   uint16
+                 |     |     |     +--rw disable!
+                 |     |     +--rw origin-as
+                 |     |     |  +--rw validation
+                 |     |     |     +--rw disable!
+                 |     |     +--rw bestpath
+                 |     |     |  +--rw origin-as
+                 |     |     |     +--rw allow
+                 |     |     |        +--rw invalid!
+                 |     |     +--rw route-policy
+                 |     |     |  +--rw in?          xr:Route-policy-name
+                 |     |     |  +--rw out?         xr:Route-policy-name
+                 |     |     |  +--rw retention
+                 |     |     |     +--rw route-policy-name?   xr:Route-policy-name
+                 |     |     |     +--rw retention-time?      uint32
+                 |     |     +--rw orf
+                 |     |     |  +--rw route-policy?   xr:Route-policy-name
+                 |     |     +--rw replace-private-as!
+                 |     |     |  +--rw internal
+                 |     |     +--rw remove-private-as!
+                 |     |     |  +--rw entire-aspath!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     |  +--rw internal!
+                 |     |     |     +--rw inheritance-disable!
+                 |     |     +--rw remove-private-as-inbound!
+                 |     |     |  +--rw entire-aspath!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw enforce-multiple-labels!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw route-reflector-client!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw accept-route-legacy-rt!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw send-community-ebgp!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw send-community-gshut-ebgp!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw send-extended-community-ebgp!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw soft-reconfiguration
+                 |     |     |  +--rw inbound!
+                 |     |     |     +--rw rpki-dropped-only!
+                 |     |     |     +--rw rpki-tested-only!
+                 |     |     |     +--rw always!
+                 |     |     |     +--rw inheritance-disable!
+                 |     |     +--rw update
+                 |     |     |  +--rw out
+                 |     |     |     +--rw originator-loopcheck!
+                 |     |     |        +--rw disable!
+                 |     |     +--rw advertise
+                 |     |     |  +--rw permanent-network!
+                 |     |     |  +--rw local-labeled-route!
+                 |     |     |     +--rw disable!
+                 |     |     +--rw weight?                         uint32
+                 |     |     +--rw allowas-in!
+                 |     |     |  +--rw number-of-occurences?   uint32
+                 |     |     +--rw allowconfedas-in!
+                 |     |     |  +--rw number-of-occurences?   uint32
+                 |     |     +--rw long-lived-graceful-restart
+                 |     |     |  +--rw stale-time
+                 |     |     |  |  +--rw send?     uint32
+                 |     |     |  |  +--rw accept?   uint32
+                 |     |     |  +--rw capable!
+                 |     |     +--rw as-override!
+                 |     |     |  +--rw inheritance-disable!
+                 |     |     +--rw aigp!
+                 |     |     |  +--rw disable!
+                 |     |     +--rw aigp-send
+                 |     |     |  +--rw cost-community
+                 |     |     |  |  +--rw cost-community-id?   uint32
+                 |     |     |  |  +--rw poi!
+                 |     |     |  |  |  +--rw igp-cost!
+                 |     |     |  |  |  |  +--rw transitive!
+                 |     |     |  |  |  +--rw pre-bestpath!
+                 |     |     |  |  |     +--rw transitive!
+                 |     |     |  |  +--rw disable!
+                 |     |     |  +--rw med!
+                 |     |     |     +--rw disable!
+                 |     |     +--rw validation!
+                 |     |     |  +--rw disable!
+                 |     |     |  +--rw redirect
+                 |     |     |     +--rw disable!
+                 |     |     +--rw send-multicast-attributes!
+                 |     |     |  +--rw disable!
+                 |     |     +--rw signalling
+                 |     |     |  +--rw bgp
+                 |     |     |  |  +--rw disable!
+                 |     |     |  +--rw ldp
+                 |     |     |     +--rw disable!
+                 |     |     +--rw accept-own!
+                 |     |        +--rw inheritance-disable!
+                 |     +--rw update
+                 |     |  +--rw in
+                 |     |     +--rw filtering!
+                 |     |     |  +--rw message
+                 |     |     |  |  +--rw buffers!
+                 |     |     |  |     +--rw number-of-buffers    uint32
+                 |     |     |  |     +--rw non-circular!
+                 |     |     |  +--rw logging
+                 |     |     |  |  +--rw disable!
+                 |     |     |  +--rw attribute-filter
+                 |     |     |     +--rw group?   string
+                 |     |     +--rw merge
+                 |     |        +--rw safi
+                 |     |           +--rw unicast
+                 |     |              +--rw labeled-unicast!
+                 |     |                 +--rw inheritance-disable!
+                 |     +--rw graceful-maintenance!
+                 |     |  +--rw local-preference!
+                 |     |  |  +--rw local-preference-value?   uint32
+                 |     |  |  +--rw inheritance-disable!
+                 |     |  +--rw as-prepends!
+                 |     |  |  +--rw number-of-as-prepends?   uint32
+                 |     |  |  +--rw inheritance-disable!
+                 |     |  +--rw activate!
+                 |     |     +--rw inheritance-disable!
+                 |     +--rw remote-as?                    xr:Bgp-as-number
+                 |     +--rw remote-as-list?               string
+                 |     +--rw use
+                 |     |  +--rw session-group?    string
+                 |     |  +--rw neighbor-group?   string
+                 |     +--rw advertisement-interval!
+                 |     |  +--rw time-in-seconds         uint32
+                 |     |  +--rw time-in-milliseconds?   uint32
+                 |     +--rw description?                  string
+                 |     +--rw ignore-connected-check!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw internal-vpn-client!
+                 |     +--rw ebgp-multihop!
+                 |     |  +--rw maximum-hop-count    uint32
+                 |     |  +--rw mpls!
+                 |     +--rw tcp
+                 |     |  +--rw mss!
+                 |     |     +--rw initial-mss?           uint32
+                 |     |     +--rw inheritance-disable!
+                 |     +--rw bmp-activate
+                 |     |  +--rw servers
+                 |     |     +--rw server* [server-id]
+                 |     |        +--rw server-id    uint32
+                 |     +--rw bfd
+                 |     |  +--rw fast-detect!
+                 |     |  |  +--rw strict-mode!
+                 |     |  |  +--rw disable!
+                 |     |  +--rw minimum-interval?   uint32
+                 |     |  +--rw multiplier?         uint32
+                 |     +--rw keychain!
+                 |     |  +--rw name?                  string
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw local-as!
+                 |     |  +--rw as-number?             xr:Bgp-as-number
+                 |     |  +--rw no-prepend!
+                 |     |  |  +--rw replace-as!
+                 |     |  |     +--rw dual-as!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw password!
+                 |     |  +--rw encrypted?             xr:Proprietary-password
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw receive-buffer-size!
+                 |     |  +--rw receive-socket-buffer-size    uint32
+                 |     |  +--rw bgp-read-buffer-size?         uint32
+                 |     +--rw send-buffer-size!
+                 |     |  +--rw send-socket-buffer-size    uint32
+                 |     |  +--rw bgp-write-buffer-size?     uint32
+                 |     +--rw shutdown!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw timers!
+                 |     |  +--rw keepalive-interval             uint32
+                 |     |  +--rw holdtime                       union
+                 |     |  +--rw minimum-acceptable-holdtime?   union
+                 |     +--rw local
+                 |     |  +--rw address!
+                 |     |     +--rw ip-address?            inet:ip-address-no-zone
+                 |     |     +--rw inheritance-disable!
+                 |     +--rw log
+                 |     |  +--rw message
+                 |     |     +--rw in
+                 |     |     |  +--rw message-log-buffer-size?   uint32
+                 |     |     |  +--rw disable!
+                 |     |     |  +--rw inheritance-diable!
+                 |     |     +--rw out
+                 |     |        +--rw range-for-message-log-buffer?   uint32
+                 |     |        +--rw disable!
+                 |     |        +--rw inheritance-diable!
+                 |     +--rw update-source?                xr:Interface-name
+                 |     +--rw local-address-subnet
+                 |     |  +--rw ip-address?    inet:ip-address-no-zone
+                 |     |  +--rw mask-length?   uint32
+                 |     +--rw dmz-link-bandwidth!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw ebgp-recv-extcommunity-dmz!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw ebgp-send-extcommunity-dmz!
+                 |     |  +--rw cumulative!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw evpn-link-bandwidth!
+                 |     |  +--rw per-path?              uint32
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw ttl-security!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw session-open-mode
+                 |     |  +--rw active-only!
+                 |     |  +--rw passive-only!
+                 |     |  +--rw both!
+                 |     +--rw dscp?                         enumeration
+                 |     +--rw precedence?                   enumeration
+                 |     +--rw capability
+                 |     |  +--rw suppress
+                 |     |  |  +--rw four-byte-as!
+                 |     |  |  |  +--rw inheritance-disable!
+                 |     |  |  +--rw all!
+                 |     |  |  |  +--rw inheritance-disable!
+                 |     |  |  +--rw extended-nexthop-encoding!
+                 |     |  |     +--rw inheritance-disable!
+                 |     |  +--rw additional-paths
+                 |     |     +--rw send!
+                 |     |     |  +--rw disable!
+                 |     |     +--rw receive!
+                 |     |        +--rw disable!
+                 |     +--rw graceful-restart!
+                 |     |  +--rw disable!
+                 |     |  +--rw restart-time?     uint32
+                 |     |  +--rw stalepath-time?   uint32
+                 |     +--rw enforce-first-as!
+                 |     |  +--rw disable!
+                 |     +--rw maximum-peers?                uint32
+                 |     +--rw idle-watch-time?              uint32
+                 |     +--rw egress-engineering!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw peer-sets
+                 |     |  +--rw peer-set* [peer-set-id]
+                 |     |     +--rw peer-set-id    uint32
+                 |     +--rw peer-node-sid
+                 |     |  +--rw index?   uint32
+                 |     +--rw ao
+                 |     |  +--rw key-chain-name?        string
+                 |     |  +--rw include-tcp-options
+                 |     |  |  +--rw enable!
+                 |     |  |  +--rw disable!
+                 |     |  |  +--rw accept-ao-mismatch-connection!
+                 |     |  +--rw inheritance-disable!
+                 |     +--rw origin-as
+                 |     |  +--rw validation
+                 |     |     +--rw disable!
+                 |     +--rw bestpath
+                 |        +--rw origin-as
+                 |           +--rw allow
+                 |              +--rw invalid!
+                 +--rw mpls
+                 |  +--rw activate
+                 |     +--rw interfaces
+                 |        +--rw interface* [interface-name]
+                 |           +--rw interface-name    xr:Interface-name
+                 +--rw default-information
+                 |  +--rw originate!
+                 +--rw default-metric?             uint32
+                 +--rw socket
+                 |  +--rw send-buffer-size?        uint32
+                 |  +--rw bgp-write-buffer-size?   uint32
+                 |  +--rw receive-buffer-size?     uint32
+                 |  +--rw bgp-read-buffer-size?    uint32
+                 +--rw nexthop
+                 |  +--rw mpls
+                 |  |  +--rw forwarding
+                 |  |     +--rw ibgp!
+                 |  +--rw resolution
+                 |     +--rw allow-default!
+                 +--rw timers
+                 |  +--rw bgp!
+                 |     +--rw keepalive-interval             uint32
+                 |     +--rw holdtime                       union
+                 |     +--rw minimum-acceptable-holdtime?   union
+                 +--rw optimal-route-reflection
+                 |  +--rw ipv4
+                 |  |  +--rw orr-group* [orr-group-name]
+                 |  |     +--rw orr-group-name       string
+                 |  |     +--rw primary-address      inet:ipv4-address-no-zone
+                 |  |     +--rw secondary-address?   inet:ipv4-address-no-zone
+                 |  |     +--rw tertiary-address?    inet:ipv4-address-no-zone
+                 |  |     +--rw flex-algo?           uint32
+                 |  +--rw ipv6
+                 |     +--rw orr-group* [orr-group-name]
+                 |        +--rw orr-group-name       string
+                 |        +--rw primary-address      inet:ipv6-address-no-zone
+                 |        +--rw secondary-address?   inet:ipv6-address-no-zone
+                 |        +--rw tertiary-address?    inet:ipv6-address-no-zone
+                 +--rw bgp
+                 |  +--rw auto-policy-soft-reset
+                 |  |  +--rw disable!
+                 |  +--rw bestpath
+                 |  |  +--rw as-path
+                 |  |  |  +--rw ignore!
+                 |  |  |  +--rw multipath-relax!
+                 |  |  +--rw cost-community
+                 |  |  |  +--rw ignore!
+                 |  |  +--rw compare-routerid!
+                 |  |  +--rw aigp
+                 |  |  |  +--rw ignore!
+                 |  |  +--rw igp-metric
+                 |  |  |  +--rw ignore!
+                 |  |  +--rw med
+                 |  |  |  +--rw always!
+                 |  |  |  +--rw missing-as-worst!
+                 |  |  +--rw origin-as
+                 |  |  |  +--rw use
+                 |  |  |  |  +--rw validity!
+                 |  |  |  +--rw allow
+                 |  |  |     +--rw invalid!
+                 |  |  +--rw sr-policy
+                 |  |     +--rw prefer!
+                 |  |     +--rw force!
+                 |  +--rw default
+                 |  |  +--rw local-preference?   uint32
+                 |  +--rw enforce-first-as
+                 |  |  +--rw disable!
+                 |  +--rw fast-external-fallover
+                 |  |  +--rw disable!
+                 |  +--rw log
+                 |  |  +--rw neighbor
+                 |  |  |  +--rw changes
+                 |  |  |     +--rw disable!
+                 |  |  +--rw message
+                 |  |     +--rw disable!
+                 |  +--rw multipath
+                 |  |  +--rw as-path
+                 |  |     +--rw ignore
+                 |  |        +--rw exact-match!
+                 |  |        +--rw onwards!
+                 |  +--rw redistribute-internal!
+                 |  +--rw router-id?                inet:ipv4-address-no-zone
+                 |  +--rw unsafe-ebgp-policy!
+                 |  +--rw origin-as
+                 |     +--rw validation
+                 |        +--rw signal
+                 |        |  +--rw ibgp!
+                 |        +--rw disable!
+                 +--rw bfd
+                 |  +--rw minimum-interval?   uint32
+                 |  +--rw multiplier?         uint32
+                 +--rw rd!
+                    +--rw auto!
+                    +--rw two-byte-as!
+                    |  +--rw as-number    xr:Bgp-as-number
+                    |  +--rw index        uint32
+                    +--rw four-byte-as!
+                    |  +--rw as-number    xr:Bgp-as-number
+                    |  +--rw index        uint32
+                    +--rw ip-address!
+                       +--rw ipv4-address    inet:ipv4-address-no-zone
+                       +--rw index           uint32
+
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:unicast:
+    +--rw import
+    |  +--rw route-policy?   xr:Route-policy-name
+    |  +--rw from
+    |  |  +--rw default-vrf
+    |  |  |  +--rw route-policy?       xr:Route-policy-name
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  +--rw vrf!
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  |  +--rw allow
+    |  |  |     +--rw backup!
+    |  |  |     +--rw best-external!
+    |  |  +--rw bridge-domain
+    |  |     +--rw advertise-as-vpn!
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |     |  +--rw two-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw four-byte-as-rts
+    |     |  +--rw four-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw ip-addresse-rts
+    |        +--rw ip-address-rt* [ip-address index stitching]
+    |           +--rw ip-address    inet:ipv4-address-no-zone
+    |           +--rw index         uint32
+    |           +--rw stitching     boolean
+    +--rw export
+       +--rw route-policy?   xr:Route-policy-name
+       +--rw to
+       |  +--rw default-vrf
+       |  |  +--rw route-policy?         xr:Route-policy-name
+       |  |  +--rw allow-imported-vpn!
+       |  +--rw vrf!
+       |     +--rw allow-imported-vpn!
+       |     |  +--rw disable-adv-source-vrf-vni!
+       |     +--rw allow
+       |        +--rw backup!
+       |        +--rw best-external!
+       +--rw route-target
+          +--rw two-byte-as-rts
+          |  +--rw two-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw four-byte-as-rts
+          |  +--rw four-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw ip-addresse-rts
+             +--rw ip-address-rt* [ip-address index stitching]
+                +--rw ip-address    inet:ipv4-address-no-zone
+                +--rw index         uint32
+                +--rw stitching     boolean
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:multicast:
+    +--rw import
+    |  +--rw route-policy?   xr:Route-policy-name
+    |  +--rw from
+    |  |  +--rw default-vrf
+    |  |  |  +--rw route-policy?       xr:Route-policy-name
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  +--rw vrf!
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  |  +--rw allow
+    |  |  |     +--rw backup!
+    |  |  |     +--rw best-external!
+    |  |  +--rw bridge-domain
+    |  |     +--rw advertise-as-vpn!
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |     |  +--rw two-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw four-byte-as-rts
+    |     |  +--rw four-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw ip-addresse-rts
+    |        +--rw ip-address-rt* [ip-address index stitching]
+    |           +--rw ip-address    inet:ipv4-address-no-zone
+    |           +--rw index         uint32
+    |           +--rw stitching     boolean
+    +--rw export
+       +--rw route-policy?   xr:Route-policy-name
+       +--rw to
+       |  +--rw default-vrf
+       |  |  +--rw route-policy?         xr:Route-policy-name
+       |  |  +--rw allow-imported-vpn!
+       |  +--rw vrf!
+       |     +--rw allow-imported-vpn!
+       |     |  +--rw disable-adv-source-vrf-vni!
+       |     +--rw allow
+       |        +--rw backup!
+       |        +--rw best-external!
+       +--rw route-target
+          +--rw two-byte-as-rts
+          |  +--rw two-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw four-byte-as-rts
+          |  +--rw four-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw ip-addresse-rts
+             +--rw ip-address-rt* [ip-address index stitching]
+                +--rw ip-address    inet:ipv4-address-no-zone
+                +--rw index         uint32
+                +--rw stitching     boolean
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:flowspec:
+    +--rw import
+    |  +--rw route-policy?   xr:Route-policy-name
+    |  +--rw from
+    |  |  +--rw default-vrf
+    |  |  |  +--rw route-policy?       xr:Route-policy-name
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  +--rw vrf!
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  |  +--rw allow
+    |  |  |     +--rw backup!
+    |  |  |     +--rw best-external!
+    |  |  +--rw bridge-domain
+    |  |     +--rw advertise-as-vpn!
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |     |  +--rw two-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw four-byte-as-rts
+    |     |  +--rw four-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw ip-addresse-rts
+    |        +--rw ip-address-rt* [ip-address index stitching]
+    |           +--rw ip-address    inet:ipv4-address-no-zone
+    |           +--rw index         uint32
+    |           +--rw stitching     boolean
+    +--rw export
+       +--rw route-policy?   xr:Route-policy-name
+       +--rw to
+       |  +--rw default-vrf
+       |  |  +--rw route-policy?         xr:Route-policy-name
+       |  |  +--rw allow-imported-vpn!
+       |  +--rw vrf!
+       |     +--rw allow-imported-vpn!
+       |     |  +--rw disable-adv-source-vrf-vni!
+       |     +--rw allow
+       |        +--rw backup!
+       |        +--rw best-external!
+       +--rw route-target
+          +--rw two-byte-as-rts
+          |  +--rw two-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw four-byte-as-rts
+          |  +--rw four-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw ip-addresse-rts
+             +--rw ip-address-rt* [ip-address index stitching]
+                +--rw ip-address    inet:ipv4-address-no-zone
+                +--rw index         uint32
+                +--rw stitching     boolean
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:unicast:
+    +--rw import
+    |  +--rw route-policy?   xr:Route-policy-name
+    |  +--rw from
+    |  |  +--rw default-vrf
+    |  |  |  +--rw route-policy?       xr:Route-policy-name
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  +--rw vrf!
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  |  +--rw allow
+    |  |  |     +--rw backup!
+    |  |  |     +--rw best-external!
+    |  |  +--rw bridge-domain
+    |  |     +--rw advertise-as-vpn!
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |     |  +--rw two-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw four-byte-as-rts
+    |     |  +--rw four-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw ip-addresse-rts
+    |        +--rw ip-address-rt* [ip-address index stitching]
+    |           +--rw ip-address    inet:ipv4-address-no-zone
+    |           +--rw index         uint32
+    |           +--rw stitching     boolean
+    +--rw export
+       +--rw route-policy?   xr:Route-policy-name
+       +--rw to
+       |  +--rw default-vrf
+       |  |  +--rw route-policy?         xr:Route-policy-name
+       |  |  +--rw allow-imported-vpn!
+       |  +--rw vrf!
+       |     +--rw allow-imported-vpn!
+       |     |  +--rw disable-adv-source-vrf-vni!
+       |     +--rw allow
+       |        +--rw backup!
+       |        +--rw best-external!
+       +--rw route-target
+          +--rw two-byte-as-rts
+          |  +--rw two-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw four-byte-as-rts
+          |  +--rw four-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw ip-addresse-rts
+             +--rw ip-address-rt* [ip-address index stitching]
+                +--rw ip-address    inet:ipv4-address-no-zone
+                +--rw index         uint32
+                +--rw stitching     boolean
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:multicast:
+    +--rw import
+    |  +--rw route-policy?   xr:Route-policy-name
+    |  +--rw from
+    |  |  +--rw default-vrf
+    |  |  |  +--rw route-policy?       xr:Route-policy-name
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  +--rw vrf!
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  |  +--rw allow
+    |  |  |     +--rw backup!
+    |  |  |     +--rw best-external!
+    |  |  +--rw bridge-domain
+    |  |     +--rw advertise-as-vpn!
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |     |  +--rw two-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw four-byte-as-rts
+    |     |  +--rw four-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw ip-addresse-rts
+    |        +--rw ip-address-rt* [ip-address index stitching]
+    |           +--rw ip-address    inet:ipv4-address-no-zone
+    |           +--rw index         uint32
+    |           +--rw stitching     boolean
+    +--rw export
+       +--rw route-policy?   xr:Route-policy-name
+       +--rw to
+       |  +--rw default-vrf
+       |  |  +--rw route-policy?         xr:Route-policy-name
+       |  |  +--rw allow-imported-vpn!
+       |  +--rw vrf!
+       |     +--rw allow-imported-vpn!
+       |     |  +--rw disable-adv-source-vrf-vni!
+       |     +--rw allow
+       |        +--rw backup!
+       |        +--rw best-external!
+       +--rw route-target
+          +--rw two-byte-as-rts
+          |  +--rw two-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw four-byte-as-rts
+          |  +--rw four-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw ip-addresse-rts
+             +--rw ip-address-rt* [ip-address index stitching]
+                +--rw ip-address    inet:ipv4-address-no-zone
+                +--rw index         uint32
+                +--rw stitching     boolean
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:flowspec:
+    +--rw import
+    |  +--rw route-policy?   xr:Route-policy-name
+    |  +--rw from
+    |  |  +--rw default-vrf
+    |  |  |  +--rw route-policy?       xr:Route-policy-name
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  +--rw vrf!
+    |  |  |  +--rw advertise-as-vpn!
+    |  |  |  +--rw allow
+    |  |  |     +--rw backup!
+    |  |  |     +--rw best-external!
+    |  |  +--rw bridge-domain
+    |  |     +--rw advertise-as-vpn!
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |     |  +--rw two-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw four-byte-as-rts
+    |     |  +--rw four-byte-as-rt* [as-number index stitching]
+    |     |     +--rw as-number    uint32
+    |     |     +--rw index        uint32
+    |     |     +--rw stitching    boolean
+    |     +--rw ip-addresse-rts
+    |        +--rw ip-address-rt* [ip-address index stitching]
+    |           +--rw ip-address    inet:ipv4-address-no-zone
+    |           +--rw index         uint32
+    |           +--rw stitching     boolean
+    +--rw export
+       +--rw route-policy?   xr:Route-policy-name
+       +--rw to
+       |  +--rw default-vrf
+       |  |  +--rw route-policy?         xr:Route-policy-name
+       |  |  +--rw allow-imported-vpn!
+       |  +--rw vrf!
+       |     +--rw allow-imported-vpn!
+       |     |  +--rw disable-adv-source-vrf-vni!
+       |     +--rw allow
+       |        +--rw backup!
+       |        +--rw best-external!
+       +--rw route-target
+          +--rw two-byte-as-rts
+          |  +--rw two-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw four-byte-as-rts
+          |  +--rw four-byte-as-rt* [as-number index stitching]
+          |     +--rw as-number    uint32
+          |     +--rw index        uint32
+          |     +--rw stitching    boolean
+          +--rw ip-addresse-rts
+             +--rw ip-address-rt* [ip-address index stitching]
+                +--rw ip-address    inet:ipv4-address-no-zone
+                +--rw index         uint32
+                +--rw stitching     boolean
+  augment /a2:vrfs/a2:vrf:
+    +--rw rd
+       +--rw two-byte-as!
+       |  +--rw as-number    xr:Bgp-as-number
+       |  +--rw index        uint32
+       +--rw four-byte-as!
+       |  +--rw as-number    xr:Bgp-as-number
+       |  +--rw index        uint32
+       +--rw ip-address!
+          +--rw ipv4-address    inet:ipv4-address-no-zone
+          +--rw index           uint32

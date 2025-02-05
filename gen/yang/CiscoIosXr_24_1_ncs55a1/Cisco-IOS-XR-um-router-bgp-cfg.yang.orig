@@ -18613,6 +18613,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
     container bgp {
       description
         "BGP configuration subcommands";
+      /* XXX
       container instances {
         description
           "Specify a instance name";
@@ -18644,6 +18645,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           }
         }
       }
+      */
       list as {
         key "as-number";
         description

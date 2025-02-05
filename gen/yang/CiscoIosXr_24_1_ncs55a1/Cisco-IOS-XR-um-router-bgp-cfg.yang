@@ -14895,31 +14895,6 @@ BGP update messages will be regenerated with a table walk
     description "Enable a routing process";
     container bgp {
       description "BGP configuration subcommands";
-      container instances {
-        description "Specify a instance name";
-        list instance {
-          must "as";
-          key instance-name;
-          description "Specify a instance name";
-          leaf instance-name {
-            type "xr:Cisco-ios-xr-string" {
-              length "1..32" {
-                description "instance name (maximum length 32 characters)";
-              }
-            }
-            description "Specify a instance name";
-          }
-          list as {
-            key as-number;
-            description "bgp as-number";
-            leaf as-number {
-              type "xr:Bgp-as-number";
-              description "bgp as-number";
-            }
-            uses AS-COMMON;
-          }
-        }
-      }
       list as {
         key as-number;
         description "bgp as-number";
