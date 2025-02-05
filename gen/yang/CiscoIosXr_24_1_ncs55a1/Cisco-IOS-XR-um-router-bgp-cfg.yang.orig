@@ -13749,6 +13749,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        /* XXX
         container neighbors {
           description
             "Specify a neighbor router";
@@ -18120,6 +18121,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
+        */
       }
     }
   }
