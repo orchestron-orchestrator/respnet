@@ -1905,28 +1905,8 @@ not ect while activated.";
 configuration";
     uses VRF-COMMON;
   }
-  augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:multicast" {
-    description "This augment extends vrf ipv4 multicast nodes
-configuration";
-    uses VRF-COMMON;
-  }
-  augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:flowspec" {
-    description "This augment extends vrf ipv4 flowspec nodes
-configuration";
-    uses VRF-COMMON;
-  }
   augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:unicast" {
     description "This augment extends vrf ipv6 unicast nodes
-configuration";
-    uses VRF-COMMON;
-  }
-  augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:multicast" {
-    description "This augment extends vrf ipv6 multicast nodes
-configuration";
-    uses VRF-COMMON;
-  }
-  augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:flowspec" {
-    description "This augment extends vrf ipv6 flowspec nodes
 configuration";
     uses VRF-COMMON;
   }

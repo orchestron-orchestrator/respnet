@@ -18185,6 +18185,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
        configuration";
     uses VRF-COMMON;
   }
+  /* XXX
   augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:multicast" {
     description
       "This augment extends vrf ipv4 multicast nodes
@@ -18197,12 +18198,14 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
        configuration";
     uses VRF-COMMON;
   }
+  */
   augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:unicast" {
     description
       "This augment extends vrf ipv6 unicast nodes
        configuration";
     uses VRF-COMMON;
   }
+  /* XXX
   augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:multicast" {
     description
       "This augment extends vrf ipv6 multicast nodes
@@ -18215,6 +18218,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
        configuration";
     uses VRF-COMMON;
   }
+  */
   augment "/a2:vrfs/a2:vrf" {
     description
       "This augment extends vrf nodes
