@@ -2951,6 +2951,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Neighbor address";
         }
+        /* XXX
         container address-families {
           description
             "Enter Address Family command mode";
@@ -2963,7 +2964,6 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               description
                 "Enter Address Family command mode";
             }
-            /* XXX
             container use {
               description
                 "Inherit configuration for this address-family from a group";
@@ -3909,7 +3909,6 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                 }
               }
             }
-            */
           }
         }
         container update {
@@ -4161,6 +4160,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Remote as-list configuration";
         }
+        */
         container use {
           description
             "Inherit configuration from a group";
@@ -4185,6 +4185,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               "Inherit configuration from a neighbor-group";
           }
         }
+        /* XXX
         container advertisement-interval {
           presence "Indicates a advertisement-interval node is configured.";
           description
@@ -4211,6 +4212,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               "time in milliseconds";
           }
         }
+        */
         leaf description {
           type string {
             length "1..1024" {
@@ -4221,6 +4223,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Neighbor specific description";
         }
+        /* XXX
         container ignore-connected-check {
           presence "Indicates a ignore-connected-check node is configured.";
           description
@@ -5154,6 +5157,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Restart timer interval";
         }
+        */
       }
       /* XXX
       list neighbor-range {
