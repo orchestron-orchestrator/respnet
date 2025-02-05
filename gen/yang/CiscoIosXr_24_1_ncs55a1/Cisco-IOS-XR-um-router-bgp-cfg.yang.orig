@@ -5151,6 +5151,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             "Restart timer interval";
         }
       }
+      /* XXX
       list neighbor-range {
         key "neighbor-address prefix-length";
         description
@@ -7198,6 +7199,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           }
         }
       }
+      */
     }
     container af-groups {
       description
