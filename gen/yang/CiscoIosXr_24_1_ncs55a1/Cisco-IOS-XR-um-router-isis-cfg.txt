@@ -1,0 +1,1373 @@
+module: Cisco-IOS-XR-um-router-isis-cfg
+  +--rw router
+     +--rw isis
+        +--rw processes
+           +--rw process* [process-id]
+              +--rw process-id                    string
+              +--rw nsr!
+              +--rw nsr-restart-time?             uint32
+              +--rw ignore-lsp-errors
+              |  +--rw disable!
+              +--rw instance-id?                  uint32
+              +--rw is-type?                      enumeration
+              +--rw log
+              |  +--rw adjacency
+              |  |  +--rw changes!
+              |  +--rw pdu
+              |  |  +--rw drops!
+              |  +--rw format
+              |     +--rw brief!
+              +--rw lsp-password!
+              |  +--rw text!
+              |  |  +--rw encrypted    xr:Proprietary-password
+              |  +--rw hmac-md5!
+              |  |  +--rw encrypted    xr:Proprietary-password
+              |  +--rw keychain!
+              |  |  +--rw keychain-name    string
+              |  +--rw send-only!
+              |  +--rw snp
+              |  |  +--rw send-only!
+              |  +--rw enable-poi!
+              +--rw lsp-password-levels
+              |  +--rw level* [level-id]
+              |  |  +--rw level-id      uint32
+              |  |  +--rw text!
+              |  |  |  +--rw encrypted    xr:Proprietary-password
+              |  |  +--rw hmac-md5!
+              |  |  |  +--rw encrypted    xr:Proprietary-password
+              |  |  +--rw keychain!
+              |  |  |  +--rw keychain-name    string
+              |  |  +--rw send-only!
+              |  |  +--rw snp
+              |  |  |  +--rw send-only!
+              |  |  +--rw enable-poi!
+              |  +--rw accept
+              |     +--rw encrypted?   xr:Proprietary-password
+              |     +--rw levels
+              |        +--rw level* [level-id]
+              |           +--rw level-id     uint32
+              |           +--rw encrypted    xr:Proprietary-password
+              +--rw authentication-check
+              |  +--rw disable!
+              +--rw vrf-context?                  xr:Cisco-ios-xr-string
+              +--rw hostname
+              |  +--rw dynamic
+              |     +--rw disable!
+              +--rw lsp-fast-flood!
+              +--rw lsp-check-interval
+              |  +--rw lsp-check-interval-time?   uint32
+              |  +--rw levels
+              |     +--rw level* [level-id]
+              |        +--rw level-id                   uint32
+              |        +--rw lsp-check-interval-time    uint32
+              +--rw lsp-gen-interval!
+              |  +--rw maximum-wait?     uint32
+              |  +--rw initial-wait?     uint32
+              |  +--rw secondary-wait?   uint32
+              +--rw lsp-gen-interval-levels
+              |  +--rw level* [level-id]
+              |     +--rw level-id          uint32
+              |     +--rw maximum-wait?     uint32
+              |     +--rw initial-wait?     uint32
+              |     +--rw secondary-wait?   uint32
+              +--rw max-lsp-lifetime
+              |  +--rw max-lsp-lifetime?   uint32
+              |  +--rw levels
+              |     +--rw level* [level-id]
+              |        +--rw level-id            uint32
+              |        +--rw max-lsp-lifetime    uint32
+              +--rw min-lsp-arrivaltime!
+              |  +--rw maximum-wait?     uint32
+              |  +--rw initial-wait?     uint32
+              |  +--rw secondary-wait?   uint32
+              +--rw min-lsp-arrivaltime-levels
+              |  +--rw level* [level-id]
+              |     +--rw level-id          uint32
+              |     +--rw maximum-wait?     uint32
+              |     +--rw initial-wait?     uint32
+              |     +--rw secondary-wait?   uint32
+              +--rw lsp-mtu
+              |  +--rw lsp-mtu-size?   uint32
+              |  +--rw levels
+              |     +--rw level* [level-id]
+              |        +--rw level-id        uint32
+              |        +--rw lsp-mtu-size    uint32
+              +--rw lsp-refresh-interval
+              |  +--rw lsp-refresh-interval-time?   uint32
+              |  +--rw levels
+              |     +--rw level* [level-id]
+              |        +--rw level-id                     uint32
+              |        +--rw lsp-refresh-interval-time    uint32
+              +--rw max-metric!
+              |  +--rw on-startup
+              |     +--rw advertise-maximum-metric!
+              |     |  +--rw time-to-advertise    uint32
+              |     +--rw wait-for-bgp!
+              |     +--rw external!
+              |     +--rw interlevel!
+              |     +--rw default-route!
+              |     +--rw srv6-locator!
+              |     +--rw te!
+              |     +--rw delay!
+              +--rw max-metric-levels
+              |  +--rw level* [level-id]
+              |     +--rw level-id                    uint32
+              |     +--rw advertise-maximum-metric!
+              |     |  +--rw time-to-advertise    uint32
+              |     +--rw wait-for-bgp!
+              |     +--rw external!
+              |     +--rw interlevel!
+              |     +--rw default-route!
+              |     +--rw srv6-locator!
+              |     +--rw te!
+              |     +--rw delay!
+              +--rw set-overload-bit!
+              |  +--rw on-startup
+              |  |  +--rw advertise-as-overloaded!
+              |  |  |  +--rw time-to-advertise    uint32
+              |  |  +--rw wait-for-bgp!
+              |  +--rw advertise
+              |     +--rw external!
+              |     +--rw interlevel!
+              +--rw set-overload-bit-levels
+              |  +--rw level* [level-id]
+              |     +--rw level-id      uint32
+              |     +--rw on-startup
+              |     |  +--rw advertise-as-overloaded!
+              |     |  |  +--rw time-to-advertise    uint32
+              |     |  +--rw wait-for-bgp!
+              |     +--rw advertise
+              |        +--rw external!
+              |        +--rw interlevel!
+              +--rw nets
+              |  +--rw net* [net-id]
+              |     +--rw net-id    string
+              +--rw link-groups
+              |  +--rw link-group* [link-group-name]
+              |     +--rw link-group-name    string
+              |     +--rw minimum-members?   uint32
+              |     +--rw revert-members?    uint32
+              |     +--rw metric-offset
+              |        +--rw maximum!
+              |        +--rw default-metric-offset?   uint32
+              +--rw nsf
+              |  +--rw lifetime?            uint32
+              |  +--rw interface-timer?     uint32
+              |  +--rw interface-expires?   uint32
+              |  +--rw cisco!
+              |  +--rw ietf!
+              +--rw hello-padding!
+              |  +--rw disable!
+              |  +--rw sometimes!
+              +--rw trace
+              |  +--rw mode?       enumeration
+              |  +--rw detailed?   uint32
+              |  +--rw standard?   uint32
+              |  +--rw severe?     uint32
+              |  +--rw hello?      uint32
+              |  +--rw startup?    uint32
+              |  +--rw config?     uint32
+              |  +--rw lspgen?     uint32
+              |  +--rw adj?        uint32
+              |  +--rw spf?        uint32
+              |  +--rw sr?         uint32
+              |  +--rw rib?        uint32
+              |  +--rw te?         uint32
+              |  +--rw update?     uint32
+              |  +--rw pkt?        uint32
+              +--rw triggers?                     string
+              +--rw address-families
+              |  +--rw address-family* [af-name saf-name]
+              |  |  +--rw af-name                           Isis-af-name
+              |  |  +--rw saf-name                          Isis-saf-name
+              |  |  +--rw prefix-unreachable!
+              |  |  |  +--rw adv-maximum?         uint32
+              |  |  |  +--rw adv-lifetime?        uint32
+              |  |  |  +--rw adv-metric?          uint32
+              |  |  |  +--rw rx-process-enable!
+              |  |  +--rw partition-detect!
+              |  |  |  +--rw abr-track-items
+              |  |  |  |  +--rw track* [address]
+              |  |  |  |     +--rw address    string
+              |  |  |  +--rw asbr-track-items
+              |  |  |     +--rw track* [address]
+              |  |  |        +--rw address             string
+              |  |  |        +--rw external-address    string
+              |  |  +--rw default-information
+              |  |  |  +--rw originate!
+              |  |  |     +--rw external!
+              |  |  |     +--rw route-policy?   xr:Route-policy-name
+              |  |  +--rw segment-routing
+              |  |  |  +--rw mpls
+              |  |  |  |  +--rw sr-prefer?                  boolean
+              |  |  |  |  +--rw unlabeled
+              |  |  |  |  |  +--rw protection
+              |  |  |  |  |     +--rw prefix-list?    xr:Cisco-ios-xr-string
+              |  |  |  |  |     +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  |     +--rw disable!
+              |  |  |  |  +--rw connected-prefix-sid-map!
+              |  |  |  |     +--rw prefixes
+              |  |  |  |     |  +--rw prefix* [address-prefix]
+              |  |  |  |     |     +--rw address-prefix    inet:ip-prefix
+              |  |  |  |     |     +--rw index!
+              |  |  |  |     |     |  +--rw index-id    uint32
+              |  |  |  |     |     +--rw absolute!
+              |  |  |  |     |     |  +--rw absolute-value    uint32
+              |  |  |  |     |     +--rw interface?        xr:Interface-name
+              |  |  |  |     |     +--rw php-disable!
+              |  |  |  |     |     +--rw explicit-null!
+              |  |  |  |     +--rw flex-algo
+              |  |  |  |     |  +--rw prefix* [address-prefix flex-algo]
+              |  |  |  |     |     +--rw address-prefix    inet:ip-prefix
+              |  |  |  |     |     +--rw flex-algo         uint32
+              |  |  |  |     |     +--rw index!
+              |  |  |  |     |     |  +--rw index-id    uint32
+              |  |  |  |     |     +--rw absolute!
+              |  |  |  |     |     |  +--rw absolute-value    uint32
+              |  |  |  |     |     +--rw interface?        xr:Interface-name
+              |  |  |  |     |     +--rw php-disable!
+              |  |  |  |     |     +--rw explicit-null!
+              |  |  |  |     +--rw strict-spf
+              |  |  |  |        +--rw prefix* [address-prefix]
+              |  |  |  |           +--rw address-prefix    inet:ip-prefix
+              |  |  |  |           +--rw index!
+              |  |  |  |           |  +--rw index-id    uint32
+              |  |  |  |           +--rw absolute!
+              |  |  |  |           |  +--rw absolute-value    uint32
+              |  |  |  |           +--rw interface?        xr:Interface-name
+              |  |  |  |           +--rw php-disable!
+              |  |  |  |           +--rw explicit-null!
+              |  |  |  +--rw prefix-sid-map
+              |  |  |  |  +--rw receive!
+              |  |  |  |  |  +--rw disable!
+              |  |  |  |  +--rw advertise-local!
+              |  |  |  |     +--rw domain-wide!
+              |  |  |  +--rw bundle-member-adj-sid!
+              |  |  |  +--rw labeled-only!
+              |  |  |  +--rw protected-adjacency-sid-delay?   uint32
+              |  |  |  +--rw srv6!
+              |  |  |     +--rw locators
+              |  |  |        +--rw locator* [locator-name]
+              |  |  |           +--rw locator-name    xr:Cisco-ios-xr-string
+              |  |  |           +--rw level?          uint32
+              |  |  |           +--rw metric
+              |  |  |           |  +--rw srv6-locator-metric?   uint32
+              |  |  |           |  +--rw levels
+              |  |  |           |     +--rw level* [level-id]
+              |  |  |           |        +--rw level-id               uint32
+              |  |  |           |        +--rw srv6-locator-metric?   uint32
+              |  |  |           +--rw tag
+              |  |  |              +--rw srv6-locator-tag?   uint32
+              |  |  |              +--rw levels
+              |  |  |                 +--rw level* [level-id]
+              |  |  |                    +--rw level-id            uint32
+              |  |  |                    +--rw srv6-locator-tag?   uint32
+              |  |  +--rw distance
+              |  |  |  +--rw global-administrative-distance?   uint32
+              |  |  |  +--rw route-sources
+              |  |  |     +--rw route-source* [address-prefix]
+              |  |  |        +--rw address-prefix             inet:ip-prefix
+              |  |  |        +--rw administrative-distance?   uint32
+              |  |  |        +--rw prefix-access-list?        string
+              |  |  +--rw distribute-list
+              |  |  |  +--rw prefix-list?    xr:Cisco-ios-xr-string
+              |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  +--rw redistribute
+              |  |  |  +--rw connected!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw ospf* [process-id]
+              |  |  |  |  +--rw process-id      string
+              |  |  |  |  +--rw match
+              |  |  |  |  |  +--rw internal!
+              |  |  |  |  |  +--rw external!
+              |  |  |  |  |  +--rw nssa-external!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw ospfv3* [process-id]
+              |  |  |  |  +--rw process-id      string
+              |  |  |  |  +--rw match
+              |  |  |  |  |  +--rw internal!
+              |  |  |  |  |  +--rw external!
+              |  |  |  |  |  +--rw nssa-external!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw static!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw subscriber!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw rip!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw mobile!
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?         uint32
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?    enumeration
+              |  |  |  +--rw applications
+              |  |  |  |  +--rw application* [application-name]
+              |  |  |  |     +--rw application-name    string
+              |  |  |  |     +--rw level-1-2!
+              |  |  |  |     +--rw level-2!
+              |  |  |  |     +--rw level-1!
+              |  |  |  |     +--rw metric?             uint32
+              |  |  |  |     +--rw route-policy?       xr:Route-policy-name
+              |  |  |  |     +--rw metric-type?        enumeration
+              |  |  |  +--rw isis* [instance-id]
+              |  |  |  |  +--rw instance-id        string
+              |  |  |  |  +--rw level-1-2!
+              |  |  |  |  +--rw level-2!
+              |  |  |  |  +--rw level-1!
+              |  |  |  |  +--rw metric?            uint32
+              |  |  |  |  +--rw route-policy?      xr:Route-policy-name
+              |  |  |  |  +--rw metric-type?       enumeration
+              |  |  |  |  +--rw down-flag-clear!
+              |  |  |  +--rw bgp
+              |  |  |  |  +--rw as* [as-number]
+              |  |  |  |     +--rw as-number       xr:Bgp-as-number
+              |  |  |  |     +--rw level-1-2!
+              |  |  |  |     +--rw level-2!
+              |  |  |  |     +--rw level-1!
+              |  |  |  |     +--rw metric?         uint32
+              |  |  |  |     +--rw route-policy?   xr:Route-policy-name
+              |  |  |  |     +--rw metric-type?    enumeration
+              |  |  |  +--rw eigrp* [as-number]
+              |  |  |     +--rw as-number       uint32
+              |  |  |     +--rw match
+              |  |  |     |  +--rw internal!
+              |  |  |     |  +--rw external!
+              |  |  |     +--rw level-1-2!
+              |  |  |     +--rw level-2!
+              |  |  |     +--rw level-1!
+              |  |  |     +--rw metric?         uint32
+              |  |  |     +--rw route-policy?   xr:Route-policy-name
+              |  |  |     +--rw metric-type?    enumeration
+              |  |  +--rw maximum-paths?                    uint32
+              |  |  +--rw router-id
+              |  |  |  +--rw interface-name?   xr:Interface-name
+              |  |  |  +--rw ip-address?       string
+              |  |  +--rw advertise
+              |  |  |  +--rw passive-only!
+              |  |  |  +--rw link
+              |  |  |  |  +--rw attributes!
+              |  |  |  +--rw application
+              |  |  |     +--rw lfa
+              |  |  |     |  +--rw link-attributes
+              |  |  |     |     +--rw srlg!
+              |  |  |     +--rw flex-algo
+              |  |  |        +--rw link-attributes
+              |  |  |           +--rw srlg!
+              |  |  +--rw ucmp
+              |  |  |  +--rw variance!
+              |  |  |  |  +--rw variance-value    uint32
+              |  |  |  |  +--rw prefix-list?      xr:Cisco-ios-xr-string
+              |  |  |  +--rw exclude
+              |  |  |  |  +--rw interfaces
+              |  |  |  |     +--rw interface* [interface-name]
+              |  |  |  |        +--rw interface-name    xr:Interface-name
+              |  |  |  +--rw delay-interval?   uint32
+              |  |  +--rw microloop
+              |  |  |  +--rw avoidance
+              |  |  |  |  +--rw type?           enumeration
+              |  |  |  |  +--rw route-policy?   xr:Route-policy-name
+              |  |  |  +--rw avoidance-rib-update-delay?   uint32
+              |  |  +--rw apply-weight
+              |  |  |  +--rw ecmp-only!
+              |  |  |  |  +--rw bandwidth!
+              |  |  |  +--rw ucmp-only!
+              |  |  +--rw summary-prefixes!
+              |  |  |  +--rw summary-prefix* [address-prefix]
+              |  |  |     +--rw address-prefix      inet:ip-prefix
+              |  |  |     +--rw tag?                uint32
+              |  |  |     +--rw level?              uint32
+              |  |  |     +--rw algorithm?          uint32
+              |  |  |     +--rw explicit!
+              |  |  |     +--rw adv-unreachable!
+              |  |  |     |  +--rw unreachable-component-tag?   uint32
+              |  |  |     |  +--rw exclude!
+              |  |  |     +--rw partition-repair!
+              |  |  +--rw metric
+              |  |  |  +--rw default-metric
+              |  |  |     +--rw default-metric-value?   uint32
+              |  |  |     +--rw levels
+              |  |  |        +--rw level* [level-id]
+              |  |  |           +--rw level-id                uint32
+              |  |  |           +--rw default-metric-value    uint32
+              |  |  +--rw metric-style
+              |  |  |  +--rw narrow!
+              |  |  |  +--rw wide!
+              |  |  |  +--rw transition!
+              |  |  |  +--rw levels
+              |  |  |     +--rw level* [level-id]
+              |  |  |        +--rw level-id      uint32
+              |  |  |        +--rw narrow!
+              |  |  |        +--rw wide!
+              |  |  |        +--rw transition!
+              |  |  +--rw spf-interval
+              |  |  |  +--rw ietf!
+              |  |  |  |  +--rw initial-wait-time?        uint32
+              |  |  |  |  +--rw short-wait-time?          uint32
+              |  |  |  |  +--rw long-wait-time?           uint32
+              |  |  |  |  +--rw learn-interval-time?      uint32
+              |  |  |  |  +--rw holddown-interval-time?   uint32
+              |  |  |  +--rw maximum-wait
+              |  |  |  |  +--rw maximum-wait-time?   uint32
+              |  |  |  +--rw initial-wait
+              |  |  |  |  +--rw initial-wait-time?   uint32
+              |  |  |  +--rw secondary-wait
+              |  |  |  |  +--rw secondary-wait-time?   uint32
+              |  |  |  +--rw levels
+              |  |  |     +--rw level* [level-id]
+              |  |  |        +--rw level-id               uint32
+              |  |  |        +--rw ietf!
+              |  |  |        |  +--rw initial-wait-time?        uint32
+              |  |  |        |  +--rw short-wait-time?          uint32
+              |  |  |        |  +--rw long-wait-time?           uint32
+              |  |  |        |  +--rw learn-interval-time?      uint32
+              |  |  |        |  +--rw holddown-interval-time?   uint32
+              |  |  |        +--rw maximum-wait-time?     uint32
+              |  |  |        +--rw initial-wait-time?     uint32
+              |  |  |        +--rw secondary-wait-time?   uint32
+              |  |  +--rw spf
+              |  |  |  +--rw periodic
+              |  |  |  |  +--rw interval?   union
+              |  |  |  |  +--rw levels
+              |  |  |  |     +--rw level* [level-id]
+              |  |  |  |        +--rw level-id    uint32
+              |  |  |  |        +--rw interval    union
+              |  |  |  +--rw prefix-priority
+              |  |  |     +--rw prefix-priority* [priority]
+              |  |  |     |  +--rw priority            enumeration
+              |  |  |     |  +--rw tag?                uint32
+              |  |  |     |  +--rw access-list-name?   string
+              |  |  |     +--rw levels
+              |  |  |        +--rw level* [level-id priority]
+              |  |  |           +--rw level-id            uint32
+              |  |  |           +--rw priority            enumeration
+              |  |  |           +--rw tag?                uint32
+              |  |  |           +--rw access-list-name?   string
+              |  |  +--rw maximum-redistributed-prefixes
+              |  |  |  +--rw maximum-prefixes?   uint32
+              |  |  |  +--rw levels
+              |  |  |     +--rw level* [level-id]
+              |  |  |        +--rw level-id            uint32
+              |  |  |        +--rw maximum-prefixes    uint32
+              |  |  +--rw propagates
+              |  |  |  +--rw propagate* [level into-level]
+              |  |  |     +--rw level           uint32
+              |  |  |     +--rw into-level      uint32
+              |  |  |     +--rw route-policy    xr:Route-policy-name
+              |  |  +--rw adjacency-check
+              |  |  |  +--rw disable!
+              |  |  +--rw route
+              |  |  |  +--rw source
+              |  |  |     +--rw first-hop!
+              |  |  +--rw attached-bit
+              |  |  |  +--rw send
+              |  |  |  |  +--rw always-set!
+              |  |  |  |  +--rw never-set!
+              |  |  |  +--rw receive
+              |  |  |     +--rw ignore!
+              |  |  +--rw fast-reroute
+              |  |  |  +--rw delay-interval?   uint32
+              |  |  |  +--rw per-link
+              |  |  |  |  +--rw priority-limit
+              |  |  |  |  |  +--rw critical!
+              |  |  |  |  |  +--rw high!
+              |  |  |  |  |  +--rw medium!
+              |  |  |  |  |  +--rw levels
+              |  |  |  |  |     +--rw level* [level-id]
+              |  |  |  |  |        +--rw level-id    uint32
+              |  |  |  |  |        +--rw critical!
+              |  |  |  |  |        +--rw high!
+              |  |  |  |  |        +--rw medium!
+              |  |  |  |  +--rw use-candidate-only
+              |  |  |  |     +--rw candidate-only!
+              |  |  |  |     +--rw levels
+              |  |  |  |        +--rw level* [level-id]
+              |  |  |  |           +--rw level-id          uint32
+              |  |  |  |           +--rw candidate-only!
+              |  |  |  +--rw per-prefix
+              |  |  |     +--rw priority-limit
+              |  |  |     |  +--rw critical!
+              |  |  |     |  +--rw high!
+              |  |  |     |  +--rw medium!
+              |  |  |     |  +--rw levels
+              |  |  |     |     +--rw level* [level-id]
+              |  |  |     |        +--rw level-id    uint32
+              |  |  |     |        +--rw critical!
+              |  |  |     |        +--rw high!
+              |  |  |     |        +--rw medium!
+              |  |  |     +--rw use-candidate-only
+              |  |  |     |  +--rw candidate-only!
+              |  |  |     |  +--rw levels
+              |  |  |     |     +--rw level* [level-id]
+              |  |  |     |        +--rw level-id          uint32
+              |  |  |     |        +--rw candidate-only!
+              |  |  |     +--rw tiebreaker
+              |  |  |     |  +--rw downstream
+              |  |  |     |  |  +--rw index?    uint32
+              |  |  |     |  |  +--rw levels
+              |  |  |     |  |     +--rw level* [level-id]
+              |  |  |     |  |        +--rw level-id    uint32
+              |  |  |     |  |        +--rw index       uint32
+              |  |  |     |  +--rw lc-disjoint
+              |  |  |     |  |  +--rw index?    uint32
+              |  |  |     |  |  +--rw levels
+              |  |  |     |  |     +--rw level* [level-id]
+              |  |  |     |  |        +--rw level-id    uint32
+              |  |  |     |  |        +--rw index       uint32
+              |  |  |     |  +--rw lowest-backup-metric
+              |  |  |     |  |  +--rw index?    uint32
+              |  |  |     |  |  +--rw levels
+              |  |  |     |  |     +--rw level* [level-id]
+              |  |  |     |  |        +--rw level-id    uint32
+              |  |  |     |  |        +--rw index       uint32
+              |  |  |     |  +--rw node-protecting
+              |  |  |     |  |  +--rw index?    uint32
+              |  |  |     |  |  +--rw levels
+              |  |  |     |  |     +--rw level* [level-id]
+              |  |  |     |  |        +--rw level-id    uint32
+              |  |  |     |  |        +--rw index       uint32
+              |  |  |     |  +--rw primary-path
+              |  |  |     |  |  +--rw index?    uint32
+              |  |  |     |  |  +--rw levels
+              |  |  |     |  |     +--rw level* [level-id]
+              |  |  |     |  |        +--rw level-id    uint32
+              |  |  |     |  |        +--rw index       uint32
+              |  |  |     |  +--rw secondary-path
+              |  |  |     |  |  +--rw index?    uint32
+              |  |  |     |  |  +--rw levels
+              |  |  |     |  |     +--rw level* [level-id]
+              |  |  |     |  |        +--rw level-id    uint32
+              |  |  |     |  |        +--rw index       uint32
+              |  |  |     |  +--rw srlg-disjoint
+              |  |  |     |     +--rw index?    uint32
+              |  |  |     |     +--rw levels
+              |  |  |     |        +--rw level* [level-id]
+              |  |  |     |           +--rw level-id    uint32
+              |  |  |     |           +--rw index       uint32
+              |  |  |     +--rw load-sharing
+              |  |  |     |  +--rw disable!
+              |  |  |     |  +--rw levels
+              |  |  |     |     +--rw level* [level-id]
+              |  |  |     |        +--rw level-id    uint32
+              |  |  |     |        +--rw disable!
+              |  |  |     +--rw remote-lfa
+              |  |  |     |  +--rw prefix-list
+              |  |  |     |     +--rw prefix-list-name?   xr:Cisco-ios-xr-string
+              |  |  |     |     +--rw levels
+              |  |  |     |        +--rw level* [level-id]
+              |  |  |     |           +--rw level-id            uint32
+              |  |  |     |           +--rw prefix-list-name    string
+              |  |  |     +--rw srlg-protection
+              |  |  |        +--rw weighted-global!
+              |  |  |        +--rw levels
+              |  |  |           +--rw level* [level-id]
+              |  |  |              +--rw level-id           uint32
+              |  |  |              +--rw weighted-global!
+              |  |  +--rw monitor-convergence!
+              |  |  |  +--rw prefix-list?    xr:Cisco-ios-xr-string
+              |  |  |  +--rw track-ip-frr!
+              |  |  +--rw mpls
+              |  |  |  +--rw ldp
+              |  |  |  |  +--rw auto-config!
+              |  |  |  +--rw traffic-eng
+              |  |  |     +--rw router-id
+              |  |  |     |  +--rw ip-address?   inet:ipv4-address-no-zone
+              |  |  |     |  +--rw interface?    xr:Interface-name
+              |  |  |     +--rw igp-intact!
+              |  |  |     +--rw multicast-intact!
+              |  |  |     +--rw level-1-2!
+              |  |  |     +--rw level-1!
+              |  |  |     +--rw level-2-only!
+              |  |  |     +--rw tunnel
+              |  |  |        +--rw restricted!
+              |  |  |        +--rw preferred!
+              |  |  |        +--rw anycast-prefer-igp-cost!
+              |  |  |        +--rw metric
+              |  |  |           +--rw default-metric?   uint32
+              |  |  |           +--rw levels
+              |  |  |              +--rw level* [level-id]
+              |  |  |                 +--rw level-id          uint32
+              |  |  |                 +--rw default-metric    uint32
+              |  |  +--rw single-topology!
+              |  +--rw address-family-topology* [af-name saf-name topology-name]
+              |     +--rw af-name                           Isis-af-name
+              |     +--rw saf-name                          Isis-saf-multicast
+              |     +--rw topology-name                     string
+              |     +--rw default-information
+              |     |  +--rw originate!
+              |     |     +--rw external!
+              |     |     +--rw route-policy?   xr:Route-policy-name
+              |     +--rw segment-routing
+              |     |  +--rw mpls
+              |     |     +--rw connected-prefix-sid-map!
+              |     +--rw distance
+              |     |  +--rw global-administrative-distance?   uint32
+              |     |  +--rw route-sources
+              |     |     +--rw route-source* [address-prefix]
+              |     |        +--rw address-prefix             inet:ip-prefix
+              |     |        +--rw administrative-distance?   uint32
+              |     |        +--rw prefix-access-list?        string
+              |     +--rw distribute-list
+              |     |  +--rw prefix-list?    xr:Cisco-ios-xr-string
+              |     |  +--rw route-policy?   xr:Route-policy-name
+              |     +--rw redistribute
+              |     |  +--rw connected!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw ospf* [process-id]
+              |     |  |  +--rw process-id      string
+              |     |  |  +--rw match
+              |     |  |  |  +--rw internal!
+              |     |  |  |  +--rw external!
+              |     |  |  |  +--rw nssa-external!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw ospfv3* [process-id]
+              |     |  |  +--rw process-id      string
+              |     |  |  +--rw match
+              |     |  |  |  +--rw internal!
+              |     |  |  |  +--rw external!
+              |     |  |  |  +--rw nssa-external!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw static!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw subscriber!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw rip!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw mobile!
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?         uint32
+              |     |  |  +--rw route-policy?   xr:Route-policy-name
+              |     |  |  +--rw metric-type?    enumeration
+              |     |  +--rw applications
+              |     |  |  +--rw application* [application-name]
+              |     |  |     +--rw application-name    string
+              |     |  |     +--rw level-1-2!
+              |     |  |     +--rw level-2!
+              |     |  |     +--rw level-1!
+              |     |  |     +--rw metric?             uint32
+              |     |  |     +--rw route-policy?       xr:Route-policy-name
+              |     |  |     +--rw metric-type?        enumeration
+              |     |  +--rw isis* [instance-id]
+              |     |  |  +--rw instance-id        string
+              |     |  |  +--rw level-1-2!
+              |     |  |  +--rw level-2!
+              |     |  |  +--rw level-1!
+              |     |  |  +--rw metric?            uint32
+              |     |  |  +--rw route-policy?      xr:Route-policy-name
+              |     |  |  +--rw metric-type?       enumeration
+              |     |  |  +--rw down-flag-clear!
+              |     |  +--rw bgp
+              |     |  |  +--rw as* [as-number]
+              |     |  |     +--rw as-number       xr:Bgp-as-number
+              |     |  |     +--rw level-1-2!
+              |     |  |     +--rw level-2!
+              |     |  |     +--rw level-1!
+              |     |  |     +--rw metric?         uint32
+              |     |  |     +--rw route-policy?   xr:Route-policy-name
+              |     |  |     +--rw metric-type?    enumeration
+              |     |  +--rw eigrp* [as-number]
+              |     |     +--rw as-number       uint32
+              |     |     +--rw match
+              |     |     |  +--rw internal!
+              |     |     |  +--rw external!
+              |     |     +--rw level-1-2!
+              |     |     +--rw level-2!
+              |     |     +--rw level-1!
+              |     |     +--rw metric?         uint32
+              |     |     +--rw route-policy?   xr:Route-policy-name
+              |     |     +--rw metric-type?    enumeration
+              |     +--rw maximum-paths?                    uint32
+              |     +--rw advertise
+              |     |  +--rw passive-only!
+              |     |  +--rw link
+              |     |  |  +--rw attributes!
+              |     |  +--rw application
+              |     |     +--rw lfa
+              |     |     |  +--rw link-attributes
+              |     |     |     +--rw srlg!
+              |     |     +--rw flex-algo
+              |     |        +--rw link-attributes
+              |     |           +--rw srlg!
+              |     +--rw ucmp
+              |     |  +--rw variance!
+              |     |  |  +--rw variance-value    uint32
+              |     |  |  +--rw prefix-list?      string
+              |     |  +--rw exclude
+              |     |  |  +--rw interfaces
+              |     |  |     +--rw interface* [interface-name]
+              |     |  |        +--rw interface-name    xr:Interface-name
+              |     |  +--rw delay-interval?   uint32
+              |     +--rw microloop
+              |     |  +--rw avoidance!
+              |     |  |  +--rw protected!
+              |     |  |  +--rw segment-routing!
+              |     |  +--rw avoidance-rib-update-delay?   uint32
+              |     +--rw apply-weight
+              |     |  +--rw ecmp-only!
+              |     |  |  +--rw bandwidth!
+              |     |  +--rw ucmp-only!
+              |     +--rw summary-prefixes
+              |     |  +--rw summary-prefix* [address-prefix]
+              |     |     +--rw address-prefix    inet:ip-prefix
+              |     |     +--rw tag?              uint32
+              |     |     +--rw level?            uint32
+              |     |     +--rw algorithm?        uint32
+              |     |     +--rw explicit!
+              |     +--rw metric
+              |     |  +--rw default-metric
+              |     |     +--rw default-metric-value?   uint32
+              |     |     +--rw levels
+              |     |        +--rw level* [level-id]
+              |     |           +--rw level-id                uint32
+              |     |           +--rw default-metric-value    uint32
+              |     +--rw metric-style
+              |     |  +--rw narrow!
+              |     |  +--rw wide!
+              |     |  +--rw transition!
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id      uint32
+              |     |        +--rw narrow!
+              |     |        +--rw wide!
+              |     |        +--rw transition!
+              |     +--rw spf-interval
+              |     |  +--rw ietf!
+              |     |  |  +--rw initial-wait-time?        uint32
+              |     |  |  +--rw short-wait-time?          uint32
+              |     |  |  +--rw long-wait-time?           uint32
+              |     |  |  +--rw learn-interval-time?      uint32
+              |     |  |  +--rw holddown-interval-time?   uint32
+              |     |  +--rw maximum-wait
+              |     |  |  +--rw maximum-wait-time?   uint32
+              |     |  +--rw initial-wait
+              |     |  |  +--rw initial-wait-time?   uint32
+              |     |  +--rw secondary-wait
+              |     |  |  +--rw secondary-wait-time?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id               uint32
+              |     |        +--rw ietf!
+              |     |        |  +--rw initial-wait-time?        uint32
+              |     |        |  +--rw short-wait-time?          uint32
+              |     |        |  +--rw long-wait-time?           uint32
+              |     |        |  +--rw learn-interval-time?      uint32
+              |     |        |  +--rw holddown-interval-time?   uint32
+              |     |        +--rw maximum-wait-time?     uint32
+              |     |        +--rw secondary-wait-time?   uint32
+              |     |        +--rw initial-wait-time?     uint32
+              |     +--rw spf
+              |     |  +--rw periodic
+              |     |  |  +--rw interval?   union
+              |     |  |  +--rw levels
+              |     |  |     +--rw level* [level-id]
+              |     |  |        +--rw level-id    uint32
+              |     |  |        +--rw interval    union
+              |     |  +--rw prefix-priority
+              |     |     +--rw prefix-priority* [priority]
+              |     |     |  +--rw priority            enumeration
+              |     |     |  +--rw tag?                uint32
+              |     |     |  +--rw access-list-name?   string
+              |     |     +--rw levels
+              |     |        +--rw level* [level-id priority]
+              |     |           +--rw level-id            uint32
+              |     |           +--rw priority            enumeration
+              |     |           +--rw tag?                uint32
+              |     |           +--rw access-list-name?   string
+              |     +--rw maximum-redistributed-prefixes
+              |     |  +--rw maximum-prefixes?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id            uint32
+              |     |        +--rw maximum-prefixes    uint32
+              |     +--rw propagates
+              |     |  +--rw propagate* [level into-level]
+              |     |     +--rw level           uint32
+              |     |     +--rw into-level      uint32
+              |     |     +--rw route-policy    xr:Route-policy-name
+              |     +--rw adjacency-check
+              |     |  +--rw disable!
+              |     +--rw route
+              |     |  +--rw source
+              |     |     +--rw first-hop!
+              |     +--rw attached-bit
+              |     |  +--rw send
+              |     |  |  +--rw always-set!
+              |     |  |  +--rw never-set!
+              |     |  +--rw receive
+              |     |     +--rw ignore!
+              |     +--rw topology-id?                      uint32
+              |     +--rw fast-reroute
+              |     |  +--rw delay-interval?   uint32
+              |     +--rw monitor-convergence!
+              |        +--rw prefix-list?    xr:Cisco-ios-xr-string
+              |        +--rw track-ip-frr!
+              +--rw interfaces
+              |  +--rw interface* [interface-name]
+              |     +--rw interface-name                  xr:Interface-name
+              |     +--rw circuit-type?                   enumeration
+              |     +--rw csnp-interval
+              |     |  +--rw csnp-interval-time?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id              uint32
+              |     |        +--rw csnp-interval-time    uint32
+              |     +--rw hello-padding
+              |     |  +--rw always!
+              |     |  +--rw disable!
+              |     |  +--rw sometimes!
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id     uint32
+              |     |        +--rw disable!
+              |     |        +--rw sometimes!
+              |     +--rw hello-interval
+              |     |  +--rw hello-interval-time?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id               uint32
+              |     |        +--rw hello-interval-time    uint32
+              |     +--rw hello-multiplier
+              |     |  +--rw hello-multiplier-value?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id                  uint32
+              |     |        +--rw hello-multiplier-value    uint32
+              |     +--rw lsp-interval
+              |     |  +--rw lsp-interval-time?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id             uint32
+              |     |        +--rw lsp-interval-time    uint32
+              |     +--rw hello-password!
+              |     |  +--rw text!
+              |     |  |  +--rw encrypted    xr:Proprietary-password
+              |     |  +--rw hmac-md5!
+              |     |  |  +--rw encrypted    xr:Proprietary-password
+              |     |  +--rw keychain!
+              |     |  |  +--rw keychain-name    string
+              |     |  +--rw send-only!
+              |     +--rw hello-password-levels
+              |     |  +--rw level* [level-id]
+              |     |     +--rw level-id     uint32
+              |     |     +--rw text!
+              |     |     |  +--rw encrypted    xr:Proprietary-password
+              |     |     +--rw hmac-md5!
+              |     |     |  +--rw encrypted    xr:Proprietary-password
+              |     |     +--rw keychain!
+              |     |     |  +--rw keychain-name    string
+              |     |     +--rw send-only!
+              |     +--rw hello-password-accept
+              |     |  +--rw encrypted?   xr:Proprietary-password
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id     uint32
+              |     |        +--rw encrypted    xr:Proprietary-password
+              |     +--rw lsp
+              |     |  +--rw fast-flood
+              |     |     +--rw threshold
+              |     |        +--rw number-of-lsps?   uint32
+              |     |        +--rw levels
+              |     |           +--rw level* [level-id]
+              |     |              +--rw level-id          uint32
+              |     |              +--rw number-of-lsps    uint32
+              |     +--rw priority
+              |     |  +--rw priority-value?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id          uint32
+              |     |        +--rw priority-value    uint32
+              |     +--rw point-to-point!
+              |     +--rw retransmit-interval
+              |     |  +--rw retransmit-interval-time?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id                    uint32
+              |     |        +--rw retransmit-interval-time    uint32
+              |     +--rw retransmit-throttle-interval
+              |     |  +--rw retransmit-throttle-interval-time?   uint32
+              |     |  +--rw levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id                             uint32
+              |     |        +--rw retransmit-throttle-interval-time    uint32
+              |     +--rw link-down
+              |     |  +--rw fast-detect!
+              |     +--rw prefix-attributes
+              |     |  +--rw n-flag-clear!
+              |     |  +--rw levels
+              |     |  |  +--rw level* [level-id]
+              |     |  |     +--rw level-id        uint32
+              |     |  |     +--rw n-flag-clear!
+              |     |  +--rw anycast!
+              |     |  +--rw anycast-levels
+              |     |     +--rw level* [level-id]
+              |     |        +--rw level-id    uint32
+              |     +--rw affinity
+              |     |  +--rw flex-algos
+              |     |     +--rw affinity-names*   string
+              |     |     +--rw anomalies
+              |     |        +--rw anomaly*   string
+              |     +--rw override
+              |     |  +--rw metrics
+              |     |     +--rw maximum!
+              |     |     +--rw high!
+              |     |     +--rw disabled!
+              |     +--rw delay
+              |     |  +--rw normalize
+              |     |     +--rw interval?   uint32
+              |     |     +--rw offset?     uint32
+              |     +--rw bfd
+              |     |  +--rw fast-detect
+              |     |  |  +--rw ipv4!
+              |     |  |  +--rw ipv6!
+              |     |  +--rw minimum-interval?   uint32
+              |     |  +--rw multiplier?         uint32
+              |     +--rw passive!
+              |     +--rw suppressed!
+              |     +--rw shutdown!
+              |     +--rw mesh-group
+              |     |  +--rw mesh-group-number?   uint32
+              |     |  +--rw blocked!
+              |     +--rw address-families
+              |        +--rw address-family* [af-name saf-name]
+              |        |  +--rw af-name             Isis-af-name
+              |        |  +--rw saf-name            Isis-saf-name
+              |        |  +--rw metric
+              |        |  |  +--rw default-metric?   uint32
+              |        |  |  +--rw maximum!
+              |        |  |  +--rw levels
+              |        |  |  |  +--rw level* [level-id]
+              |        |  |  |     +--rw level-id          uint32
+              |        |  |  |     +--rw default-metric?   uint32
+              |        |  |  |     +--rw maximum!
+              |        |  |  +--rw fallback
+              |        |  |     +--rw bandwidth
+              |        |  |     |  +--rw multiplier?   uint32
+              |        |  |     |  +--rw threshold?    uint32
+              |        |  |     +--rw anomaly
+              |        |  |        +--rw te-metric
+              |        |  |        |  +--rw delay!
+              |        |  |        |  |  +--rw increment?    uint32
+              |        |  |        |  |  +--rw multiplier?   uint32
+              |        |  |        |  |  +--rw maximum!
+              |        |  |        |  +--rw loss!
+              |        |  |        |  |  +--rw increment?    uint32
+              |        |  |        |  |  +--rw multiplier?   uint32
+              |        |  |        |  |  +--rw maximum!
+              |        |  |        |  +--rw increment?    uint32
+              |        |  |        |  +--rw multiplier?   uint32
+              |        |  |        |  +--rw maximum!
+              |        |  |        +--rw te-metric-levels
+              |        |  |        |  +--rw level* [level-id]
+              |        |  |        |     +--rw level-id      uint32
+              |        |  |        |     +--rw delay!
+              |        |  |        |     |  +--rw increment?    uint32
+              |        |  |        |     |  +--rw multiplier?   uint32
+              |        |  |        |     |  +--rw maximum!
+              |        |  |        |     +--rw loss!
+              |        |  |        |     |  +--rw increment?    uint32
+              |        |  |        |     |  +--rw multiplier?   uint32
+              |        |  |        |     |  +--rw maximum!
+              |        |  |        |     +--rw increment?    uint32
+              |        |  |        |     +--rw multiplier?   uint32
+              |        |  |        |     +--rw maximum!
+              |        |  |        +--rw delay!
+              |        |  |        |  +--rw increment?    uint32
+              |        |  |        |  +--rw multiplier?   uint32
+              |        |  |        |  +--rw maximum!
+              |        |  |        +--rw loss!
+              |        |  |        |  +--rw increment?    uint32
+              |        |  |        |  +--rw multiplier?   uint32
+              |        |  |        |  +--rw maximum!
+              |        |  |        +--rw increment?          uint32
+              |        |  |        +--rw multiplier?         uint32
+              |        |  |        +--rw maximum!
+              |        |  |        +--rw levels
+              |        |  |           +--rw level* [level-id]
+              |        |  |              +--rw level-id      uint32
+              |        |  |              +--rw delay!
+              |        |  |              |  +--rw increment?    uint32
+              |        |  |              |  +--rw multiplier?   uint32
+              |        |  |              |  +--rw maximum!
+              |        |  |              +--rw loss!
+              |        |  |              |  +--rw increment?    uint32
+              |        |  |              |  +--rw multiplier?   uint32
+              |        |  |              |  +--rw maximum!
+              |        |  |              +--rw increment?    uint32
+              |        |  |              +--rw multiplier?   uint32
+              |        |  |              +--rw maximum!
+              |        |  +--rw te-metric
+              |        |  |  +--rw flex-algo?   uint32
+              |        |  +--rw te-metric-levels
+              |        |  |  +--rw level* [level-id]
+              |        |  |     +--rw level-id     uint32
+              |        |  |     +--rw flex-algo    uint32
+              |        |  +--rw mpls
+              |        |  |  +--rw ldp
+              |        |  |     +--rw sync!
+              |        |  |        +--rw level?   uint32
+              |        |  +--rw tag
+              |        |  |  +--rw interface-tag?   uint32
+              |        |  |  +--rw levels
+              |        |  |     +--rw level* [level-id]
+              |        |  |        +--rw level-id         uint32
+              |        |  |        +--rw interface-tag    uint32
+              |        |  +--rw prefix-sid
+              |        |  |  +--rw sid!
+              |        |  |  |  +--rw index!
+              |        |  |  |  |  +--rw sid-index    uint32
+              |        |  |  |  +--rw absolute!
+              |        |  |  |  |  +--rw sid-value    uint32
+              |        |  |  |  +--rw php-disable!
+              |        |  |  |  +--rw explicit-null!
+              |        |  |  |  +--rw n-flag-clear!
+              |        |  |  +--rw strict-spf!
+              |        |  |  |  +--rw index!
+              |        |  |  |  |  +--rw sid-index    uint32
+              |        |  |  |  +--rw absolute!
+              |        |  |  |  |  +--rw sid-value    uint32
+              |        |  |  |  +--rw php-disable!
+              |        |  |  |  +--rw explicit-null!
+              |        |  |  |  +--rw n-flag-clear!
+              |        |  |  +--rw algorithms
+              |        |  |     +--rw algorithm* [algorithm-number]
+              |        |  |        +--rw algorithm-number    uint32
+              |        |  |        +--rw index!
+              |        |  |        |  +--rw sid-index    uint32
+              |        |  |        +--rw absolute!
+              |        |  |        |  +--rw sid-value    uint32
+              |        |  |        +--rw php-disable!
+              |        |  |        +--rw explicit-null!
+              |        |  |        +--rw n-flag-clear!
+              |        |  +--rw adjacency-sid
+              |        |  |  +--rw indexes
+              |        |  |  |  +--rw index* [sid-index]
+              |        |  |  |     +--rw sid-index    uint32
+              |        |  |  |     +--rw protected!
+              |        |  |  +--rw absolutes
+              |        |  |     +--rw absolute* [sid-value]
+              |        |  |        +--rw sid-value    uint32
+              |        |  |        +--rw protected!
+              |        |  +--rw fast-reroute
+              |        |  |  +--rw computation
+              |        |  |  |  +--rw per-link-computation!
+              |        |  |  |  +--rw per-prefix-computation!
+              |        |  |  |  +--rw levels
+              |        |  |  |     +--rw level* [level-id]
+              |        |  |  |        +--rw level-id                  uint32
+              |        |  |  |        +--rw per-link-computation!
+              |        |  |  |        +--rw per-prefix-computation!
+              |        |  |  +--rw per-link
+              |        |  |  |  +--rw exclude
+              |        |  |  |  |  +--rw interfaces
+              |        |  |  |  |     +--rw interface* [interface-name]
+              |        |  |  |  |        +--rw interface-name    xr:Interface-name
+              |        |  |  |  |        +--rw level?            uint32
+              |        |  |  |  +--rw lfa-candidate
+              |        |  |  |     +--rw interfaces
+              |        |  |  |        +--rw interface* [interface-name]
+              |        |  |  |           +--rw interface-name    xr:Interface-name
+              |        |  |  |           +--rw level?            uint32
+              |        |  |  +--rw per-prefix
+              |        |  |     +--rw remote-lfa
+              |        |  |     |  +--rw tunnel
+              |        |  |     |  |  +--rw mpls-ldp!
+              |        |  |     |  |  +--rw levels
+              |        |  |     |  |     +--rw level* [level-id]
+              |        |  |     |  |        +--rw level-id    uint32
+              |        |  |     |  |        +--rw mpls-ldp!
+              |        |  |     |  +--rw maximum-metric
+              |        |  |     |     +--rw metric?   uint32
+              |        |  |     |     +--rw levels
+              |        |  |     |        +--rw level* [level-id]
+              |        |  |     |           +--rw level-id    uint32
+              |        |  |     |           +--rw metric      uint32
+              |        |  |     +--rw per-prefix
+              |        |  |     |  +--rw ti-lfa!
+              |        |  |     |  +--rw levels
+              |        |  |     |     +--rw level* [level-id]
+              |        |  |     |        +--rw level-id    uint32
+              |        |  |     |        +--rw ti-lfa!
+              |        |  |     +--rw tiebreaker
+              |        |  |     |  +--rw node-protecting
+              |        |  |     |  |  +--rw index
+              |        |  |     |  |     +--rw preference-order?   uint32
+              |        |  |     |  |     +--rw levels
+              |        |  |     |  |        +--rw level* [level-id]
+              |        |  |     |  |           +--rw level-id            uint32
+              |        |  |     |  |           +--rw preference-order    uint32
+              |        |  |     |  +--rw srlg-disjoint
+              |        |  |     |  |  +--rw index
+              |        |  |     |  |     +--rw preference-order?   uint32
+              |        |  |     |  |     +--rw levels
+              |        |  |     |  |        +--rw level* [level-id]
+              |        |  |     |  |           +--rw level-id            uint32
+              |        |  |     |  |           +--rw preference-order    uint32
+              |        |  |     |  +--rw default
+              |        |  |     |     +--rw default-backup-path!
+              |        |  |     |     +--rw levels
+              |        |  |     |        +--rw level* [level-id]
+              |        |  |     |           +--rw level-id               uint32
+              |        |  |     |           +--rw default-backup-path!
+              |        |  |     +--rw exclude
+              |        |  |     |  +--rw interfaces
+              |        |  |     |     +--rw interface* [interface-name]
+              |        |  |     |        +--rw interface-name    xr:Interface-name
+              |        |  |     |        +--rw level?            uint32
+              |        |  |     +--rw lfa-candidate
+              |        |  |        +--rw interfaces
+              |        |  |           +--rw interface* [interface-name]
+              |        |  |              +--rw interface-name    xr:Interface-name
+              |        |  |              +--rw level?            uint32
+              |        |  +--rw link-group!
+              |        |  |  +--rw link-group-name    string
+              |        |  |  +--rw level?             uint32
+              |        |  +--rw weight
+              |        |  |  +--rw weight-value?   uint32
+              |        |  |  +--rw levels
+              |        |  |     +--rw level* [level-id]
+              |        |  |        +--rw level-id        uint32
+              |        |  |        +--rw weight-value    uint32
+              |        |  +--rw auto-metric
+              |        |  |  +--rw proactive-protect
+              |        |  |     +--rw absolute-metric?   uint32
+              |        |  |     +--rw levels
+              |        |  |        +--rw level* [level-id]
+              |        |  |           +--rw level-id           uint32
+              |        |  |           +--rw absolute-metric    uint32
+              |        |  +--rw advertise
+              |        |  |  +--rw prefix
+              |        |  |     +--rw route-policy?   xr:Route-policy-name
+              |        |  |     +--rw levels
+              |        |  |        +--rw level* [level-id]
+              |        |  |           +--rw level-id        uint32
+              |        |  |           +--rw route-policy?   xr:Route-policy-name
+              |        |  +--rw disable!
+              |        +--rw address-family-topology* [af-name saf-name topology-name]
+              |           +--rw af-name             Isis-af-name
+              |           +--rw saf-name            Isis-saf-name
+              |           +--rw topology-name       string
+              |           +--rw metric
+              |           |  +--rw default-metric?   uint32
+              |           |  +--rw maximum!
+              |           |  +--rw levels
+              |           |  |  +--rw level* [level-id]
+              |           |  |     +--rw level-id          uint32
+              |           |  |     +--rw default-metric?   uint32
+              |           |  |     +--rw maximum!
+              |           |  +--rw fallback
+              |           |     +--rw bandwidth
+              |           |        +--rw multiplier?   uint32
+              |           |        +--rw threshold?    uint32
+              |           +--rw te-metric
+              |           |  +--rw flex-algo?   uint32
+              |           +--rw te-metric-levels
+              |           |  +--rw level* [level-id]
+              |           |     +--rw level-id     uint32
+              |           |     +--rw flex-algo    uint32
+              |           +--rw tag
+              |           |  +--rw interface-tag?   uint32
+              |           |  +--rw levels
+              |           |     +--rw level* [level-id]
+              |           |        +--rw level-id         uint32
+              |           |        +--rw interface-tag    uint32
+              |           +--rw link-group!
+              |           |  +--rw link-group-name    string
+              |           |  +--rw level?             uint32
+              |           +--rw weight
+              |           |  +--rw weight-value?   uint32
+              |           |  +--rw levels
+              |           |     +--rw level* [level-id]
+              |           |        +--rw level-id        uint32
+              |           |        +--rw weight-value    uint32
+              |           +--rw auto-metric
+              |           |  +--rw proactive-protect
+              |           |     +--rw absolute-metric?   uint32
+              |           |     +--rw levels
+              |           |        +--rw level* [level-id]
+              |           |           +--rw level-id           uint32
+              |           |           +--rw absolute-metric    uint32
+              |           +--rw disable!
+              +--rw distribute
+              |  +--rw link-state!
+              |     +--rw instance-id?         uint32
+              |     +--rw level?               uint32
+              |     +--rw throttle?            uint32
+              |     +--rw exclude-interarea!
+              |     +--rw exclude-external!
+              |     +--rw route-policy?        xr:Route-policy-name
+              +--rw segment-routing
+              |  +--rw global-block!
+              |     +--rw lower-bound    uint32
+              |     +--rw upper-bound    uint32
+              +--rw adjacency
+              |  +--rw stagger!
+              |     +--rw initial-number-of-neighbors?      uint32
+              |     +--rw maximum-simultaneous-neighbors?   uint32
+              +--rw algorithm
+              |  +--rw zero!
+              |     +--rw address-family
+              |        +--rw ipv4
+              |        |  +--rw unicast!
+              |        |     +--rw maximum-paths
+              |        |        +--rw number-of-paths?   uint32
+              |        |        +--rw route-policy?      xr:Route-policy-name
+              |        +--rw ipv6
+              |           +--rw unicast!
+              |              +--rw maximum-paths
+              |                 +--rw number-of-paths?   uint32
+              |                 +--rw route-policy?      xr:Route-policy-name
+              +--rw flex-algos
+              |  +--rw flex-algo* [algorithm-number]
+              |     +--rw algorithm-number        uint32
+              |     +--rw affinity
+              |     |  +--rw exclude-anies
+              |     |  |  +--rw exclude-any*   xr:Cisco-ios-xr-string
+              |     |  +--rw include-anies
+              |     |  |  +--rw include-any*   xr:Cisco-ios-xr-string
+              |     |  +--rw include-alls
+              |     |  |  +--rw include-all*   xr:Cisco-ios-xr-string
+              |     |  +--rw reverse
+              |     |     +--rw exclude-anies
+              |     |     |  +--rw exclude-any*   string
+              |     |     +--rw include-anies
+              |     |     |  +--rw include-any*   string
+              |     |     +--rw include-alls
+              |     |        +--rw include-all*   string
+              |     +--rw minimum-bandwidth?      uint32
+              |     +--rw maximum-delay?          uint32
+              |     +--rw srlg
+              |     |  +--rw exclude-anies
+              |     |     +--rw exclude-any*   xr:Cisco-ios-xr-string
+              |     +--rw priority?               uint32
+              |     +--rw metric-type
+              |     |  +--rw delay!
+              |     |  +--rw te!
+              |     +--rw fast-reroute
+              |     |  +--rw disable!
+              |     +--rw microloop
+              |     |  +--rw avoidance
+              |     |     +--rw disable!
+              |     +--rw ucmp
+              |     |  +--rw disable!
+              |     +--rw advertise-definition!
+              |     +--rw prefix-metric!
+              |     +--rw data-plane
+              |     |  +--rw segment-routing!
+              |     |  +--rw ip!
+              |     +--rw address-family
+              |        +--rw ipv4
+              |        |  +--rw unicast!
+              |        |     +--rw maximum-paths
+              |        |        +--rw number-of-paths?   uint32
+              |        |        +--rw route-policy?      xr:Route-policy-name
+              |        +--rw ipv6
+              |           +--rw unicast!
+              |              +--rw maximum-paths
+              |                 +--rw number-of-paths?   uint32
+              |                 +--rw route-policy?      xr:Route-policy-name
+              +--rw affinity-maps
+              |  +--rw affinity-map* [affinity-map-name]
+              |     +--rw affinity-map-name    xr:Cisco-ios-xr-string
+              |     +--rw bit-position         uint32
+              +--rw srlg!
+              |  +--rw names
+              |  |  +--rw name* [srlg-name]
+              |  |     +--rw srlg-name       xr:Cisco-ios-xr-string
+              |  |     +--rw admin-weight?   uint32
+              |  |     +--rw static
+              |  |        +--rw ipv4
+              |  |           +--rw address* [local-address]
+              |  |              +--rw local-address    inet:ipv4-address-no-zone
+              |  |              +--rw next-hop
+              |  |                 +--rw address* [remote-address]
+              |  |                    +--rw remote-address    inet:ipv4-address-no-zone
+              |  +--rw admin-weight?   uint32
+              +--rw purge-transmit
+              |  +--rw strict!
+              |     +--rw apply-for-level-only?   enumeration
+              +--rw receive
+              |  +--rw application
+              |     +--rw flex-algo
+              |        +--rw delay
+              |           +--rw app-only!
+              +--rw attestation!
+                 +--rw application
+                    +--rw flex-algo!
+                    |  +--rw trust-vector!
+                    |     +--rw boot-integrity-passed
+                    |     |  +--rw affinity?   string
+                    |     +--rw boot-integrity-failed
+                    |     |  +--rw affinity?   string
+                    |     +--rw failures-found
+                    |        +--rw affinity?   string
+                    +--rw traffic-engineering!
+                       +--rw trust-vector!
+                          +--rw boot-integrity-passed
+                          |  +--rw affinity?   string
+                          +--rw boot-integrity-failed
+                          |  +--rw affinity?   string
+                          +--rw failures-found
+                             +--rw affinity?   string
