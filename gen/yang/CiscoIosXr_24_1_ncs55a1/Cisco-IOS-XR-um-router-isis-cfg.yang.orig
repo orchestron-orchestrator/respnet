@@ -1841,6 +1841,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                 description
                   "Sub address family name";
               }
+              /* XXX address-family
               container prefix-unreachable {
                 presence "Indicates a prefix-unreachable node is configured.";
                 description
@@ -1939,6 +1940,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                   }
                 }
               }
+              */
               container segment-routing {
                 description
                   "Enable Segment Routing";
@@ -1951,6 +1953,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                     description
                       "Prefer segment routing labels over LDP labels";
                   }
+                  /* XXX segment-routing
                   container unlabeled {
                     when "../../../af-name = 'ipv6' and ../../../saf-name = 'unicast'";
                     description
@@ -2364,8 +2367,10 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                       }
                     }
                   }
+                  */
                 }
               }
+              /* XXX address-family
               container distance {
                 description
                   "Configure IS-IS administrative distances";
@@ -3588,6 +3593,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                   }
                 }
               }
+              */
               container metric-style {
                 description
                   "Use old-style (ISO 10589) or new-style packet formats";
@@ -3647,6 +3653,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                   }
                 }
               }
+              /* address-family
               container spf-interval {
                 description
                   "Route calculation scheduling parameters (FSPF, ISPF, PRC)";
@@ -4950,7 +4957,9 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                 description
                   "Run IPv6 Unicast using the standard (IPv4 Unicast) topology";
               }
+              */
             }
+            /* XXX address-families
             list address-family-topology {
               key "af-name saf-name topology-name";
               description
@@ -6797,6 +6806,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                 }
               }
             }
+            */
           }
           container interfaces {
             description
