@@ -606,6 +606,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
             description
               "Process ID";
           }
+          /* XXX
           container nsr {
             presence "Indicates a nsr node is configured.";
             description
@@ -640,6 +641,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
             description
               "ISIS-MI instance id";
           }
+          */
           leaf is-type {
             type enumeration {
               enum "level-1" {
@@ -661,6 +663,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
             description
               "Area type (level)";
           }
+          /* XXX
           container log {
             description
               "Enable logging";
@@ -1503,6 +1506,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
               }
             }
           }
+          */
           container nets {
             description
               "A Network Entity Title (NET) for this process";
@@ -1522,6 +1526,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
               }
             }
           }
+          /* XXX
           container link-groups {
             description
               "Link Group";
@@ -1818,6 +1823,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
             description
               "Set logging triggers for performance testing";
           }
+          */
           container address-families {
             description
               "Enter the IS-IS address-family configuration submode";
@@ -9478,6 +9484,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
               }
             }
           }
+          /* XXX
           container distribute {
             description
               "Distribute routing information to external services";
@@ -10226,6 +10233,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
               }
             }
           }
+          */
         }
       }
     }
