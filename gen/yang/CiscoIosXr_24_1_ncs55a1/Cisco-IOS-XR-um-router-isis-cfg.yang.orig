@@ -6841,6 +6841,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                 description
                   "Configure circuit type for interface";
               }
+              /* XXX interface
               container csnp-interval {
                 description
                   "Set CSNP interval";
@@ -7318,11 +7319,13 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                   }
                 }
               }
+              */
               container point-to-point {
                 presence "Indicates a point-to-point node is configured.";
                 description
                   "Treat active LAN interface as point-to-point";
               }
+              /* XXX interface
               container retransmit-interval {
                 description
                   "Interval between retransmissions of the same LSP";
@@ -7570,6 +7573,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                   }
                 }
               }
+              */
               container bfd {
                 description
                   "Configure BFD parameters";
@@ -7614,6 +7618,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                 description
                   "Do not establish adjacencies over this interface";
               }
+              /* XXX interface
               container suppressed {
                 must "not(../passive or ../shutdown)";
                 presence "Indicates a suppressed node is configured.";
@@ -7645,6 +7650,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                     "Block LSPs on this interface";
                 }
               }
+              */
               container address-families {
                 description
                   "Enter the IS-IS interface address-family configuration submode";
@@ -7718,6 +7724,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                         }
                       }
                     }
+                    /* XXX metric
                     container fallback {
                       description
                         "Configure the metric fallback for interface";
@@ -8232,7 +8239,9 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                         }
                       }
                     }
+                    */
                   }
+                  /* XXX address-family
                   container te-metric {
                     description
                       "Configure an application specific TE metric for the interface";
@@ -8345,6 +8354,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                       }
                     }
                   }
+                  */
                   container prefix-sid {
                     when "../saf-name = 'unicast' and ../../../interface-name[starts-with(text(),'Loopback')]" {
                       tailf:dependency "../../../interface-name";
@@ -8373,6 +8383,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                             "Specify the index of Prefix Segement ID";
                         }
                       }
+                      /* XXX sid
                       container absolute {
                         must "not(../index)";
                         presence "Indicates a absolute node is configured.";
@@ -8405,7 +8416,9 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                         description
                           "Clear N-flag for the prefix-SID ";
                       }
+                      */
                     }
+                    /* XXX prefix-sid
                     container strict-spf {
                       must "index or absolute";
                       presence "Indicates a strict-spf node is configured.";
@@ -8529,7 +8542,9 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                         }
                       }
                     }
+                    */
                   }
+                  /* XXX address-family
                   container adjacency-sid {
                     when "../saf-name = 'unicast'";
                     description
@@ -9167,7 +9182,9 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                     description
                       "Disable IS-IS for this topology on this interface";
                   }
+                  */
                 }
+                /* XXX interface
                 list address-family-topology {
                   key "af-name saf-name topology-name";
                   description
@@ -9491,6 +9508,7 @@ module Cisco-IOS-XR-um-router-isis-cfg {
                       "Disable IS-IS for this topology on this interface";
                   }
                 }
+                */
               }
             }
           }
