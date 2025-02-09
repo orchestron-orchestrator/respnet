@@ -58,6 +58,16 @@
        description "Routing instance configuration";
        list instance {
          key name;
+         leaf-list apply-groups {
+           ordered-by user;
+           description "Groups from which to inherit configuration data";
+           type string;
+         }
+         leaf-list apply-groups-except {
+           ordered-by user;
+           description "Don't inherit configuration data from these groups";
+           type string;
+         }
          uses juniper-routing-instance;
        }
      }
@@ -460,6 +470,66 @@
      leaf no-vrf-advertise {
        description "Don't advertise this instance to remote PEs";
        type empty;
+     }
+     container vrf-table-label {
+       presence "enable vrf-table-label";
+       description "Advertise a single VPN label for all routes in the VRF";
+       leaf static {
+         description "Specify label value to be used";
+         type union {
+           type string {
+             pattern "<.*>|$.*";
+           }
+           type uint32 {
+             range "16 .. 1048575";
+           }
+         }
+       }
+       leaf source-class-usage {
+         description "Enable source class usage";
+         type empty;
+       }
+     }
+     container protocols {
+       description "Routing protocol configuration";
+       container bgp {
+         description "BGP options";
+         list group {
+           key name;
+           ordered-by user;
+           description "Define a peer group";
+           leaf name {
+             description "Group name";
+             type string;
+           }
+           leaf passive {
+             description "Do not send open messages to a peer";
+             type empty;
+           }
+           leaf-list import {
+             ordered-by user;
+             description "Import policy";
+             type jt:policy-algebra;
+           }
+           leaf-list export {
+             ordered-by user;
+             description "Export policy";
+             type jt:policy-algebra;
+           }
+         }
+       }
+       container evpn {
+         description "EVPN configuration";
+         presence "enable evpn";
+         leaf control-word {
+           description "Add control word to the Layer 2 encapsulation";
+           type empty;
+         }
+         leaf no-mac-learning {
+           description "Disable dynamic MAC address learning";
+           type empty;
+         }
+       }
      }
    }
    grouping juniper-system {
