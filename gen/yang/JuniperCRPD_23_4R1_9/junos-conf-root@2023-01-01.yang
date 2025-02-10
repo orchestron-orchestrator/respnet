@@ -700,6 +700,71 @@
              description "Export policy";
              type jt:policy-algebra;
            }
+           list neighbor {
+             key name;
+             ordered-by user;
+             description "Configure a neighbor";
+             leaf name {
+               type jt:ipaddr-scoped;
+             }
+             leaf description {
+               description "Text description";
+               type string {
+                 length "1 .. 255";
+               }
+             }
+             leaf peer-as {
+               description " Autonomous system number in plain number or 'higher 16bits'.'Lower 16 bits' (asdot notation) format";
+               type string {
+               }
+             }
+             leaf authentication-key {
+               description "MD5 authentication key";
+               type string {
+                 length "1 .. 126";
+               }
+             }
+             leaf as-override {
+               description "Replace neighbor AS number with our AS number";
+               type empty;
+             }
+             leaf authentication-algorithm {
+               description "Authentication algorithm name";
+               type enumeration {
+                 enum "md5" {
+                   description "Message Digest 5";
+                 }
+                 enum "hmac-sha-1-96" {
+                   description "Hash-based Message Authentication Code (SHA1) (96 bits)";
+                 }
+                 enum "aes-128-cmac-96" {
+                   description "Cipher-based Message Authentication Code (AES128) (96 bits)";
+                 }
+                 enum "ao" {
+                   description "TCP Authentication Option";
+                 }
+               }
+             }
+             container multihop {
+               presence "enable multihop";
+               description "Configure an EBGP multihop session";
+               leaf ttl {
+                 description "TTL value for the session";
+                 type union {
+                   type string {
+                     pattern "<.*>|$.*";
+                   }
+                   type uint8 {
+                     range "1 .. 255";
+                   }
+                 }
+               }
+               leaf no-nexthop-change {
+                 description "Do not change next hop to self in advertisements";
+                 type empty;
+               }
+             }
+           }
          }
        }
        container evpn {
