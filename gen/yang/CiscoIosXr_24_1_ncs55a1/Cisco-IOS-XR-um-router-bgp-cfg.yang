@@ -845,6 +845,68 @@ local BGP speaker's decision process";
             }
           }
         }
+        container neighbors {
+          description "Specify a neighbor router";
+          list neighbor {
+            key neighbor-address;
+            description "Neighbor address";
+            leaf neighbor-address {
+              type "inet:ip-address-no-zone";
+              description "Neighbor address";
+            }
+            container address-families {
+              description "Enter Address Family command mode";
+              list address-family {
+                key af-name;
+                description "Enter Address Family command mode";
+                leaf af-name {
+                  type Bgp-address-family;
+                  description "Enter Address Family command mode";
+                }
+                container route-policy {
+                  description "Apply route policy to neighbor";
+                  leaf in {
+                    type "xr:Route-policy-name";
+                    description "Apply route policy to inbound routes";
+                  }
+                  leaf out {
+                    type "xr:Route-policy-name";
+                    description "Apply route policy to outbound routes";
+                  }
+                  container retention {
+                    description "Apply retention policy to inbound routes";
+                    leaf route-policy-name {
+                      type "xr:Route-policy-name";
+                      must "../retention-time";
+                      description "Apply retention policy to inbound routes";
+                    }
+                    leaf retention-time {
+                      type uint32 {
+                        range "0..4294967295" {
+                          description "Max time (seconds)";
+                        }
+                      }
+                      must "../route-policy-name";
+                      description "Retention-time for this neighbor";
+                    }
+                  }
+                }
+              }
+            }
+            leaf remote-as {
+              type "xr:Bgp-as-number";
+              description "bgp as-number";
+            }
+            leaf description {
+              type string {
+                length "1..1024" {
+                  description "Up to 80 characters describing this neighbor";
+                }
+              }
+              description "Neighbor specific description";
+            }
+          }
+        }
       }
     }
   }

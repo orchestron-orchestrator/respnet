@@ -96,8 +96,22 @@ module: Cisco-IOS-XR-um-router-bgp-cfg
               +--rw vrf* [vrf-name]
                  +--rw vrf-name            xr:Cisco-ios-xr-string
                  +--rw address-families
-                    +--rw address-family* [af-name]
-                       +--rw af-name    Bgp-address-family
+                 |  +--rw address-family* [af-name]
+                 |     +--rw af-name    Bgp-address-family
+                 +--rw neighbors
+                    +--rw neighbor* [neighbor-address]
+                       +--rw neighbor-address    inet:ip-address-no-zone
+                       +--rw address-families
+                       |  +--rw address-family* [af-name]
+                       |     +--rw af-name         Bgp-address-family
+                       |     +--rw route-policy
+                       |        +--rw in?          xr:Route-policy-name
+                       |        +--rw out?         xr:Route-policy-name
+                       |        +--rw retention
+                       |           +--rw route-policy-name?   xr:Route-policy-name
+                       |           +--rw retention-time?      uint32
+                       +--rw remote-as?          xr:Bgp-as-number
+                       +--rw description?        string
 
   augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:unicast:
     +--rw import

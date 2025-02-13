@@ -7306,11 +7306,337 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_famili
 
 
 
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__neighbor_address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("union", val)
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__af_name(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("enumeration", val)
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__in(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__out(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention__route_policy_name(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention__retention_time(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention(yang.adata.MNode):
+    route_policy_name: ?str
+    retention_time: ?int
+
+    mut def __init__(self, route_policy_name: ?str, retention_time: ?int):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.route_policy_name = route_policy_name
+        self.retention_time = retention_time
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _route_policy_name = self.route_policy_name
+        _retention_time = self.retention_time
+        if _route_policy_name is not None:
+            children['route-policy-name'] = yang.gdata.Leaf('string', _route_policy_name)
+        if _retention_time is not None:
+            children['retention-time'] = yang.gdata.Leaf('uint32', _retention_time)
+        return yang.gdata.Container(children)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention(route_policy_name=n.get_opt_str("route-policy-name"), retention_time=n.get_opt_int("retention-time"))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention()
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention(route_policy_name=yang.gdata.from_xml_opt_str(n, "route-policy-name"), retention_time=yang.gdata.from_xml_opt_int(n, "retention-time"))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention()
+
+
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy(yang.adata.MNode):
+    in_: ?str
+    out: ?str
+    retention: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention
+
+    mut def __init__(self, in_: ?str, out: ?str, retention: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention=None):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.in_ = in_
+        self.out = out
+        if retention is not None:
+            self.retention = retention
+        else:
+            self.retention = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention()
+        self_retention = self.retention
+        if self_retention is not None:
+            self_retention._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _in_ = self.in_
+        _out = self.out
+        _retention = self.retention
+        if _in_ is not None:
+            children['in'] = yang.gdata.Leaf('string', _in_)
+        if _out is not None:
+            children['out'] = yang.gdata.Leaf('string', _out)
+        if _retention is not None:
+            children['retention'] = _retention.to_gdata()
+        return yang.gdata.Container(children)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy(in_=n.get_opt_str("in"), out=n.get_opt_str("out"), retention=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention.from_gdata(n.get_opt_container("retention")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy()
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy(in_=yang.gdata.from_xml_opt_str(n, "in"), out=yang.gdata.from_xml_opt_str(n, "out"), retention=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy__retention.from_xml(yang.gdata.get_xml_opt_child(n, "retention")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy()
+
+
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(yang.adata.MNode):
+    af_name: str
+    route_policy: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy
+
+    mut def __init__(self, af_name: str, route_policy: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy=None):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.af_name = af_name
+        if route_policy is not None:
+            self.route_policy = route_policy
+        else:
+            self.route_policy = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy()
+        self_route_policy = self.route_policy
+        if self_route_policy is not None:
+            self_route_policy._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _af_name = self.af_name
+        _route_policy = self.route_policy
+        if _af_name is not None:
+            children['af-name'] = yang.gdata.Leaf('enumeration', _af_name)
+        if _route_policy is not None:
+            children['route-policy'] = _route_policy.to_gdata()
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.af_name)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry:
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name=n.get_str("af-name"), route_policy=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy.from_gdata(n.get_opt_container("route-policy")))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry:
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name=yang.gdata.from_xml_str(n, "af-name"), route_policy=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy.from_xml(yang.gdata.get_xml_opt_child(n, "route-policy")))
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family(yang.adata.MNode):
+    elements: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self._name = 'address-family'
+        self.elements = elements
+
+    mut def create(self, af_name):
+        for e in self.elements:
+            match = True
+            if e.af_name != af_name:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['af-name'], elements)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry]:
+        res = []
+        for node in nodes:
+            res.append(Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry.from_xml(node))
+        return res
+
+
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families(yang.adata.MNode):
+    address_family: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family
+
+    mut def __init__(self, address_family: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry]=[]):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.address_family = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family(elements=address_family)
+        self.address_family._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _address_family = self.address_family
+        if _address_family is not None:
+            children['address-family'] = _address_family.to_gdata()
+        return yang.gdata.Container(children)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families(address_family=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family.from_gdata(n.get_opt_list("address-family")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families()
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families(address_family=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family.from_xml(yang.gdata.get_xml_children(n, "address-family")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families()
+
+
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__remote_as(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__description(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(yang.adata.MNode):
+    neighbor_address: str
+    address_families: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families
+    remote_as: ?str
+    description: ?str
+
+    mut def __init__(self, neighbor_address: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families=None, remote_as: ?str, description: ?str):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.neighbor_address = neighbor_address
+        if address_families is not None:
+            self.address_families = address_families
+        else:
+            self.address_families = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families()
+        self_address_families = self.address_families
+        if self_address_families is not None:
+            self_address_families._parent = self
+        self.remote_as = remote_as
+        self.description = description
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _neighbor_address = self.neighbor_address
+        _address_families = self.address_families
+        _remote_as = self.remote_as
+        _description = self.description
+        if _neighbor_address is not None:
+            children['neighbor-address'] = yang.gdata.Leaf('union', _neighbor_address)
+        if _address_families is not None:
+            children['address-families'] = _address_families.to_gdata()
+        if _remote_as is not None:
+            children['remote-as'] = yang.gdata.Leaf('string', _remote_as)
+        if _description is not None:
+            children['description'] = yang.gdata.Leaf('string', _description)
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.neighbor_address)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry:
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address=n.get_str("neighbor-address"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families.from_gdata(n.get_opt_container("address-families")), remote_as=n.get_opt_str("remote-as"), description=n.get_opt_str("description"))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry:
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address=yang.gdata.from_xml_str(n, "neighbor-address"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")), remote_as=yang.gdata.from_xml_opt_str(n, "remote-as"), description=yang.gdata.from_xml_opt_str(n, "description"))
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor(yang.adata.MNode):
+    elements: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self._name = 'neighbor'
+        self.elements = elements
+
+    mut def create(self, neighbor_address):
+        for e in self.elements:
+            match = True
+            if e.neighbor_address != neighbor_address:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['neighbor-address'], elements)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry]:
+        res = []
+        for node in nodes:
+            res.append(Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry.from_xml(node))
+        return res
+
+
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors(yang.adata.MNode):
+    neighbor: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor
+
+    mut def __init__(self, neighbor: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry]=[]):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.neighbor = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor(elements=neighbor)
+        self.neighbor._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _neighbor = self.neighbor
+        if _neighbor is not None:
+            children['neighbor'] = _neighbor.to_gdata()
+        return yang.gdata.Container(children)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors(neighbor=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor.from_gdata(n.get_opt_list("neighbor")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors()
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors(neighbor=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor.from_xml(yang.gdata.get_xml_children(n, "neighbor")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors()
+
+
+
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry(yang.adata.MNode):
     vrf_name: str
     address_families: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families
+    neighbors: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors
 
-    mut def __init__(self, vrf_name: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families=None):
+    mut def __init__(self, vrf_name: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families=None, neighbors: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors=None):
         self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
         self.vrf_name = vrf_name
         if address_families is not None:
@@ -7320,24 +7646,34 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry(yang.adat
         self_address_families = self.address_families
         if self_address_families is not None:
             self_address_families._parent = self
+        if neighbors is not None:
+            self.neighbors = neighbors
+        else:
+            self.neighbors = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors()
+        self_neighbors = self.neighbors
+        if self_neighbors is not None:
+            self_neighbors._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _vrf_name = self.vrf_name
         _address_families = self.address_families
+        _neighbors = self.neighbors
         if _vrf_name is not None:
             children['vrf-name'] = yang.gdata.Leaf('string', _vrf_name)
         if _address_families is not None:
             children['address-families'] = _address_families.to_gdata()
+        if _neighbors is not None:
+            children['neighbors'] = _neighbors.to_gdata()
         return yang.gdata.ListElement([yang.gdata.yang_str(self.vrf_name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry(vrf_name=n.get_str("vrf-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families.from_gdata(n.get_opt_container("address-families")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry(vrf_name=n.get_str("vrf-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families.from_gdata(n.get_opt_container("address-families")), neighbors=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors.from_gdata(n.get_opt_container("neighbors")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry(vrf_name=yang.gdata.from_xml_str(n, "vrf-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry(vrf_name=yang.gdata.from_xml_str(n, "vrf-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")), neighbors=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors.from_xml(yang.gdata.get_xml_opt_child(n, "neighbors")))
 
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf(yang.adata.MNode):
     elements: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf_entry]

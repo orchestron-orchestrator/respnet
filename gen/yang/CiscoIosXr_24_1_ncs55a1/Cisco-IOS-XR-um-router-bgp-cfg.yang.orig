@@ -13787,7 +13787,6 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             */
           }
         }
-        /* XXX
         container neighbors {
           description
             "Specify a neighbor router";
@@ -13812,6 +13811,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                   description
                     "Enter Address Family command mode";
                 }
+                /* XXX
                 container use {
                   description
                     "Inherit configuration for this address-family from a group";
@@ -14016,6 +14016,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                     }
                   }
                 }
+                */
                 container route-policy {
                   description
                     "Apply route policy to neighbor";
@@ -14051,6 +14052,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                     }
                   }
                 }
+                /* XXX
                 container orf {
                   description
                     "Specify ORF and inbound filtering criteria";
@@ -14576,8 +14578,10 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                     }
                   }
                 }
+                */
               }
             }
+            /* XXX
             container update {
               description
                 "BGP Update configuration";
@@ -14758,11 +14762,13 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                 }
               }
             }
+            */
             leaf remote-as {
               type xr:Bgp-as-number;
               description
                 "bgp as-number";
             }
+            /* XXX
             leaf remote-as-list {
               type string {
                 length "1..1024" {
@@ -14823,6 +14829,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                   "time in milliseconds";
               }
             }
+            */
             leaf description {
               type string {
                 length "1..1024" {
@@ -14833,6 +14840,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               description
                 "Neighbor specific description";
             }
+            /* XXX
             container ignore-connected-check {
               presence "Indicates a ignore-connected-check node is configured.";
               description
@@ -15762,7 +15770,9 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               description
                 "Restart timer interval";
             }
+            */
           }
+          /* XXX
           list neighbor-range {
             key "neighbor-address prefix-length";
             description
@@ -17566,7 +17576,9 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               }
             }
           }
+          */
         }
+        /* XXX
         container mpls {
           description
             "Enable mpls parameters";
