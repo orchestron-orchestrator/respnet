@@ -29,7 +29,7 @@
         </vpn-profiles>
         <vpn-services>
             <vpn-service>
-                <vpn-id>VPN-1</vpn-id>
+                <vpn-id>acme-65501</vpn-id>
                 <customer-name>CUSTOMER-1</customer-name>
             </vpn-service>
         </vpn-services>
@@ -54,7 +54,7 @@
                             <svc-mtu>9000</svc-mtu>
                         </service>
                         <vpn-attachment>
-                            <vpn-id>VPN-1</vpn-id>
+                            <vpn-id>acme-65501</vpn-id>
                         </vpn-attachment>
                         <ip-connection>
                             <ipv4>
@@ -91,7 +91,7 @@
                             <svc-mtu>9000</svc-mtu>
                         </service>
                         <vpn-attachment>
-                            <vpn-id>VPN-1</vpn-id>
+                            <vpn-id>acme-65501</vpn-id>
                         </vpn-attachment>
                         <ip-connection>
                             <ipv4>
