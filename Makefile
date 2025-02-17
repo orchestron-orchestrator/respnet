@@ -1,11 +1,15 @@
 
 .PHONY: build
 build:
-	acton build --dev $(DEP_OVERRIDES)
+	acton build --dev $(DEP_OVERRIDES) $(TARGET)
 
 .PHONY: build-ldep
 build-ldep:
 	$(MAKE) build DEP_OVERRIDES="--dep netconf=../netconf --dep orchestron=../orchestron --dep yang=../acton-yang"
+
+.PHONY: build-linux
+build-linux:
+	$(MAKE) build TARGET="--target x86_64-linux-gnu.2.27"
 
 .PHONY: test
 test:
