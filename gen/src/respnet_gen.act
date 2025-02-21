@@ -3609,15 +3609,20 @@ actor main(env):
     wfc = file.WriteFileCap(fc)
     pc = process.ProcessCap(env.cap)
 
+    orchestron.build.apply_schema_transforms_to_dir(fc, "yang/CiscoIosXr_24_1_ncs55a1", [
+        orchestron.build.SchemaTransformChain(".*yang.orig", [orchestron.build.SchemaTransformNoComments()])
+    ])
+    orchestron.build.apply_schema_transforms_to_dir(fc, "yang/JuniperCRPD_23_4R1_9", [
+        orchestron.build.SchemaTransformChain(".*yang.orig", [orchestron.build.SchemaTransformUnions()])
+    ])
+
     spec = orchestron.build.SysSpec("respnet", [
         orchestron.build.Layer([netinfra_yang, l3vpn_yang, oyang.ietf_inet_types, yang_types_yang]),
         orchestron.build.Layer([netinfra_inter_yang, l3vpn_inter_yang]),
         orchestron.build.Layer([oyang.rfs, oyang.ietf_inet_types, respnet_rfs_yang]),
     ], [
         orchestron.build.DeviceType.from_dir(fc, "CiscoIosXr_24_1_ncs55a1", "yang/CiscoIosXr_24_1_ncs55a1"),
-        orchestron.build.DeviceType.from_dir(fc, "JuniperCRPD_23_4R1_9", "yang/JuniperCRPD_23_4R1_9", [
-             orchestron.build.SchemaTransformChain(".*yang.orig", [orchestron.build.SchemaTransformUnions()])
-        ], pc),
+        orchestron.build.DeviceType.from_dir(fc, "JuniperCRPD_23_4R1_9", "yang/JuniperCRPD_23_4R1_9")
     ])
     spec.gen_app(wfc, "../src/")
 
