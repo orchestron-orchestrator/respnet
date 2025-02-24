@@ -28,8 +28,9 @@ netinfra_yang = """module netinfra {
         type string;
       }
       leaf id {
-        type string;
+        type uint32;
         description "router id";
+        mandatory true;
       }
       leaf role {
         type string;
@@ -3345,6 +3346,9 @@ netinfra_inter_yang = """module netinfra-inter {
     description "test revision";
     reference "ref1";
   }
+  import ietf-inet-types {
+    prefix inet;
+  }
 
   container netinfra {
     description "Network infrastructure";
@@ -3357,8 +3361,9 @@ netinfra_inter_yang = """module netinfra-inter {
         type string;
       }
       leaf id {
-        type string;
+        type uint32;
         description "router id";
+        mandatory true;
       }
       leaf role {
         type string;
@@ -3367,6 +3372,17 @@ netinfra_inter_yang = """module netinfra-inter {
         type enumeration {
           enum cisco-ios-xr;
           enum juniper-junos;
+        }
+      }
+      // Allocated to the router in the CFS layer
+      container base-config {
+        leaf ipv4-address {
+          type inet:ipv4-address;
+          mandatory true;
+        }
+        leaf ipv6-address {
+          type inet:ipv6-address;
+          mandatory true;
         }
       }
     }
@@ -3618,7 +3634,7 @@ actor main(env):
 
     spec = orchestron.build.SysSpec("respnet", [
         orchestron.build.Layer([netinfra_yang, l3vpn_yang, oyang.ietf_inet_types, yang_types_yang]),
-        orchestron.build.Layer([netinfra_inter_yang, l3vpn_inter_yang]),
+        orchestron.build.Layer([netinfra_inter_yang, l3vpn_inter_yang, oyang.ietf_inet_types]),
         orchestron.build.Layer([oyang.rfs, oyang.ietf_inet_types, respnet_rfs_yang]),
     ], [
         orchestron.build.DeviceType.from_dir(fc, "CiscoIosXr_24_1_ncs55a1", "yang/CiscoIosXr_24_1_ncs55a1"),

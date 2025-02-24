@@ -487,7 +487,7 @@ mut def from_json_netinfra_inter__netinfra__routers__name(val: value) -> yang.gd
     return yang.gdata.Leaf("string", val)
 
 mut def from_json_netinfra_inter__netinfra__routers__id(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf("uint32", val)
 
 mut def from_json_netinfra_inter__netinfra__routers__role(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
@@ -495,18 +495,102 @@ mut def from_json_netinfra_inter__netinfra__routers__role(val: value) -> yang.gd
 mut def from_json_netinfra_inter__netinfra__routers__mock(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("enumeration", val)
 
+mut def from_json_netinfra_inter__netinfra__routers__base_config__ipv4_address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_netinfra_inter__netinfra__routers__base_config__ipv6_address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+class netinfra_inter__netinfra__routers__base_config(yang.adata.MNode):
+    ipv4_address: str
+    ipv6_address: str
+
+    mut def __init__(self, ipv4_address: str, ipv6_address: str):
+        self._ns = "http://example.com/netinfra-inter"
+        self.ipv4_address = ipv4_address
+        self.ipv6_address = ipv6_address
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _ipv4_address = self.ipv4_address
+        _ipv6_address = self.ipv6_address
+        if _ipv4_address is not None:
+            children['ipv4-address'] = yang.gdata.Leaf('string', _ipv4_address)
+        if _ipv6_address is not None:
+            children['ipv6-address'] = yang.gdata.Leaf('string', _ipv6_address)
+        return yang.gdata.Container(children)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> netinfra_inter__netinfra__routers__base_config:
+        if n != None:
+            return netinfra_inter__netinfra__routers__base_config(ipv4_address=n.get_str("ipv4-address"), ipv6_address=n.get_str("ipv6-address"))
+        raise ValueError("Missing required subtree netinfra_inter__netinfra__routers__base_config")
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> netinfra_inter__netinfra__routers__base_config:
+        if n != None:
+            return netinfra_inter__netinfra__routers__base_config(ipv4_address=yang.gdata.from_xml_str(n, "ipv4-address"), ipv6_address=yang.gdata.from_xml_str(n, "ipv6-address"))
+        raise ValueError("Missing required subtree netinfra_inter__netinfra__routers__base_config")
+
+
+mut def from_json_path_netinfra_inter__netinfra__routers__base_config(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+    # path handling
+    if len(path) > 0:
+        point = path[0]
+        rest_path = path[1:]
+        if point == 'netinfra-inter:ipv4-address' or point == 'ipv4-address':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'netinfra-inter:ipv6-address' or point == 'ipv6-address':
+            raise ValueError("Invalid json path to non-inner node")
+        raise ValueError("Invalid path")
+    elif len(path) == 0:
+        if op == "merge":
+            return from_json_netinfra_inter__netinfra__routers__base_config(yang.gdata.unwrap_dict(jd))
+        elif op == "remove":
+            return yang.gdata.Absent()
+        raise ValueError("Invalid operation")
+    raise ValueError("Unable to resolve path")
+
+mut def from_json_netinfra_inter__netinfra__routers__base_config(jd: dict[str, ?value]) -> yang.gdata.Container:
+    children = {}
+    child_ipv4_address_full = jd.get('netinfra-inter:ipv4-address')
+    child_ipv4_address = child_ipv4_address_full if child_ipv4_address_full is not None else jd.get('ipv4-address')
+    if child_ipv4_address is not None:
+        children['ipv4-address'] = from_json_netinfra_inter__netinfra__routers__base_config__ipv4_address(child_ipv4_address)
+    child_ipv6_address_full = jd.get('netinfra-inter:ipv6-address')
+    child_ipv6_address = child_ipv6_address_full if child_ipv6_address_full is not None else jd.get('ipv6-address')
+    if child_ipv6_address is not None:
+        children['ipv6-address'] = from_json_netinfra_inter__netinfra__routers__base_config__ipv6_address(child_ipv6_address)
+    return yang.gdata.Container(children)
+
+mut def to_json_netinfra_inter__netinfra__routers__base_config(n: yang.gdata.Container) -> dict[str, ?value]:
+    children = {}
+    child_ipv4_address = n.children.get('ipv4-address')
+    if child_ipv4_address is not None:
+        if isinstance(child_ipv4_address, yang.gdata.Leaf):
+            children['ipv4-address'] = child_ipv4_address.val
+    child_ipv6_address = n.children.get('ipv6-address')
+    if child_ipv6_address is not None:
+        if isinstance(child_ipv6_address, yang.gdata.Leaf):
+            children['ipv6-address'] = child_ipv6_address.val
+    return children
+
+
 class netinfra_inter__netinfra__routers_entry(yang.adata.MNode):
     name: str
-    id: ?str
+    id: int
     role: ?str
     mock: ?str
+    base_config: netinfra_inter__netinfra__routers__base_config
 
-    mut def __init__(self, name: str, id: ?str, role: ?str, mock: ?str):
+    mut def __init__(self, name: str, id: int, base_config: netinfra_inter__netinfra__routers__base_config, role: ?str, mock: ?str):
         self._ns = "http://example.com/netinfra-inter"
         self.name = name
         self.id = id
         self.role = role
         self.mock = mock
+        self.base_config = base_config
+        self.base_config._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
@@ -514,23 +598,26 @@ class netinfra_inter__netinfra__routers_entry(yang.adata.MNode):
         _id = self.id
         _role = self.role
         _mock = self.mock
+        _base_config = self.base_config
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _id is not None:
-            children['id'] = yang.gdata.Leaf('string', _id)
+            children['id'] = yang.gdata.Leaf('uint32', _id)
         if _role is not None:
             children['role'] = yang.gdata.Leaf('string', _role)
         if _mock is not None:
             children['mock'] = yang.gdata.Leaf('enumeration', _mock)
+        if _base_config is not None:
+            children['base-config'] = _base_config.to_gdata()
         return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__routers_entry:
-        return netinfra_inter__netinfra__routers_entry(name=n.get_str("name"), id=n.get_opt_str("id"), role=n.get_opt_str("role"), mock=n.get_opt_str("mock"))
+        return netinfra_inter__netinfra__routers_entry(name=n.get_str("name"), id=n.get_int("id"), role=n.get_opt_str("role"), mock=n.get_opt_str("mock"), base_config=netinfra_inter__netinfra__routers__base_config.from_gdata(n.get_container("base-config")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__routers_entry:
-        return netinfra_inter__netinfra__routers_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_opt_str(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), mock=yang.gdata.from_xml_opt_str(n, "mock"))
+        return netinfra_inter__netinfra__routers_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_int(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), mock=yang.gdata.from_xml_opt_str(n, "mock"), base_config=netinfra_inter__netinfra__routers__base_config.from_xml(yang.gdata.get_xml_child(n, "base-config")))
 
 class netinfra_inter__netinfra__routers(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__routers_entry]
@@ -539,7 +626,7 @@ class netinfra_inter__netinfra__routers(yang.adata.MNode):
         self._name = 'routers'
         self.elements = elements
 
-    mut def create(self, name):
+    mut def create(self, name, id, base_config):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -548,7 +635,7 @@ class netinfra_inter__netinfra__routers(yang.adata.MNode):
             if match:
                 return e
 
-        res = netinfra_inter__netinfra__routers_entry(name)
+        res = netinfra_inter__netinfra__routers_entry(name, id, base_config)
         self.elements.append(res)
         return res
 
@@ -600,6 +687,8 @@ mut def from_json_path_netinfra_inter__netinfra__routers_element(jd: value, path
             raise ValueError("Invalid json path to non-inner node")
         if point == 'mock':
             raise ValueError("Invalid json path to non-inner node")
+        if point == 'base-config':
+            children['base-config'] = from_json_path_netinfra_inter__netinfra__routers__base_config(jd, rest_path, op)
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -646,6 +735,10 @@ mut def from_json_netinfra_inter__netinfra__routers_element(jd: dict[str, ?value
     child_mock = child_mock_full if child_mock_full is not None else jd.get('mock')
     if child_mock is not None:
         children['mock'] = from_json_netinfra_inter__netinfra__routers__mock(child_mock)
+    child_base_config_full = jd.get('netinfra-inter:base-config')
+    child_base_config = child_base_config_full if child_base_config_full is not None else jd.get('base-config')
+    if child_base_config is not None and isinstance(child_base_config, dict):
+        children['base-config'] = from_json_netinfra_inter__netinfra__routers__base_config(child_base_config)
     return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
 
 mut def from_json_netinfra_inter__netinfra__routers(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -673,6 +766,10 @@ mut def to_json_netinfra_inter__netinfra__routers_element(n: yang.gdata.ListElem
     if child_mock is not None:
         if isinstance(child_mock, yang.gdata.Leaf):
             children['mock'] = child_mock.val
+    child_base_config = n.children.get('base-config')
+    if child_base_config is not None:
+        if isinstance(child_base_config, yang.gdata.Container):
+            children['base-config'] = to_json_netinfra_inter__netinfra__routers__base_config(child_base_config)
     return children
 
 mut def to_json_netinfra_inter__netinfra__routers(n: yang.gdata.List) -> list[dict[str, ?value]]:
