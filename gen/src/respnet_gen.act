@@ -3403,14 +3403,21 @@ netinfra_inter_yang = """module netinfra-inter {
         }
       }
       // This list contains vpn-id entries written from the CFS layer.
-      // We use it in the "inter" layer to relay the router "id" to the vrf.Rfs transform.
-      // The rfs.Vrf rfs transform will use the router "id" to compute the RD.
-      // By doing this, we can avoid having the router id in the L3VPN CFS model.
-      // Note: this means the vrf.Rfs transform is written to from both inter.Router and inter.L3VpnSite
+      // We use it in the "inter" layer to relay the router (/netinfra/router) parameters
+      // to the the "rfs" layer tranforms: rfs.Vrf and rfs.EbgpCustomer need the router id and asn.
+      // The data for these transforms is part of the L3VPN transform stack so these
+      // are written to from the inter.L3Vpn transform primarily.
+      // But, we want to avoid having the router id and asn in the L3VPN CFS model!
+      // By writing to this list from the cfs.L3VpnSite we can "register" an VPN instance
+      // on this router. Then in the inter.Router transform we can read the router id and asn
+      // from the inputs and write them to the rfs.Vrf and rfs.EbgpCustomer transforms.
       list l3vpn-vrf {
         key "vpn-id";
         leaf vpn-id {
           type string;
+        }
+        leaf-list ebgp-customer-address {
+          type inet:ip-address;
         }
       }
     }
@@ -3670,7 +3677,33 @@ respnet_rfs_yang = """module respnet-rfs {
                 default "30";
             }
         }
+
+    list ebgp-customer {
+      key "vrf address";
+      orchestron:rfs-transform respnet.rfs.EbgpCustomer;
+      leaf vrf {
+        type string;
+      }
+      leaf address {
+        type inet:ip-address;
+      }
+      leaf local-asn {
+        type uint32;
+        mandatory true;
+      }
+      leaf peer-asn {
+        type uint32;
+        mandatory true;
+      }
+      leaf description {
+        type string;
+      }
+      leaf authentication-key {
+        type string;
+        mandatory true;
+      }
     }
+  }
 }
 """
 

@@ -77,6 +77,8 @@ class L3VpnSite(base.L3VpnSite):
                     o_ep.customer_ipv4_address = customer_ipv4_address
 
                 # TODO: do the VRF ID split here too?! vpn-id acme-65501 -> 65501
-                o.netinfra.routers.create(device).l3vpn_vrf.create(vpn_id)
+                inter_l3vpn = o.netinfra.routers.create(device).l3vpn_vrf.create(vpn_id)
+                if customer_ipv4_address is not None:
+                    inter_l3vpn.ebgp_customer_address.append(customer_ipv4_address)
 
         return o

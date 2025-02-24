@@ -701,27 +701,36 @@ mut def to_json_netinfra_inter__netinfra__routers__base_config(n: yang.gdata.Con
 mut def from_json_netinfra_inter__netinfra__routers__l3vpn_vrf__vpn_id(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
+mut def from_json_netinfra_inter__netinfra__routers__l3vpn_vrf__ebgp_customer_address(val: list[value]) -> yang.gdata.LeafList:
+    return yang.gdata.LeafList(val)
+
 class netinfra_inter__netinfra__routers__l3vpn_vrf_entry(yang.adata.MNode):
     vpn_id: str
+    ebgp_customer_address: list[str]
 
-    mut def __init__(self, vpn_id: str):
+    mut def __init__(self, vpn_id: str, ebgp_customer_address: ?list[str]=None):
         self._ns = "http://example.com/netinfra-inter"
         self.vpn_id = vpn_id
+        if ebgp_customer_address is not None:
+            self.ebgp_customer_address = ebgp_customer_address
+        else:
+            self.ebgp_customer_address = []
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _vpn_id = self.vpn_id
         if _vpn_id is not None:
             children['vpn-id'] = yang.gdata.Leaf('string', _vpn_id)
+        children['ebgp-customer-address'] = yang.gdata.LeafList(self.ebgp_customer_address)
         return yang.gdata.ListElement([yang.gdata.yang_str(self.vpn_id)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__routers__l3vpn_vrf_entry:
-        return netinfra_inter__netinfra__routers__l3vpn_vrf_entry(vpn_id=n.get_str("vpn-id"))
+        return netinfra_inter__netinfra__routers__l3vpn_vrf_entry(vpn_id=n.get_str("vpn-id"), ebgp_customer_address=n.get_opt_strs("ebgp-customer-address"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__routers__l3vpn_vrf_entry:
-        return netinfra_inter__netinfra__routers__l3vpn_vrf_entry(vpn_id=yang.gdata.from_xml_str(n, "vpn-id"))
+        return netinfra_inter__netinfra__routers__l3vpn_vrf_entry(vpn_id=yang.gdata.from_xml_str(n, "vpn-id"), ebgp_customer_address=yang.gdata.from_xml_opt_strs(n, "ebgp-customer-address"))
 
 class netinfra_inter__netinfra__routers__l3vpn_vrf(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__routers__l3vpn_vrf_entry]
@@ -785,6 +794,8 @@ mut def from_json_path_netinfra_inter__netinfra__routers__l3vpn_vrf_element(jd: 
         children: dict[str, yang.gdata.Node] = {}
         for idx, key in enumerate(['vpn-id']):
             children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'ebgp-customer-address':
+            raise ValueError("Invalid json path to non-inner node")
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -819,6 +830,10 @@ mut def from_json_netinfra_inter__netinfra__routers__l3vpn_vrf_element(jd: dict[
     child_vpn_id = child_vpn_id_full if child_vpn_id_full is not None else jd.get('vpn-id')
     if child_vpn_id is not None:
         children['vpn-id'] = from_json_netinfra_inter__netinfra__routers__l3vpn_vrf__vpn_id(child_vpn_id)
+    child_ebgp_customer_address_full = jd.get('netinfra-inter:ebgp-customer-address')
+    child_ebgp_customer_address = child_ebgp_customer_address_full if child_ebgp_customer_address_full is not None else jd.get('ebgp-customer-address')
+    if child_ebgp_customer_address is not None and isinstance(child_ebgp_customer_address, list):
+        children['ebgp-customer-address'] = from_json_netinfra_inter__netinfra__routers__l3vpn_vrf__ebgp_customer_address(child_ebgp_customer_address)
     return yang.gdata.ListElement([str(child_vpn_id if child_vpn_id is not None else "")], children)
 
 mut def from_json_netinfra_inter__netinfra__routers__l3vpn_vrf(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -834,6 +849,10 @@ mut def to_json_netinfra_inter__netinfra__routers__l3vpn_vrf_element(n: yang.gda
     if child_vpn_id is not None:
         if isinstance(child_vpn_id, yang.gdata.Leaf):
             children['vpn-id'] = child_vpn_id.val
+    child_ebgp_customer_address = n.children.get('ebgp-customer-address')
+    if child_ebgp_customer_address is not None:
+        if isinstance(child_ebgp_customer_address, yang.gdata.LeafList):
+            children['ebgp-customer-address'] = child_ebgp_customer_address.vals
     return children
 
 mut def to_json_netinfra_inter__netinfra__routers__l3vpn_vrf(n: yang.gdata.List) -> list[dict[str, ?value]]:
