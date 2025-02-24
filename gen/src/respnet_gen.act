@@ -3576,6 +3576,23 @@ respnet_rfs_yang = """module respnet-rfs {
             }
         }
 
+        list ibgp-neighbor {
+          key address;
+          orchestron:rfs-transform respnet.rfs.IbgpNeighbor;
+          leaf address {
+            type inet:ip-address;
+          }
+          leaf asn {
+            // Need this one for IOS XR: router bgp <asn>
+            type inet:as-number;
+            mandatory true;
+          }
+          leaf description {
+            type string;
+            mandatory true;
+          }
+        }
+
         list vrf {
             key name;
             orchestron:rfs-transform respnet.rfs.Vrf;
