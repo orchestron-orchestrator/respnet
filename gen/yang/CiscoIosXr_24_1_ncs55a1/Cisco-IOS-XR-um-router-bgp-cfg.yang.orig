@@ -10503,6 +10503,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               "time in milliseconds";
           }
         }
+        */
         leaf description {
           type string {
             length "1..1024" {
@@ -10513,6 +10514,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
           description
             "Neighbor specific description";
         }
+        /* XXX
         container ignore-connected-check {
           presence "Indicates a ignore-connected-check node is configured.";
           description

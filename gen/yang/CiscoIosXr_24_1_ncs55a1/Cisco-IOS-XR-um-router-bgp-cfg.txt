@@ -86,6 +86,7 @@ module: Cisco-IOS-XR-um-router-bgp-cfg
            |     |  +--rw address-family* [af-name]
            |     |     +--rw af-name    Bgp-address-family
            |     +--rw remote-as?             xr:Bgp-as-number
+           |     +--rw description?           string
            |     +--rw password!
            |     |  +--rw encrypted?             xr:Proprietary-password
            |     |  +--rw inheritance-disable!

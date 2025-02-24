@@ -795,6 +795,14 @@ local BGP speaker's decision process";
           type "xr:Bgp-as-number";
           description "bgp as-number";
         }
+        leaf description {
+          type string {
+            length "1..1024" {
+              description "Up to 80 characters describing this neighbor";
+            }
+          }
+          description "Neighbor specific description";
+        }
         container password {
           must "encrypted or inheritance-disable";
           presence "Indicates a password node is configured.";
