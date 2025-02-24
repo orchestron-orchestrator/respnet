@@ -236,3 +236,44 @@ class VrfInterface(base.VrfInterface):
             return dev
 
         raise UnsupportedDevice()
+
+class EbgpCustomer(base.EbgpCustomer):
+    def transform(self, i, di):
+        print("RFS /rfs{%s}/ebgp-customer transform running %s" % (di.name, i.address))
+
+        if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
+            dev = xr24.root()
+
+            bgp_as = dev.um_router_bgp_cfg_router.bgp.as_.create(str(i.local_asn))
+
+            vrf = bgp_as.vrfs.vrf.create(i.vrf)
+            vrf.address_families.address_family.create("ipv4-unicast")
+
+            neighbor = vrf.neighbors.neighbor.create(i.address)
+            af = neighbor.address_families.address_family.create("ipv4-unicast")
+            # af.route_policy.in_ = "ACCEPT"
+            # af.route_policy.out = "ACCEPT"
+
+            neighbor.remote_as = str(i.peer_asn)
+            neighbor.description = i.description
+            # TODO: Add proper Cisco password encryption
+            # neighbor.create_password().encrypted = i.authentication_key
+
+            return dev
+
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+            dev = crpd23.root()
+
+            ri = dev.configuration.routing_instances.instance.create(i.vrf)
+            # TODO: why group?!
+            group = ri.protocols.bgp.group.create("customer")
+
+            neighbor = group.neighbor.create(i.address)
+            neighbor.description = i.description
+            neighbor.authentication_key = i.authentication_key
+            neighbor.peer_as = str(i.peer_asn)
+            neighbor.as_override = True
+
+            return dev
+
+        raise UnsupportedDevice()

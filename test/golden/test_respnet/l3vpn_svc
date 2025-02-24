@@ -108,6 +108,28 @@
             <bgp>
               <router-id>10.0.0.1</router-id>
             </bgp>
+            <vrfs>
+              <vrf>
+                <vrf-name>VPN-1</vrf-name>
+                <address-families>
+                  <address-family>
+                    <af-name>ipv4-unicast</af-name>
+                  </address-family>
+                </address-families>
+                <neighbors>
+                  <neighbor>
+                    <neighbor-address>10.201.1.2</neighbor-address>
+                    <address-families>
+                      <address-family>
+                        <af-name>ipv4-unicast</af-name>
+                      </address-family>
+                    </address-families>
+                    <remote-as>65501</remote-as>
+                    <description>Customer eBGP SITE-1 [SNA-1-1] in VPN VPN-1 to 10.201.1.2</description>
+                  </neighbor>
+                </neighbors>
+              </vrf>
+            </vrfs>
           </as>
         </bgp>
       </router>

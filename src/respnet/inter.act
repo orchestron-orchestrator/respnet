@@ -36,11 +36,14 @@ class Router(base.Router):
         bc.ipv6_address = i.base_config.ipv6_address
         bc.asn = i.base_config.asn
 
-        # Inject router id, asn into rfs.Vrf transform
+        # Inject router id, asn into rfs.Vrf, rfs.EbgpCustomer transform
         for vrf in i.l3vpn_vrf.elements:
             o_vrf = rfs.vrf.create(vrf.vpn_id)
             o_vrf.router_id = sid
             o_vrf.asn = i.base_config.asn
+            for ebgp_customer_address in vrf.ebgp_customer_address:
+                o_ebgp_customer = rfs.ebgp_customer.create(vrf.vpn_id, ebgp_customer_address)
+                o_ebgp_customer.local_asn = i.base_config.asn
 
         return o
 

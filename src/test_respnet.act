@@ -110,6 +110,7 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                                 <address-allocation-type>static-address</address-allocation-type>
                                 <addresses>
                                     <provider-address>10.201.1.1</provider-address>
+                                    <customer-address>10.201.1.2</customer-address>
                                     <prefix-length>30</prefix-length>
                                 </addresses>
                             </ipv4>
@@ -117,6 +118,15 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                         <bearer>
                             <bearer-reference>AMS-CORE-1,GigabitEthernet0/0/0/2</bearer-reference>
                         </bearer>
+                        <routing-protocols>
+                            <routing-protocol>
+                                <type>bgp</type>
+                                <bgp>
+                                    <autonomous-system>65501</autonomous-system>
+                                    <address-family>ipv4</address-family>
+                                </bgp>
+                            </routing-protocol>
+                        </routing-protocols>
                     </site-network-access>
                 </site-network-accesses>
             </site>
