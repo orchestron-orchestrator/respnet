@@ -6972,6 +6972,9 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor
 mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__remote_as(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__description(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
 mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password__encrypted(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
@@ -7047,10 +7050,11 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor
     neighbor_group_name: str
     address_families: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families
     remote_as: ?str
+    description: ?str
     password: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password
     update_source: ?str
 
-    mut def __init__(self, neighbor_group_name: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families=None, remote_as: ?str, password: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password=None, update_source: ?str):
+    mut def __init__(self, neighbor_group_name: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families=None, remote_as: ?str, description: ?str, password: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password=None, update_source: ?str):
         self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
         self.neighbor_group_name = neighbor_group_name
         if address_families is not None:
@@ -7061,6 +7065,7 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor
         if self_address_families is not None:
             self_address_families._parent = self
         self.remote_as = remote_as
+        self.description = description
         self.password = password
         self_password = self.password
         if self_password is not None:
@@ -7077,6 +7082,7 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor
         _neighbor_group_name = self.neighbor_group_name
         _address_families = self.address_families
         _remote_as = self.remote_as
+        _description = self.description
         _password = self.password
         _update_source = self.update_source
         if _neighbor_group_name is not None:
@@ -7085,6 +7091,8 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor
             children['address-families'] = _address_families.to_gdata()
         if _remote_as is not None:
             children['remote-as'] = yang.gdata.Leaf('string', _remote_as)
+        if _description is not None:
+            children['description'] = yang.gdata.Leaf('string', _description)
         if _password is not None:
             children['password'] = _password.to_gdata()
         if _update_source is not None:
@@ -7093,11 +7101,11 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry(neighbor_group_name=n.get_str("neighbor-group-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families.from_gdata(n.get_opt_container("address-families")), remote_as=n.get_opt_str("remote-as"), password=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password.from_gdata(n.get_opt_container("password")), update_source=n.get_opt_str("update-source"))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry(neighbor_group_name=n.get_str("neighbor-group-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families.from_gdata(n.get_opt_container("address-families")), remote_as=n.get_opt_str("remote-as"), description=n.get_opt_str("description"), password=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password.from_gdata(n.get_opt_container("password")), update_source=n.get_opt_str("update-source"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry(neighbor_group_name=yang.gdata.from_xml_str(n, "neighbor-group-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")), remote_as=yang.gdata.from_xml_opt_str(n, "remote-as"), password=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password.from_xml(yang.gdata.get_xml_opt_child(n, "password")), update_source=yang.gdata.from_xml_opt_str(n, "update-source"))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry(neighbor_group_name=yang.gdata.from_xml_str(n, "neighbor-group-name"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")), remote_as=yang.gdata.from_xml_opt_str(n, "remote-as"), description=yang.gdata.from_xml_opt_str(n, "description"), password=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group__password.from_xml(yang.gdata.get_xml_opt_child(n, "password")), update_source=yang.gdata.from_xml_opt_str(n, "update-source"))
 
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group(yang.adata.MNode):
     elements: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__neighbor_groups__neighbor_group_entry]
