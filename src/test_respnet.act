@@ -29,18 +29,21 @@ def _test_netinfra1(log_handler: logging.Handler) -> str:
             <name>AMS-CORE-1</name>
             <id>1</id>
             <role>edge</role>
+            <asn>65001</asn>
             <mock>cisco-ios-xr</mock>
         </routers>
         <routers>
             <name>FRA-CORE-1</name>
             <id>2</id>
             <role>core</role>
+            <asn>65001</asn>
             <mock>cisco-ios-xr</mock>
         </routers>
         <routers>
             <name>STO-CORE-1</name>
             <id>3</id>
             <role>core</role>
+            <asn>65001</asn>
             <mock>juniper-junos</mock>
         </routers>
         <backbone-link>
@@ -124,6 +127,7 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
             <name>AMS-CORE-1</name>
             <id>1</id>
             <role>edge</role>
+            <asn>65001</asn>
             <mock>cisco-ios-xr</mock>
         </routers>
     </netinfra>

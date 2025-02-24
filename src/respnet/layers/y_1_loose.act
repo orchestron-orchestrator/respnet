@@ -495,6 +495,9 @@ mut def from_json_netinfra_inter__netinfra__routers__role(val: value) -> yang.gd
 mut def from_json_netinfra_inter__netinfra__routers__mock(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("enumeration", val)
 
+mut def from_json_netinfra_inter__netinfra__routers__base_config__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
 mut def from_json_netinfra_inter__netinfra__routers__base_config__ipv4_address(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
@@ -502,18 +505,23 @@ mut def from_json_netinfra_inter__netinfra__routers__base_config__ipv6_address(v
     return yang.gdata.Leaf("string", val)
 
 class netinfra_inter__netinfra__routers__base_config(yang.adata.MNode):
+    asn: ?int
     ipv4_address: ?str
     ipv6_address: ?str
 
-    mut def __init__(self, ipv4_address: ?str, ipv6_address: ?str):
+    mut def __init__(self, asn: ?int, ipv4_address: ?str, ipv6_address: ?str):
         self._ns = "http://example.com/netinfra-inter"
+        self.asn = asn
         self.ipv4_address = ipv4_address
         self.ipv6_address = ipv6_address
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
+        _asn = self.asn
         _ipv4_address = self.ipv4_address
         _ipv6_address = self.ipv6_address
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
         if _ipv4_address is not None:
             children['ipv4-address'] = yang.gdata.Leaf('string', _ipv4_address)
         if _ipv6_address is not None:
@@ -523,13 +531,13 @@ class netinfra_inter__netinfra__routers__base_config(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> netinfra_inter__netinfra__routers__base_config:
         if n != None:
-            return netinfra_inter__netinfra__routers__base_config(ipv4_address=n.get_str("ipv4-address"), ipv6_address=n.get_str("ipv6-address"))
+            return netinfra_inter__netinfra__routers__base_config(asn=n.get_int("asn"), ipv4_address=n.get_str("ipv4-address"), ipv6_address=n.get_str("ipv6-address"))
         raise ValueError("Missing required subtree netinfra_inter__netinfra__routers__base_config")
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> netinfra_inter__netinfra__routers__base_config:
         if n != None:
-            return netinfra_inter__netinfra__routers__base_config(ipv4_address=yang.gdata.from_xml_str(n, "ipv4-address"), ipv6_address=yang.gdata.from_xml_str(n, "ipv6-address"))
+            return netinfra_inter__netinfra__routers__base_config(asn=yang.gdata.from_xml_int(n, "asn"), ipv4_address=yang.gdata.from_xml_str(n, "ipv4-address"), ipv6_address=yang.gdata.from_xml_str(n, "ipv6-address"))
         raise ValueError("Missing required subtree netinfra_inter__netinfra__routers__base_config")
 
 
@@ -538,6 +546,8 @@ mut def from_json_path_netinfra_inter__netinfra__routers__base_config(jd: value,
     if len(path) > 0:
         point = path[0]
         rest_path = path[1:]
+        if point == 'netinfra-inter:asn' or point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
         if point == 'netinfra-inter:ipv4-address' or point == 'ipv4-address':
             raise ValueError("Invalid json path to non-inner node")
         if point == 'netinfra-inter:ipv6-address' or point == 'ipv6-address':
@@ -553,6 +563,10 @@ mut def from_json_path_netinfra_inter__netinfra__routers__base_config(jd: value,
 
 mut def from_json_netinfra_inter__netinfra__routers__base_config(jd: dict[str, ?value]) -> yang.gdata.Container:
     children = {}
+    child_asn_full = jd.get('netinfra-inter:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_netinfra_inter__netinfra__routers__base_config__asn(child_asn)
     child_ipv4_address_full = jd.get('netinfra-inter:ipv4-address')
     child_ipv4_address = child_ipv4_address_full if child_ipv4_address_full is not None else jd.get('ipv4-address')
     if child_ipv4_address is not None:
@@ -565,6 +579,10 @@ mut def from_json_netinfra_inter__netinfra__routers__base_config(jd: dict[str, ?
 
 mut def to_json_netinfra_inter__netinfra__routers__base_config(n: yang.gdata.Container) -> dict[str, ?value]:
     children = {}
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
     child_ipv4_address = n.children.get('ipv4-address')
     if child_ipv4_address is not None:
         if isinstance(child_ipv4_address, yang.gdata.Leaf):
@@ -986,8 +1004,8 @@ mut def to_json_netinfra_inter__netinfra__backbone_link(n: yang.gdata.List) -> l
     return elements
 
 
-mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__name(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__name(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
@@ -1153,32 +1171,32 @@ mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh__router(n: yang.gdata.Li
 
 
 class netinfra_inter__netinfra__ibgp_fullmesh_entry(yang.adata.MNode):
-    name: str
+    asn: int
     router: netinfra_inter__netinfra__ibgp_fullmesh__router
 
-    mut def __init__(self, name: str, router: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]=[]):
+    mut def __init__(self, asn: int, router: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]=[]):
         self._ns = "http://example.com/netinfra-inter"
-        self.name = name
+        self.asn = asn
         self.router = netinfra_inter__netinfra__ibgp_fullmesh__router(elements=router)
         self.router._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
-        _name = self.name
+        _asn = self.asn
         _router = self.router
-        if _name is not None:
-            children['name'] = yang.gdata.Leaf('string', _name)
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
         if _router is not None:
             children['router'] = _router.to_gdata()
-        return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.asn)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh_entry(name=n.get_str("name"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list("router")))
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=n.get_int("asn"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list("router")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh_entry(name=yang.gdata.from_xml_str(n, "name"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, "router")))
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=yang.gdata.from_xml_int(n, "asn"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, "router")))
 
 class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]
@@ -1187,16 +1205,16 @@ class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
         self._name = 'ibgp-fullmesh'
         self.elements = elements
 
-    mut def create(self, name):
+    mut def create(self, asn):
         for e in self.elements:
             match = True
-            if e.name != name:
+            if e.asn != asn:
                 match = False
                 continue
             if match:
                 return e
 
-        res = netinfra_inter__netinfra__ibgp_fullmesh_entry(name)
+        res = netinfra_inter__netinfra__ibgp_fullmesh_entry(asn)
         self.elements.append(res)
         return res
 
@@ -1206,7 +1224,7 @@ class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
             e_gdata = e.to_gdata()
             if isinstance(e_gdata, yang.gdata.ListElement):
                 elements.append(e_gdata)
-        return yang.gdata.List(['name'], elements)
+        return yang.gdata.List(['asn'], elements)
 
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.List) -> list[netinfra_inter__netinfra__ibgp_fullmesh_entry]:
@@ -1240,7 +1258,7 @@ mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: value
         point = path[1]
         rest_path = path[2:]
         children: dict[str, yang.gdata.Node] = {}
-        for idx, key in enumerate(['name']):
+        for idx, key in enumerate(['asn']):
             children[key] = yang.gdata.Leaf("str", keys[idx])
         if point == 'router':
             children['router'] = from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router(jd, rest_path, op)
@@ -1255,7 +1273,7 @@ mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh(jd: value, path: 
         # Check that all keys are present in payload.
         # If present, they must equal the keys in the path
         # If not present, fill in from path
-        for key in ['name']:
+        for key in ['asn']:
             if key not in jd_dict:
                 jd_dict[key] = keys.pop(0)
             else:
@@ -1267,36 +1285,36 @@ mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh(jd: value, path: 
             elements.append(element)
         elif op == "remove":
             elements.append(yang.gdata.AbsentListElement(element.key_vals))
-        return yang.gdata.List(['name'], elements)
+        return yang.gdata.List(['asn'], elements)
     elif len(path) > 1:
-        return yang.gdata.List(['name'], [from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd, path, op)])
+        return yang.gdata.List(['asn'], [from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd, path, op)])
     raise ValueError("Unable to resolve path, no keys provided")
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
     children = {}
-    child_name_full = jd.get('netinfra-inter:name')
-    child_name = child_name_full if child_name_full is not None else jd.get('name')
-    if child_name is not None:
-        children['name'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__name(child_name)
+    child_asn_full = jd.get('netinfra-inter:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__asn(child_asn)
     child_router_full = jd.get('netinfra-inter:router')
     child_router = child_router_full if child_router_full is not None else jd.get('router')
     if child_router is not None and isinstance(child_router, list):
         children['router'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router(child_router)
-    return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
+    return yang.gdata.ListElement([str(child_asn if child_asn is not None else "")], children)
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
     for e in jd:
         if isinstance(e, dict):
             elements.append(from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(e))
-    return yang.gdata.List(keys=['name'], elements=elements, user_order=False, ns=None, prefix=None)
+    return yang.gdata.List(keys=['asn'], elements=elements, user_order=False, ns=None, prefix=None)
 
 mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
     children = {}
-    child_name = n.children.get('name')
-    if child_name is not None:
-        if isinstance(child_name, yang.gdata.Leaf):
-            children['name'] = child_name.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
     child_router = n.children.get('router')
     if child_router is not None:
         if isinstance(child_router, yang.gdata.List):

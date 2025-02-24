@@ -16,6 +16,9 @@ netinfra_yang = """module netinfra {
     description "test revision";
     reference "ref1";
   }
+  import ietf-inet-types {
+    prefix inet;
+  }
 
   container netinfra {
     description "Network infrastructure";
@@ -34,6 +37,10 @@ netinfra_yang = """module netinfra {
       }
       leaf role {
         type string;
+      }
+      leaf asn {
+        type inet:as-number;
+        mandatory true;
       }
       leaf mock {
         type enumeration {
@@ -3374,12 +3381,17 @@ netinfra_inter_yang = """module netinfra-inter {
           enum juniper-junos;
         }
       }
-      // Allocated to the router in the CFS layer
       container base-config {
+        leaf asn {
+          type inet:as-number;
+          mandatory true;
+        }
+        // Allocated to the router in the CFS layer
         leaf ipv4-address {
           type inet:ipv4-address;
           mandatory true;
         }
+        // Allocated to the router in the CFS layer
         leaf ipv6-address {
           type inet:ipv6-address;
           mandatory true;
@@ -3407,9 +3419,9 @@ netinfra_inter_yang = """module netinfra-inter {
     }
 
     list ibgp-fullmesh {
-      key "name";
-      leaf name {
-        type string;
+      key "asn";
+      leaf asn {
+        type inet:as-number;
       }
 
       orchestron:transform respnet.inter.IbgpFullmesh;
@@ -3513,6 +3525,11 @@ respnet_rfs_yang = """module respnet-rfs {
 
             leaf ipv6-address {
                 type string;
+                mandatory true;
+            }
+
+            leaf asn {
+                type inet:as-number;
                 mandatory true;
             }
         }
@@ -3653,7 +3670,7 @@ actor main(env):
     ])
 
     spec = orchestron.build.SysSpec("respnet", [
-        orchestron.build.Layer([netinfra_yang, l3vpn_yang, oyang.ietf_inet_types, yang_types_yang]),
+        orchestron.build.Layer([netinfra_yang, l3vpn_yang, oyang.ietf_inet_types, yang_types_yang, oyang.ietf_inet_types]),
         orchestron.build.Layer([netinfra_inter_yang, l3vpn_inter_yang, oyang.ietf_inet_types]),
         orchestron.build.Layer([oyang.rfs, oyang.ietf_inet_types, respnet_rfs_yang]),
     ], [

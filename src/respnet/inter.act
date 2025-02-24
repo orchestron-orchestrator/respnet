@@ -34,6 +34,7 @@ class Router(base.Router):
         bc = rfs.base_config.create(i.name) # TODO: should be P-container
         bc.ipv4_address = i.base_config.ipv4_address
         bc.ipv6_address = i.base_config.ipv6_address
+        bc.asn = i.base_config.asn
         return o
 
 
@@ -59,7 +60,7 @@ class BBLink(base.BBLink):
 
 class IbgpFullmesh(base.IbgpFullmesh):
     def transform(self, i):
-        print("Intermediate ibgp-fullmesh transform running %s" % (i.name))
+        print("Intermediate ibgp-fullmesh transform running %d" % (i.asn))
         o = base.o_root()
         for ra in i.router.elements:
             rfs = o.rfs.create(ra.name)
