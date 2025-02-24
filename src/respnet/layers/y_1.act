@@ -981,37 +981,367 @@ mut def to_json_netinfra_inter__netinfra__backbone_link(n: yang.gdata.List) -> l
     return elements
 
 
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__name(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__name(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__ipv4_address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+class netinfra_inter__netinfra__ibgp_fullmesh__router_entry(yang.adata.MNode):
+    name: str
+    ipv4_address: str
+
+    mut def __init__(self, name: str, ipv4_address: str):
+        self._ns = "http://example.com/netinfra-inter"
+        self.name = name
+        self.ipv4_address = ipv4_address
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _name = self.name
+        _ipv4_address = self.ipv4_address
+        if _name is not None:
+            children['name'] = yang.gdata.Leaf('string', _name)
+        if _ipv4_address is not None:
+            children['ipv4-address'] = yang.gdata.Leaf('string', _ipv4_address)
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh__router_entry:
+        return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=n.get_str("name"), ipv4_address=n.get_str("ipv4-address"))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__ibgp_fullmesh__router_entry:
+        return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=yang.gdata.from_xml_str(n, "name"), ipv4_address=yang.gdata.from_xml_str(n, "ipv4-address"))
+
+class netinfra_inter__netinfra__ibgp_fullmesh__router(yang.adata.MNode):
+    elements: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://example.com/netinfra-inter"
+        self._name = 'router'
+        self.elements = elements
+
+    mut def create(self, name, ipv4_address):
+        for e in self.elements:
+            match = True
+            if e.name != name:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name, ipv4_address)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['name'], elements)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(netinfra_inter__netinfra__ibgp_fullmesh__router_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]:
+        res = []
+        for node in nodes:
+            res.append(netinfra_inter__netinfra__ibgp_fullmesh__router_entry.from_xml(node))
+        return res
+
+
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        val = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd_dict)
+        if op == "merge":
+            return val
+        elif op == "remove":
+            return yang.gdata.AbsentListElement(val.key_vals)
+        raise ValueError("Invalid operation")
+    elif len(path) > 1:
+        keys = path[0].split(",")
+        point = path[1]
+        rest_path = path[2:]
+        children: dict[str, yang.gdata.Node] = {}
+        for idx, key in enumerate(['name']):
+            children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'ipv4-address':
+            raise ValueError("Invalid json path to non-inner node")
+        return yang.gdata.ListElement(keys, children)
+    raise ValueError("unreachable - no keys to list element")
+
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        # Check that all keys are present in payload.
+        # If present, they must equal the keys in the path
+        # If not present, fill in from path
+        for key in ['name']:
+            if key not in jd_dict:
+                jd_dict[key] = keys.pop(0)
+            else:
+                if str(jd_dict[key]) != keys.pop(0):
+                    raise ValueError("Key value mismatch between path and payload")
+        element = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd_dict)
+        elements = []
+        if op == "merge":
+            elements.append(element)
+        elif op == "remove":
+            elements.append(yang.gdata.AbsentListElement(element.key_vals))
+        return yang.gdata.List(['name'], elements)
+    elif len(path) > 1:
+        return yang.gdata.List(['name'], [from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd, path, op)])
+    raise ValueError("Unable to resolve path, no keys provided")
+
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
+    children = {}
+    child_name_full = jd.get('netinfra-inter:name')
+    child_name = child_name_full if child_name_full is not None else jd.get('name')
+    if child_name is not None:
+        children['name'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__name(child_name)
+    child_ipv4_address_full = jd.get('netinfra-inter:ipv4-address')
+    child_ipv4_address = child_ipv4_address_full if child_ipv4_address_full is not None else jd.get('ipv4-address')
+    if child_ipv4_address is not None:
+        children['ipv4-address'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__ipv4_address(child_ipv4_address)
+    return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
+
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router(jd: list[dict[str, ?value]]) -> yang.gdata.List:
+    elements = []
+    for e in jd:
+        if isinstance(e, dict):
+            elements.append(from_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(e))
+    return yang.gdata.List(keys=['name'], elements=elements, user_order=False, ns=None, prefix=None)
+
+mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
+    children = {}
+    child_name = n.children.get('name')
+    if child_name is not None:
+        if isinstance(child_name, yang.gdata.Leaf):
+            children['name'] = child_name.val
+    child_ipv4_address = n.children.get('ipv4-address')
+    if child_ipv4_address is not None:
+        if isinstance(child_ipv4_address, yang.gdata.Leaf):
+            children['ipv4-address'] = child_ipv4_address.val
+    return children
+
+mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh__router(n: yang.gdata.List) -> list[dict[str, ?value]]:
+    elements = []
+    for e in n.elements:
+        elements.append(to_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(e))
+    return elements
+
+
+class netinfra_inter__netinfra__ibgp_fullmesh_entry(yang.adata.MNode):
+    name: str
+    router: netinfra_inter__netinfra__ibgp_fullmesh__router
+
+    mut def __init__(self, name: str, router: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]=[]):
+        self._ns = "http://example.com/netinfra-inter"
+        self.name = name
+        self.router = netinfra_inter__netinfra__ibgp_fullmesh__router(elements=router)
+        self.router._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _name = self.name
+        _router = self.router
+        if _name is not None:
+            children['name'] = yang.gdata.Leaf('string', _name)
+        if _router is not None:
+            children['router'] = _router.to_gdata()
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(name=n.get_str("name"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list("router")))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(name=yang.gdata.from_xml_str(n, "name"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, "router")))
+
+class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
+    elements: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://example.com/netinfra-inter"
+        self._name = 'ibgp-fullmesh'
+        self.elements = elements
+
+    mut def create(self, name):
+        for e in self.elements:
+            match = True
+            if e.name != name:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = netinfra_inter__netinfra__ibgp_fullmesh_entry(name)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['name'], elements)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[netinfra_inter__netinfra__ibgp_fullmesh_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(netinfra_inter__netinfra__ibgp_fullmesh_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[netinfra_inter__netinfra__ibgp_fullmesh_entry]:
+        res = []
+        for node in nodes:
+            res.append(netinfra_inter__netinfra__ibgp_fullmesh_entry.from_xml(node))
+        return res
+
+
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        val = from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(jd_dict)
+        if op == "merge":
+            return val
+        elif op == "remove":
+            return yang.gdata.AbsentListElement(val.key_vals)
+        raise ValueError("Invalid operation")
+    elif len(path) > 1:
+        keys = path[0].split(",")
+        point = path[1]
+        rest_path = path[2:]
+        children: dict[str, yang.gdata.Node] = {}
+        for idx, key in enumerate(['name']):
+            children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'router':
+            children['router'] = from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router(jd, rest_path, op)
+        return yang.gdata.ListElement(keys, children)
+    raise ValueError("unreachable - no keys to list element")
+
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        # Check that all keys are present in payload.
+        # If present, they must equal the keys in the path
+        # If not present, fill in from path
+        for key in ['name']:
+            if key not in jd_dict:
+                jd_dict[key] = keys.pop(0)
+            else:
+                if str(jd_dict[key]) != keys.pop(0):
+                    raise ValueError("Key value mismatch between path and payload")
+        element = from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(jd_dict)
+        elements = []
+        if op == "merge":
+            elements.append(element)
+        elif op == "remove":
+            elements.append(yang.gdata.AbsentListElement(element.key_vals))
+        return yang.gdata.List(['name'], elements)
+    elif len(path) > 1:
+        return yang.gdata.List(['name'], [from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd, path, op)])
+    raise ValueError("Unable to resolve path, no keys provided")
+
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
+    children = {}
+    child_name_full = jd.get('netinfra-inter:name')
+    child_name = child_name_full if child_name_full is not None else jd.get('name')
+    if child_name is not None:
+        children['name'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__name(child_name)
+    child_router_full = jd.get('netinfra-inter:router')
+    child_router = child_router_full if child_router_full is not None else jd.get('router')
+    if child_router is not None and isinstance(child_router, list):
+        children['router'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router(child_router)
+    return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
+
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh(jd: list[dict[str, ?value]]) -> yang.gdata.List:
+    elements = []
+    for e in jd:
+        if isinstance(e, dict):
+            elements.append(from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(e))
+    return yang.gdata.List(keys=['name'], elements=elements, user_order=False, ns=None, prefix=None)
+
+mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
+    children = {}
+    child_name = n.children.get('name')
+    if child_name is not None:
+        if isinstance(child_name, yang.gdata.Leaf):
+            children['name'] = child_name.val
+    child_router = n.children.get('router')
+    if child_router is not None:
+        if isinstance(child_router, yang.gdata.List):
+            children['router'] = to_json_netinfra_inter__netinfra__ibgp_fullmesh__router(child_router)
+    return children
+
+mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh(n: yang.gdata.List) -> list[dict[str, ?value]]:
+    elements = []
+    for e in n.elements:
+        elements.append(to_json_netinfra_inter__netinfra__ibgp_fullmesh_element(e))
+    return elements
+
+
 class netinfra_inter__netinfra(yang.adata.MNode):
     routers: netinfra_inter__netinfra__routers
     backbone_link: netinfra_inter__netinfra__backbone_link
+    ibgp_fullmesh: netinfra_inter__netinfra__ibgp_fullmesh
 
-    mut def __init__(self, routers: list[netinfra_inter__netinfra__routers_entry]=[], backbone_link: list[netinfra_inter__netinfra__backbone_link_entry]=[]):
+    mut def __init__(self, routers: list[netinfra_inter__netinfra__routers_entry]=[], backbone_link: list[netinfra_inter__netinfra__backbone_link_entry]=[], ibgp_fullmesh: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]=[]):
         self._ns = "http://example.com/netinfra-inter"
         self.routers = netinfra_inter__netinfra__routers(elements=routers)
         self.routers._parent = self
         self.backbone_link = netinfra_inter__netinfra__backbone_link(elements=backbone_link)
         self.backbone_link._parent = self
+        self.ibgp_fullmesh = netinfra_inter__netinfra__ibgp_fullmesh(elements=ibgp_fullmesh)
+        self.ibgp_fullmesh._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _routers = self.routers
         _backbone_link = self.backbone_link
+        _ibgp_fullmesh = self.ibgp_fullmesh
         if _routers is not None:
             children['routers'] = _routers.to_gdata()
         if _backbone_link is not None:
             children['backbone-link'] = _backbone_link.to_gdata()
+        if _ibgp_fullmesh is not None:
+            children['ibgp-fullmesh'] = _ibgp_fullmesh.to_gdata()
         return yang.gdata.Container(children, ns='http://example.com/netinfra-inter')
 
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> netinfra_inter__netinfra:
         if n != None:
-            return netinfra_inter__netinfra(routers=netinfra_inter__netinfra__routers.from_gdata(n.get_opt_list("routers")), backbone_link=netinfra_inter__netinfra__backbone_link.from_gdata(n.get_opt_list("backbone-link")))
+            return netinfra_inter__netinfra(routers=netinfra_inter__netinfra__routers.from_gdata(n.get_opt_list("routers")), backbone_link=netinfra_inter__netinfra__backbone_link.from_gdata(n.get_opt_list("backbone-link")), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_gdata(n.get_opt_list("ibgp-fullmesh")))
         return netinfra_inter__netinfra()
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> netinfra_inter__netinfra:
         if n != None:
-            return netinfra_inter__netinfra(routers=netinfra_inter__netinfra__routers.from_xml(yang.gdata.get_xml_children(n, "routers")), backbone_link=netinfra_inter__netinfra__backbone_link.from_xml(yang.gdata.get_xml_children(n, "backbone-link")))
+            return netinfra_inter__netinfra(routers=netinfra_inter__netinfra__routers.from_xml(yang.gdata.get_xml_children(n, "routers")), backbone_link=netinfra_inter__netinfra__backbone_link.from_xml(yang.gdata.get_xml_children(n, "backbone-link")), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_xml(yang.gdata.get_xml_children(n, "ibgp-fullmesh")))
         return netinfra_inter__netinfra()
 
 
@@ -1025,6 +1355,9 @@ mut def from_json_path_netinfra_inter__netinfra(jd: value, path: list[str]=[], o
             return yang.gdata.Container(child)
         if point == 'netinfra-inter:backbone-link' or point == 'backbone-link':
             child = {'backbone-link': from_json_path_netinfra_inter__netinfra__backbone_link(jd, rest_path, op) }
+            return yang.gdata.Container(child)
+        if point == 'netinfra-inter:ibgp-fullmesh' or point == 'ibgp-fullmesh':
+            child = {'ibgp-fullmesh': from_json_path_netinfra_inter__netinfra__ibgp_fullmesh(jd, rest_path, op) }
             return yang.gdata.Container(child)
         raise ValueError("Invalid path")
     elif len(path) == 0:
@@ -1045,6 +1378,10 @@ mut def from_json_netinfra_inter__netinfra(jd: dict[str, ?value]) -> yang.gdata.
     child_backbone_link = child_backbone_link_full if child_backbone_link_full is not None else jd.get('backbone-link')
     if child_backbone_link is not None and isinstance(child_backbone_link, list):
         children['backbone-link'] = from_json_netinfra_inter__netinfra__backbone_link(child_backbone_link)
+    child_ibgp_fullmesh_full = jd.get('netinfra-inter:ibgp-fullmesh')
+    child_ibgp_fullmesh = child_ibgp_fullmesh_full if child_ibgp_fullmesh_full is not None else jd.get('ibgp-fullmesh')
+    if child_ibgp_fullmesh is not None and isinstance(child_ibgp_fullmesh, list):
+        children['ibgp-fullmesh'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh(child_ibgp_fullmesh)
     return yang.gdata.Container(children)
 
 mut def to_json_netinfra_inter__netinfra(n: yang.gdata.Container) -> dict[str, ?value]:
@@ -1057,6 +1394,10 @@ mut def to_json_netinfra_inter__netinfra(n: yang.gdata.Container) -> dict[str, ?
     if child_backbone_link is not None:
         if isinstance(child_backbone_link, yang.gdata.List):
             children['backbone-link'] = to_json_netinfra_inter__netinfra__backbone_link(child_backbone_link)
+    child_ibgp_fullmesh = n.children.get('ibgp-fullmesh')
+    if child_ibgp_fullmesh is not None:
+        if isinstance(child_ibgp_fullmesh, yang.gdata.List):
+            children['ibgp-fullmesh'] = to_json_netinfra_inter__netinfra__ibgp_fullmesh(child_ibgp_fullmesh)
     return children
 
 
