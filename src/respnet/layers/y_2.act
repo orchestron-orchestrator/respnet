@@ -2049,32 +2049,56 @@ mut def from_json_orchestron_rfs__rfs__vrf__name(val: value) -> yang.gdata.Leaf:
 mut def from_json_orchestron_rfs__rfs__vrf__description(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
+mut def from_json_orchestron_rfs__rfs__vrf__id(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__vrf__router_id(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__vrf__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
 class orchestron_rfs__rfs__vrf_entry(yang.adata.MNode):
     name: str
     description: ?str
+    id: int
+    router_id: int
+    asn: int
 
-    mut def __init__(self, name: str, description: ?str):
+    mut def __init__(self, name: str, id: int, router_id: int, asn: int, description: ?str):
         self._ns = "http://example.com/respnet-rfs"
         self.name = name
         self.description = description
+        self.id = id
+        self.router_id = router_id
+        self.asn = asn
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
         _description = self.description
+        _id = self.id
+        _router_id = self.router_id
+        _asn = self.asn
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _description is not None:
             children['description'] = yang.gdata.Leaf('string', _description)
+        if _id is not None:
+            children['id'] = yang.gdata.Leaf('uint32', _id)
+        if _router_id is not None:
+            children['router-id'] = yang.gdata.Leaf('uint32', _router_id)
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
         return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> orchestron_rfs__rfs__vrf_entry:
-        return orchestron_rfs__rfs__vrf_entry(name=n.get_str("name"), description=n.get_opt_str("description"))
+        return orchestron_rfs__rfs__vrf_entry(name=n.get_str("name"), description=n.get_opt_str("description"), id=n.get_int("id"), router_id=n.get_int("router-id"), asn=n.get_int("asn"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> orchestron_rfs__rfs__vrf_entry:
-        return orchestron_rfs__rfs__vrf_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"))
+        return orchestron_rfs__rfs__vrf_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"), id=yang.gdata.from_xml_int(n, "id"), router_id=yang.gdata.from_xml_int(n, "router-id"), asn=yang.gdata.from_xml_int(n, "asn"))
 
 class orchestron_rfs__rfs__vrf(yang.adata.MNode):
     elements: list[orchestron_rfs__rfs__vrf_entry]
@@ -2083,7 +2107,7 @@ class orchestron_rfs__rfs__vrf(yang.adata.MNode):
         self._name = 'vrf'
         self.elements = elements
 
-    mut def create(self, name):
+    mut def create(self, name, id, router_id, asn):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -2092,7 +2116,7 @@ class orchestron_rfs__rfs__vrf(yang.adata.MNode):
             if match:
                 return e
 
-        res = orchestron_rfs__rfs__vrf_entry(name)
+        res = orchestron_rfs__rfs__vrf_entry(name, id, router_id, asn)
         self.elements.append(res)
         return res
 
@@ -2140,6 +2164,12 @@ mut def from_json_path_orchestron_rfs__rfs__vrf_element(jd: value, path: list[st
             children[key] = yang.gdata.Leaf("str", keys[idx])
         if point == 'description':
             raise ValueError("Invalid json path to non-inner node")
+        if point == 'id':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'router-id':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -2178,6 +2208,18 @@ mut def from_json_orchestron_rfs__rfs__vrf_element(jd: dict[str, ?value]) -> yan
     child_description = child_description_full if child_description_full is not None else jd.get('description')
     if child_description is not None:
         children['description'] = from_json_orchestron_rfs__rfs__vrf__description(child_description)
+    child_id_full = jd.get('respnet-rfs:id')
+    child_id = child_id_full if child_id_full is not None else jd.get('id')
+    if child_id is not None:
+        children['id'] = from_json_orchestron_rfs__rfs__vrf__id(child_id)
+    child_router_id_full = jd.get('respnet-rfs:router-id')
+    child_router_id = child_router_id_full if child_router_id_full is not None else jd.get('router-id')
+    if child_router_id is not None:
+        children['router-id'] = from_json_orchestron_rfs__rfs__vrf__router_id(child_router_id)
+    child_asn_full = jd.get('respnet-rfs:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_orchestron_rfs__rfs__vrf__asn(child_asn)
     return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
 
 mut def from_json_orchestron_rfs__rfs__vrf(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -2197,6 +2239,18 @@ mut def to_json_orchestron_rfs__rfs__vrf_element(n: yang.gdata.ListElement) -> d
     if child_description is not None:
         if isinstance(child_description, yang.gdata.Leaf):
             children['description'] = child_description.val
+    child_id = n.children.get('id')
+    if child_id is not None:
+        if isinstance(child_id, yang.gdata.Leaf):
+            children['id'] = child_id.val
+    child_router_id = n.children.get('router-id')
+    if child_router_id is not None:
+        if isinstance(child_router_id, yang.gdata.Leaf):
+            children['router-id'] = child_router_id.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
     return children
 
 mut def to_json_orchestron_rfs__rfs__vrf(n: yang.gdata.List) -> list[dict[str, ?value]]:

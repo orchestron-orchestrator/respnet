@@ -35,6 +35,13 @@ class Router(base.Router):
         bc.ipv4_address = i.base_config.ipv4_address
         bc.ipv6_address = i.base_config.ipv6_address
         bc.asn = i.base_config.asn
+
+        # Inject router id, asn into rfs.Vrf transform
+        for vrf in i.l3vpn_vrf.elements:
+            o_vrf = rfs.vrf.create(vrf.vpn_id)
+            o_vrf.router_id = sid
+            o_vrf.asn = i.base_config.asn
+
         return o
 
 
@@ -84,11 +91,22 @@ class L3Vpn(base.L3Vpn):
 
             vrf = rfs.vrf.create(i.name)
             vrf.description = i.description
+            # Get VRF id from vpn-id: acme-65501 -> 65501
+            vrf.id = int(i.name.split("-")[1])
 
             vi = rfs.vrf_interface.create(ep.interface)
             vi.description = "Customer VPN access %s [%s] in VPN %s" % (ep.site, ep.site_network_access, i.name)
-            vi.ipv4_address = ep.ipv4_address
+            vi.ipv4_address = ep.provider_ipv4_address
             vi.ipv4_prefix_length = ep.ipv4_prefix_length
             vi.vrf = i.name
+
+            customer_ipv4_address = ep.customer_ipv4_address
+            bgp = ep.bgp
+            if customer_ipv4_address is not None and bgp is not None:
+                cb = rfs.ebgp_customer.create(i.name, customer_ipv4_address)
+                # cb.local_asn is set in the inter.Router transform
+                cb.peer_asn = bgp.as_number
+                cb.authentication_key = i.name
+                cb.description = "Customer eBGP %s [%s] in VPN %s to %s" % (ep.site, ep.site_network_access, i.name, customer_ipv4_address)
 
         return o

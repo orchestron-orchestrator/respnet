@@ -1623,6 +1623,7 @@ identity urllc {
      "Type of routing protocol.";
     }
     container ospf {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:ospf')" {
      description
      "Only applies when protocol is OSPF.";
@@ -1680,6 +1681,7 @@ identity urllc {
      "OSPF-specific configuration.";
     }
     container bgp {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:bgp')" {
       description
       "Only applies when protocol is BGP.";
@@ -1705,6 +1707,7 @@ identity urllc {
      "BGP-specific configuration.";
     }
     container static {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:static')" {
        description
        "Only applies when protocol is static.
@@ -1764,6 +1767,7 @@ identity urllc {
      "Configuration specific to static routing.";
     }
     container rip {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:rip')" {
       description
       "Only applies when the protocol is RIP.  For IPv4,
@@ -1783,6 +1787,7 @@ identity urllc {
      "Configuration specific to RIP routing.";
     }
     container vrrp {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:vrrp')" {
       description
       "Only applies when protocol is VRRP.";
@@ -3397,6 +3402,17 @@ netinfra_inter_yang = """module netinfra-inter {
           mandatory true;
         }
       }
+      // This list contains vpn-id entries written from the CFS layer.
+      // We use it in the "inter" layer to relay the router "id" to the vrf.Rfs transform.
+      // The rfs.Vrf rfs transform will use the router "id" to compute the RD.
+      // By doing this, we can avoid having the router id in the L3VPN CFS model.
+      // Note: this means the vrf.Rfs transform is written to from both inter.Router and inter.L3VpnSite
+      list l3vpn-vrf {
+        key "vpn-id";
+        leaf vpn-id {
+          type string;
+        }
+      }
     }
 
     list backbone-link {
@@ -3481,12 +3497,24 @@ l3vpn_inter_yang = """module l3vpn-inter {
           type string;
           mandatory true;
         }
-        leaf ipv4-address {
+        leaf provider-ipv4-address {
+          type string;
+          mandatory true;
+        }
+        leaf customer-ipv4-address {
           type string;
         }
         leaf ipv4-prefix-length {
           type uint8 {
             range "0..32";
+          }
+          mandatory true;
+        }
+        container bgp {
+          presence "BGP enabled";
+          leaf as-number {
+            type uint32;
+            mandatory true;
           }
         }
       }
@@ -3594,15 +3622,27 @@ respnet_rfs_yang = """module respnet-rfs {
         }
 
         list vrf {
-            key name;
-            orchestron:rfs-transform respnet.rfs.Vrf;
-            leaf name {
-                type string;
-            }
-
-            leaf description {
-                type string;
-            }
+          key name;
+          orchestron:rfs-transform respnet.rfs.Vrf;
+          leaf name {
+            type string;
+          }
+          leaf description {
+            type string;
+          }
+          // TODO: compute RD in the layer above and use as key?!
+          leaf id {
+            type uint32;
+            mandatory true;
+          }
+          leaf router-id {
+            type uint32;
+            mandatory true;
+          }
+          leaf asn {
+            type inet:as-number;
+            mandatory true;
+          }
         }
 
         list vrf-interface {
