@@ -1399,7 +1399,7 @@ class orchestron_rfs__rfs__base_config(yang.adata.MNode):
         self._name = 'base-config'
         self.elements = elements
 
-    mut def create(self, name, ipv4_address, ipv6_address):
+    mut def create(self, name, ipv4_address, ipv6_address, asn):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -1408,7 +1408,7 @@ class orchestron_rfs__rfs__base_config(yang.adata.MNode):
             if match:
                 return e
 
-        res = orchestron_rfs__rfs__base_config_entry(name, ipv4_address, ipv6_address)
+        res = orchestron_rfs__rfs__base_config_entry(name, ipv4_address, ipv6_address, asn)
         self.elements.append(res)
         return res
 
@@ -1458,6 +1458,8 @@ mut def from_json_path_orchestron_rfs__rfs__base_config_element(jd: value, path:
             raise ValueError("Invalid json path to non-inner node")
         if point == 'ipv6-address':
             raise ValueError("Invalid json path to non-inner node")
+        if point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -1500,6 +1502,10 @@ mut def from_json_orchestron_rfs__rfs__base_config_element(jd: dict[str, ?value]
     child_ipv6_address = child_ipv6_address_full if child_ipv6_address_full is not None else jd.get('ipv6-address')
     if child_ipv6_address is not None:
         children['ipv6-address'] = from_json_orchestron_rfs__rfs__base_config__ipv6_address(child_ipv6_address)
+    child_asn_full = jd.get('respnet-rfs:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_orchestron_rfs__rfs__base_config__asn(child_asn)
     return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
 
 mut def from_json_orchestron_rfs__rfs__base_config(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -1523,6 +1529,10 @@ mut def to_json_orchestron_rfs__rfs__base_config_element(n: yang.gdata.ListEleme
     if child_ipv6_address is not None:
         if isinstance(child_ipv6_address, yang.gdata.Leaf):
             children['ipv6-address'] = child_ipv6_address.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
     return children
 
 mut def to_json_orchestron_rfs__rfs__base_config(n: yang.gdata.List) -> list[dict[str, ?value]]:

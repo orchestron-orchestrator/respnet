@@ -17,8 +17,9 @@ class Router(base.Router):
         bc = o_router.base_config
         bc.ipv4_address = "10.0.0.%d" % i.id
         bc.ipv6_address = "2001:db8:0:0::%d" % i.id
+        bc.asn = i.asn
 
-        fm = o.netinfra.ibgp_fullmesh.create("RESPNET")
+        fm = o.netinfra.ibgp_fullmesh.create(i.asn)
         fmr = fm.router.create(i.name, bc.ipv4_address)
 
         return o
