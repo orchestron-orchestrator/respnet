@@ -3405,6 +3405,26 @@ netinfra_inter_yang = """module netinfra-inter {
         type string;
       }
     }
+
+    list ibgp-fullmesh {
+      key "name";
+      leaf name {
+        type string;
+      }
+
+      orchestron:transform respnet.inter.IbgpFullmesh;
+
+      list router {
+        key "name";
+        leaf name {
+          type string;
+        }
+        leaf ipv4-address {
+          type inet:ipv4-address;
+          mandatory true;
+        }
+      }
+    }
   }
 }
 """

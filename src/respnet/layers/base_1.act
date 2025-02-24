@@ -11,6 +11,7 @@ import yang.gdata
 from respnet.layers.y_1 import l3vpn_inter__l3vpns__l3vpn_entry
 from respnet.layers.y_1 import netinfra_inter__netinfra__routers_entry
 from respnet.layers.y_1 import netinfra_inter__netinfra__backbone_link_entry
+from respnet.layers.y_1 import netinfra_inter__netinfra__ibgp_fullmesh_entry
 from respnet.layers.y_2_loose import root as output_root
 
 def o_root():
@@ -66,4 +67,21 @@ class BBLink(ttt.TTTTransform):
         modeled input and return gdata
         """
         modeled_input = netinfra_inter__netinfra__backbone_link_entry.from_xml(i)
+        return self.transform(modeled_input).to_gdata()
+
+class IbgpFullmesh(ttt.TTTTransform):
+    transform: mut(netinfra_inter__netinfra__ibgp_fullmesh_entry) -> yang.adata.MNode
+
+    mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
+        """Wrap the user provided transform method to convert from gdata to
+        modeled input and back to gdata
+        """
+        modeled_input = netinfra_inter__netinfra__ibgp_fullmesh_entry.from_gdata(i)
+        return self.transform(modeled_input).to_gdata()
+
+    mut def transform_xml(self, i: xml.Node) -> yang.gdata.Node:
+        """Wrap the user provided transform method to convert from XML to
+        modeled input and return gdata
+        """
+        modeled_input = netinfra_inter__netinfra__ibgp_fullmesh_entry.from_xml(i)
         return self.transform(modeled_input).to_gdata()

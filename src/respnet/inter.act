@@ -57,6 +57,21 @@ class BBLink(base.BBLink):
         return o
 
 
+class IbgpFullmesh(base.IbgpFullmesh):
+    def transform(self, i):
+        print("Intermediate ibgp-fullmesh transform running %s" % (i.name))
+        o = base.o_root()
+        for ra in i.router.elements:
+            rfs = o.rfs.create(ra.name)
+            for rb in i.router.elements:
+                if ra.name == rb.name:
+                    continue
+                # n = rfs.ibgp_neighbor.create(rb.ipv4_address)
+                # n.description = rb.nam
+
+        return o
+
+
 class L3Vpn(base.L3Vpn):
     def transform(self, i):
         print("Intermediate L3VPN transform running %s" % (i.name))
