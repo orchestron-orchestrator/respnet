@@ -76,9 +76,12 @@ def _test_netinfra1(log_handler: logging.Handler) -> str:
 def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
     xmlin = """<data>
     <l3vpn-svc xmlns="urn:ietf:params:xml:ns:yang:ietf-l3vpn-svc">
+        <vpn-profiles>
+            <valid-provider-identifiers />
+        </vpn-profiles>
         <vpn-services>
             <vpn-service>
-                <vpn-id>VPN-1</vpn-id>
+                <vpn-id>acme-65501</vpn-id>
                 <customer-name>CUSTOMER-1</customer-name>
             </vpn-service>
         </vpn-services>
@@ -103,7 +106,7 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                             <svc-mtu>9000</svc-mtu>
                         </service>
                         <vpn-attachment>
-                            <vpn-id>VPN-1</vpn-id>
+                            <vpn-id>acme-65501</vpn-id>
                         </vpn-attachment>
                         <ip-connection>
                             <ipv4>
@@ -130,6 +133,100 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                     </site-network-access>
                 </site-network-accesses>
             </site>
+            <site>
+                <site-id>SITE-2</site-id>
+                <management>
+                    <type>customer-managed</type>
+                </management>
+                <locations>
+                    <location>
+                        <location-id>MAIN</location-id>
+                    </location>
+                </locations>
+                <site-network-accesses>
+                    <site-network-access>
+                        <site-network-access-id>SNA-2-1</site-network-access-id>
+                        <location-reference>MAIN</location-reference>
+                        <service>
+                            <svc-input-bandwidth>1000000000</svc-input-bandwidth>
+                            <svc-output-bandwidth>1000000000</svc-output-bandwidth>
+                            <svc-mtu>9000</svc-mtu>
+                        </service>
+                        <vpn-attachment>
+                            <vpn-id>acme-65501</vpn-id>
+                        </vpn-attachment>
+                        <ip-connection>
+                            <ipv4>
+                                <address-allocation-type>static-address</address-allocation-type>
+                                <addresses>
+                                    <provider-address>10.202.1.1</provider-address>
+                                    <customer-address>10.202.1.2</customer-address>
+                                    <prefix-length>30</prefix-length>
+                                </addresses>
+                            </ipv4>
+                        </ip-connection>
+                        <bearer>
+                            <bearer-reference>FRA-CORE-1,GigabitEthernet0/0/0/2</bearer-reference>
+                        </bearer>
+                        <routing-protocols>
+                            <routing-protocol>
+                                <type>bgp</type>
+                                <bgp>
+                                    <autonomous-system>65501</autonomous-system>
+                                    <address-family>ipv4</address-family>
+                                </bgp>
+                            </routing-protocol>
+                        </routing-protocols>
+                    </site-network-access>
+                </site-network-accesses>
+            </site>
+            <site>
+                <site-id>SITE-3</site-id>
+                <management>
+                    <type>customer-managed</type>
+                </management>
+                <locations>
+                    <location>
+                        <location-id>MAIN</location-id>
+                    </location>
+                </locations>
+                <site-network-accesses>
+                    <site-network-access>
+                        <site-network-access-id>SNA-3-1</site-network-access-id>
+                        <location-reference>MAIN</location-reference>
+                        <service>
+                            <svc-input-bandwidth>1000000000</svc-input-bandwidth>
+                            <svc-output-bandwidth>1000000000</svc-output-bandwidth>
+                            <svc-mtu>9000</svc-mtu>
+                        </service>
+                        <vpn-attachment>
+                            <vpn-id>acme-65501</vpn-id>
+                        </vpn-attachment>
+                        <ip-connection>
+                            <ipv4>
+                                <address-allocation-type>static-address</address-allocation-type>
+                                <addresses>
+                                    <provider-address>10.203.1.1</provider-address>
+                                    <customer-address>10.203.1.2</customer-address>
+                                    <prefix-length>30</prefix-length>
+                                </addresses>
+                            </ipv4>
+                        </ip-connection>
+                        <bearer>
+                            <bearer-reference>STO-CORE-1,eth3</bearer-reference>
+                        </bearer>
+                        <routing-protocols>
+                            <routing-protocol>
+                                <type>bgp</type>
+                                <bgp>
+                                    <autonomous-system>65501</autonomous-system>
+                                    <address-family>ipv4</address-family>
+                                </bgp>
+                            </routing-protocol>
+                        </routing-protocols>
+                    </site-network-access>
+                </site-network-accesses>
+            </site>
         </sites>
     </l3vpn-svc>
     <netinfra xmlns="http://example.com/netinfra">
@@ -140,6 +237,38 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
             <asn>65001</asn>
             <mock>cisco-ios-xr</mock>
         </routers>
+        <routers>
+            <name>FRA-CORE-1</name>
+            <id>2</id>
+            <role>core</role>
+            <asn>65001</asn>
+            <mock>cisco-ios-xr</mock>
+        </routers>
+        <routers>
+            <name>STO-CORE-1</name>
+            <id>3</id>
+            <role>core</role>
+            <asn>65001</asn>
+            <mock>juniper-junos</mock>
+        </routers>
+        <backbone-link>
+            <left-router>AMS-CORE-1</left-router>
+            <left-interface>GigabitEthernet0/0/0/0</left-interface>
+            <right-router>FRA-CORE-1</right-router>
+            <right-interface>GigabitEthernet0/0/0/0</right-interface>
+        </backbone-link>
+        <backbone-link>
+            <left-router>AMS-CORE-1</left-router>
+            <left-interface>GigabitEthernet0/0/0/1</left-interface>
+            <right-router>STO-CORE-1</right-router>
+            <right-interface>eth1</right-interface>
+        </backbone-link>
+        <backbone-link>
+            <left-router>FRA-CORE-1</left-router>
+            <left-interface>GigabitEthernet0/0/0/1</left-interface>
+            <right-router>STO-CORE-1</right-router>
+            <right-interface>eth2</right-interface>
+        </backbone-link>
     </netinfra>
 </data>"""
     xml_conf = xml.decode(xmlin)
