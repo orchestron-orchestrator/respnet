@@ -15945,7 +15945,7 @@ mut def from_json_netinfra__netinfra__routers__name(val: value) -> yang.gdata.Le
     return yang.gdata.Leaf("string", val)
 
 mut def from_json_netinfra__netinfra__routers__id(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf("uint32", val)
 
 mut def from_json_netinfra__netinfra__routers__role(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
@@ -15955,11 +15955,11 @@ mut def from_json_netinfra__netinfra__routers__mock(val: value) -> yang.gdata.Le
 
 class netinfra__netinfra__routers_entry(yang.adata.MNode):
     name: str
-    id: ?str
+    id: int
     role: ?str
     mock: ?str
 
-    mut def __init__(self, name: str, id: ?str, role: ?str, mock: ?str):
+    mut def __init__(self, name: str, id: int, role: ?str, mock: ?str):
         self._ns = "http://example.com/netinfra"
         self.name = name
         self.id = id
@@ -15975,7 +15975,7 @@ class netinfra__netinfra__routers_entry(yang.adata.MNode):
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _id is not None:
-            children['id'] = yang.gdata.Leaf('string', _id)
+            children['id'] = yang.gdata.Leaf('uint32', _id)
         if _role is not None:
             children['role'] = yang.gdata.Leaf('string', _role)
         if _mock is not None:
@@ -15984,11 +15984,11 @@ class netinfra__netinfra__routers_entry(yang.adata.MNode):
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra__netinfra__routers_entry:
-        return netinfra__netinfra__routers_entry(name=n.get_str("name"), id=n.get_opt_str("id"), role=n.get_opt_str("role"), mock=n.get_opt_str("mock"))
+        return netinfra__netinfra__routers_entry(name=n.get_str("name"), id=n.get_int("id"), role=n.get_opt_str("role"), mock=n.get_opt_str("mock"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra__netinfra__routers_entry:
-        return netinfra__netinfra__routers_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_opt_str(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), mock=yang.gdata.from_xml_opt_str(n, "mock"))
+        return netinfra__netinfra__routers_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_int(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), mock=yang.gdata.from_xml_opt_str(n, "mock"))
 
 class netinfra__netinfra__routers(yang.adata.MNode):
     elements: list[netinfra__netinfra__routers_entry]
@@ -15997,7 +15997,7 @@ class netinfra__netinfra__routers(yang.adata.MNode):
         self._name = 'routers'
         self.elements = elements
 
-    mut def create(self, name):
+    mut def create(self, name, id):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -16006,7 +16006,7 @@ class netinfra__netinfra__routers(yang.adata.MNode):
             if match:
                 return e
 
-        res = netinfra__netinfra__routers_entry(name)
+        res = netinfra__netinfra__routers_entry(name, id)
         self.elements.append(res)
         return res
 

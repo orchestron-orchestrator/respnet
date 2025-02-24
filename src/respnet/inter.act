@@ -32,8 +32,8 @@ class Router(base.Router):
         sid = i.id
         rfs = o.rfs.create(i.name)
         bc = rfs.base_config.create(i.name) # TODO: should be P-container
-        bc.ipv4_address = "10.0.0.%s" % sid if sid is not None else ""
-        bc.ipv6_address = "2001:db8:0:0::%s" % sid if sid is not None else ""
+        bc.ipv4_address = i.base_config.ipv4_address
+        bc.ipv6_address = i.base_config.ipv6_address
         return o
 
 

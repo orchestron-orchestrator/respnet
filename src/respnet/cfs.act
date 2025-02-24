@@ -12,6 +12,12 @@ class Router(base.Router):
         o_router.id = i.id
         o_router.role = i.role
         o_router.mock = i.mock
+
+        # Assign the loopback interface addresses
+        bc = o_router.base_config
+        bc.ipv4_address = "10.0.0.%d" % i.id
+        bc.ipv6_address = "2001:db8:0:0::%d" % i.id
+
         return o
 
 
