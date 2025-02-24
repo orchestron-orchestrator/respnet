@@ -67,8 +67,9 @@ class IbgpFullmesh(base.IbgpFullmesh):
             for rb in i.router.elements:
                 if ra.name == rb.name:
                     continue
-                # n = rfs.ibgp_neighbor.create(rb.ipv4_address)
-                # n.description = rb.nam
+                n = rfs.ibgp_neighbor.create(rb.ipv4_address)
+                n.asn = i.asn
+                n.description = rb.name
 
         return o
 

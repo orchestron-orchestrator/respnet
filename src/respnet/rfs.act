@@ -51,6 +51,21 @@ class BaseConfig(base.BaseConfig):
             lo0.create_passive()
             lo0_af = lo0.address_families.address_family.create("ipv4", "unicast")
 
+            # BGP global config
+            bgp_as = dev.um_router_bgp_cfg_router.bgp.as_.create(str(i.asn))
+            bgp_as.bgp.router_id = i.ipv4_address
+            # Create neighbor-group: IPV4-IBGP
+            bgp_ng = bgp_as.neighbor_groups.neighbor_group.create("IPV4-IBGP")
+            bgp_ng.address_families.address_family.create("vpnv4-unicast")
+            bgp_ng.address_families.address_family.create("vpnv6-unicast")
+            bgp_ng.remote_as = str(i.asn)
+            # TODO: Cisco Password "encryption"
+            # bgp_ng.create_password().encrypted = i.bgp.authentication_key
+            bgp_ng.update_source = "Loopback0"
+
+            bgp_as.address_families.address_family.create("vpnv4-unicast")
+            bgp_as.address_families.address_family.create("vpnv6-unicast")
+
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
@@ -59,6 +74,7 @@ class BaseConfig(base.BaseConfig):
             unit.family.create_inet().address.create("%s/32" % (i.ipv4_address))
             unit.family.create_iso().address.create(net_clns_address)
 
+            # IS-IS global config
             dcpi = dev.configuration.protocols.isis
             dcpi.lsp_lifetime = 65535
             il1 = dcpi.level.create(1)
@@ -67,6 +83,22 @@ class BaseConfig(base.BaseConfig):
             il2.wide_metrics_only = True
             ilo0 = dcpi.interface.create("lo0.0")
             ilo0.create_passive()
+
+            # BGP global config
+            dev.configuration.routing_options.autonomous_system.as_number = str(i.asn)
+            bgp = dev.configuration.protocols.bgp
+            bgp.log_updown = True
+
+            # Create neighbor-group: IPV4-IBGP
+            g1 = bgp.group.create("IPV4-IBGP")
+            g1.type = "internal"
+            g1.local_address = i.ipv4_address
+            g1.hold_time = 90
+            g1.family.inet_vpn.create_unicast()
+            g1.family.inet6_vpn.create_unicast()
+            g1.family.create_route_target()
+            # TODO: uncomment when Cisco IOS XR BGP auth is configured
+            # g1.authentication_key = i.bgp.authentication_key
 
             return dev
 
@@ -117,6 +149,28 @@ class BBInterface(base.BBInterface):
             il1.disable = True
             il2 = ilo0.level.create(2)
             il2.metric = 5000
+            return dev
+
+        raise UnsupportedDevice()
+
+
+class IbgpNeighbor(base.IbgpNeighbor):
+    def transform(self, i, di):
+        print("RFS /rfs{%s}/ibgp-neighbor transform running %s" % (di.name, i.address))
+
+        if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
+            dev = xr24.root()
+            bgp_as = dev.um_router_bgp_cfg_router.bgp.as_.create(str(i.asn))
+            nb = bgp_as.neighbors.neighbor.create(i.address)
+            nb.use.neighbor_group = "IPV4-IBGP"
+            nb.description = i.description
+            return dev
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+            dev = crpd23.root()
+            bgp = dev.configuration.protocols.bgp
+            g = bgp.group.create("IPV4-IBGP")
+            n = g.neighbor.create(i.address)
+            n.description = i.description
             return dev
 
         raise UnsupportedDevice()

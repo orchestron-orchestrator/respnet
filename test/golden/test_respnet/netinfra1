@@ -57,6 +57,55 @@
           </processes>
         </isis>
       </router>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+        <bgp>
+          <as>
+            <as-number>65001</as-number>
+            <address-families>
+              <address-family>
+                <af-name>vpnv4-unicast</af-name>
+              </address-family>
+              <address-family>
+                <af-name>vpnv6-unicast</af-name>
+              </address-family>
+            </address-families>
+            <neighbors>
+              <neighbor>
+                <neighbor-address>10.0.0.2</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>FRA-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <neighbor-address>10.0.0.3</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>STO-CORE-1</description>
+              </neighbor>
+            </neighbors>
+            <neighbor-groups>
+              <neighbor-group>
+                <neighbor-group-name>IPV4-IBGP</neighbor-group-name>
+                <address-families>
+                  <address-family>
+                    <af-name>vpnv4-unicast</af-name>
+                  </address-family>
+                  <address-family>
+                    <af-name>vpnv6-unicast</af-name>
+                  </address-family>
+                </address-families>
+                <remote-as>65001</remote-as>
+                <update-source>Loopback0</update-source>
+              </neighbor-group>
+            </neighbor-groups>
+            <bgp>
+              <router-id>10.0.0.1</router-id>
+            </bgp>
+          </as>
+        </bgp>
+      </router>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/0</interface-name>
@@ -146,6 +195,55 @@
           </processes>
         </isis>
       </router>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+        <bgp>
+          <as>
+            <as-number>65001</as-number>
+            <address-families>
+              <address-family>
+                <af-name>vpnv4-unicast</af-name>
+              </address-family>
+              <address-family>
+                <af-name>vpnv6-unicast</af-name>
+              </address-family>
+            </address-families>
+            <neighbors>
+              <neighbor>
+                <neighbor-address>10.0.0.1</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>AMS-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <neighbor-address>10.0.0.3</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>STO-CORE-1</description>
+              </neighbor>
+            </neighbors>
+            <neighbor-groups>
+              <neighbor-group>
+                <neighbor-group-name>IPV4-IBGP</neighbor-group-name>
+                <address-families>
+                  <address-family>
+                    <af-name>vpnv4-unicast</af-name>
+                  </address-family>
+                  <address-family>
+                    <af-name>vpnv6-unicast</af-name>
+                  </address-family>
+                </address-families>
+                <remote-as>65001</remote-as>
+                <update-source>Loopback0</update-source>
+              </neighbor-group>
+            </neighbor-groups>
+            <bgp>
+              <router-id>10.0.0.2</router-id>
+            </bgp>
+          </as>
+        </bgp>
+      </router>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/0</interface-name>
@@ -204,7 +302,38 @@
             </unit>
           </interface>
         </interfaces>
+        <routing-options>
+          <autonomous-system>
+            <as-number>65001</as-number>
+          </autonomous-system>
+        </routing-options>
         <protocols xmlns="http://yang.juniper.net/junos/conf/protocols">
+          <bgp>
+            <group>
+              <name>IPV4-IBGP</name>
+              <type>internal</type>
+              <local-address>10.0.0.3</local-address>
+              <hold-time>90</hold-time>
+              <family>
+                <inet-vpn>
+                  <unicast/>
+                </inet-vpn>
+                <inet6-vpn>
+                  <unicast/>
+                </inet6-vpn>
+                <route-target/>
+              </family>
+              <neighbor>
+                <name>10.0.0.1</name>
+                <description>AMS-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <name>10.0.0.2</name>
+                <description>FRA-CORE-1</description>
+              </neighbor>
+            </group>
+            <log-updown/>
+          </bgp>
           <isis>
             <interface>
               <name>lo0.0</name>

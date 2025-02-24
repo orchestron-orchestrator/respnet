@@ -44,6 +44,39 @@
           </processes>
         </isis>
       </router>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+        <bgp>
+          <as>
+            <as-number>65001</as-number>
+            <address-families>
+              <address-family>
+                <af-name>vpnv4-unicast</af-name>
+              </address-family>
+              <address-family>
+                <af-name>vpnv6-unicast</af-name>
+              </address-family>
+            </address-families>
+            <neighbor-groups>
+              <neighbor-group>
+                <neighbor-group-name>IPV4-IBGP</neighbor-group-name>
+                <address-families>
+                  <address-family>
+                    <af-name>vpnv4-unicast</af-name>
+                  </address-family>
+                  <address-family>
+                    <af-name>vpnv6-unicast</af-name>
+                  </address-family>
+                </address-families>
+                <remote-as>65001</remote-as>
+                <update-source>Loopback0</update-source>
+              </neighbor-group>
+            </neighbor-groups>
+            <bgp>
+              <router-id>10.0.0.1</router-id>
+            </bgp>
+          </as>
+        </bgp>
+      </router>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/2</interface-name>
