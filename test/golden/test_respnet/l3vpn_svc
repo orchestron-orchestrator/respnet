@@ -8,6 +8,42 @@
           <description>Customer VPN for CUSTOMER-1</description>
         </vrf>
       </vrfs>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg">
+        <isis>
+          <processes>
+            <process>
+              <process-id>1</process-id>
+              <is-type>level-2-only</is-type>
+              <nets>
+                <net>
+                  <net-id>49.0001.0100.0000.0001.00</net-id>
+                </net>
+              </nets>
+              <address-families>
+                <address-family>
+                  <af-name>ipv4</af-name>
+                  <saf-name>unicast</saf-name>
+                  <metric-style>
+                    <wide/>
+                  </metric-style>
+                </address-family>
+              </address-families>
+              <interfaces>
+                <interface>
+                  <interface-name>Loopback0</interface-name>
+                  <passive/>
+                  <address-families>
+                    <address-family>
+                      <af-name>ipv4</af-name>
+                      <saf-name>unicast</saf-name>
+                    </address-family>
+                  </address-families>
+                </interface>
+              </interfaces>
+            </process>
+          </processes>
+        </isis>
+      </router>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/2</interface-name>

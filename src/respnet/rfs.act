@@ -20,18 +20,54 @@ def prefix_length_to_netmask(prefix_length):
 class BaseConfig(base.BaseConfig):
     def transform(self, i, di):
         print("RFS /rfs{%s}/base-config transform running" % (di.name))
+        # calculate the net-clns-address from IPv4 address:
+        # first split the address into an array of padded strings
+        # 123.45.67.8 => ['123', '045', '067', '008'],
+        # then join to form a long string '123045067008'
+        # and split the long string into '1230.4506.7008' to be used in the final net_clns_address
+
+        padded_split = []
+        for v in i.ipv4_address.split('.'):
+            padded_split.append("%03d" % int(v))
+        #padded_split = map(lambda v: "%03d" % int(v), i.ipv4_address.split('.'))
+        join_str = ''.join(padded_split)
+        net_clns_address = '49.0001.' + join_str[0:4] + '.' + join_str[4:8] + '.' + join_str[8:] + '.00'
 
         if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
             dev = xr24.root()
             dev.hostname.system_network_name = di.name
             intf = dev.interfaces.interface.create("Loopback0")
             intf.ipv4.addresses.create_address(i.ipv4_address, "255.255.255.255")
+
+            # IS-IS global config
+            ip = dev.um_router_isis_cfg_router.isis.processes.process.create("1")
+            ip.is_type = "level-2-only"
+            ip.nets.net.create(net_clns_address)
+            af = ip.address_families.address_family.create("ipv4", "unicast")
+            af.metric_style.create_wide()
+
+            # Loopback0 IS-IS interface config
+            lo0 = ip.interfaces.interface.create("Loopback0")
+            lo0.create_passive()
+            lo0_af = lo0.address_families.address_family.create("ipv4", "unicast")
+
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
             dev.configuration.system.host_name = di.name
             unit = dev.configuration.interfaces.interface.create("lo0").unit.create("0")
             unit.family.create_inet().address.create("%s/32" % (i.ipv4_address))
+            unit.family.create_iso().address.create(net_clns_address)
+
+            dcpi = dev.configuration.protocols.isis
+            dcpi.lsp_lifetime = 65535
+            il1 = dcpi.level.create(1)
+            il1.disable = True
+            il2 = dcpi.level.create(2)
+            il2.wide_metrics_only = True
+            ilo0 = dcpi.interface.create("lo0.0")
+            ilo0.create_passive()
+
             return dev
 
         raise UnsupportedDevice()
@@ -43,20 +79,44 @@ class BBInterface(base.BBInterface):
 
         if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
             dev = xr24.root()
+
+            # Create the interface
             intf = dev.interfaces.interface.create(i.name)
             intf.description = "Link to %s [%s]" % (i.remote.device, i.remote.interface)
             intf.shutdown = False
             ipv4_address = i.ipv4_address
             if ipv4_address != None:
                 intf.ipv4.addresses.create_address(ipv4_address, prefix_length_to_netmask(i.ipv4_prefix_length))
+
+            # IS-IS config for this interface
+            ip = dev.um_router_isis_cfg_router.isis.processes.process.create("1")
+            ci = ip.interfaces.interface.create(i.name)
+            ci.circuit_type = "level-2-only"
+            ci.create_point_to_point()
+            af = ci.address_families.address_family.create("ipv4", "unicast")
+            af.metric.levels.level.create(2).default_metric = 5000
+
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
+
+            # Create the interface
             unit = dev.configuration.interfaces.interface.create(i.name).unit.create("0")
             unit.description = "Link to %s [%s]" % (i.remote.device, i.remote.interface)
             ipv4_address = i.ipv4_address
             if ipv4_address != None:
                 unit.family.create_inet().address.create("%s/%s" % (ipv4_address, str(i.ipv4_prefix_length)))
+
+            # IS-IS config for this interface
+            dcpi = dev.configuration.protocols.isis
+            # This is specific to Juniper cRPD, on vMX and real router we add the interface with the unit included
+            interface = i.name
+            ilo0 = dcpi.interface.create(interface)
+            ilo0.point_to_point = True
+            il1 = ilo0.level.create(1)
+            il1.disable = True
+            il2 = ilo0.level.create(2)
+            il2.metric = 5000
             return dev
 
         raise UnsupportedDevice()
