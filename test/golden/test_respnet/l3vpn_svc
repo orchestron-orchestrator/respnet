@@ -5,7 +5,41 @@
       <vrfs xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-vrf-cfg">
         <vrf>
           <vrf-name>VPN-1</vrf-name>
+          <address-family>
+            <ipv4>
+              <unicast>
+                <import xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+                  <route-target>
+                    <two-byte-as-rts>
+                      <two-byte-as-rt>
+                        <as-number>65001</as-number>
+                        <index>1</index>
+                        <stitching>false</stitching>
+                      </two-byte-as-rt>
+                    </two-byte-as-rts>
+                  </route-target>
+                </import>
+                <export xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+                  <route-target>
+                    <two-byte-as-rts>
+                      <two-byte-as-rt>
+                        <as-number>65001</as-number>
+                        <index>1</index>
+                        <stitching>false</stitching>
+                      </two-byte-as-rt>
+                    </two-byte-as-rts>
+                  </route-target>
+                </export>
+              </unicast>
+            </ipv4>
+          </address-family>
           <description>Customer VPN for CUSTOMER-1</description>
+          <rd xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+            <two-byte-as>
+              <as-number>65001</as-number>
+              <index>11</index>
+            </two-byte-as>
+          </rd>
         </vrf>
       </vrfs>
       <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg">
