@@ -119,7 +119,7 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                             </ipv4>
                         </ip-connection>
                         <bearer>
-                            <bearer-reference>AMS-CORE-1,GigabitEthernet0/0/0/2</bearer-reference>
+                            <bearer-reference>AMS-CORE-1,GigabitEthernet0/0/0/2.100</bearer-reference>
                         </bearer>
                         <routing-protocols>
                             <routing-protocol>
@@ -166,7 +166,7 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                             </ipv4>
                         </ip-connection>
                         <bearer>
-                            <bearer-reference>FRA-CORE-1,GigabitEthernet0/0/0/2</bearer-reference>
+                            <bearer-reference>FRA-CORE-1,GigabitEthernet0/0/0/2.100</bearer-reference>
                         </bearer>
                         <routing-protocols>
                             <routing-protocol>
@@ -213,7 +213,7 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
                             </ipv4>
                         </ip-connection>
                         <bearer>
-                            <bearer-reference>STO-CORE-1,eth3</bearer-reference>
+                            <bearer-reference>STO-CORE-1,eth3.100</bearer-reference>
                         </bearer>
                         <routing-protocols>
                             <routing-protocol>

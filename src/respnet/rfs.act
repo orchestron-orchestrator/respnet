@@ -17,6 +17,16 @@ def prefix_length_to_netmask(prefix_length):
     return ".".join(map(str, octets))
 
 
+def split_interface_name(interface):
+    """Split interface name into main interface and unit number.
+    Example: 'ge-0/0/0.100' returns ('ge-0/0/0', '100')
+    """
+    parts = interface.split('.')
+    if len(parts) == 2:
+        return (parts[0], parts[1])
+    return (interface, "0")
+
+
 class BaseConfig(base.BaseConfig):
     def transform(self, i, di):
         print("RFS /rfs{%s}/base-config transform running" % (di.name))
@@ -217,22 +227,40 @@ class Vrf(base.Vrf):
 class VrfInterface(base.VrfInterface):
     def transform(self, i, di):
         print("RFS /rfs{%s}/vrf-interface transform running %s" % (di.name, i.name))
+        # TODO: input validation to ensure this is a subinterface with VLAN ID
+        # Split interface name into main interface and unit
+        main_intf, vlan_id = split_interface_name(i.name)
 
         if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
             dev = xr24.root()
-            intf = dev.interfaces.interface.create(i.name)
-            intf.description = i.description
+
+            # Main interface config
+            intf = dev.interfaces.interface.create(main_intf)
             intf.shutdown = False
+            sub_intf = dev.interfaces.interface.create(i.name)
+            sub_intf.description = i.description
+            sub_intf.shutdown = False
             ipv4_address = i.ipv4_address
             if ipv4_address != None:
-                intf.ipv4.addresses.create_address(ipv4_address, prefix_length_to_netmask(i.ipv4_prefix_length))
-            intf.vrf = i.vrf
+                sub_intf.ipv4.addresses.create_address(ipv4_address, prefix_length_to_netmask(i.ipv4_prefix_length))
+            sub_intf.vrf = i.vrf
+            sub_intf.um_l2_ethernet_cfg_encapsulation.dot1q.vlan_id = int(vlan_id)
             return dev
 
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
-            unit = dev.configuration.interfaces.interface.create(i.name).unit.create("0")
+
+            # Main interface config
+            intf = dev.configuration.interfaces.interface.create(main_intf)
+            intf.description = i.description
+            intf.flexible_vlan_tagging = True
+            intf.encapsulation = "flexible-ethernet-services"
+
+            # Unit config
+            unit = intf.unit.create(vlan_id)
             unit.description = i.description
+            unit.vlan_id = vlan_id
+
             ipv4_address = i.ipv4_address
             if ipv4_address != None:
                 unit.family.create_inet().address.create("%s/%s" % (ipv4_address, str(i.ipv4_prefix_length)))
