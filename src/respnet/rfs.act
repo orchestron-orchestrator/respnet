@@ -180,15 +180,30 @@ class Vrf(base.Vrf):
     def transform(self, i, di):
         print("RFS /rfs{%s}/vrf transform running %s" % (di.name, i.name))
 
+        route_distinguisher_id = "%d%d" % (i.id, i.router_id)
         if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
             dev = xr24.root()
             vrf = dev.vrfs.vrf.create(i.name)
             vrf.description = i.description
+            vrf.rd.create_two_byte_as(str(i.asn), int(route_distinguisher_id))
+
+            ipv4_unicast = vrf.address_family.ipv4.create_unicast()
+            ipv4_unicast.import_.route_target.two_byte_as_rts.two_byte_as_rt.create(i.asn, int(i.id), False)
+            ipv4_unicast.export.route_target.two_byte_as_rts.two_byte_as_rt.create(i.asn, int(i.id), False)
+
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
             ri = dev.configuration.routing_instances.instance.create(i.name)
-            ri.instance_type = "virtual-router"
+            ri.instance_type = "vrf"
+            ri.route_distinguisher.rd_type = "%d:%s" % (i.asn, route_distinguisher_id)
+            ri.vrf_target.community = "target:%d:%d" % (i.asn, i.id)
+            ri.create_vrf_table_label()
+            group = ri.protocols.bgp.group.create("customer")
+            group.passive = True
+            # group.import_.append("ACCEPT")
+            # group.export.append("ACCEPT")
+
             return dev
 
         raise UnsupportedDevice()
