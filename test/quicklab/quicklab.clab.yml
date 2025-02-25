@@ -15,6 +15,9 @@ topology:
   kinds:
     xrd:
       image: gitlab.dev.terastrm.net:4567/terastream/vrnetlab/vr-xrd/xrd-control-plane:24.1.1
+      # TODO: containerlab overwrites the default startup config for XRd if it
+      # is defined in any of the nodes?!
+      startup-config: xrd-startup.conf
     crpd:
       image: registry.devops.telekom.de/containerlab/containerlab/crpd:23.4R1.9
       startup-config: crpd-startup.conf
@@ -28,10 +31,13 @@ topology:
       kind: crpd
     cust-1:
       kind: xrd
+      startup-config: cust-1.conf
     cust-2:
       kind: xrd
+      startup-config: cust-2.conf
     cust-3:
       kind: xrd
+      startup-config: cust-3.conf
     otron:
       kind: linux
       image: debian
