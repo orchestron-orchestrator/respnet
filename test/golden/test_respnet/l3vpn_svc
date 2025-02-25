@@ -34,12 +34,6 @@
             </ipv4>
           </address-family>
           <description>Customer VPN for CUSTOMER-1</description>
-          <rd xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
-            <two-byte-as>
-              <as-number>65001</as-number>
-              <index>655011</index>
-            </two-byte-as>
-          </rd>
         </vrf>
       </vrfs>
       <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg">
@@ -182,6 +176,12 @@
                     <description>Customer eBGP SITE-1 [SNA-1-1] in VPN acme-65501 to 10.201.1.2</description>
                   </neighbor>
                 </neighbors>
+                <rd>
+                  <two-byte-as>
+                    <as-number>65001</as-number>
+                    <index>655011</index>
+                  </two-byte-as>
+                </rd>
               </vrf>
             </vrfs>
           </as>
@@ -280,12 +280,6 @@
             </ipv4>
           </address-family>
           <description>Customer VPN for CUSTOMER-1</description>
-          <rd xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
-            <two-byte-as>
-              <as-number>65001</as-number>
-              <index>655012</index>
-            </two-byte-as>
-          </rd>
         </vrf>
       </vrfs>
       <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg">
@@ -428,6 +422,12 @@
                     <description>Customer eBGP SITE-2 [SNA-2-1] in VPN acme-65501 to 10.202.1.2</description>
                   </neighbor>
                 </neighbors>
+                <rd>
+                  <two-byte-as>
+                    <as-number>65001</as-number>
+                    <index>655012</index>
+                  </two-byte-as>
+                </rd>
               </vrf>
             </vrfs>
           </as>

@@ -183,13 +183,18 @@ class Vrf(base.Vrf):
         route_distinguisher_id = "%d%d" % (i.id, i.router_id)
         if "Cisco-IOS-XR-um-hostname-cfg" in di.modules:
             dev = xr24.root()
+
+            # Create global VRF
             vrf = dev.vrfs.vrf.create(i.name)
             vrf.description = i.description
-            vrf.rd.create_two_byte_as(str(i.asn), int(route_distinguisher_id))
-
             ipv4_unicast = vrf.address_family.ipv4.create_unicast()
             ipv4_unicast.import_.route_target.two_byte_as_rts.two_byte_as_rt.create(i.asn, int(i.id), False)
             ipv4_unicast.export.route_target.two_byte_as_rts.two_byte_as_rt.create(i.asn, int(i.id), False)
+
+            # Create RD in BGP VRF
+            bgp_as = dev.um_router_bgp_cfg_router.bgp.as_.create(str(i.asn))
+            bgp_vrf = bgp_as.vrfs.vrf.create(i.name)
+            bgp_vrf.create_rd().create_two_byte_as(str(i.asn), int(route_distinguisher_id))
 
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
