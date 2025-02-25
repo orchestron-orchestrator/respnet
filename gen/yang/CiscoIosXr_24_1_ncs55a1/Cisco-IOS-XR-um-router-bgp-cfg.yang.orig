@@ -18092,6 +18092,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
               "Detect multiplier";
           }
         }
+        */
         container rd {
           must "auto or two-byte-as or four-byte-as or ip-address";
           presence "Indicates a rd node is configured.";
@@ -18173,7 +18174,6 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
             }
           }
         }
-        */
       }
     }
   }
