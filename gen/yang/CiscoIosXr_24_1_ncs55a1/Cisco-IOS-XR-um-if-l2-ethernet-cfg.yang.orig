@@ -88,6 +88,7 @@ module Cisco-IOS-XR-um-l2-ethernet-cfg {
   grouping IF-BODY {
     description
       "Grouping for interface";
+    /* XXX
     container carrier-delay {
       when "(../a1:interface-name[starts-with(text(),'FastEthernet')] or ../a1:interface-name[starts-with(text(),'GigabitEthernet')] or ../a1:interface-name[starts-with(text(),'TenGigE')] or ../a1:interface-name[starts-with(text(),'FortyGigE')] or ../a1:interface-name[starts-with(text(),'HundredGigE')] or ../a1:interface-name[starts-with(text(),'TwoHundredGigE')] or ../a1:interface-name[starts-with(text(),'FourHundredGigE')] or ../a1:interface-name[starts-with(text(),'EightHundredGigE')] or ../a1:interface-name[starts-with(text(),'TwentyFiveGigE')] or ../a1:interface-name[starts-with(text(),'FiftyGigE')] or ../a1:interface-name[starts-with(text(),'Bundle-Ether')] or ../a1:interface-name[starts-with(text(),'PW-Ether')])and ../a1:interface-name[contains(text(),'.')]" {
         tailf:dependency "../a1:interface-name";
@@ -105,6 +106,7 @@ module Cisco-IOS-XR-um-l2-ethernet-cfg {
           "Set the carrier delay up value";
       }
     }
+    */
     container encapsulation {
       when "(../a1:interface-name[starts-with(text(),'FastEthernet')] or ../a1:interface-name[starts-with(text(),'GigabitEthernet')] or ../a1:interface-name[starts-with(text(),'TenGigE')] or ../a1:interface-name[starts-with(text(),'FortyGigE')] or ../a1:interface-name[starts-with(text(),'HundredGigE')] or ../a1:interface-name[starts-with(text(),'TwoHundredGigE')] or ../a1:interface-name[starts-with(text(),'FourHundredGigE')] or ../a1:interface-name[starts-with(text(),'EightHundredGigE')] or ../a1:interface-name[starts-with(text(),'TwentyFiveGigE')] or ../a1:interface-name[starts-with(text(),'FiftyGigE')] or ../a1:interface-name[starts-with(text(),'Bundle-Ether')] or ../a1:interface-name[starts-with(text(),'PW-Ether')])and ../a1:interface-name[contains(text(),'.')]and not(../a1:sub-interface-type/a1:l2transport)" {
         tailf:dependency "../a1:interface-name";
@@ -136,6 +138,7 @@ module Cisco-IOS-XR-um-l2-ethernet-cfg {
             "Configure second (inner 802.1Q) VLAN ID on the subinterface";
         }
       }
+      /* XXX
       container dot1ad {
         description
           "IEEE 802.1ad VLAN-tagged packets";
@@ -161,7 +164,9 @@ module Cisco-IOS-XR-um-l2-ethernet-cfg {
             "Configure second (inner 802.1Q) VLAN ID on the subinterface";
         }
       }
+      */
     }
+    /* XXX
     container l2transport-encapsulation {
       when "(../a1:interface-name[starts-with(text(),'FastEthernet')] or ../a1:interface-name[starts-with(text(),'GigabitEthernet')] or ../a1:interface-name[starts-with(text(),'TenGigE')] or ../a1:interface-name[starts-with(text(),'FortyGigE')] or ../a1:interface-name[starts-with(text(),'HundredGigE')] or ../a1:interface-name[starts-with(text(),'TwoHundredGigE')] or ../a1:interface-name[starts-with(text(),'FourHundredGigE')] or ../a1:interface-name[starts-with(text(),'EightHundredGigE')] or ../a1:interface-name[starts-with(text(),'TwentyFiveGigE')] or ../a1:interface-name[starts-with(text(),'FiftyGigE')] or ../a1:interface-name[starts-with(text(),'Bundle-Ether')] or ../a1:interface-name[starts-with(text(),'PW-Ether')])and ../a1:interface-name[contains(text(),'.')]and ../a1:sub-interface-type/a1:l2transport" {
         tailf:dependency "../a1:interface-name";
@@ -2237,6 +2242,7 @@ module Cisco-IOS-XR-um-l2-ethernet-cfg {
         }
       }
     }
+    */
   }
 
   grouping L2TRANS-BODY {
