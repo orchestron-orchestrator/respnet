@@ -915,6 +915,73 @@ local BGP speaker's decision process";
             }
           }
         }
+        container rd {
+          must "auto or two-byte-as or four-byte-as or ip-address";
+          presence "Indicates a rd node is configured.";
+          description "route distinguisher";
+          container auto {
+            must "not(../two-byte-as or ../four-byte-as or ../ip-address)";
+            presence "Indicates a auto node is configured.";
+            description "Automatic route distinguisher";
+          }
+          container two-byte-as {
+            must "not(../auto or ../four-byte-as or ../ip-address)";
+            presence "Indicates a two-byte-as node is configured.";
+            description "two-byte-as route distinguisher";
+            leaf as-number {
+              type "xr:Bgp-as-number";
+              mandatory true;
+              description "bgp as-number";
+            }
+            leaf index {
+              type uint32 {
+                range "0..4294967295" {
+                  description "ASN2:index (hex or decimal format)";
+                }
+              }
+              mandatory true;
+              description "ASN2:index (hex or decimal format)";
+            }
+          }
+          container four-byte-as {
+            must "not(../auto or ../two-byte-as or ../ip-address)";
+            presence "Indicates a four-byte-as node is configured.";
+            description "four-byte-as route distinguisher";
+            leaf as-number {
+              type "xr:Bgp-as-number";
+              mandatory true;
+              description "4-byte AS number";
+            }
+            leaf index {
+              type uint32 {
+                range "0..4294967295" {
+                  description "ASN2:index (hex or decimal format)";
+                }
+              }
+              mandatory true;
+              description "ASN2:index (hex or decimal format)";
+            }
+          }
+          container ip-address {
+            must "not(../auto or ../two-byte-as or ../four-byte-as)";
+            presence "Indicates a ip-address node is configured.";
+            description "configure this node";
+            leaf ipv4-address {
+              type "inet:ipv4-address-no-zone";
+              mandatory true;
+              description "configure this node";
+            }
+            leaf index {
+              type uint32 {
+                range "0..65535" {
+                  description "IPv4Address:index (hex or decimal format)";
+                }
+              }
+              mandatory true;
+              description "IPv4Address:index (hex or decimal format)";
+            }
+          }
+        }
       }
     }
   }
