@@ -150,6 +150,16 @@
       <hostname xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-hostname-cfg">
         <system-network-name>AMS-CORE-1</system-network-name>
       </hostname>
+      <routing-policy xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-policy-repository-cfg">
+        <route-policies>
+          <route-policy>
+            <route-policy-name>ACCEPT-ALL</route-policy-name>
+            <rpl-route-policy>route-policy ACCEPT-ALL
+  done
+end-policy</rpl-route-policy>
+          </route-policy>
+        </route-policies>
+      </routing-policy>
     </config>
   </device>
   <device>
@@ -303,6 +313,16 @@
       <hostname xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-hostname-cfg">
         <system-network-name>FRA-CORE-1</system-network-name>
       </hostname>
+      <routing-policy xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-policy-repository-cfg">
+        <route-policies>
+          <route-policy>
+            <route-policy-name>ACCEPT-ALL</route-policy-name>
+            <rpl-route-policy>route-policy ACCEPT-ALL
+  done
+end-policy</rpl-route-policy>
+          </route-policy>
+        </route-policies>
+      </routing-policy>
     </config>
   </device>
   <device>
