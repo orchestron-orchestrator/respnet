@@ -1,0 +1,268 @@
+module Cisco-IOS-XR-um-l2-ethernet-cfg {
+  namespace "http://cisco.com/ns/yang/Cisco-IOS-XR-um-l2-ethernet-cfg";
+  prefix "um-l2-ethernet-cfg";
+  import Cisco-IOS-XR-types {
+    prefix "xr";
+  }
+  import ietf-yang-types {
+    prefix "yang";
+  }
+  import Cisco-IOS-XR-um-interface-cfg {
+    prefix "a1";
+  }
+  import tailf-common {
+    prefix "tailf";
+  }
+  import cisco-semver {
+    prefix "semver";
+  }
+  organization "Cisco Systems, Inc.";
+  contact "Cisco Systems, Inc.
+Customer Service
+
+Postal: 170 West Tasman Drive
+San Jose, CA 95134
+
+Tel: +1 800 553-NETS
+
+E-mail: cs-yang@cisco.com";
+  description "This module contains a collection of YANG definitions
+for Cisco IOS-XR l2-ethernet package configuration.
+
+This YANG module augments the
+modules with configuration data.
+
+Copyright (c) 2020-2022 by Cisco Systems, Inc.
+All rights reserved.";
+  revision 2023-06-15 {
+    description "Added ethernet conatiner with leaf UNI id in,
+IF_BODY grouping.
+2022-10-10
+  Added must statement dot1q, dot1ad, untagged, and default
+2022-07-11
+  Added missing description statement to nodes
+2022-06-18
+  Added container list-extended to support 64 vlan ranges
+2022-03-10
+  1.Added leaf dot1q-end-vlan-id under l2transport-encapsulation/dot1ad
+2.Added leaf second-dot1q-end-vlan-id under l2transport-encapsulation/dot1q";
+    semver:module-version "4.0.0";
+  }
+  revision 2021-03-30 {
+    description "Updated with statement for 800G interface";
+    semver:module-version "3.0.0";
+  }
+  revision 2021-02-19 {
+    description "Updated when/must statement under carrier-delay, l2transport-encapsulation,
+  encapsulation, l2protocol container.
+2020-08-01
+    Added when/must statement under encapsulation container.
+  Added feature/if-feature for global ethernet config.";
+    semver:module-version "2.0.0";
+  }
+  revision 2020-03-05 {
+    description "Initial draft";
+    semver:module-version "1.0.0";
+  }
+  feature global-ethernet {
+    description "Global ethernet configuration";
+  }
+  grouping IF-BODY {
+    description "Grouping for interface";
+    container encapsulation {
+      when "(../a1:interface-name[starts-with(text(),'FastEthernet')] or ../a1:interface-name[starts-with(text(),'GigabitEthernet')] or ../a1:interface-name[starts-with(text(),'TenGigE')] or ../a1:interface-name[starts-with(text(),'FortyGigE')] or ../a1:interface-name[starts-with(text(),'HundredGigE')] or ../a1:interface-name[starts-with(text(),'TwoHundredGigE')] or ../a1:interface-name[starts-with(text(),'FourHundredGigE')] or ../a1:interface-name[starts-with(text(),'EightHundredGigE')] or ../a1:interface-name[starts-with(text(),'TwentyFiveGigE')] or ../a1:interface-name[starts-with(text(),'FiftyGigE')] or ../a1:interface-name[starts-with(text(),'Bundle-Ether')] or ../a1:interface-name[starts-with(text(),'PW-Ether')])and ../a1:interface-name[contains(text(),'.')]and not(../a1:sub-interface-type/a1:l2transport)" {
+        tailf:dependency "../a1:interface-name";
+      }
+      description "Specify which packets will be matched by this sub-interface";
+      container dot1q {
+        description "IEEE 802.1Q VLAN-tagged packets";
+        leaf vlan-id {
+          type uint32 {
+            range "1..4094" {
+              description "Configure first (outer) VLAN ID on the subinterface";
+            }
+          }
+          description "Configure first (outer) VLAN ID on the subinterface";
+        }
+        leaf second-dot1q {
+          type uint32 {
+            range "1..4094" {
+              description "Configure second (inner 802.1Q) VLAN ID on the subinterface";
+            }
+          }
+          must "../vlan-id";
+          description "Configure second (inner 802.1Q) VLAN ID on the subinterface";
+        }
+      }
+    }
+  }
+  grouping L2TRANS-BODY {
+    description "Grouping for l2transport";
+    container l2protocol {
+      when "(../../a1:interface-name[starts-with(text(),'FastEthernet')] or ../../a1:interface-name[starts-with(text(),'GigabitEthernet')] or ../../a1:interface-name[starts-with(text(),'TenGigE')] or ../../a1:interface-name[starts-with(text(),'FortyGigE')] or ../../a1:interface-name[starts-with(text(),'HundredGigE')] or ../../a1:interface-name[starts-with(text(),'TwentyFiveGigE')] or ../../a1:interface-name[starts-with(text(),'Ethernet')] or ../../a1:interface-name[starts-with(text(),'Bundle-Ether')] or ../../a1:interface-name[starts-with(text(),'PW-Ether')] or ../../a1:interface-name[starts-with(text(),'Interflex')]) and (../../a1:interface-name[not(contains(text(),'.'))] or ../../a1:sub-interface-type/a1:l2transport)" {
+        tailf:dependency "../../a1:interface-name";
+      }
+      description "Layer 2 protocol handling";
+      container cpsv {
+        description "CDP, PVST+, STP, and VTP protocols";
+        container tunnel {
+          must "not(../reverse-tunnel) and not(../drop)";
+          presence "Indicates a tunnel node is configured.";
+          description "Tunnel at ingress";
+        }
+        container reverse-tunnel {
+          must "not(../tunnel) and not(../drop)";
+          presence "Indicates a reverse-tunnel node is configured.";
+          description "Tunnel at egress";
+        }
+        container drop {
+          must "not(../tunnel) and not(../reverse-tunnel)";
+          presence "Indicates a drop node is configured.";
+          description "Drop these protocol packets";
+        }
+      }
+      container cdp {
+        description "Cisco Discovery Protocol";
+        container drop {
+          must "not(../tunnel) and not(../forward)";
+          presence "Indicates a drop node is configured.";
+          description "Drop this protocol's packets";
+        }
+        container forward {
+          must "not(../drop) and not(../tunnel)";
+          presence "Indicates a forward node is configured.";
+          description "Forward this protocol's packets";
+        }
+        container tunnel {
+          must "not(../drop) and not(../forward)";
+          presence "Indicates a tunnel node is configured.";
+          description "Tunnel this protocol's packets";
+        }
+        container experimental {
+          description "Modify the MPLS Experimental bits";
+          leaf mpls-experimental-bits {
+            type uint32 {
+              range "0..7" {
+                description "Set the MPLS experimental bits for this interface";
+              }
+            }
+            must "../../forward or ../../tunnel";
+            description "Set the MPLS experimental bits for this interface";
+          }
+        }
+      }
+      container stp {
+        description "Spanning Tree Protocol";
+        container drop {
+          must "not(../tunnel) and not(../forward)";
+          presence "Indicates a drop node is configured.";
+          description "Drop this protocol's packets";
+        }
+        container forward {
+          must "not(../drop) and not(../tunnel)";
+          presence "Indicates a forward node is configured.";
+          description "Forward this protocol's packets";
+        }
+        container tunnel {
+          must "not(../drop) and not(../forward)";
+          presence "Indicates a tunnel node is configured.";
+          description "Tunnel this protocol's packets";
+        }
+        container experimental {
+          description "Modify the MPLS Experimental bits";
+          leaf mpls-experimental-bits {
+            type uint32 {
+              range "0..7" {
+                description "Set the MPLS experimental bits for this interface";
+              }
+            }
+            must "../../forward or ../../tunnel";
+            description "Set the MPLS experimental bits for this interface";
+          }
+        }
+      }
+      container vtp {
+        description "VLAN Trunk Protocol";
+        container drop {
+          must "not(../tunnel) and not(../forward)";
+          presence "Indicates a drop node is configured.";
+          description "Drop this protocol's packets";
+        }
+        container forward {
+          must "not(../drop) and not(../tunnel)";
+          presence "Indicates a forward node is configured.";
+          description "Forward this protocol's packets";
+        }
+        container tunnel {
+          must "not(../drop) and not(../forward)";
+          presence "Indicates a tunnel node is configured.";
+          description "Tunnel this protocol's packets";
+        }
+        container experimental {
+          description "Modify the MPLS Experimental bits";
+          leaf mpls-experimental-bits {
+            type uint32 {
+              range "0..7" {
+                description "Set the MPLS experimental bits for this interface";
+              }
+            }
+            must "../../forward or ../../tunnel";
+            description "Set the MPLS experimental bits for this interface";
+          }
+        }
+      }
+      container pvst {
+        description "Per VLAN Spanning Tree";
+        container drop {
+          must "not(../tunnel) and not(../forward)";
+          presence "Indicates a drop node is configured.";
+          description "Drop this protocol's packets";
+        }
+        container forward {
+          must "not(../drop) and not(../tunnel)";
+          presence "Indicates a forward node is configured.";
+          description "Forward this protocol's packets";
+        }
+        container tunnel {
+          must "not(../drop) and not(../forward)";
+          presence "Indicates a tunnel node is configured.";
+          description "Tunnel this protocol's packets";
+        }
+        container experimental {
+          description "Modify the MPLS Experimental bits";
+          leaf mpls-experimental-bits {
+            type uint32 {
+              range "0..7" {
+                description "Set the MPLS experimental bits for this interface";
+              }
+            }
+            must "../../forward or ../../tunnel";
+            description "Set the MPLS experimental bits for this interface";
+          }
+        }
+      }
+    }
+    container propagate {
+      description "Select events to propagate";
+      container remote-status {
+        presence "Indicates a remote-status node is configured.";
+        description "Propagate remote link status changes";
+      }
+    }
+  }
+  augment "/a1:interfaces/a1:interface" {
+    description "This augment extends active nodes configuration";
+    uses IF-BODY;
+  }
+  container ethernet {
+    description "Ethernet configuration";
+    container egress-filter {
+      description "Egress-filter commands";
+      container strict {
+        if-feature "global-ethernet";
+        presence "Indicates a strict node is configured.";
+        description "Strict egress-filtering on by default";
+      }
+    }
+  }
+}

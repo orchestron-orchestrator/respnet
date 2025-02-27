@@ -1,0 +1,67 @@
+module Cisco-IOS-XR-policy-repository-cfg {
+  namespace "http://cisco.com/ns/yang/Cisco-IOS-XR-policy-repository-cfg";
+  prefix "policy-repository-cfg";
+  import Cisco-IOS-XR-types {
+    prefix "xr";
+  }
+  import cisco-semver {
+    prefix "semver";
+  }
+  organization "Cisco Systems, Inc.";
+  contact "Cisco Systems, Inc.
+Customer Service
+
+Postal: 170 West Tasman Drive
+San Jose, CA 95134
+
+Tel: +1 800 553-NETS
+
+E-mail: cs-yang@cisco.com";
+  description "This module contains a collection of YANG definitions
+for Cisco IOS-XR policy-repository package configuration.
+
+This module contains definitions
+for the following management objects:
+  routing-policy: Routing policy configuration
+
+Copyright (c) 2013-2022 by Cisco Systems, Inc.
+All rights reserved.";
+  revision 2022-12-02 {
+    description "Updated RPL knob operations to include extcomm evpn-link-bandwidth.
+2022-06-22
+  Updating RPL knob for set nexthop with allocate-vpn-label";
+    semver:module-version "1.1.0";
+  }
+  revision 2019-04-05 {
+    description "Establish semantic version baseline.";
+    semver:module-version "1.0.1";
+  }
+  revision 2017-09-07 {
+    description "Fixing prepend/append/remove containers.";
+  }
+  revision 2017-09-07 {
+    description "Fixed type translation error.";
+  }
+  revision 2015-08-27 {
+    description "IOS XR 5.3.2 revision.";
+  }
+  container routing-policy {
+    description "Routing policy configuration";
+    container route-policies {
+      description "All configured policies";
+      list route-policy {
+        key route-policy-name;
+        description "Information about an individual policy";
+        leaf route-policy-name {
+          type "xr:Cisco-ios-xr-string";
+          description "Route policy name";
+        }
+        leaf rpl-route-policy {
+          type "xr:Rpl-policy";
+          mandatory true;
+          description "policy statements";
+        }
+      }
+    }
+  }
+}

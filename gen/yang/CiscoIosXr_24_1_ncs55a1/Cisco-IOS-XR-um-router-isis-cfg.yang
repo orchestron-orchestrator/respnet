@@ -1,0 +1,482 @@
+module Cisco-IOS-XR-um-router-isis-cfg {
+  namespace "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg";
+  prefix "um-router-isis-cfg";
+  import Cisco-IOS-XR-types {
+    prefix "xr";
+  }
+  import ietf-inet-types {
+    prefix "inet";
+  }
+  import tailf-common {
+    prefix "tailf";
+  }
+  import cisco-semver {
+    prefix "semver";
+  }
+  organization "Cisco Systems, Inc.";
+  contact "Cisco Systems, Inc.
+Customer Service
+
+Postal: 170 West Tasman Drive
+San Jose, CA 95134
+
+Tel: +1 800 553-NETS
+
+E-mail: cs-yang@cisco.com";
+  description "This module contains a collection of YANG definitions
+for Cisco IOS-XR router-isis package configuration.
+
+This YANG module augments the
+modules with configuration data.
+
+Copyright (c) 2019-2023 by Cisco Systems, Inc.
+All rights reserved.";
+  revision 2023-08-22 {
+    description "Add nsr-restart-time
+2023-07-12
+  Add flex-algo UCMP
+2023-06-28
+  Change the must clause from ../../srv6-locator-xxx to srv6-locator-xxx
+2023-04-09
+  Add maximum paths per route-policy for standard and flex algo
+2023-04-03
+  Add flex-algo MinimumBandwidth and MaximumDelay constraints
+2023-03-13
+  Add Uloop filtering suport
+2023-02-10
+  Modify must statement for SPF interval per-level
+2022-11-18
+  Add distribute link-state prefix filtering
+2022-10-14
+  Added new nodes for partition-detect
+2022-10-04
+  Added support for ISIS Prefix-SID UHP
+2022-10-02
+  Added hello-padding under router-isis
+2022-10-01
+  Add support for flex-algo reverse link affinities.
+2022-07-25
+  Added new node anycast-prefer-igp-cost to traffic-eng tunnel
+2022-07-18
+  Added new node php-disable to the existing connected-prefix-sid-map, strict-spf and flex-algo.
+2022-07-11
+  Added missing description statement to nodes
+2022-05-12
+  Added new node adv-unreachable with sub-node unreachable-component-tag and tag value to an existing ISIS address-family sub-mode summary-prefix command.Added new node prefix-unreachable under ISIS address-family sub-mode.
+2022-05-05
+  Added new node anomaly to the existing ISIS affinity flex-algo
+2022-04-22
+  Added support for maximum-paths under flex-algo,
+Added container algorithm
+2022-04-05
+  Added support for te and delay
+2022-03-03
+  Added container metric & tag under segment-routing/srv6/locators,
+Added container format,
+Added container lsp-fast-flood
+2022-01-19
+  Added ietf support for spf-interval
+2022-01-04
+  Added support for unhidden CLI commands
+2021-12-14
+  Added authentication-check feature";
+    semver:module-version "5.0.0";
+  }
+  revision 2021-09-23 {
+    description "Merged container levels under disable|interval/periodic/address-family-topology,
+ Merged container levels under disable|interval/periodic/address-family,
+ Merged disable & interval-time into one leaf interval
+2021-07-27
+   Re-ordered maximum-wait, initial-wait and secondary-wait nodes under
+ level container/spf-interval
+2021-06-15
+   Added when statement to container prefix-attributes";
+    semver:module-version "4.0.0";
+  }
+  revision 2021-05-18 {
+    description "Added features, 1. flex-algo srlg exclude
+2. advertise application flex-algo link-attributes srlg
+2021-04-22
+    Added te-metric flex-algo feature
+2021-03-02
+    Re-ordered maximum-wait, initial-wait and secondary-wait nodes under
+  level container
+2021-02-11
+    Re-ordered per-link, per-prefix nodes under interface fast-reroute container
+2021-01-28
+    Added cisco-support task yang nodes
+2021-01-27
+    Re-ordered nodes under lsp-gen-interval, min-lsp-arrivaltime container
+2021-01-20
+    Moved presence containers as leafs under snmp-server traps
+2021-01-18
+    Added presence statement and re-ordered few nodes under container max-metric
+2021-01-11
+    Add support to metric and preferred container under tunnel
+2021-01-07
+    Updated range value in leaf multiplier under fallback container
+2021-01-06
+    Added presence statement under link-state container
+2020-12-09
+    Removed cisco-support yang nodes
+2020-12-01
+    Added container anomaly under metric/fallback
+2020-11-20
+    Added metric type te
+2020-11-19
+    Fixed a must statement under absolute, added presence statement to text
+2020-11-13
+    Added container receive and attestation under list process.
+2020-11-02
+    Moved levels container under lsp-password out of it and renamed as
+  lsp-password-levels.
+2020-08-20
+    Added level option under srv6/locator
+2020-08-13
+    Remove presence container and constraints on the match container
+2020-08-10
+    Updated the fallback topology
+2020-07-21
+    Slight changes to prefix-priority nodes
+2020-07-17
+    Added must statements and moved rib-update-delay up one node
+2020-07-15
+    Added down-flag-clear node under redistribute isis
+2020-07-14
+    Added mandatory node to bit-position under affinity-map";
+    semver:module-version "3.0.0";
+  }
+  revision 2020-05-19 {
+    description "Added nodes for new ISIS features
+2020-05-07
+  Added a container anycast and its child nodes
+2020-04-14
+  Updated the constraints in the nodes under stagger to be less strict
+2020-03-09
+  Updated lsp-password and summary-prefix trees with proper constaraint
+  statements";
+    semver:module-version "2.0.0";
+  }
+  revision 2019-06-10 {
+    description "Establish semantic version baseline.";
+    semver:module-version "1.0.0";
+  }
+  revision 2019-03-30 {
+    description "Initial draft";
+  }
+  typedef Isis-af-name {
+    type enumeration {
+      enum ipv4 {
+        value 0;
+        description "IPv4";
+      }
+      enum ipv6 {
+        value 1;
+        description "IPv6";
+      }
+    }
+    description "Address-family names";
+  }
+  typedef Isis-saf-name {
+    type enumeration {
+      enum unicast {
+        value 0;
+        description "unicast";
+      }
+      enum multicast {
+        value 1;
+        description "multicast";
+      }
+    }
+    description "Sub address-family names";
+  }
+  typedef Isis-saf-multicast {
+    type enumeration {
+      enum multicast {
+        value 1;
+        description "multicast";
+      }
+    }
+    description "Sub address-family names (only multicast)";
+  }
+  container router {
+    description "Enable a routing process";
+    container isis {
+      description "ISO IS-IS";
+      container processes {
+        description "Process ID";
+        list process {
+          key process-id;
+          description "Process ID";
+          leaf process-id {
+            type string {
+              length "1..36" {
+                description "Process ID";
+              }
+            }
+            description "Process ID";
+          }
+          leaf is-type {
+            type enumeration {
+              enum level-1 {
+                value 1;
+                description "Act as a station router only";
+              }
+              enum level-2-only {
+                value 2;
+                description "Act as an area router only";
+              }
+              enum level-1-2 {
+                value 3;
+                description "Act as both a station router and an area router";
+              }
+            }
+            description "Area type (level)";
+          }
+          container nets {
+            description "A Network Entity Title (NET) for this process";
+            list net {
+              key net-id;
+              description "A Network Entity Title (NET) for this process";
+              leaf net-id {
+                type string {
+                  length "1..1024" {
+                    description "NET (XX.XXXX. ... .XXXX.XX)";
+                  }
+                }
+                description "A Network Entity Title (NET) for this process";
+              }
+            }
+          }
+          container address-families {
+            description "Enter the IS-IS address-family configuration submode";
+            list address-family {
+              key "af-name saf-name";
+              description "IS-IS address family";
+              leaf af-name {
+                type Isis-af-name;
+                description "Address family name";
+              }
+              leaf saf-name {
+                type Isis-saf-name;
+                description "Sub address family name";
+              }
+              container segment-routing {
+                description "Enable Segment Routing";
+                container mpls {
+                  description "Enable Segment Routing using MPLS encapsulation";
+                  leaf sr-prefer {
+                    when "../../../saf-name = 'unicast'";
+                    type boolean;
+                    description "Prefer segment routing labels over LDP labels";
+                  }
+                }
+              }
+              container metric-style {
+                description "Use old-style (ISO 10589) or new-style packet formats";
+                container narrow {
+                  must "not(../wide or ../transition)";
+                  presence "Indicates a narrow node is configured.";
+                  description "Use old style of TLVs with narrow metric";
+                }
+                container wide {
+                  must "not(../narrow or ../transition)";
+                  presence "Indicates a wide node is configured.";
+                  description "Use new style of TLVs to carry wider metric";
+                }
+                container transition {
+                  must "not(../narrow or ../wide)";
+                  presence "Indicates a transition node is configured.";
+                  description "Send and accept both styles of TLVs during transition";
+                }
+                container levels {
+                  description "Set metric-style for one level only";
+                  list level {
+                    key level-id;
+                    description "Set metric-style for one level only";
+                    leaf level-id {
+                      type uint32 {
+                        range "1..2" {
+                          description "Level";
+                        }
+                      }
+                      description "Set metric-style for one level only";
+                    }
+                    container narrow {
+                      must "not(../wide or ../transition)";
+                      presence "Indicates a narrow node is configured.";
+                      description "Use old style of TLVs with narrow metric";
+                    }
+                    container wide {
+                      must "not(../narrow or ../transition)";
+                      presence "Indicates a wide node is configured.";
+                      description "Use new style of TLVs to carry wider metric";
+                    }
+                    container transition {
+                      must "not(../narrow or ../wide)";
+                      presence "Indicates a transition node is configured.";
+                      description "Send and accept both styles of TLVs during transition";
+                    }
+                  }
+                }
+              }
+            }
+          }
+          container interfaces {
+            description "Enter the IS-IS interface configuration submode";
+            list interface {
+              key interface-name;
+              description "Enter the IS-IS interface configuration submode";
+              leaf interface-name {
+                type "xr:Interface-name";
+                description "Enter the IS-IS interface configuration submode";
+              }
+              leaf circuit-type {
+                type enumeration {
+                  enum level-1 {
+                    value 1;
+                    description "Form level-1 adjacencies only";
+                  }
+                  enum level-2-only {
+                    value 2;
+                    description "Form level-2 adjacencies only";
+                  }
+                  enum level-1-2 {
+                    value 3;
+                    description "Form level-1 and level-2 adjacencies";
+                  }
+                }
+                description "Configure circuit type for interface";
+              }
+              container point-to-point {
+                presence "Indicates a point-to-point node is configured.";
+                description "Treat active LAN interface as point-to-point";
+              }
+              container bfd {
+                description "Configure BFD parameters";
+                container fast-detect {
+                  description "Enable Fast detection";
+                  container ipv4 {
+                    presence "Indicates a ipv4 node is configured.";
+                    description "Address Family";
+                  }
+                  container ipv6 {
+                    presence "Indicates a ipv6 node is configured.";
+                    description "Address Family";
+                  }
+                }
+                leaf minimum-interval {
+                  type uint32 {
+                    range "3..30000" {
+                      description "hello interval in milli-seconds";
+                    }
+                  }
+                  description "Hello interval";
+                }
+                leaf multiplier {
+                  type uint32 {
+                    range "2..50" {
+                      description "Detect multiplier";
+                    }
+                  }
+                  description "Detect multiplier";
+                }
+              }
+              container passive {
+                must "not(../suppressed or ../shutdown)";
+                presence "Indicates a passive node is configured.";
+                description "Do not establish adjacencies over this interface";
+              }
+              container address-families {
+                description "Enter the IS-IS interface address-family configuration submode";
+                list address-family {
+                  key "af-name saf-name";
+                  description "Address family";
+                  leaf af-name {
+                    type Isis-af-name;
+                    description "Address family name";
+                  }
+                  leaf saf-name {
+                    type Isis-saf-name;
+                    description "Sub address family name";
+                  }
+                  container metric {
+                    description "Configure the metric for interface";
+                    leaf default-metric {
+                      type uint32 {
+                        range "1..16777214" {
+                          description "Default metric: <1-63> for narrow, <1-16777214> for wide";
+                        }
+                      }
+                      must "not(../maximum)";
+                      description "Default metric";
+                    }
+                    container maximum {
+                      must "not(../default-metric)";
+                      presence "Indicates a maximum node is configured.";
+                      description "Maximum wide metric. All routers will exclude this link from their SPF";
+                    }
+                    container levels {
+                      description "Set metric for one level only";
+                      list level {
+                        key level-id;
+                        description "Set metric for one level only";
+                        leaf level-id {
+                          type uint32 {
+                            range "1..2" {
+                              description "Set metric at this level only";
+                            }
+                          }
+                          description "Set metric for one level only";
+                        }
+                        leaf default-metric {
+                          type uint32 {
+                            range "1..16777214" {
+                              description "Default metric: <1-63> for narrow, <1-16777214> for wide";
+                            }
+                          }
+                          must "not(../maximum)";
+                          description "Default metric";
+                        }
+                        container maximum {
+                          must "not(../default-metric)";
+                          presence "Indicates a maximum node is configured.";
+                          description "Maximum wide metric. All routers will exclude this link from their SPF";
+                        }
+                      }
+                    }
+                  }
+                  container prefix-sid {
+                    when "../saf-name = 'unicast' and ../../../interface-name[starts-with(text(),'Loopback')]" {
+                      tailf:dependency "../../../interface-name";
+                    }
+                    description "Specify the Prefix Segment ID";
+                    container sid {
+                      must "index or absolute";
+                      presence "Indicates a sid node is configured.";
+                      description "Specify the Prefix Segment ID";
+                      container index {
+                        must "not(../absolute)";
+                        presence "Indicates a index node is configured.";
+                        description "Specify the index of Prefix Segement ID";
+                        leaf sid-index {
+                          type uint32 {
+                            range "0..1048575" {
+                              description "The Prefix Segment ID index";
+                            }
+                          }
+                          mandatory true;
+                          description "Specify the index of Prefix Segement ID";
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,16 +5,19 @@
             <name>AMS-CORE-1</name>
             <id>1</id>
             <role>edge</role>
+            <asn>65001</asn>
         </routers>
         <routers>
             <name>FRA-CORE-1</name>
             <id>2</id>
             <role>core</role>
+            <asn>65001</asn>
         </routers>
         <routers>
             <name>STO-CORE-1</name>
             <id>3</id>
             <role>core</role>
+            <asn>65001</asn>
         </routers>
         <backbone-link>
             <left-router>AMS-CORE-1</left-router>
@@ -29,7 +32,7 @@
         </vpn-profiles>
         <vpn-services>
             <vpn-service>
-                <vpn-id>VPN-1</vpn-id>
+                <vpn-id>acme-65501</vpn-id>
                 <customer-name>CUSTOMER-1</customer-name>
             </vpn-service>
         </vpn-services>
@@ -54,7 +57,7 @@
                             <svc-mtu>9000</svc-mtu>
                         </service>
                         <vpn-attachment>
-                            <vpn-id>VPN-1</vpn-id>
+                            <vpn-id>acme-65501</vpn-id>
                         </vpn-attachment>
                         <ip-connection>
                             <ipv4>
@@ -91,7 +94,7 @@
                             <svc-mtu>9000</svc-mtu>
                         </service>
                         <vpn-attachment>
-                            <vpn-id>VPN-1</vpn-id>
+                            <vpn-id>acme-65501</vpn-id>
                         </vpn-attachment>
                         <ip-connection>
                             <ipv4>

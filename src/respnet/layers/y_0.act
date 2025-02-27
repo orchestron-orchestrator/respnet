@@ -7317,19 +7317,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
             children['metric'] = yang.gdata.Leaf('uint16', _metric)
         if _sham_links is not None:
             children['sham-links'] = _sham_links.to_gdata()
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf(address_family=n.get_opt_strs("address-family"), area_address=n.get_str("area-address"), metric=n.get_opt_int("metric"), sham_links=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf__sham_links.from_gdata(n.get_opt_container("sham-links")))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf(address_family=yang.gdata.from_xml_opt_strs(n, "address-family"), area_address=yang.gdata.from_xml_str(n, "area-address"), metric=yang.gdata.from_xml_opt_int(n, "metric"), sham_links=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf__sham_links.from_xml(yang.gdata.get_xml_opt_child(n, "sham-links")))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -7420,19 +7420,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
         if _autonomous_system is not None:
             children['autonomous-system'] = yang.gdata.Leaf('uint32', _autonomous_system)
         children['address-family'] = yang.gdata.LeafList(self.address_family)
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp(autonomous_system=n.get_int("autonomous-system"), address_family=n.get_opt_strs("address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp(autonomous_system=yang.gdata.from_xml_int(n, "autonomous-system"), address_family=yang.gdata.from_xml_opt_strs(n, "address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -7939,19 +7939,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
         _cascaded_lan_prefixes = self.cascaded_lan_prefixes
         if _cascaded_lan_prefixes is not None:
             children['cascaded-lan-prefixes'] = _cascaded_lan_prefixes.to_gdata()
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static(cascaded_lan_prefixes=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static__cascaded_lan_prefixes.from_gdata(n.get_opt_container("cascaded-lan-prefixes")))
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static()
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static(cascaded_lan_prefixes=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static__cascaded_lan_prefixes.from_xml(yang.gdata.get_xml_opt_child(n, "cascaded-lan-prefixes")))
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static()
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -8004,19 +8004,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         children['address-family'] = yang.gdata.LeafList(self.address_family)
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip(address_family=n.get_opt_strs("address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip(address_family=yang.gdata.from_xml_opt_strs(n, "address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -8068,19 +8068,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         children['address-family'] = yang.gdata.LeafList(self.address_family)
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp(address_family=n.get_opt_strs("address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp(address_family=yang.gdata.from_xml_opt_strs(n, "address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -8118,30 +8118,60 @@ mut def to_json_ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routi
 
 class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(yang.adata.MNode):
     type: str
-    ospf: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf
-    bgp: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp
-    static: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static
-    rip: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip
-    vrrp: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp
+    ospf: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf
+    bgp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp
+    static: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static
+    rip: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip
+    vrrp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp
 
-    mut def __init__(self, type: str, ospf: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf, bgp: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp, rip: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip, vrrp: ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp, static: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static=None):
+    mut def __init__(self, type: str, ospf: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf=None, bgp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp=None, static: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static=None, rip: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip=None, vrrp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp=None):
         self._ns = "urn:ietf:params:xml:ns:yang:ietf-l3vpn-svc"
         self.type = type
         self.ospf = ospf
-        self.ospf._parent = self
+        self_ospf = self.ospf
+        if self_ospf is not None:
+            self_ospf._parent = self
         self.bgp = bgp
-        self.bgp._parent = self
-        if static is not None:
-            self.static = static
-        else:
-            self.static = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static()
+        self_bgp = self.bgp
+        if self_bgp is not None:
+            self_bgp._parent = self
+        self.static = static
         self_static = self.static
         if self_static is not None:
             self_static._parent = self
         self.rip = rip
-        self.rip._parent = self
+        self_rip = self.rip
+        if self_rip is not None:
+            self_rip._parent = self
         self.vrrp = vrrp
-        self.vrrp._parent = self
+        self_vrrp = self.vrrp
+        if self_vrrp is not None:
+            self_vrrp._parent = self
+
+    mut def create_ospf(self, area_address):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf(area_address)
+        self.ospf = res
+        return res
+
+    mut def create_bgp(self, autonomous_system):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp(autonomous_system)
+        self.bgp = res
+        return res
+
+    mut def create_static(self):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static()
+        self.static = res
+        return res
+
+    mut def create_rip(self):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip()
+        self.rip = res
+        return res
+
+    mut def create_vrrp(self):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp()
+        self.vrrp = res
+        return res
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
@@ -8167,11 +8197,11 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry:
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(type=n.get_str("type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf.from_gdata(n.get_container("ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp.from_gdata(n.get_container("bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static.from_gdata(n.get_opt_container("static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip.from_gdata(n.get_container("rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp.from_gdata(n.get_container("vrrp")))
+        return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(type=n.get_str("type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf.from_gdata(n.get_opt_container("ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp.from_gdata(n.get_opt_container("bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static.from_gdata(n.get_opt_container("static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip.from_gdata(n.get_opt_container("rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp.from_gdata(n.get_opt_container("vrrp")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry:
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(type=yang.gdata.from_xml_str(n, "type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf.from_xml(yang.gdata.get_xml_child(n, "ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp.from_xml(yang.gdata.get_xml_child(n, "bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static.from_xml(yang.gdata.get_xml_opt_child(n, "static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip.from_xml(yang.gdata.get_xml_child(n, "rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp.from_xml(yang.gdata.get_xml_child(n, "vrrp")))
+        return ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(type=yang.gdata.from_xml_str(n, "type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__ospf.from_xml(yang.gdata.get_xml_opt_child(n, "ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__bgp.from_xml(yang.gdata.get_xml_opt_child(n, "bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__static.from_xml(yang.gdata.get_xml_opt_child(n, "static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__rip.from_xml(yang.gdata.get_xml_opt_child(n, "rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol__vrrp.from_xml(yang.gdata.get_xml_opt_child(n, "vrrp")))
 
 class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol(yang.adata.MNode):
     elements: list[ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry]
@@ -13651,19 +13681,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
             children['metric'] = yang.gdata.Leaf('uint16', _metric)
         if _sham_links is not None:
             children['sham-links'] = _sham_links.to_gdata()
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf(address_family=n.get_opt_strs("address-family"), area_address=n.get_str("area-address"), metric=n.get_opt_int("metric"), sham_links=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf__sham_links.from_gdata(n.get_opt_container("sham-links")))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf(address_family=yang.gdata.from_xml_opt_strs(n, "address-family"), area_address=yang.gdata.from_xml_str(n, "area-address"), metric=yang.gdata.from_xml_opt_int(n, "metric"), sham_links=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf__sham_links.from_xml(yang.gdata.get_xml_opt_child(n, "sham-links")))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -13754,19 +13784,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
         if _autonomous_system is not None:
             children['autonomous-system'] = yang.gdata.Leaf('uint32', _autonomous_system)
         children['address-family'] = yang.gdata.LeafList(self.address_family)
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp(autonomous_system=n.get_int("autonomous-system"), address_family=n.get_opt_strs("address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp(autonomous_system=yang.gdata.from_xml_int(n, "autonomous-system"), address_family=yang.gdata.from_xml_opt_strs(n, "address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -14273,19 +14303,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
         _cascaded_lan_prefixes = self.cascaded_lan_prefixes
         if _cascaded_lan_prefixes is not None:
             children['cascaded-lan-prefixes'] = _cascaded_lan_prefixes.to_gdata()
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static(cascaded_lan_prefixes=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static__cascaded_lan_prefixes.from_gdata(n.get_opt_container("cascaded-lan-prefixes")))
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static()
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static(cascaded_lan_prefixes=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static__cascaded_lan_prefixes.from_xml(yang.gdata.get_xml_opt_child(n, "cascaded-lan-prefixes")))
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static()
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -14338,19 +14368,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         children['address-family'] = yang.gdata.LeafList(self.address_family)
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip(address_family=n.get_opt_strs("address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip(address_family=yang.gdata.from_xml_opt_strs(n, "address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -14402,19 +14432,19 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         children['address-family'] = yang.gdata.LeafList(self.address_family)
-        return yang.gdata.Container(children)
+        return yang.gdata.Container(children, presence=True)
 
     @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp:
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp(address_family=n.get_opt_strs("address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp")
+        return None
 
     @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp:
+    mut def from_xml(n: ?xml.Node) -> ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp:
         if n != None:
             return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp(address_family=yang.gdata.from_xml_opt_strs(n, "address-family"))
-        raise ValueError("Missing required subtree ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp")
+        return None
 
 
 mut def from_json_path_ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
@@ -14452,30 +14482,60 @@ mut def to_json_ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__s
 
 class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(yang.adata.MNode):
     type: str
-    ospf: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf
-    bgp: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp
-    static: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static
-    rip: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip
-    vrrp: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp
+    ospf: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf
+    bgp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp
+    static: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static
+    rip: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip
+    vrrp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp
 
-    mut def __init__(self, type: str, ospf: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf, bgp: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp, rip: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip, vrrp: ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp, static: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static=None):
+    mut def __init__(self, type: str, ospf: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf=None, bgp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp=None, static: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static=None, rip: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip=None, vrrp: ?ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp=None):
         self._ns = "urn:ietf:params:xml:ns:yang:ietf-l3vpn-svc"
         self.type = type
         self.ospf = ospf
-        self.ospf._parent = self
+        self_ospf = self.ospf
+        if self_ospf is not None:
+            self_ospf._parent = self
         self.bgp = bgp
-        self.bgp._parent = self
-        if static is not None:
-            self.static = static
-        else:
-            self.static = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static()
+        self_bgp = self.bgp
+        if self_bgp is not None:
+            self_bgp._parent = self
+        self.static = static
         self_static = self.static
         if self_static is not None:
             self_static._parent = self
         self.rip = rip
-        self.rip._parent = self
+        self_rip = self.rip
+        if self_rip is not None:
+            self_rip._parent = self
         self.vrrp = vrrp
-        self.vrrp._parent = self
+        self_vrrp = self.vrrp
+        if self_vrrp is not None:
+            self_vrrp._parent = self
+
+    mut def create_ospf(self, area_address):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf(area_address)
+        self.ospf = res
+        return res
+
+    mut def create_bgp(self, autonomous_system):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp(autonomous_system)
+        self.bgp = res
+        return res
+
+    mut def create_static(self):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static()
+        self.static = res
+        return res
+
+    mut def create_rip(self):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip()
+        self.rip = res
+        return res
+
+    mut def create_vrrp(self):
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp()
+        self.vrrp = res
+        return res
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
@@ -14501,11 +14561,11 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry:
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(type=n.get_str("type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf.from_gdata(n.get_container("ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp.from_gdata(n.get_container("bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static.from_gdata(n.get_opt_container("static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip.from_gdata(n.get_container("rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp.from_gdata(n.get_container("vrrp")))
+        return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(type=n.get_str("type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf.from_gdata(n.get_opt_container("ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp.from_gdata(n.get_opt_container("bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static.from_gdata(n.get_opt_container("static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip.from_gdata(n.get_opt_container("rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp.from_gdata(n.get_opt_container("vrrp")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry:
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(type=yang.gdata.from_xml_str(n, "type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf.from_xml(yang.gdata.get_xml_child(n, "ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp.from_xml(yang.gdata.get_xml_child(n, "bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static.from_xml(yang.gdata.get_xml_opt_child(n, "static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip.from_xml(yang.gdata.get_xml_child(n, "rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp.from_xml(yang.gdata.get_xml_child(n, "vrrp")))
+        return ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(type=yang.gdata.from_xml_str(n, "type"), ospf=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__ospf.from_xml(yang.gdata.get_xml_opt_child(n, "ospf")), bgp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__bgp.from_xml(yang.gdata.get_xml_opt_child(n, "bgp")), static=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__static.from_xml(yang.gdata.get_xml_opt_child(n, "static")), rip=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__rip.from_xml(yang.gdata.get_xml_opt_child(n, "rip")), vrrp=ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol__vrrp.from_xml(yang.gdata.get_xml_opt_child(n, "vrrp")))
 
 class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol(yang.adata.MNode):
     elements: list[ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry]
@@ -15945,25 +16005,30 @@ mut def from_json_netinfra__netinfra__routers__name(val: value) -> yang.gdata.Le
     return yang.gdata.Leaf("string", val)
 
 mut def from_json_netinfra__netinfra__routers__id(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf("uint32", val)
 
 mut def from_json_netinfra__netinfra__routers__role(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
+
+mut def from_json_netinfra__netinfra__routers__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
 
 mut def from_json_netinfra__netinfra__routers__mock(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("enumeration", val)
 
 class netinfra__netinfra__routers_entry(yang.adata.MNode):
     name: str
-    id: ?str
+    id: int
     role: ?str
+    asn: int
     mock: ?str
 
-    mut def __init__(self, name: str, id: ?str, role: ?str, mock: ?str):
+    mut def __init__(self, name: str, id: int, asn: int, role: ?str, mock: ?str):
         self._ns = "http://example.com/netinfra"
         self.name = name
         self.id = id
         self.role = role
+        self.asn = asn
         self.mock = mock
 
     mut def to_gdata(self) -> yang.gdata.Node:
@@ -15971,24 +16036,27 @@ class netinfra__netinfra__routers_entry(yang.adata.MNode):
         _name = self.name
         _id = self.id
         _role = self.role
+        _asn = self.asn
         _mock = self.mock
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _id is not None:
-            children['id'] = yang.gdata.Leaf('string', _id)
+            children['id'] = yang.gdata.Leaf('uint32', _id)
         if _role is not None:
             children['role'] = yang.gdata.Leaf('string', _role)
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
         if _mock is not None:
             children['mock'] = yang.gdata.Leaf('enumeration', _mock)
         return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra__netinfra__routers_entry:
-        return netinfra__netinfra__routers_entry(name=n.get_str("name"), id=n.get_opt_str("id"), role=n.get_opt_str("role"), mock=n.get_opt_str("mock"))
+        return netinfra__netinfra__routers_entry(name=n.get_str("name"), id=n.get_int("id"), role=n.get_opt_str("role"), asn=n.get_int("asn"), mock=n.get_opt_str("mock"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra__netinfra__routers_entry:
-        return netinfra__netinfra__routers_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_opt_str(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), mock=yang.gdata.from_xml_opt_str(n, "mock"))
+        return netinfra__netinfra__routers_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_int(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), asn=yang.gdata.from_xml_int(n, "asn"), mock=yang.gdata.from_xml_opt_str(n, "mock"))
 
 class netinfra__netinfra__routers(yang.adata.MNode):
     elements: list[netinfra__netinfra__routers_entry]
@@ -15997,7 +16065,7 @@ class netinfra__netinfra__routers(yang.adata.MNode):
         self._name = 'routers'
         self.elements = elements
 
-    mut def create(self, name):
+    mut def create(self, name, id, asn):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -16006,7 +16074,7 @@ class netinfra__netinfra__routers(yang.adata.MNode):
             if match:
                 return e
 
-        res = netinfra__netinfra__routers_entry(name)
+        res = netinfra__netinfra__routers_entry(name, id, asn)
         self.elements.append(res)
         return res
 
@@ -16056,6 +16124,8 @@ mut def from_json_path_netinfra__netinfra__routers_element(jd: value, path: list
             raise ValueError("Invalid json path to non-inner node")
         if point == 'role':
             raise ValueError("Invalid json path to non-inner node")
+        if point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
         if point == 'mock':
             raise ValueError("Invalid json path to non-inner node")
         return yang.gdata.ListElement(keys, children)
@@ -16100,6 +16170,10 @@ mut def from_json_netinfra__netinfra__routers_element(jd: dict[str, ?value]) -> 
     child_role = child_role_full if child_role_full is not None else jd.get('role')
     if child_role is not None:
         children['role'] = from_json_netinfra__netinfra__routers__role(child_role)
+    child_asn_full = jd.get('netinfra:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_netinfra__netinfra__routers__asn(child_asn)
     child_mock_full = jd.get('netinfra:mock')
     child_mock = child_mock_full if child_mock_full is not None else jd.get('mock')
     if child_mock is not None:
@@ -16127,6 +16201,10 @@ mut def to_json_netinfra__netinfra__routers_element(n: yang.gdata.ListElement) -
     if child_role is not None:
         if isinstance(child_role, yang.gdata.Leaf):
             children['role'] = child_role.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
     child_mock = n.children.get('mock')
     if child_mock is not None:
         if isinstance(child_mock, yang.gdata.Leaf):
