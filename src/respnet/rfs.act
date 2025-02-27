@@ -307,6 +307,7 @@ class EbgpCustomer(base.EbgpCustomer):
             # TODO: restrict?
             af.route_policy.in_ = "ACCEPT"
             af.route_policy.out = "ACCEPT"
+            af.create_as_override()
 
             neighbor.remote_as = str(i.peer_asn)
             neighbor.description = i.description
