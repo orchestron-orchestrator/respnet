@@ -1,0 +1,94 @@
+module: Cisco-IOS-XR-policy-repository-cfg
+  +--rw routing-policy
+     +--rw route-policies
+     |  +--rw route-policy* [route-policy-name]
+     |     +--rw route-policy-name    xr:Cisco-ios-xr-string
+     |     +--rw rpl-route-policy     xr:Rpl-policy
+     +--rw sets
+     |  +--rw prefix-sets
+     |  |  +--rw prefix-set* [set-name]
+     |  |     +--rw set-name          xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-prefix-set    xr:Rpl-set
+     |  +--rw large-community-sets
+     |  |  +--rw large-community-set* [set-name]
+     |  |     +--rw set-name                       xr:Cisco-ios-xr-string
+     |  |     +--rw large-community-set-as-text    xr:Rpl-set
+     |  +--rw extended-community-evpn-bandwidth-sets
+     |  |  +--rw extended-community-evpn-bandwidth-set* [set-name]
+     |  |     +--rw set-name                                         xr:Cisco-ios-xr-string
+     |  |     +--rw extended-community-evpn-bandwidth-set-as-text    xr:Rpl-set
+     |  +--rw mac-sets
+     |  |  +--rw mac-set* [set-name]
+     |  |     +--rw set-name           xr:Cisco-ios-xr-string
+     |  |     +--rw mac-set-as-text    xr:Rpl-set
+     |  +--rw extended-community-opaque-sets
+     |  |  +--rw extended-community-opaque-set* [set-name]
+     |  |     +--rw set-name                             xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-extended-community-opaque-set    xr:Rpl-set
+     |  +--rw ospf-area-sets
+     |  |  +--rw ospf-area-set* [set-name]
+     |  |     +--rw set-name            xr:Cisco-ios-xr-string
+     |  |     +--rw rplospf-area-set    xr:Rpl-set
+     |  +--rw extended-community-cost-sets
+     |  |  +--rw extended-community-cost-set* [set-name]
+     |  |     +--rw set-name                           xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-extended-community-cost-set    xr:Rpl-set
+     |  +--rw extended-community-soo-sets
+     |  |  +--rw extended-community-soo-set* [set-name]
+     |  |     +--rw set-name                          xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-extended-community-soo-set    xr:Rpl-set
+     |  +--rw esi-sets
+     |  |  +--rw esi-set* [set-name]
+     |  |     +--rw set-name           xr:Cisco-ios-xr-string
+     |  |     +--rw esi-set-as-text    xr:Rpl-set
+     |  +--rw append-extended-community-evpn-bandwidth-sets
+     |  |  +--rw append-extended-community-evpn-bandwidth-set* [set-name]
+     |  |     +--rw set-name                                         xr:Cisco-ios-xr-string
+     |  |     +--rw extended-community-evpn-bandwidth-set-as-text    xr:Rpl-set
+     |  +--rw extended-community-seg-nh-sets
+     |  |  +--rw extended-community-seg-nh-set* [set-name]
+     |  |     +--rw set-name                             xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-extended-community-seg-nh-set    xr:Rpl-set
+     |  +--rw rd-sets
+     |  |  +--rw rd-set* [set-name]
+     |  |     +--rw set-name     xr:Cisco-ios-xr-string
+     |  |     +--rw rplrd-set    xr:Rpl-set
+     |  +--rw policy-global-set-table
+     |  |  +--rw policy-global-set?   xr:Rpl-set
+     |  +--rw remove-extended-community-evpn-bandwidth-sets
+     |  |  +--rw remove-extended-community-evpn-bandwidth-set* [set-name]
+     |  |     +--rw set-name                                         xr:Cisco-ios-xr-string
+     |  |     +--rw extended-community-evpn-bandwidth-set-as-text    xr:Rpl-set
+     |  +--rw prepend-extended-community-evpn-bandwidth-sets
+     |  |  +--rw prepend-extended-community-evpn-bandwidth-set* [set-name]
+     |  |     +--rw set-name                                         xr:Cisco-ios-xr-string
+     |  |     +--rw extended-community-evpn-bandwidth-set-as-text    xr:Rpl-set
+     |  +--rw extended-community-bandwidth-sets
+     |  |  +--rw extended-community-bandwidth-set* [set-name]
+     |  |     +--rw set-name                                xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-extended-community-bandwidth-set    xr:Rpl-set
+     |  +--rw community-sets
+     |  |  +--rw community-set* [set-name]
+     |  |     +--rw set-name             xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-community-set    xr:Rpl-set
+     |  +--rw as-path-sets
+     |  |  +--rw as-path-set* [set-name]
+     |  |     +--rw set-name          xr:Cisco-ios-xr-string
+     |  |     +--rw rplas-path-set    xr:Rpl-set
+     |  +--rw tag-sets
+     |  |  +--rw tag-set* [set-name]
+     |  |     +--rw set-name       xr:Cisco-ios-xr-string
+     |  |     +--rw rpl-tag-set    xr:Rpl-set
+     |  +--rw etag-sets
+     |  |  +--rw etag-set* [set-name]
+     |  |     +--rw set-name            xr:Cisco-ios-xr-string
+     |  |     +--rw etag-set-as-text    xr:Rpl-set
+     |  +--rw extended-community-rt-sets
+     |     +--rw extended-community-rt-set* [set-name]
+     |        +--rw set-name                         xr:Cisco-ios-xr-string
+     |        +--rw rpl-extended-community-rt-set    xr:Rpl-set
+     +--rw limits
+     |  +--rw maximum-lines-of-policy?      uint32
+     |  +--rw maximum-number-of-policies?   uint32
+     +--rw set-exit-as-abort?   empty
+     +--rw editor?              string
