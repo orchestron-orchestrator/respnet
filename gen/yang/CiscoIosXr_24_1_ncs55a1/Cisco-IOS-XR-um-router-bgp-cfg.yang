@@ -899,6 +899,14 @@ local BGP speaker's decision process";
                     }
                   }
                 }
+                container as-override {
+                  presence "Indicates a as-override node is configured.";
+                  description "Override matching AS-number while sending update";
+                  container inheritance-disable {
+                    presence "Indicates a inheritance-disable node is configured.";
+                    description "Prevent as-override from being inherited from the parent";
+                  }
+                }
               }
             }
             leaf remote-as {
