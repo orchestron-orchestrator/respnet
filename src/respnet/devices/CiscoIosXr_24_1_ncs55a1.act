@@ -7409,11 +7409,72 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__nei
 
 
 
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable(yang.adata.MNode):
+
+    mut def __init__(self):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        pass
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        return yang.gdata.Container(children, presence=True)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable()
+        return None
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable()
+        return None
+
+
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override(yang.adata.MNode):
+    inheritance_disable: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable
+
+    mut def __init__(self, inheritance_disable: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable=None):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.inheritance_disable = inheritance_disable
+        self_inheritance_disable = self.inheritance_disable
+        if self_inheritance_disable is not None:
+            self_inheritance_disable._parent = self
+
+    mut def create_inheritance_disable(self):
+        res = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable()
+        self.inheritance_disable = res
+        return res
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _inheritance_disable = self.inheritance_disable
+        if _inheritance_disable is not None:
+            children['inheritance-disable'] = _inheritance_disable.to_gdata()
+        return yang.gdata.Container(children, presence=True)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override(inheritance_disable=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable.from_gdata(n.get_opt_container("inheritance-disable")))
+        return None
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override(inheritance_disable=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override__inheritance_disable.from_xml(yang.gdata.get_xml_opt_child(n, "inheritance-disable")))
+        return None
+
+
+
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(yang.adata.MNode):
     af_name: str
     route_policy: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy
+    as_override: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override
 
-    mut def __init__(self, af_name: str, route_policy: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy=None):
+    mut def __init__(self, af_name: str, route_policy: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy=None, as_override: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override=None):
         self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
         self.af_name = af_name
         if route_policy is not None:
@@ -7423,24 +7484,36 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__nei
         self_route_policy = self.route_policy
         if self_route_policy is not None:
             self_route_policy._parent = self
+        self.as_override = as_override
+        self_as_override = self.as_override
+        if self_as_override is not None:
+            self_as_override._parent = self
+
+    mut def create_as_override(self):
+        res = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override()
+        self.as_override = res
+        return res
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _af_name = self.af_name
         _route_policy = self.route_policy
+        _as_override = self.as_override
         if _af_name is not None:
             children['af-name'] = yang.gdata.Leaf('enumeration', _af_name)
         if _route_policy is not None:
             children['route-policy'] = _route_policy.to_gdata()
+        if _as_override is not None:
+            children['as-override'] = _as_override.to_gdata()
         return yang.gdata.ListElement([yang.gdata.yang_str(self.af_name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name=n.get_str("af-name"), route_policy=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy.from_gdata(n.get_opt_container("route-policy")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name=n.get_str("af-name"), route_policy=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy.from_gdata(n.get_opt_container("route-policy")), as_override=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override.from_gdata(n.get_opt_container("as-override")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name=yang.gdata.from_xml_str(n, "af-name"), route_policy=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy.from_xml(yang.gdata.get_xml_opt_child(n, "route-policy")))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry(af_name=yang.gdata.from_xml_str(n, "af-name"), route_policy=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__route_policy.from_xml(yang.gdata.get_xml_opt_child(n, "route-policy")), as_override=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family__as_override.from_xml(yang.gdata.get_xml_opt_child(n, "as-override")))
 
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family(yang.adata.MNode):
     elements: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families__address_family_entry]

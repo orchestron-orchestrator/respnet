@@ -106,11 +106,13 @@ module: Cisco-IOS-XR-um-router-bgp-cfg
                  |     |  +--rw address-family* [af-name]
                  |     |     +--rw af-name         Bgp-address-family
                  |     |     +--rw route-policy
-                 |     |        +--rw in?          xr:Route-policy-name
-                 |     |        +--rw out?         xr:Route-policy-name
-                 |     |        +--rw retention
-                 |     |           +--rw route-policy-name?   xr:Route-policy-name
-                 |     |           +--rw retention-time?      uint32
+                 |     |     |  +--rw in?          xr:Route-policy-name
+                 |     |     |  +--rw out?         xr:Route-policy-name
+                 |     |     |  +--rw retention
+                 |     |     |     +--rw route-policy-name?   xr:Route-policy-name
+                 |     |     |     +--rw retention-time?      uint32
+                 |     |     +--rw as-override!
+                 |     |        +--rw inheritance-disable!
                  |     +--rw remote-as?          xr:Bgp-as-number
                  |     +--rw description?        string
                  +--rw rd!
