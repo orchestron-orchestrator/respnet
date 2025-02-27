@@ -1,0 +1,367 @@
+module: Cisco-IOS-XR-um-mpls-ldp-cfg
+  +--rw mpls
+     +--rw ldp!
+        +--rw mldp!
+        |  +--rw logging
+        |  |  +--rw notifications!
+        |  |  +--rw internal!
+        |  +--rw vrfs
+        |  |  +--rw vrf* [vrf-name]
+        |  |     +--rw vrf-name            xr:Cisco-ios-xr-string
+        |  |     +--rw address-families
+        |  |        +--rw address-family* [af-name]
+        |  |           +--rw af-name              enumeration
+        |  |           +--rw statics
+        |  |           |  +--rw static* [lsp-address]
+        |  |           |     +--rw lsp-address    inet:ipv4-address-no-zone
+        |  |           |     +--rw p2mp?          uint32
+        |  |           |     +--rw mp2mp?         uint32
+        |  |           +--rw make-before-break
+        |  |           |  +--rw delay!
+        |  |           |  |  +--rw forwarding-delay    uint32
+        |  |           |  |  +--rw delete-delay?       uint32
+        |  |           |  +--rw route-policy?   xr:Route-policy-name
+        |  |           +--rw mofrr!
+        |  |           |  +--rw route-policy?   xr:Route-policy-name
+        |  |           +--rw neighbors
+        |  |           |  +--rw in
+        |  |           |  |  +--rw route-policy?   xr:Route-policy-name
+        |  |           |  +--rw out
+        |  |           |  |  +--rw route-policy?   xr:Route-policy-name
+        |  |           |  +--rw neighbor* [neighbor-address]
+        |  |           |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |  |           |     +--rw in
+        |  |           |     |  +--rw route-policy?   xr:Route-policy-name
+        |  |           |     +--rw out
+        |  |           |        +--rw route-policy?   xr:Route-policy-name
+        |  |           +--rw forwarding
+        |  |           |  +--rw recursive!
+        |  |           |     +--rw route-policy?   xr:Route-policy-name
+        |  |           +--rw rib
+        |  |              +--rw unicast-always!
+        |  +--rw address-families
+        |     +--rw address-family* [af-name]
+        |        +--rw af-name                       enumeration
+        |        +--rw statics
+        |        |  +--rw static* [lsp-address]
+        |        |     +--rw lsp-address    inet:ipv4-address-no-zone
+        |        |     +--rw p2mp?          uint32
+        |        |     +--rw mp2mp?         uint32
+        |        +--rw make-before-break
+        |        |  +--rw delay!
+        |        |  |  +--rw forwarding-delay    uint32
+        |        |  |  +--rw delete-delay?       uint32
+        |        |  +--rw route-policy?   xr:Route-policy-name
+        |        +--rw carrier-supporting-carrier!
+        |        +--rw mofrr!
+        |        |  +--rw route-policy?   xr:Route-policy-name
+        |        +--rw recursive-fec
+        |        |  +--rw enable!
+        |        |  +--rw route-policy?   xr:Route-policy-name
+        |        +--rw neighbors
+        |        |  +--rw in
+        |        |  |  +--rw route-policy?   xr:Route-policy-name
+        |        |  +--rw out
+        |        |  |  +--rw route-policy?   xr:Route-policy-name
+        |        |  +--rw neighbor* [neighbor-address]
+        |        |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |        |     +--rw in
+        |        |     |  +--rw route-policy?   xr:Route-policy-name
+        |        |     +--rw out
+        |        |        +--rw route-policy?   xr:Route-policy-name
+        |        +--rw forwarding
+        |        |  +--rw recursive!
+        |        |     +--rw route-policy?   xr:Route-policy-name
+        |        +--rw rib
+        |           +--rw unicast-always!
+        +--rw vrfs
+        |  +--rw vrf* [vrf-name]
+        |     +--rw vrf-name            xr:Cisco-ios-xr-string
+        |     +--rw router-id?          inet:ipv4-address-no-zone
+        |     +--rw session
+        |     |  +--rw downstream-on-demand
+        |     |     +--rw with?   string
+        |     +--rw graceful-restart
+        |     |  +--rw helper-peer
+        |     |     +--rw maintain-on-local-reset
+        |     |        +--rw for?   string
+        |     +--rw neighbors
+        |     |  +--rw password
+        |     |  |  +--rw encrypted?   xr:Proprietary-password
+        |     |  +--rw neighbor* [neighbor-address label-space-id]
+        |     |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |     |     +--rw label-space-id      uint32
+        |     |     +--rw password
+        |     |        +--rw encrypted?   xr:Proprietary-password
+        |     |        +--rw disable!
+        |     +--rw address-family
+        |     |  +--rw ipv4!
+        |     |  |  +--rw discovery
+        |     |  |  |  +--rw transport-address!
+        |     |  |  |     +--rw ip-address    inet:ipv4-address-no-zone
+        |     |  |  +--rw label
+        |     |  |     +--rw local
+        |     |  |     |  +--rw allocate
+        |     |  |     |  |  +--rw for
+        |     |  |     |  |     +--rw ip-access-list?   string
+        |     |  |     |  |     +--rw host-routes!
+        |     |  |     |  +--rw default-route!
+        |     |  |     |  +--rw implicit-null-override
+        |     |  |     |  |  +--rw for?   string
+        |     |  |     |  +--rw advertise
+        |     |  |     |     +--rw explicit-null!
+        |     |  |     |     |  +--rw for!
+        |     |  |     |     |  |  +--rw access-list    string
+        |     |  |     |     |  |  +--rw to!
+        |     |  |     |     |  |     +--rw access-list    string
+        |     |  |     |     |  +--rw to!
+        |     |  |     |     |     +--rw access-list    string
+        |     |  |     |     +--rw to
+        |     |  |     |     |  +--rw neighbor* [neighbor-address label-space-id]
+        |     |  |     |     |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |     |  |     |     |     +--rw label-space-id      uint32
+        |     |  |     |     |     +--rw for                 string
+        |     |  |     |     +--rw interfaces
+        |     |  |     |     |  +--rw interface* [interface-name]
+        |     |  |     |     |     +--rw interface-name    xr:Interface-name
+        |     |  |     |     +--rw disable!
+        |     |  |     +--rw remote
+        |     |  |        +--rw accept
+        |     |  |           +--rw from
+        |     |  |              +--rw neighbor* [neighbor-address label-space-id]
+        |     |  |                 +--rw neighbor-address    inet:ipv4-address-no-zone
+        |     |  |                 +--rw label-space-id      uint32
+        |     |  |                 +--rw for?                string
+        |     |  +--rw ipv6!
+        |     |     +--rw discovery
+        |     |     |  +--rw transport-address
+        |     |     |     +--rw ip-address?   inet:ipv6-address-no-zone
+        |     |     +--rw label
+        |     |        +--rw local
+        |     |        |  +--rw allocate
+        |     |        |  |  +--rw for
+        |     |        |  |     +--rw ip-access-list?   xr:Cisco-ios-xr-string
+        |     |        |  |     +--rw host-routes!
+        |     |        |  +--rw default-route!
+        |     |        |  +--rw implicit-null-override
+        |     |        |  |  +--rw for?   xr:Cisco-ios-xr-string
+        |     |        |  +--rw advertise
+        |     |        |     +--rw explicit-null!
+        |     |        |     |  +--rw for!
+        |     |        |     |  |  +--rw access-list    string
+        |     |        |     |  |  +--rw to!
+        |     |        |     |  |     +--rw access-list    string
+        |     |        |     |  +--rw to!
+        |     |        |     |     +--rw access-list    string
+        |     |        |     +--rw to
+        |     |        |     |  +--rw neighbor* [neighbor-address label-space-id]
+        |     |        |     |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |     |        |     |     +--rw label-space-id      uint32
+        |     |        |     |     +--rw for                 string
+        |     |        |     +--rw interfaces
+        |     |        |     |  +--rw interface* [interface-name]
+        |     |        |     |     +--rw interface-name    xr:Interface-name
+        |     |        |     +--rw disable!
+        |     |        +--rw remote
+        |     |           +--rw accept
+        |     |              +--rw from
+        |     |                 +--rw neighbor* [neighbor-address label-space-id]
+        |     |                    +--rw neighbor-address    inet:ipv4-address-no-zone
+        |     |                    +--rw label-space-id      uint32
+        |     |                    +--rw for                 xr:Cisco-ios-xr-string
+        |     +--rw interfaces
+        |        +--rw interface* [interface-name]
+        |           +--rw interface-name    xr:Interface-name
+        |           +--rw address-family
+        |              +--rw ipv4!
+        |              |  +--rw discovery
+        |              |     +--rw transport-address!
+        |              |        +--rw interface!
+        |              |        +--rw ip-address?   inet:ipv4-address-no-zone
+        |              +--rw ipv6!
+        |                 +--rw discovery
+        |                    +--rw transport-address
+        |                       +--rw interface!
+        |                       +--rw ip-address?   inet:ipv6-address-no-zone
+        +--rw ltrace-buffer
+        |  +--rw multiplier?   uint32
+        +--rw default-vrf
+        |  +--rw implicit-ipv4
+        |     +--rw disable!
+        +--rw session
+        |  +--rw backoff!
+        |  |  +--rw backoff-time                    uint32
+        |  |  +--rw maximum-session-backoff-time    uint32
+        |  +--rw holdtime?               uint32
+        |  +--rw downstream-on-demand
+        |  |  +--rw with?   string
+        |  +--rw protection!
+        |     +--rw for!
+        |     |  +--rw for-access-list    string
+        |     |  +--rw duration
+        |     |     +--rw holdup-time?   uint32
+        |     |     +--rw infinite!
+        |     +--rw duration!
+        |        +--rw holdup-time?   uint32
+        |        +--rw infinite!
+        +--rw nsr!
+        +--rw entropy-label!
+        +--rw entropy-label-add-el!
+        +--rw signalling
+        |  +--rw dscp?   uint32
+        +--rw graceful-restart!
+        +--rw graceful-restart-reconnect-timeout?           uint32
+        +--rw graceful-restart-forwarding-state-holdtime?   uint32
+        +--rw graceful-restart-helper-peer
+        |  +--rw maintain-on-local-reset!
+        |     +--rw for    string
+        +--rw igp
+        |  +--rw sync
+        |     +--rw delay
+        |        +--rw on-session-up?     uint32
+        |        +--rw on-proc-restart?   uint32
+        +--rw router-id?                                    inet:ipv4-address-no-zone
+        +--rw capabilities
+        |  +--rw cisco
+        |  |  +--rw ios-xr
+        |  |     +--rw disable!
+        |  +--rw sac!
+        |     +--rw ipv4-disable!
+        |     +--rw ipv6-disable!
+        |     +--rw fec128-disable!
+        |     +--rw fec129-disable!
+        +--rw log
+        |  +--rw hello-adjacency!
+        |  +--rw neighbor!
+        |  +--rw nsr!
+        |  +--rw graceful-restart!
+        |  +--rw session-protection!
+        +--rw discovery
+        |  +--rw hello
+        |  |  +--rw holdtime?   uint32
+        |  |  +--rw interval?   uint32
+        |  +--rw targeted-hello
+        |  |  +--rw holdtime?   uint32
+        |  |  +--rw interval?   uint32
+        |  +--rw instance-tlv
+        |  |  +--rw disable!
+        |  +--rw ds-tlv
+        |  |  +--rw disable!
+        |  +--rw rtr-id-arb-tlv
+        |  |  +--rw disable!
+        |  +--rw quick-start
+        |     +--rw disable!
+        +--rw neighbor
+        |  +--rw dual-stack
+        |  |  +--rw transport-connection
+        |  |  |  +--rw prefer
+        |  |  |  |  +--rw ipv4!
+        |  |  |  +--rw max-wait?   uint32
+        |  |  +--rw tlv-compliance!
+        |  +--rw password
+        |  |  +--rw encrypted?   xr:Proprietary-password
+        |  +--rw neighbors
+        |     +--rw neighbor* [neighbor-address label-space-id]
+        |        +--rw neighbor-address    inet:ipv4-address-no-zone
+        |        +--rw label-space-id      uint32
+        |        +--rw password
+        |           +--rw encrypted?   xr:Proprietary-password
+        |           +--rw disable!
+        +--rw address-families
+        |  +--rw address-family* [af-name]
+        |     +--rw af-name         enumeration
+        |     +--rw discovery
+        |     |  +--rw transport-address!
+        |     |  |  +--rw ipv4-address?   inet:ipv4-address-no-zone
+        |     |  |  +--rw ipv6-address?   inet:ipv6-address-no-zone
+        |     |  +--rw targeted-hello
+        |     |     +--rw accept!
+        |     |        +--rw from?   string
+        |     +--rw neighbor
+        |     |  +--rw ipv4-addresses
+        |     |  |  +--rw targeted* [neighbor-address]
+        |     |  |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |     |  +--rw ipv6-addresses
+        |     |  |  +--rw targeted* [neighbor-address]
+        |     |  |     +--rw neighbor-address    inet:ipv6-address-no-zone
+        |     |  +--rw sr-policies
+        |     |     +--rw sr-policy* [policy-name]
+        |     |        +--rw policy-name    string
+        |     |        +--rw targeted!
+        |     +--rw traffic-eng
+        |     |  +--rw auto-tunnel
+        |     |     +--rw mesh
+        |     |        +--rw groups
+        |     |           +--rw group* [group-id]
+        |     |           |  +--rw group-id    uint32
+        |     |           +--rw all!
+        |     +--rw redistribute
+        |     |  +--rw bgp
+        |     |     +--rw as?             xr:Bgp-as-number
+        |     |     +--rw advertise-to?   string
+        |     +--rw label
+        |        +--rw local
+        |        |  +--rw allocate
+        |        |  |  +--rw for
+        |        |  |     +--rw access-list?   string
+        |        |  |     +--rw host-routes!
+        |        |  +--rw default-route!
+        |        |  +--rw implicit-null-override
+        |        |  |  +--rw for?   string
+        |        |  +--rw advertise
+        |        |     +--rw explicit-null!
+        |        |     |  +--rw for!
+        |        |     |  |  +--rw access-list    string
+        |        |     |  |  +--rw to!
+        |        |     |  |     +--rw access-list    string
+        |        |     |  +--rw to!
+        |        |     |     +--rw access-list    string
+        |        |     +--rw to
+        |        |     |  +--rw neighbor* [neighbor-address label-space-id]
+        |        |     |     +--rw neighbor-address    inet:ipv4-address-no-zone
+        |        |     |     +--rw label-space-id      uint32
+        |        |     |     +--rw for                 string
+        |        |     +--rw interfaces
+        |        |     |  +--rw interface* [interface-name]
+        |        |     |     +--rw interface-name    xr:Interface-name
+        |        |     +--rw disable!
+        |        |     +--rw for
+        |        |        +--rw access-lists* [access-list-name]
+        |        |           +--rw access-list-name    xr:Cisco-ios-xr-string
+        |        |           +--rw to?                 string
+        |        +--rw remote
+        |           +--rw accept
+        |              +--rw from
+        |                 +--rw neighbor* [neighbor-address label-space-id]
+        |                    +--rw neighbor-address    inet:ipv4-address-no-zone
+        |                    +--rw label-space-id      uint32
+        |                    +--rw for?                string
+        +--rw interfaces
+           +--rw interface* [interface-name]
+              +--rw interface-name      xr:Interface-name
+              +--rw discovery
+              |  +--rw hello
+              |  |  +--rw holdtime?         uint32
+              |  |  +--rw interval?         uint32
+              |  |  +--rw dual-stack-tlv?   enumeration
+              |  +--rw quick-start
+              |     +--rw disable!
+              +--rw igp
+              |  +--rw sync
+              |     +--rw delay
+              |        +--rw on-session-up
+              |           +--rw interface-sync-up-delay?   uint32
+              |           +--rw disable!
+              +--rw address-families
+                 +--rw address-family* [af-name]
+                    +--rw af-name         enumeration
+                    +--rw discovery
+                    |  +--rw transport-address!
+                    |     +--rw interface!
+                    |     +--rw ip-address?   inet:ip-address-no-zone
+                    +--rw igp
+                    |  +--rw auto-config
+                    |     +--rw disable!
+                    +--rw mldp
+                    |  +--rw disable!
+                    +--rw clone-tunnel!
