@@ -182,6 +182,7 @@
                           <in>ACCEPT-ALL</in>
                           <out>ACCEPT-ALL</out>
                         </route-policy>
+                        <as-override/>
                       </address-family>
                     </address-families>
                     <remote-as>65501</remote-as>
@@ -495,6 +496,7 @@ end-policy</rpl-route-policy>
                           <in>ACCEPT-ALL</in>
                           <out>ACCEPT-ALL</out>
                         </route-policy>
+                        <as-override/>
                       </address-family>
                     </address-families>
                     <remote-as>65501</remote-as>
