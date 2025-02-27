@@ -7,6 +7,7 @@ import respnet.layers.base_2 as base
 import respnet.devices.CiscoIosXr_24_1_ncs55a1 as xr24
 import respnet.devices.JuniperCRPD_23_4R1_9 as crpd23
 
+CRPD = True
 
 def prefix_length_to_netmask(prefix_length):
     binary_netmask = ("1" * prefix_length).ljust(32, "0")
@@ -151,14 +152,22 @@ class BBInterface(base.BBInterface):
 
             # IS-IS config for this interface
             dcpi = dev.configuration.protocols.isis
-            # This is specific to Juniper cRPD, on vMX and real router we add the interface with the unit included
-            interface = i.name
-            ilo0 = dcpi.interface.create(interface)
-            ilo0.point_to_point = True
-            il1 = ilo0.level.create(1)
+            # vMX: ge-0/0/0.0, cRPD: eth0 (must not include unit)
+            if not CRPD:
+                interface = "%s.0" % i.name
+            else:
+                interface = i.name
+            isis_intf = dcpi.interface.create(interface)
+            isis_intf.point_to_point = True
+            il1 = isis_intf.level.create(1)
             il1.disable = True
-            il2 = ilo0.level.create(2)
+            il2 = isis_intf.level.create(2)
             il2.metric = 5000
+
+            # MPLS and LDP config for this interface
+            dev.configuration.protocols.mpls.interface.create(interface)
+            dev.configuration.protocols.ldp.interface.create(interface)
+
             return dev
 
         raise UnsupportedDevice()
