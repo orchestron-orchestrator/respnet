@@ -1,5 +1,5 @@
 import yang.adata
-import orchestron.ttt
+import orchestron.ttx
 
 import respnet.layers.base_1 as base
 

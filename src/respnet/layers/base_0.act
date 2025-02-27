@@ -4,7 +4,7 @@
 
 import logging
 import xml
-import orchestron.ttt as ttt
+import orchestron.ttx as ttx
 import yang.adata
 import yang.gdata
 
@@ -18,7 +18,7 @@ def o_root():
     return output_root()
 
 
-class L3VpnVpnService(ttt.TTTTransform):
+class L3VpnVpnService(ttx.TransformFunction):
     transform: mut(ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry) -> yang.adata.MNode
 
     mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
@@ -35,7 +35,7 @@ class L3VpnVpnService(ttt.TTTTransform):
         modeled_input = ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry.from_xml(i)
         return self.transform(modeled_input).to_gdata()
 
-class L3VpnSite(ttt.TTTTransform):
+class L3VpnSite(ttx.TransformFunction):
     transform: mut(ietf_l3vpn_svc__l3vpn_svc__sites__site_entry) -> yang.adata.MNode
 
     mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
@@ -52,7 +52,7 @@ class L3VpnSite(ttt.TTTTransform):
         modeled_input = ietf_l3vpn_svc__l3vpn_svc__sites__site_entry.from_xml(i)
         return self.transform(modeled_input).to_gdata()
 
-class Router(ttt.TTTTransform):
+class Router(ttx.TransformFunction):
     transform: mut(netinfra__netinfra__routers_entry) -> yang.adata.MNode
 
     mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
@@ -69,7 +69,7 @@ class Router(ttt.TTTTransform):
         modeled_input = netinfra__netinfra__routers_entry.from_xml(i)
         return self.transform(modeled_input).to_gdata()
 
-class BBLink(ttt.TTTTransform):
+class BBLink(ttx.TransformFunction):
     transform: mut(netinfra__netinfra__backbone_link_entry) -> yang.adata.MNode
 
     mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:

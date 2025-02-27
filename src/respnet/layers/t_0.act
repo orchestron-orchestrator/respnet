@@ -5,7 +5,7 @@
 import logging
 
 import orchestron.device as odev
-import orchestron.ttt as ttt
+import orchestron.ttx as ttx
 import yang.adata
 import yang.gdata
 
@@ -16,18 +16,27 @@ from respnet.layers.y_0 import netinfra__netinfra__backbone_link_entry
 
 import respnet.cfs
 
-def get_ttt(dev_mgr: odev.DeviceManager, log_handler: logging.Handler) -> ttt.TTTNode:
-    def create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__cloud_identifier():
-        return ttt.TTTContainer({}, log_handler)
-
-    def create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__encryption_profile_identifier():
-        return ttt.TTTContainer({}, log_handler)
-
-    def create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__qos_profile_identifier():
-        return ttt.TTTContainer({}, log_handler)
-
-    def create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__bfd_profile_identifier():
-        return ttt.TTTContainer({}, log_handler)
-
-    r = ttt.TTTContainer({"l3vpn-svc": ttt.TTTContainer({"vpn-profiles": ttt.TTTContainer({"valid-provider-identifiers": ttt.TTTContainer({"cloud-identifier": ttt.TTTList(create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__cloud_identifier, log_handler), "encryption-profile-identifier": ttt.TTTList(create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__encryption_profile_identifier, log_handler), "qos-profile-identifier": ttt.TTTList(create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__qos_profile_identifier, log_handler), "bfd-profile-identifier": ttt.TTTList(create_list_entry_ietf_l3vpn_svc__l3vpn_svc__vpn_profiles__valid_provider_identifiers__bfd_profile_identifier, log_handler)}, log_handler)}, log_handler), "vpn-services": ttt.TTTContainer({"vpn-service": ttt.TTTList(lambda: respnet.cfs.L3VpnVpnService(log_handler), log_handler)}, log_handler), "sites": ttt.TTTContainer({"site": ttt.TTTList(lambda: respnet.cfs.L3VpnSite(log_handler), log_handler)}, log_handler)}, log_handler), "netinfra": ttt.TTTContainer({"routers": ttt.TTTList(lambda: respnet.cfs.Router(log_handler), log_handler), "backbone-link": ttt.TTTList(lambda: respnet.cfs.BBLink(log_handler), log_handler)}, log_handler)}, log_handler)
+def get_ttx(dev_mgr: odev.DeviceManager, log_handler: logging.Handler) -> ttx.Node:
+    r = ttx.Container({
+        "l3vpn-svc": ttx.Container({
+            "vpn-profiles": ttx.Container({
+                "valid-provider-identifiers": ttx.Container({
+                    "cloud-identifier": ttx.List(ttx.ContainerTemplate()),
+                    "encryption-profile-identifier": ttx.List(ttx.ContainerTemplate()),
+                    "qos-profile-identifier": ttx.List(ttx.ContainerTemplate()),
+                    "bfd-profile-identifier": ttx.List(ttx.ContainerTemplate())
+                })
+            }),
+            "vpn-services": ttx.Container({
+                "vpn-service": ttx.List(ttx.TransformTemplate(respnet.cfs.L3VpnVpnService, log_handler))
+            }),
+            "sites": ttx.Container({
+                "site": ttx.List(ttx.TransformTemplate(respnet.cfs.L3VpnSite, log_handler))
+            })
+        }),
+        "netinfra": ttx.Container({
+            "routers": ttx.List(ttx.TransformTemplate(respnet.cfs.Router, log_handler)),
+            "backbone-link": ttx.List(ttx.TransformTemplate(respnet.cfs.BBLink, log_handler))
+        })
+    })
     return r

@@ -1,5 +1,5 @@
 import yang.adata
-import orchestron.ttt
+import orchestron.ttx
 from orchestron.device import UnsupportedDevice
 
 import respnet.layers.base_2 as base
