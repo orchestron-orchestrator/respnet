@@ -746,7 +746,21 @@
                 <files>10</files>
               </file>
             </traffic-statistics>
+            <interface>
+              <name>eth1</name>
+            </interface>
+            <interface>
+              <name>eth2</name>
+            </interface>
           </ldp>
+          <mpls>
+            <interface>
+              <name>eth1</name>
+            </interface>
+            <interface>
+              <name>eth2</name>
+            </interface>
+          </mpls>
         </protocols>
       </configuration>
     </config>
@@ -967,7 +981,27 @@
                 <files>10</files>
               </file>
             </traffic-statistics>
+            <interface>
+              <name>eth1</name>
+            </interface>
+            <interface>
+              <name>eth2</name>
+            </interface>
+            <interface>
+              <name>eth3</name>
+            </interface>
           </ldp>
+          <mpls>
+            <interface>
+              <name>eth1</name>
+            </interface>
+            <interface>
+              <name>eth2</name>
+            </interface>
+            <interface>
+              <name>eth3</name>
+            </interface>
+          </mpls>
         </protocols>
       </configuration>
     </config>
