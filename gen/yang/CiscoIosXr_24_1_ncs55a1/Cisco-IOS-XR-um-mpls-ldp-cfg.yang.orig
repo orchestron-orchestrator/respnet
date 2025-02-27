@@ -90,6 +90,7 @@ module Cisco-IOS-XR-um-mpls-ldp-cfg {
         presence "Indicates a ldp node is configured.";
         description
           "Label Distribution Protocol";
+        /* XXX
         container mldp {
           presence "Indicates a mldp node is configured.";
           description
@@ -1634,6 +1635,7 @@ module Cisco-IOS-XR-um-mpls-ldp-cfg {
             }
           }
         }
+        */
         container address-families {
           description
             "Configure Address Family and its parameters";
@@ -1657,6 +1659,7 @@ module Cisco-IOS-XR-um-mpls-ldp-cfg {
               description
                 "Configure Address Family and its parameters";
             }
+            /* XXX
             container discovery {
               description
                 "Configure discovery parameters";
@@ -2050,6 +2053,7 @@ module Cisco-IOS-XR-um-mpls-ldp-cfg {
                 }
               }
             }
+            */
           }
         }
         container interfaces {
@@ -2064,6 +2068,7 @@ module Cisco-IOS-XR-um-mpls-ldp-cfg {
               description
                 "Enable LDP on an interface and enter interface submode";
             }
+            /* XXX
             container discovery {
               description
                 "Configure discovery parameters";
@@ -2222,6 +2227,7 @@ module Cisco-IOS-XR-um-mpls-ldp-cfg {
                 }
               }
             }
+            */
           }
         }
       }
