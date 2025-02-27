@@ -29,6 +29,8 @@ topology:
       kind: xrd
     sto-core-1:
       kind: crpd
+    lju-core-1:
+      kind: crpd
     cust-1:
       kind: xrd
       startup-config: cust-1.conf
@@ -38,6 +40,9 @@ topology:
     cust-3:
       kind: xrd
       startup-config: cust-3.conf
+    cust-4:
+      kind: xrd
+      startup-config: cust-4.conf
     otron:
       kind: linux
       image: debian
@@ -50,6 +55,9 @@ topology:
     - endpoints: ["ams-core-1:Gi0-0-0-0", "fra-core-1:Gi0-0-0-0"]
     - endpoints: ["ams-core-1:Gi0-0-0-1", "sto-core-1:eth1"]
     - endpoints: ["fra-core-1:Gi0-0-0-1", "sto-core-1:eth2"]
+    - endpoints: ["fra-core-1:Gi0-0-0-2", "lju-core-1:eth1"]
+    - endpoints: ["sto-core-1:eth3", "lju-core-1:eth2"]
     - endpoints: ["ams-core-1:Gi0-0-0-2", "cust-1:Gi0-0-0-0"]
-    - endpoints: ["fra-core-1:Gi0-0-0-2", "cust-2:Gi0-0-0-0"]
-    - endpoints: ["sto-core-1:eth3", "cust-3:Gi0-0-0-0"]
+    - endpoints: ["fra-core-1:Gi0-0-0-3", "cust-2:Gi0-0-0-0"]
+    - endpoints: ["sto-core-1:eth4", "cust-3:Gi0-0-0-0"]
+    - endpoints: ["lju-core-1:eth3", "cust-4:Gi0-0-0-0"]

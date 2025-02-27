@@ -137,6 +137,13 @@
                 </use>
                 <description>STO-CORE-1</description>
               </neighbor>
+              <neighbor>
+                <neighbor-address>10.0.0.4</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>LJU-CORE-1</description>
+              </neighbor>
             </neighbors>
             <neighbor-groups>
               <neighbor-group>
@@ -351,6 +358,25 @@
                   </address-families>
                 </interface>
                 <interface>
+                  <interface-name>GigabitEthernet0/0/0/2</interface-name>
+                  <circuit-type>level-2-only</circuit-type>
+                  <point-to-point/>
+                  <address-families>
+                    <address-family>
+                      <af-name>ipv4</af-name>
+                      <saf-name>unicast</saf-name>
+                      <metric>
+                        <levels>
+                          <level>
+                            <level-id>2</level-id>
+                            <default-metric>5000</default-metric>
+                          </level>
+                        </levels>
+                      </metric>
+                    </address-family>
+                  </address-families>
+                </interface>
+                <interface>
                   <interface-name>Loopback0</interface-name>
                   <passive/>
                   <address-families>
@@ -391,6 +417,13 @@
                   <neighbor-group>IPV4-IBGP</neighbor-group>
                 </use>
                 <description>STO-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <neighbor-address>10.0.0.4</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>LJU-CORE-1</description>
               </neighbor>
             </neighbors>
             <neighbor-groups>
@@ -471,10 +504,23 @@
         </interface>
         <interface>
           <interface-name>GigabitEthernet0/0/0/2</interface-name>
+          <ipv4>
+            <addresses xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-if-ip-address-cfg">
+              <address>
+                <address>10.0.18.1</address>
+                <netmask>255.255.255.252</netmask>
+              </address>
+            </addresses>
+          </ipv4>
+          <shutdown xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="remove"/>
+          <description>Link to LJU-CORE-1 [eth1]</description>
+        </interface>
+        <interface>
+          <interface-name>GigabitEthernet0/0/0/3</interface-name>
           <shutdown xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0" xc:operation="remove"/>
         </interface>
         <interface>
-          <interface-name>GigabitEthernet0/0/0/2.100</interface-name>
+          <interface-name>GigabitEthernet0/0/0/3.100</interface-name>
           <ipv4>
             <addresses xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-if-ip-address-cfg">
               <address>
@@ -507,6 +553,199 @@
       <hostname xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-hostname-cfg">
         <system-network-name>FRA-CORE-1</system-network-name>
       </hostname>
+    </config>
+  </device>
+  <device>
+    <name>LJU-CORE-1</name>
+    <config>
+      <configuration xmlns="http://yang.juniper.net/junos/conf/root">
+        <system>
+          <host-name>LJU-CORE-1</host-name>
+        </system>
+        <interfaces>
+          <interface>
+            <name>eth1</name>
+            <unit>
+              <name>0</name>
+              <description>Link to FRA-CORE-1 [GigabitEthernet0/0/0/2]</description>
+              <family>
+                <inet>
+                  <address>
+                    <name>10.0.18.2/30</name>
+                  </address>
+                </inet>
+              </family>
+            </unit>
+          </interface>
+          <interface>
+            <name>eth2</name>
+            <unit>
+              <name>0</name>
+              <description>Link to STO-CORE-1 [eth3]</description>
+              <family>
+                <inet>
+                  <address>
+                    <name>10.0.31.2/30</name>
+                  </address>
+                </inet>
+              </family>
+            </unit>
+          </interface>
+          <interface>
+            <name>eth3</name>
+            <description>Customer VPN access SITE-4 [SNA-4-1] in VPN acme-65501</description>
+            <unit>
+              <name>100</name>
+              <description>Customer VPN access SITE-4 [SNA-4-1] in VPN acme-65501</description>
+              <vlan-id>100</vlan-id>
+              <family>
+                <inet>
+                  <address>
+                    <name>10.204.1.1/30</name>
+                  </address>
+                </inet>
+              </family>
+            </unit>
+            <encapsulation>flexible-ethernet-services</encapsulation>
+            <flexible-vlan-tagging/>
+          </interface>
+          <interface>
+            <name>lo0</name>
+            <unit>
+              <name>0</name>
+              <family>
+                <inet>
+                  <address>
+                    <name>10.0.0.4/32</name>
+                  </address>
+                </inet>
+                <iso>
+                  <address>
+                    <name>49.0001.0100.0000.0004.00</name>
+                  </address>
+                </iso>
+              </family>
+            </unit>
+          </interface>
+        </interfaces>
+        <routing-instances>
+          <instance>
+            <name>acme-65501</name>
+            <instance-type>vrf</instance-type>
+            <interface>
+              <name>eth3.100</name>
+            </interface>
+            <route-distinguisher>
+              <rd-type>65001:655014</rd-type>
+            </route-distinguisher>
+            <vrf-target>
+              <community>target:65001:65501</community>
+            </vrf-target>
+            <vrf-table-label/>
+            <protocols>
+              <bgp>
+                <group>
+                  <name>customer</name>
+                  <passive/>
+                  <neighbor>
+                    <name>10.204.1.2</name>
+                    <description>Customer eBGP SITE-4 [SNA-4-1] in VPN acme-65501 to 10.204.1.2</description>
+                    <peer-as>65501</peer-as>
+                    <authentication-key>acme-65501</authentication-key>
+                    <as-override/>
+                  </neighbor>
+                </group>
+              </bgp>
+            </protocols>
+          </instance>
+        </routing-instances>
+        <routing-options>
+          <autonomous-system>
+            <as-number>65001</as-number>
+          </autonomous-system>
+        </routing-options>
+        <protocols xmlns="http://yang.juniper.net/junos/conf/protocols">
+          <bgp>
+            <group>
+              <name>IPV4-IBGP</name>
+              <type>internal</type>
+              <local-address>10.0.0.4</local-address>
+              <hold-time>90</hold-time>
+              <family>
+                <inet-vpn>
+                  <unicast/>
+                </inet-vpn>
+                <inet6-vpn>
+                  <unicast/>
+                </inet6-vpn>
+                <route-target/>
+              </family>
+              <neighbor>
+                <name>10.0.0.1</name>
+                <description>AMS-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <name>10.0.0.2</name>
+                <description>FRA-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <name>10.0.0.3</name>
+                <description>STO-CORE-1</description>
+              </neighbor>
+            </group>
+            <log-updown/>
+          </bgp>
+          <isis>
+            <interface>
+              <name>eth1</name>
+              <level>
+                <name>1</name>
+                <disable/>
+              </level>
+              <level>
+                <name>2</name>
+                <metric>5000</metric>
+              </level>
+              <lsp-interval>100</lsp-interval>
+              <point-to-point/>
+            </interface>
+            <interface>
+              <name>eth2</name>
+              <level>
+                <name>1</name>
+                <disable/>
+              </level>
+              <level>
+                <name>2</name>
+                <metric>5000</metric>
+              </level>
+              <lsp-interval>100</lsp-interval>
+              <point-to-point/>
+            </interface>
+            <interface>
+              <name>lo0.0</name>
+              <lsp-interval>100</lsp-interval>
+              <passive/>
+            </interface>
+            <level>
+              <name>1</name>
+              <disable/>
+            </level>
+            <level>
+              <name>2</name>
+              <wide-metrics-only/>
+            </level>
+            <lsp-lifetime>65535</lsp-lifetime>
+          </isis>
+          <ldp>
+            <traffic-statistics>
+              <file>
+                <files>10</files>
+              </file>
+            </traffic-statistics>
+          </ldp>
+        </protocols>
+      </configuration>
     </config>
   </device>
   <device>
@@ -547,6 +786,20 @@
           </interface>
           <interface>
             <name>eth3</name>
+            <unit>
+              <name>0</name>
+              <description>Link to LJU-CORE-1 [eth2]</description>
+              <family>
+                <inet>
+                  <address>
+                    <name>10.0.31.1/30</name>
+                  </address>
+                </inet>
+              </family>
+            </unit>
+          </interface>
+          <interface>
+            <name>eth4</name>
             <description>Customer VPN access SITE-3 [SNA-3-1] in VPN acme-65501</description>
             <unit>
               <name>100</name>
@@ -587,7 +840,7 @@
             <name>acme-65501</name>
             <instance-type>vrf</instance-type>
             <interface>
-              <name>eth3.100</name>
+              <name>eth4.100</name>
             </interface>
             <route-distinguisher>
               <rd-type>65001:655013</rd-type>
@@ -642,6 +895,10 @@
                 <name>10.0.0.2</name>
                 <description>FRA-CORE-1</description>
               </neighbor>
+              <neighbor>
+                <name>10.0.0.4</name>
+                <description>LJU-CORE-1</description>
+              </neighbor>
             </group>
             <log-updown/>
           </bgp>
@@ -661,6 +918,19 @@
             </interface>
             <interface>
               <name>eth2</name>
+              <level>
+                <name>1</name>
+                <disable/>
+              </level>
+              <level>
+                <name>2</name>
+                <metric>5000</metric>
+              </level>
+              <lsp-interval>100</lsp-interval>
+              <point-to-point/>
+            </interface>
+            <interface>
+              <name>eth3</name>
               <level>
                 <name>1</name>
                 <disable/>
