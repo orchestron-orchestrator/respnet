@@ -77,6 +77,12 @@ class BaseConfig(base.BaseConfig):
             bgp_as.address_families.address_family.create("vpnv4-unicast")
             bgp_as.address_families.address_family.create("vpnv6-unicast")
 
+            # Route policy ACCEPT
+            rpl = """route-policy ACCEPT
+  done
+end-policy"""
+            rp = dev.routing_policy.route_policies.route_policy.create("ACCEPT", rpl)
+
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
@@ -298,8 +304,9 @@ class EbgpCustomer(base.EbgpCustomer):
 
             neighbor = vrf.neighbors.neighbor.create(i.address)
             af = neighbor.address_families.address_family.create("ipv4-unicast")
-            # af.route_policy.in_ = "ACCEPT"
-            # af.route_policy.out = "ACCEPT"
+            # TODO: restrict?
+            af.route_policy.in_ = "ACCEPT"
+            af.route_policy.out = "ACCEPT"
 
             neighbor.remote_as = str(i.peer_asn)
             neighbor.description = i.description
