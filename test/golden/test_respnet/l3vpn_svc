@@ -194,6 +194,23 @@
           </as>
         </bgp>
       </router>
+      <mpls xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-mpls-ldp-cfg">
+        <ldp>
+          <address-families>
+            <address-family>
+              <af-name>ipv4</af-name>
+            </address-family>
+          </address-families>
+          <interfaces>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/0</interface-name>
+            </interface>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/1</interface-name>
+            </interface>
+          </interfaces>
+        </ldp>
+      </mpls>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/0</interface-name>
@@ -475,6 +492,26 @@
           </as>
         </bgp>
       </router>
+      <mpls xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-mpls-ldp-cfg">
+        <ldp>
+          <address-families>
+            <address-family>
+              <af-name>ipv4</af-name>
+            </address-family>
+          </address-families>
+          <interfaces>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/0</interface-name>
+            </interface>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/1</interface-name>
+            </interface>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/2</interface-name>
+            </interface>
+          </interfaces>
+        </ldp>
+      </mpls>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/0</interface-name>

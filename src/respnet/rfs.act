@@ -139,6 +139,11 @@ class BBInterface(base.BBInterface):
             af = ci.address_families.address_family.create("ipv4", "unicast")
             af.metric.levels.level.create(2).default_metric = 5000
 
+            # MPLS and LDP config for this interface
+            ldp = dev.mpls.create_ldp()
+            ldp.interfaces.interface.create(i.name)
+            ldp.address_families.address_family.create("ipv4")
+
             return dev
         elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
             dev = crpd23.root()
