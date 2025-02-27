@@ -80,6 +80,7 @@ module Cisco-IOS-XR-policy-repository-cfg {
         }
       }
     }
+    /* XXX
     container sets {
       description
         "All configured sets";
@@ -536,5 +537,6 @@ module Cisco-IOS-XR-policy-repository-cfg {
       description
         "'emacs' or 'vim' or 'nano'";
     }
+    */
   }
 }
