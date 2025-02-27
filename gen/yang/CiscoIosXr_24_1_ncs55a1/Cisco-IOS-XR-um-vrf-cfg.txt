@@ -1,0 +1,81 @@
+module: Cisco-IOS-XR-um-vrf-cfg
+  +--rw address-family
+  |  +--rw ipv4
+  |  |  +--rw unicast!
+  |  |  +--rw multicast
+  |  |     +--rw topologies
+  |  |        +--rw topology* [topology-name]
+  |  |           +--rw topology-name    xr:Cisco-ios-xr-string
+  |  +--rw ipv6
+  |     +--rw unicast!
+  |     +--rw multicast
+  |        +--rw topologies
+  |           +--rw topology* [topology-name]
+  |              +--rw topology-name    string
+  +--rw vrfs
+  |  +--rw vrf* [vrf-name]
+  |     +--rw vrf-name                  xr:Cisco-ios-xr-string
+  |     +--rw address-family
+  |     |  +--rw ipv4
+  |     |  |  +--rw unicast!
+  |     |  |  +--rw multicast!
+  |     |  |  +--rw flowspec!
+  |     |  +--rw ipv6
+  |     |     +--rw unicast!
+  |     |     +--rw multicast!
+  |     |     +--rw flowspec!
+  |     +--rw mode
+  |     |  +--rw big!
+  |     +--rw vpn
+  |     |  +--rw id?   xr:Vpn-id
+  |     +--rw description?              string
+  |     +--rw remote-route-filtering
+  |     |  +--rw disable!
+  |     +--rw fallback-vrf?             xr:Cisco-ios-xr-string
+  +--rw selective-vrf-download
+  |  +--rw disable!
+  +--rw srlg!
+  |  +--rw names
+  |  |  +--rw name* [srlg-name]
+  |  |     +--rw srlg-name      xr:Cisco-ios-xr-string
+  |  |     +--rw value?         uint32
+  |  |     +--rw description?   string
+  |  +--rw interfaces
+  |  |  +--rw interface* [interface-name]
+  |  |     +--rw interface-name     xr:Interface-name
+  |  |     +--rw include-optical!
+  |  |     |  +--rw priority?   enumeration
+  |  |     +--rw indexes
+  |  |     |  +--rw index* [index-number]
+  |  |     |     +--rw index-number    uint32
+  |  |     |     +--rw value           uint32
+  |  |     |     +--rw priority        enumeration
+  |  |     +--rw names
+  |  |     |  +--rw name* [srlg-name]
+  |  |     |     +--rw srlg-name    string
+  |  |     +--rw groups!
+  |  |        +--rw group* [index-number]
+  |  |           +--rw index-number    uint32
+  |  |           +--rw group-name      string
+  |  +--rw groups
+  |  |  +--rw group* [group-name]
+  |  |     +--rw group-name    xr:Cisco-ios-xr-string
+  |  |     +--rw indexes
+  |  |        +--rw index* [index-number]
+  |  |           +--rw index-number    uint32
+  |  |           +--rw value           uint32
+  |  |           +--rw priority        enumeration
+  |  +--rw inherit-locations
+  |     +--rw inherit-location* [location-name]
+  |        +--rw location-name    xr:Pq-node-id
+  |        +--rw indexes
+  |           +--rw index* [index-number]
+  |              +--rw index-number    uint32
+  |              +--rw value           uint32
+  |              +--rw priority        enumeration
+  +--rw vrf-groups
+     +--rw vrf-group* [group-name]
+        +--rw group-name    xr:Cisco-ios-xr-string
+        +--rw vrfs
+           +--rw vrf* [vrf-name]
+              +--rw vrf-name    xr:Cisco-ios-xr-string

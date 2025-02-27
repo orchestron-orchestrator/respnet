@@ -5,6 +5,7 @@
             <name>STO-CORE-1</name>
             <id>3</id>
             <role>core</role>
+            <asn>65001</asn>
         </routers>
     </netinfra>
 </data>

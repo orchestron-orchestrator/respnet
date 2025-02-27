@@ -1,0 +1,9 @@
+module: Cisco-IOS-XR-um-mpls-ldp-cfg
+  +--rw mpls
+     +--rw ldp!
+        +--rw address-families
+        |  +--rw address-family* [af-name]
+        |     +--rw af-name    enumeration
+        +--rw interfaces
+           +--rw interface* [interface-name]
+              +--rw interface-name    xr:Interface-name

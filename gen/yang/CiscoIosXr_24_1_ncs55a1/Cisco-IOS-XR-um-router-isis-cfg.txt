@@ -1,0 +1,55 @@
+module: Cisco-IOS-XR-um-router-isis-cfg
+  +--rw router
+     +--rw isis
+        +--rw processes
+           +--rw process* [process-id]
+              +--rw process-id          string
+              +--rw is-type?            enumeration
+              +--rw nets
+              |  +--rw net* [net-id]
+              |     +--rw net-id    string
+              +--rw address-families
+              |  +--rw address-family* [af-name saf-name]
+              |     +--rw af-name            Isis-af-name
+              |     +--rw saf-name           Isis-saf-name
+              |     +--rw segment-routing
+              |     |  +--rw mpls
+              |     |     +--rw sr-prefer?   boolean
+              |     +--rw metric-style
+              |        +--rw narrow!
+              |        +--rw wide!
+              |        +--rw transition!
+              |        +--rw levels
+              |           +--rw level* [level-id]
+              |              +--rw level-id      uint32
+              |              +--rw narrow!
+              |              +--rw wide!
+              |              +--rw transition!
+              +--rw interfaces
+                 +--rw interface* [interface-name]
+                    +--rw interface-name      xr:Interface-name
+                    +--rw circuit-type?       enumeration
+                    +--rw point-to-point!
+                    +--rw bfd
+                    |  +--rw fast-detect
+                    |  |  +--rw ipv4!
+                    |  |  +--rw ipv6!
+                    |  +--rw minimum-interval?   uint32
+                    |  +--rw multiplier?         uint32
+                    +--rw passive!
+                    +--rw address-families
+                       +--rw address-family* [af-name saf-name]
+                          +--rw af-name       Isis-af-name
+                          +--rw saf-name      Isis-saf-name
+                          +--rw metric
+                          |  +--rw default-metric?   uint32
+                          |  +--rw maximum!
+                          |  +--rw levels
+                          |     +--rw level* [level-id]
+                          |        +--rw level-id          uint32
+                          |        +--rw default-metric?   uint32
+                          |        +--rw maximum!
+                          +--rw prefix-sid
+                             +--rw sid!
+                                +--rw index!
+                                   +--rw sid-index    uint32
