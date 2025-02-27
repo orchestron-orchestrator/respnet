@@ -14320,6 +14320,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                       "Treat neighbor as LLGR capable";
                   }
                 }
+                */
                 container as-override {
                   presence "Indicates a as-override node is configured.";
                   description
@@ -14330,6 +14331,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                       "Prevent as-override from being inherited from the parent";
                   }
                 }
+                /*
                 container aigp {
                   presence "Indicates a aigp node is configured.";
                   description
