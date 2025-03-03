@@ -14,7 +14,7 @@ mgmt:
 topology:
   kinds:
     xrd:
-      image: gitlab.dev.terastrm.net:4567/terastream/vrnetlab/vr-xrd/xrd-control-plane:24.1.1
+      image: registry.devops.telekom.de/containerlab/containerlab/ios-xr/xrd-control-plane:24.1.1
       # TODO: containerlab overwrites the default startup config for XRd if it
       # is defined in any of the nodes?!
       startup-config: xrd-startup.conf
