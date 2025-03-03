@@ -1,5 +1,6 @@
 import yang.adata
 import orchestron.ttt
+import respnet.cisco_vigenere
 from orchestron.device import UnsupportedDevice
 
 import respnet.layers.base_2 as base
@@ -70,8 +71,7 @@ class BaseConfig(base.BaseConfig):
             bgp_ng.address_families.address_family.create("vpnv4-unicast")
             bgp_ng.address_families.address_family.create("vpnv6-unicast")
             bgp_ng.remote_as = str(i.asn)
-            # TODO: Cisco Password "encryption"
-            # bgp_ng.create_password().encrypted = i.bgp.authentication_key
+            # bgp_ng.create_password().encrypted = respnet.cisco_vigenere.encrypt(i.bgp.authentication_key, 4)
             bgp_ng.update_source = "Loopback0"
 
             bgp_as.address_families.address_family.create("vpnv4-unicast")
@@ -311,8 +311,7 @@ class EbgpCustomer(base.EbgpCustomer):
 
             neighbor.remote_as = str(i.peer_asn)
             neighbor.description = i.description
-            # TODO: Add proper Cisco password encryption
-            # neighbor.create_password().encrypted = i.authentication_key
+            neighbor.create_password().encrypted = respnet.cisco_vigenere.encrypt(i.authentication_key, 4)
 
             return dev
 
