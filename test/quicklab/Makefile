@@ -41,3 +41,9 @@ get-config-json0 get-config-json1 get-config-json2 get-config-json3:
 .PHONY: delete-config
 delete-config:
 	curl -X DELETE http://localhost:$(shell docker inspect -f '{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' respnet-quicklab-otron)/restconf/netinfra:netinfra/routers=STO-CORE-1
+
+cli-ams-core-1 cli-fra-core-1 cli-cust-1 cli-cust-2 cli-cust-3 cli-cust-4:
+	docker exec -it respnet-quicklab-$(subst cli-,,$@) /pkg/bin/xr_cli.sh
+
+cli-sto-core-1 clu-lju-core-1:
+	docker exec -it respnet-quicklab-$(subst cli-,,$@) cli
