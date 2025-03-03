@@ -1,5 +1,6 @@
 import yang.adata
 import orchestron.ttt
+from respnet.conf import IGBP_AUTHENTICATION_KEY
 
 import respnet.layers.base_0 as base
 import respnet.layers.y_1_loose
@@ -19,7 +20,7 @@ class Router(base.Router):
         bc.ipv6_address = "2001:db8:0:0::%d" % i.id
         bc.asn = i.asn
 
-        fm = o.netinfra.ibgp_fullmesh.create(i.asn)
+        fm = o.netinfra.ibgp_fullmesh.create(i.asn, IGBP_AUTHENTICATION_KEY)
         fmr = fm.router.create(i.name, bc.ipv4_address)
 
         return o

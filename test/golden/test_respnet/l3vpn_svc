@@ -157,6 +157,9 @@
                   </address-family>
                 </address-families>
                 <remote-as>65001</remote-as>
+                <password>
+                  <encrypted>045209011F6C4D5B1D11001906020F053E222B267E3E270A</encrypted>
+                </password>
                 <update-source>Loopback0</update-source>
               </neighbor-group>
             </neighbor-groups>
@@ -473,6 +476,9 @@ end-policy</rpl-route-policy>
                   </address-family>
                 </address-families>
                 <remote-as>65001</remote-as>
+                <password>
+                  <encrypted>045209011F6C4D5B1D11001906020F053E222B267E3E270A</encrypted>
+                </password>
                 <update-source>Loopback0</update-source>
               </neighbor-group>
             </neighbor-groups>
@@ -753,6 +759,7 @@ end-policy</rpl-route-policy>
                 </inet6-vpn>
                 <route-target/>
               </family>
+              <authentication-key>ibgp-authentication-key</authentication-key>
               <neighbor>
                 <name>10.0.0.1</name>
                 <description>AMS-CORE-1</description>
@@ -974,6 +981,7 @@ end-policy</rpl-route-policy>
                 </inet6-vpn>
                 <route-target/>
               </family>
+              <authentication-key>ibgp-authentication-key</authentication-key>
               <neighbor>
                 <name>10.0.0.1</name>
                 <description>AMS-CORE-1</description>

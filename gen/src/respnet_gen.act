@@ -3446,6 +3446,10 @@ netinfra_inter_yang = """module netinfra-inter {
       leaf asn {
         type inet:as-number;
       }
+      leaf authentication-key {
+        type string;
+        mandatory true;
+      }
 
       orchestron:transform respnet.inter.IbgpFullmesh;
 
@@ -3565,6 +3569,11 @@ respnet_rfs_yang = """module respnet-rfs {
 
             leaf asn {
                 type inet:as-number;
+                mandatory true;
+            }
+
+            leaf ibgp-authentication-key {
+                type string;
                 mandatory true;
             }
         }

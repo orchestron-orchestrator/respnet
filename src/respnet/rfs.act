@@ -71,7 +71,7 @@ class BaseConfig(base.BaseConfig):
             bgp_ng.address_families.address_family.create("vpnv4-unicast")
             bgp_ng.address_families.address_family.create("vpnv6-unicast")
             bgp_ng.remote_as = str(i.asn)
-            # bgp_ng.create_password().encrypted = respnet.cisco_vigenere.encrypt(i.bgp.authentication_key, 4)
+            bgp_ng.create_password().encrypted = respnet.cisco_vigenere.encrypt(i.ibgp_authentication_key, 4)
             bgp_ng.update_source = "Loopback0"
 
             bgp_as.address_families.address_family.create("vpnv4-unicast")
@@ -114,8 +114,7 @@ end-policy"""
             g1.family.inet_vpn.create_unicast()
             g1.family.inet6_vpn.create_unicast()
             g1.family.create_route_target()
-            # TODO: uncomment when Cisco IOS XR BGP auth is configured
-            # g1.authentication_key = i.bgp.authentication_key
+            g1.authentication_key = i.ibgp_authentication_key
 
             return dev
 

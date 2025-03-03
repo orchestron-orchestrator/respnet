@@ -1286,6 +1286,9 @@ mut def to_json_netinfra_inter__netinfra__backbone_link(n: yang.gdata.List) -> l
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__asn(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("uint32", val)
 
+mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__authentication_key(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__name(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
@@ -1451,31 +1454,36 @@ mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh__router(n: yang.gdata.Li
 
 class netinfra_inter__netinfra__ibgp_fullmesh_entry(yang.adata.MNode):
     asn: int
+    authentication_key: str
     router: netinfra_inter__netinfra__ibgp_fullmesh__router
 
-    mut def __init__(self, asn: int, router: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]=[]):
+    mut def __init__(self, asn: int, authentication_key: str, router: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]=[]):
         self._ns = "http://example.com/netinfra-inter"
         self.asn = asn
+        self.authentication_key = authentication_key
         self.router = netinfra_inter__netinfra__ibgp_fullmesh__router(elements=router)
         self.router._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _asn = self.asn
+        _authentication_key = self.authentication_key
         _router = self.router
         if _asn is not None:
             children['asn'] = yang.gdata.Leaf('uint32', _asn)
+        if _authentication_key is not None:
+            children['authentication-key'] = yang.gdata.Leaf('string', _authentication_key)
         if _router is not None:
             children['router'] = _router.to_gdata()
         return yang.gdata.ListElement([yang.gdata.yang_str(self.asn)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=n.get_int("asn"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list("router")))
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=n.get_int("asn"), authentication_key=n.get_str("authentication-key"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list("router")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=yang.gdata.from_xml_int(n, "asn"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, "router")))
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=yang.gdata.from_xml_int(n, "asn"), authentication_key=yang.gdata.from_xml_str(n, "authentication-key"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, "router")))
 
 class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]
@@ -1484,7 +1492,7 @@ class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
         self._name = 'ibgp-fullmesh'
         self.elements = elements
 
-    mut def create(self, asn):
+    mut def create(self, asn, authentication_key):
         for e in self.elements:
             match = True
             if e.asn != asn:
@@ -1493,7 +1501,7 @@ class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
             if match:
                 return e
 
-        res = netinfra_inter__netinfra__ibgp_fullmesh_entry(asn)
+        res = netinfra_inter__netinfra__ibgp_fullmesh_entry(asn, authentication_key)
         self.elements.append(res)
         return res
 
@@ -1539,6 +1547,8 @@ mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: value
         children: dict[str, yang.gdata.Node] = {}
         for idx, key in enumerate(['asn']):
             children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'authentication-key':
+            raise ValueError("Invalid json path to non-inner node")
         if point == 'router':
             children['router'] = from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router(jd, rest_path, op)
         return yang.gdata.ListElement(keys, children)
@@ -1575,6 +1585,10 @@ mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: dict[str, 
     child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
     if child_asn is not None:
         children['asn'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__asn(child_asn)
+    child_authentication_key_full = jd.get('netinfra-inter:authentication-key')
+    child_authentication_key = child_authentication_key_full if child_authentication_key_full is not None else jd.get('authentication-key')
+    if child_authentication_key is not None:
+        children['authentication-key'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__authentication_key(child_authentication_key)
     child_router_full = jd.get('netinfra-inter:router')
     child_router = child_router_full if child_router_full is not None else jd.get('router')
     if child_router is not None and isinstance(child_router, list):
@@ -1594,6 +1608,10 @@ mut def to_json_netinfra_inter__netinfra__ibgp_fullmesh_element(n: yang.gdata.Li
     if child_asn is not None:
         if isinstance(child_asn, yang.gdata.Leaf):
             children['asn'] = child_asn.val
+    child_authentication_key = n.children.get('authentication-key')
+    if child_authentication_key is not None:
+        if isinstance(child_authentication_key, yang.gdata.Leaf):
+            children['authentication-key'] = child_authentication_key.val
     child_router = n.children.get('router')
     if child_router is not None:
         if isinstance(child_router, yang.gdata.List):

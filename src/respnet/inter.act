@@ -74,6 +74,7 @@ class IbgpFullmesh(base.IbgpFullmesh):
         o = base.o_root()
         for ra in i.router.elements:
             rfs = o.rfs.create(ra.name)
+            rfs.base_config.create(ra.name).ibgp_authentication_key = i.authentication_key
             for rb in i.router.elements:
                 if ra.name == rb.name:
                     continue
