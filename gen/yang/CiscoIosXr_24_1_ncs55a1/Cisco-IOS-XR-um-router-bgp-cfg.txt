@@ -115,6 +115,9 @@ module: Cisco-IOS-XR-um-router-bgp-cfg
                  |     |        +--rw inheritance-disable!
                  |     +--rw remote-as?          xr:Bgp-as-number
                  |     +--rw description?        string
+                 |     +--rw password!
+                 |        +--rw encrypted?             xr:Proprietary-password
+                 |        +--rw inheritance-disable!
                  +--rw rd!
                     +--rw auto!
                     +--rw two-byte-as!

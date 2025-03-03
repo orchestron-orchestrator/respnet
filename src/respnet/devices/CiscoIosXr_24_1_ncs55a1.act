@@ -7595,13 +7595,82 @@ mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__ne
 mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__description(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
+mut def from_json_Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__encrypted(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable(yang.adata.MNode):
+
+    mut def __init__(self):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        pass
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        return yang.gdata.Container(children, presence=True)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable()
+        return None
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable()
+        return None
+
+
+
+class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password(yang.adata.MNode):
+    encrypted: ?str
+    inheritance_disable: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable
+
+    mut def __init__(self, encrypted: ?str, inheritance_disable: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable=None):
+        self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
+        self.encrypted = encrypted
+        self.inheritance_disable = inheritance_disable
+        self_inheritance_disable = self.inheritance_disable
+        if self_inheritance_disable is not None:
+            self_inheritance_disable._parent = self
+
+    mut def create_inheritance_disable(self):
+        res = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable()
+        self.inheritance_disable = res
+        return res
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _encrypted = self.encrypted
+        _inheritance_disable = self.inheritance_disable
+        if _encrypted is not None:
+            children['encrypted'] = yang.gdata.Leaf('string', _encrypted)
+        if _inheritance_disable is not None:
+            children['inheritance-disable'] = _inheritance_disable.to_gdata()
+        return yang.gdata.Container(children, presence=True)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password(encrypted=n.get_opt_str("encrypted"), inheritance_disable=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable.from_gdata(n.get_opt_container("inheritance-disable")))
+        return None
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password:
+        if n != None:
+            return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password(encrypted=yang.gdata.from_xml_opt_str(n, "encrypted"), inheritance_disable=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password__inheritance_disable.from_xml(yang.gdata.get_xml_opt_child(n, "inheritance-disable")))
+        return None
+
+
+
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(yang.adata.MNode):
     neighbor_address: str
     address_families: Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families
     remote_as: ?str
     description: ?str
+    password: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password
 
-    mut def __init__(self, neighbor_address: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families=None, remote_as: ?str, description: ?str):
+    mut def __init__(self, neighbor_address: str, address_families: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families=None, remote_as: ?str, description: ?str, password: ?Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password=None):
         self._ns = "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg"
         self.neighbor_address = neighbor_address
         if address_families is not None:
@@ -7613,6 +7682,15 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__nei
             self_address_families._parent = self
         self.remote_as = remote_as
         self.description = description
+        self.password = password
+        self_password = self.password
+        if self_password is not None:
+            self_password._parent = self
+
+    mut def create_password(self):
+        res = Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password()
+        self.password = res
+        return res
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
@@ -7620,6 +7698,7 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__nei
         _address_families = self.address_families
         _remote_as = self.remote_as
         _description = self.description
+        _password = self.password
         if _neighbor_address is not None:
             children['neighbor-address'] = yang.gdata.Leaf('union', _neighbor_address)
         if _address_families is not None:
@@ -7628,15 +7707,17 @@ class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__nei
             children['remote-as'] = yang.gdata.Leaf('string', _remote_as)
         if _description is not None:
             children['description'] = yang.gdata.Leaf('string', _description)
+        if _password is not None:
+            children['password'] = _password.to_gdata()
         return yang.gdata.ListElement([yang.gdata.yang_str(self.neighbor_address)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address=n.get_str("neighbor-address"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families.from_gdata(n.get_opt_container("address-families")), remote_as=n.get_opt_str("remote-as"), description=n.get_opt_str("description"))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address=n.get_str("neighbor-address"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families.from_gdata(n.get_opt_container("address-families")), remote_as=n.get_opt_str("remote-as"), description=n.get_opt_str("description"), password=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password.from_gdata(n.get_opt_container("password")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry:
-        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address=yang.gdata.from_xml_str(n, "neighbor-address"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")), remote_as=yang.gdata.from_xml_opt_str(n, "remote-as"), description=yang.gdata.from_xml_opt_str(n, "description"))
+        return Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry(neighbor_address=yang.gdata.from_xml_str(n, "neighbor-address"), address_families=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__address_families.from_xml(yang.gdata.get_xml_opt_child(n, "address-families")), remote_as=yang.gdata.from_xml_opt_str(n, "remote-as"), description=yang.gdata.from_xml_opt_str(n, "description"), password=Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor__password.from_xml(yang.gdata.get_xml_opt_child(n, "password")))
 
 class Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor(yang.adata.MNode):
     elements: list[Cisco_IOS_XR_um_router_bgp_cfg__router__bgp__as__vrfs__vrf__neighbors__neighbor_entry]

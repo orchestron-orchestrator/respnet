@@ -15021,6 +15021,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                   "Prevent local AS from being inherited from parent";
               }
             }
+            */
             container password {
               must "encrypted or inheritance-disable";
               presence "Indicates a password node is configured.";
@@ -15037,6 +15038,7 @@ module Cisco-IOS-XR-um-router-bgp-cfg {
                   "Prevent password from being inherited from parent";
               }
             }
+            /* XXX
             container receive-buffer-size {
               presence "Indicates a receive-buffer-size node is configured.";
               description

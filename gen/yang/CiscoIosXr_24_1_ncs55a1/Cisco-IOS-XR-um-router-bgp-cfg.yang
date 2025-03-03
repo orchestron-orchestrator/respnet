@@ -921,6 +921,19 @@ local BGP speaker's decision process";
               }
               description "Neighbor specific description";
             }
+            container password {
+              must "encrypted or inheritance-disable";
+              presence "Indicates a password node is configured.";
+              description "Set a password";
+              leaf encrypted {
+                type "xr:Proprietary-password";
+                description "Specifies an ENCRYPTED password will follow";
+              }
+              container inheritance-disable {
+                presence "Indicates a inheritance-disable node is configured.";
+                description "Prevent password from being inherited from parent";
+              }
+            }
           }
         }
         container rd {
