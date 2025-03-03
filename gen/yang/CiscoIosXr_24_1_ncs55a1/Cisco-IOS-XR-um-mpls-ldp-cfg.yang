@@ -1,0 +1,108 @@
+module Cisco-IOS-XR-um-mpls-ldp-cfg {
+  namespace "http://cisco.com/ns/yang/Cisco-IOS-XR-um-mpls-ldp-cfg";
+  prefix "um-mpls-ldp-cfg";
+  import cisco-semver {
+    prefix "semver";
+  }
+  import Cisco-IOS-XR-types {
+    prefix "xr";
+  }
+  import ietf-inet-types {
+    prefix "inet";
+  }
+  organization "Cisco Systems, Inc.";
+  contact "Cisco Systems, Inc.
+Customer Service
+
+Postal: 170 West Tasman Drive
+San Jose, CA 95134
+
+Tel: +1 800 553-NETS
+
+E-mail: cs-yang@cisco.com";
+  description "This module contains a collection of YANG definitions
+for Cisco IOS-XR mpls-ldp package configuration.
+
+This YANG module augments the
+modules with configuration data.
+
+Copyright (c) 2019-2023 by Cisco Systems, Inc.
+All rights reserved.";
+  revision 2022-06-01 {
+    description "added entropy-label-add-el and clone-tunnel support
+2021-11-15
+  added address-family ipv6 feature and rtr-id-arb-tlv ";
+    semver:module-version "3.1.0";
+  }
+  revision 2021-07-09 {
+    description "type correction for the ipv4/v6 address";
+    semver:module-version "3.0.0";
+  }
+  revision 2021-01-29 {
+    description "Add enable container under recursive-fec container
+2021-01-28
+    Added cisco-support task yang nodes
+2020-12-08
+    Removed cisco-support yang nodes
+2020-07-10
+    Added when statement to redistribute to show it's only for ipv4";
+    semver:module-version "2.0.0";
+  }
+  revision 2020-05-29 {
+    description "Changed description for sac";
+  }
+  revision 2019-12-10 {
+    description "Corrected must statement definition for password/encrypted,disable";
+  }
+  revision 2019-10-10 {
+    description "Moved trap augments into Cisco-IOS-XR-um-traps-mpls-ldp-cfg.";
+  }
+  revision 2019-09-25 {
+    description "Changed the list node name access-list to access-lists.";
+    semver:module-version "2.0.0";
+  }
+  revision 2019-06-10 {
+    description "Establish semantic version baseline.";
+  }
+  revision 2019-03-30 {
+    description "Initial version";
+  }
+  container mpls {
+    description "Global MPLS configuration subcommands";
+    container ldp {
+      presence "Indicates a ldp node is configured.";
+      description "Label Distribution Protocol";
+      container address-families {
+        description "Configure Address Family and its parameters";
+        list address-family {
+          key af-name;
+          description "Configure Address Family and its parameters";
+          leaf af-name {
+            type enumeration {
+              enum ipv4 {
+                value 4;
+                description "IPv4";
+              }
+              enum ipv6 {
+                value 6;
+                description "IPv6";
+              }
+            }
+            description "Configure Address Family and its parameters";
+          }
+        }
+      }
+      container interfaces {
+        description "Enable LDP on an interface and enter interface submode";
+        list interface {
+          key interface-name;
+          description "Enable LDP on an interface and enter interface submode";
+          leaf interface-name {
+            type "xr:Interface-name";
+            description "Enable LDP on an interface and enter interface submode";
+          }
+        }
+      }
+    }
+  }
+}

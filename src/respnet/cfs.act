@@ -1,5 +1,6 @@
 import yang.adata
 import orchestron.ttt
+from respnet.conf import IGBP_AUTHENTICATION_KEY
 
 import respnet.layers.base_0 as base
 import respnet.layers.y_1_loose
@@ -12,6 +13,16 @@ class Router(base.Router):
         o_router.id = i.id
         o_router.role = i.role
         o_router.mock = i.mock
+
+        # Assign the loopback interface addresses
+        bc = o_router.base_config
+        bc.ipv4_address = "10.0.0.%d" % i.id
+        bc.ipv6_address = "2001:db8:0:0::%d" % i.id
+        bc.asn = i.asn
+
+        fm = o.netinfra.ibgp_fullmesh.create(i.asn, IGBP_AUTHENTICATION_KEY)
+        fmr = fm.router.create(i.name, bc.ipv4_address)
+
         return o
 
 
@@ -46,14 +57,29 @@ class L3VpnSite(base.L3VpnSite):
                 interface = parts[1]
             else:
                 device, interface = None, None
-            ipv4_address = sna.ip_connection.ipv4.addresses.provider_address
+            provider_ipv4_address = sna.ip_connection.ipv4.addresses.provider_address
+            customer_ipv4_address = sna.ip_connection.ipv4.addresses.customer_address
             ipv4_len = sna.ip_connection.ipv4.addresses.prefix_length
-            if vpn_id is not None and device is not None and interface is not None and ipv4_address is not None and ipv4_len is not None:
+            if vpn_id is not None and device is not None and interface is not None and provider_ipv4_address is not None and ipv4_len is not None:
                 o_vpn = o.l3vpns.l3vpn.create(vpn_id)
                 o_ep = o_vpn.endpoint.create(device, interface)
                 o_ep.site = i.site_id
                 o_ep.site_network_access = sna.site_network_access_id
-                o_ep.ipv4_address = ipv4_address
+                o_ep.provider_ipv4_address = provider_ipv4_address
                 o_ep.ipv4_prefix_length = ipv4_len
+
+                for rp in sna.routing_protocols.routing_protocol.elements:
+                    if rp.type == "bgp":
+                        bgp = rp.bgp
+                        if bgp is not None:
+                            o_bgp = o_ep.create_bgp()
+                            o_bgp.as_number = bgp.autonomous_system
+                if customer_ipv4_address is not None:
+                    o_ep.customer_ipv4_address = customer_ipv4_address
+
+                # TODO: do the VRF ID split here too?! vpn-id acme-65501 -> 65501
+                inter_l3vpn = o.netinfra.routers.create(device).l3vpn_vrf.create(vpn_id)
+                if customer_ipv4_address is not None:
+                    inter_l3vpn.ebgp_customer_address.append(customer_ipv4_address)
 
         return o

@@ -2,6 +2,127 @@
   <device>
     <name>AMS-CORE-1</name>
     <config>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg">
+        <isis>
+          <processes>
+            <process>
+              <process-id>1</process-id>
+              <is-type>level-2-only</is-type>
+              <nets>
+                <net>
+                  <net-id>49.0001.0100.0000.0001.00</net-id>
+                </net>
+              </nets>
+              <address-families>
+                <address-family>
+                  <af-name>ipv4</af-name>
+                  <saf-name>unicast</saf-name>
+                  <metric-style>
+                    <wide/>
+                  </metric-style>
+                </address-family>
+              </address-families>
+              <interfaces>
+                <interface>
+                  <interface-name>GigabitEthernet0/0/0/0</interface-name>
+                  <circuit-type>level-2-only</circuit-type>
+                  <point-to-point/>
+                  <address-families>
+                    <address-family>
+                      <af-name>ipv4</af-name>
+                      <saf-name>unicast</saf-name>
+                      <metric>
+                        <levels>
+                          <level>
+                            <level-id>2</level-id>
+                            <default-metric>5000</default-metric>
+                          </level>
+                        </levels>
+                      </metric>
+                    </address-family>
+                  </address-families>
+                </interface>
+                <interface>
+                  <interface-name>Loopback0</interface-name>
+                  <passive/>
+                  <address-families>
+                    <address-family>
+                      <af-name>ipv4</af-name>
+                      <saf-name>unicast</saf-name>
+                    </address-family>
+                  </address-families>
+                </interface>
+              </interfaces>
+            </process>
+          </processes>
+        </isis>
+      </router>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+        <bgp>
+          <as>
+            <as-number>65001</as-number>
+            <address-families>
+              <address-family>
+                <af-name>vpnv4-unicast</af-name>
+              </address-family>
+              <address-family>
+                <af-name>vpnv6-unicast</af-name>
+              </address-family>
+            </address-families>
+            <neighbors>
+              <neighbor>
+                <neighbor-address>10.0.0.2</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>FRA-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <neighbor-address>10.0.0.3</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>STO-CORE-1</description>
+              </neighbor>
+            </neighbors>
+            <neighbor-groups>
+              <neighbor-group>
+                <neighbor-group-name>IPV4-IBGP</neighbor-group-name>
+                <address-families>
+                  <address-family>
+                    <af-name>vpnv4-unicast</af-name>
+                  </address-family>
+                  <address-family>
+                    <af-name>vpnv6-unicast</af-name>
+                  </address-family>
+                </address-families>
+                <remote-as>65001</remote-as>
+                <password>
+                  <encrypted>045209011F6C4D5B1D11001906020F053E222B267E3E270A</encrypted>
+                </password>
+                <update-source>Loopback0</update-source>
+              </neighbor-group>
+            </neighbor-groups>
+            <bgp>
+              <router-id>10.0.0.1</router-id>
+            </bgp>
+          </as>
+        </bgp>
+      </router>
+      <mpls xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-mpls-ldp-cfg">
+        <ldp>
+          <address-families>
+            <address-family>
+              <af-name>ipv4</af-name>
+            </address-family>
+          </address-families>
+          <interfaces>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/0</interface-name>
+            </interface>
+          </interfaces>
+        </ldp>
+      </mpls>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/0</interface-name>
@@ -31,11 +152,142 @@
       <hostname xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-hostname-cfg">
         <system-network-name>AMS-CORE-1</system-network-name>
       </hostname>
+      <routing-policy xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-policy-repository-cfg">
+        <route-policies>
+          <route-policy>
+            <route-policy-name>ACCEPT</route-policy-name>
+            <rpl-route-policy>route-policy ACCEPT
+  done
+end-policy</rpl-route-policy>
+          </route-policy>
+        </route-policies>
+      </routing-policy>
     </config>
   </device>
   <device>
     <name>FRA-CORE-1</name>
     <config>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-isis-cfg">
+        <isis>
+          <processes>
+            <process>
+              <process-id>1</process-id>
+              <is-type>level-2-only</is-type>
+              <nets>
+                <net>
+                  <net-id>49.0001.0100.0000.0002.00</net-id>
+                </net>
+              </nets>
+              <address-families>
+                <address-family>
+                  <af-name>ipv4</af-name>
+                  <saf-name>unicast</saf-name>
+                  <metric-style>
+                    <wide/>
+                  </metric-style>
+                </address-family>
+              </address-families>
+              <interfaces>
+                <interface>
+                  <interface-name>GigabitEthernet0/0/0/0</interface-name>
+                  <circuit-type>level-2-only</circuit-type>
+                  <point-to-point/>
+                  <address-families>
+                    <address-family>
+                      <af-name>ipv4</af-name>
+                      <saf-name>unicast</saf-name>
+                      <metric>
+                        <levels>
+                          <level>
+                            <level-id>2</level-id>
+                            <default-metric>5000</default-metric>
+                          </level>
+                        </levels>
+                      </metric>
+                    </address-family>
+                  </address-families>
+                </interface>
+                <interface>
+                  <interface-name>Loopback0</interface-name>
+                  <passive/>
+                  <address-families>
+                    <address-family>
+                      <af-name>ipv4</af-name>
+                      <saf-name>unicast</saf-name>
+                    </address-family>
+                  </address-families>
+                </interface>
+              </interfaces>
+            </process>
+          </processes>
+        </isis>
+      </router>
+      <router xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg">
+        <bgp>
+          <as>
+            <as-number>65001</as-number>
+            <address-families>
+              <address-family>
+                <af-name>vpnv4-unicast</af-name>
+              </address-family>
+              <address-family>
+                <af-name>vpnv6-unicast</af-name>
+              </address-family>
+            </address-families>
+            <neighbors>
+              <neighbor>
+                <neighbor-address>10.0.0.1</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>AMS-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <neighbor-address>10.0.0.3</neighbor-address>
+                <use>
+                  <neighbor-group>IPV4-IBGP</neighbor-group>
+                </use>
+                <description>STO-CORE-1</description>
+              </neighbor>
+            </neighbors>
+            <neighbor-groups>
+              <neighbor-group>
+                <neighbor-group-name>IPV4-IBGP</neighbor-group-name>
+                <address-families>
+                  <address-family>
+                    <af-name>vpnv4-unicast</af-name>
+                  </address-family>
+                  <address-family>
+                    <af-name>vpnv6-unicast</af-name>
+                  </address-family>
+                </address-families>
+                <remote-as>65001</remote-as>
+                <password>
+                  <encrypted>045209011F6C4D5B1D11001906020F053E222B267E3E270A</encrypted>
+                </password>
+                <update-source>Loopback0</update-source>
+              </neighbor-group>
+            </neighbor-groups>
+            <bgp>
+              <router-id>10.0.0.2</router-id>
+            </bgp>
+          </as>
+        </bgp>
+      </router>
+      <mpls xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-mpls-ldp-cfg">
+        <ldp>
+          <address-families>
+            <address-family>
+              <af-name>ipv4</af-name>
+            </address-family>
+          </address-families>
+          <interfaces>
+            <interface>
+              <interface-name>GigabitEthernet0/0/0/0</interface-name>
+            </interface>
+          </interfaces>
+        </ldp>
+      </mpls>
       <interfaces xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-interface-cfg">
         <interface>
           <interface-name>GigabitEthernet0/0/0/0</interface-name>
@@ -65,6 +317,16 @@
       <hostname xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-um-hostname-cfg">
         <system-network-name>FRA-CORE-1</system-network-name>
       </hostname>
+      <routing-policy xmlns="http://cisco.com/ns/yang/Cisco-IOS-XR-policy-repository-cfg">
+        <route-policies>
+          <route-policy>
+            <route-policy-name>ACCEPT</route-policy-name>
+            <rpl-route-policy>route-policy ACCEPT
+  done
+end-policy</rpl-route-policy>
+          </route-policy>
+        </route-policies>
+      </routing-policy>
     </config>
   </device>
   <device>
@@ -85,10 +347,72 @@
                     <name>10.0.0.3/32</name>
                   </address>
                 </inet>
+                <iso>
+                  <address>
+                    <name>49.0001.0100.0000.0003.00</name>
+                  </address>
+                </iso>
               </family>
             </unit>
           </interface>
         </interfaces>
+        <routing-options>
+          <autonomous-system>
+            <as-number>65001</as-number>
+          </autonomous-system>
+        </routing-options>
+        <protocols xmlns="http://yang.juniper.net/junos/conf/protocols">
+          <bgp>
+            <group>
+              <name>IPV4-IBGP</name>
+              <type>internal</type>
+              <local-address>10.0.0.3</local-address>
+              <hold-time>90</hold-time>
+              <family>
+                <inet-vpn>
+                  <unicast/>
+                </inet-vpn>
+                <inet6-vpn>
+                  <unicast/>
+                </inet6-vpn>
+                <route-target/>
+              </family>
+              <authentication-key>ibgp-authentication-key</authentication-key>
+              <neighbor>
+                <name>10.0.0.1</name>
+                <description>AMS-CORE-1</description>
+              </neighbor>
+              <neighbor>
+                <name>10.0.0.2</name>
+                <description>FRA-CORE-1</description>
+              </neighbor>
+            </group>
+            <log-updown/>
+          </bgp>
+          <isis>
+            <interface>
+              <name>lo0.0</name>
+              <lsp-interval>100</lsp-interval>
+              <passive/>
+            </interface>
+            <level>
+              <name>1</name>
+              <disable/>
+            </level>
+            <level>
+              <name>2</name>
+              <wide-metrics-only/>
+            </level>
+            <lsp-lifetime>65535</lsp-lifetime>
+          </isis>
+          <ldp>
+            <traffic-statistics>
+              <file>
+                <files>10</files>
+              </file>
+            </traffic-statistics>
+          </ldp>
+        </protocols>
       </configuration>
     </config>
   </device>

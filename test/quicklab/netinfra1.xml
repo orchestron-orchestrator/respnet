@@ -5,11 +5,13 @@
             <name>AMS-CORE-1</name>
             <id>1</id>
             <role>edge</role>
+            <asn>65001</asn>
         </routers>
         <routers>
             <name>FRA-CORE-1</name>
             <id>2</id>
             <role>core</role>
+            <asn>65001</asn>
         </routers>
         <backbone-link>
             <left-router>AMS-CORE-1</left-router>

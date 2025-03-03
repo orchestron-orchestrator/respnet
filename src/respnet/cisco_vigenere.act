@@ -1,0 +1,31 @@
+import testing
+
+# port of https://github.com/plajjan/java-CiscoVigenere
+# TODO: this doesn't compile with global var, the compiler infers the type as list[str] ?!
+# __ikey = 'dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87'
+
+def encrypt(m: str, init: int) -> str:
+    __ikey = 'dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87'
+    key = __ikey[init:len(__ikey)] + __ikey[0:init]
+    res = "%02d" % init
+    for i in range(0, len(m)):
+        res += '%02X' % (ord(m[i]) ^ ord(key[i % len(key)]))
+    return res
+
+def decrypt(s: str) -> str:
+    __ikey = 'dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87'
+    init = int(s[0:2])
+    key = __ikey[init-1:len(__ikey)] + __ikey[0:init-1]
+    res = ''
+    for i in range(1, int(len(s)/2)):
+        c = s[2*i:2*i+2]
+        res += chr(int(c, base=16) ^ ord(key[i % len(key)]))
+    return res
+
+def _test_encrypt():
+    e = encrypt("letmein", 4)
+    testing.assertEqual(e, "04570E1202244540")
+
+def _test_decrypt():
+    d = decrypt("04570E1202244540")
+    testing.assertEqual(d, "letmein")

@@ -1,0 +1,10 @@
+module: Cisco-IOS-XR-um-l2-ethernet-cfg
+  +--rw ethernet
+     +--rw egress-filter
+        +--rw strict! {global-ethernet}?
+
+  augment /a1:interfaces/a1:interface:
+    +--rw encapsulation
+       +--rw dot1q
+          +--rw vlan-id?        uint32
+          +--rw second-dot1q?   uint32

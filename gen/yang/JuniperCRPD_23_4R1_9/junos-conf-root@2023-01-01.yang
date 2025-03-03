@@ -32,6 +32,7 @@
        description "Configuration groups";
        uses juniper-group;
      }
+     uses routing-options-group;
    }
    grouping juniper-config {
      leaf rcsid {
@@ -57,6 +58,16 @@
        description "Routing instance configuration";
        list instance {
          key name;
+         leaf-list apply-groups {
+           ordered-by user;
+           description "Groups from which to inherit configuration data";
+           type string;
+         }
+         leaf-list apply-groups-except {
+           ordered-by user;
+           description "Don't inherit configuration data from these groups";
+           type string;
+         }
          uses juniper-routing-instance;
        }
      }
@@ -186,6 +197,32 @@
              }
            }
          }
+         container inet6 {
+           presence "enable inet6";
+           description "IPv6 parameters";
+           list address {
+             key name;
+             ordered-by user;
+             description "Interface address/destination prefix";
+             leaf name {
+               description "Interface address/destination prefix";
+               type jt:ipv6prefix;
+             }
+           }
+         }
+         container iso {
+           presence "enable iso";
+           description "OSI ISO protocol parameters";
+           list address {
+             key name;
+             ordered-by user;
+             description "Interface address";
+             leaf name {
+               description "Interface address";
+               type jt:isoaddr;
+             }
+           }
+         }
        }
        leaf mtu {
          description "Maximum transmission unit packet size";
@@ -201,6 +238,190 @@
        leaf mac {
          description "Configure logical interface MAC address";
          type jt:mac-unicast;
+       }
+     }
+     leaf encapsulation {
+       description "Physical link-layer encapsulation";
+       type enumeration {
+         enum "ethernet" {
+           description "Ethernet physical media";
+         }
+         enum "fddi" {
+           description "FDDI physical media";
+         }
+         enum "token-ring" {
+           description "Token Ring physical media";
+         }
+         enum "ppp" {
+           description "Serial PPP device";
+         }
+         enum "ppp-ccc" {
+           description "Serial PPP device for a cross-connect";
+         }
+         enum "ppp-tcc" {
+           description "Serial PPP device for a translational cross-connect";
+         }
+         enum "ether-vpls-ppp" {
+           description "Ethernet VPLS over PPP (bridging) device";
+         }
+         enum "frame-relay" {
+           description "Frame Relay encapsulation";
+         }
+         enum "frame-relay-ccc" {
+           description "Frame Relay for cross-connect";
+         }
+         enum "frame-relay-tcc" {
+           description "Frame Relay for translational cross-connect";
+         }
+         enum "extended-frame-relay-ccc" {
+           description "Any Frame Relay DLCI for cross-connect";
+         }
+         enum "extended-frame-relay-tcc" {
+           description "Any Frame Relay DLCI for translational cross-connect";
+         }
+         enum "flexible-frame-relay" {
+           description "Multiple Frame Relay encapsulations";
+         }
+         enum "frame-relay-port-ccc" {
+           description "Frame Relay port encapsulation for a cross-connect";
+         }
+         enum "frame-relay-ether-type" {
+           description "Cisco-compatible Frame Relay encapsulation";
+         }
+         enum "frame-relay-ether-type-tcc" {
+           description "Cisco-compatible Frame Relay encapsulation for translational cross-connect";
+         }
+         enum "extended-frame-relay-ether-type-tcc" {
+           description "Cisco-compatible Frame Relay encapsulation any DLCI for translational cross-connect";
+         }
+         enum "cisco-hdlc" {
+           description "Cisco-compatible HDLC framing";
+         }
+         enum "cisco-hdlc-ccc" {
+           description "Cisco-compatible HDLC framing for a cross-connect";
+         }
+         enum "cisco-hdlc-tcc" {
+           description "Cisco-compatible HDLC framing for a translational cross-connect";
+         }
+         enum "vlan-ccc" {
+           description "802.1q tagging for a cross-connect";
+         }
+         enum "extended-vlan-ccc" {
+           description "Nonstandard TPID tagging for a cross-connect";
+         }
+         enum "ethernet-ccc" {
+           description "Ethernet cross-connect";
+         }
+         enum "flexible-ethernet-services" {
+           description "Allows per-unit Ethernet encapsulation configuration";
+         }
+         enum "smds-dxi" {
+           description "SMDS DXI framing";
+         }
+         enum "atm-pvc" {
+           description "ATM permanent virtual circuits";
+         }
+         enum "atm-ccc-cell-relay" {
+           description "ATM cell relay encapsulation for cross-connect";
+         }
+         enum "ethernet-over-atm" {
+           description "Ethernet over ATM encapsulation";
+         }
+         enum "ethernet-tcc" {
+           description "Ethernet translational cross-connect";
+         }
+         enum "extended-vlan-tcc" {
+           description "802.1q tagging for a translational cross-connect";
+         }
+         enum "multilink-frame-relay-uni-nni" {
+           description "Multilink Frame Relay UNI NNI (FRF.16) encapsulation";
+         }
+         enum "satop" {
+           description "Structure-Agnostic TDM over Packet encapsulation";
+         }
+         enum "cesopsn" {
+           description "Structure-Agnostic TDM over Packet encapsulation";
+         }
+         enum "ima" {
+           description "Inverse Multiplexing for ATM";
+         }
+         enum "ethernet-vpls" {
+           description "Ethernet virtual private LAN service";
+         }
+         enum "ethernet-bridge" {
+           description "Ethernet layer-2 bridging";
+         }
+         enum "vlan-vpls" {
+           description "VLAN virtual private LAN service";
+         }
+         enum "vlan-vci-ccc" {
+           description "CCC for VLAN Q-in-Q and ATM VPI/VCI interworking";
+         }
+         enum "extended-vlan-vpls" {
+           description "Extended VLAN virtual private LAN service";
+         }
+         enum "extended-vlan-bridge" {
+           description "VLAN layer-2 bridging";
+         }
+         enum "multilink-ppp" {
+           description "Multilink PPP";
+         }
+         enum "generic-services" {
+           description "Generic services";
+         }
+       }
+     }
+     choice vlan_tag_mode {
+       case case_1 {
+         leaf vlan-tagging {
+           description "802.1q VLAN tagging support";
+           type empty;
+         }
+       }
+       case case_2 {
+         leaf stacked-vlan-tagging {
+           description "Stacked 802.1q VLAN tagging support";
+           type empty;
+         }
+       }
+       case case_3 {
+         leaf flexible-vlan-tagging {
+           description "Support for no tagging, or single and double 802.1q VLAN tagging";
+           type empty;
+         }
+       }
+       case case_4 {
+         leaf vlan-vci-tagging {
+           description "CCC for VLAN Q-in-Q and ATM VPI/VCI interworking";
+           type empty;
+         }
+       }
+     }
+
+     choice scheduler_type {
+       case case_1 {
+         choice per-unit-scheduler-choice {
+           leaf per-unit-scheduler {
+             description "Enable subunit queuing on Frame Relay or VLAN IQ interface";
+             type empty;
+           }
+           leaf no-per-unit-scheduler {
+             description "Don't enable subunit queuing on Frame Relay or VLAN IQ interface";
+             type empty;
+           }
+         }
+       }
+       case case_2 {
+         leaf shared-scheduler {
+           description "Enabled shared queuing on an IQ2 interface";
+           type empty;
+         }
+       }
+       case case_3 {
+         container hierarchical-scheduler {
+           presence "enable hierarchical-scheduler";
+           description "Enable hierarchical scheduling";
+         }
        }
      }
    }
@@ -434,12 +655,153 @@
        description "Don't advertise this instance to remote PEs";
        type empty;
      }
+     container vrf-table-label {
+       presence "enable vrf-table-label";
+       description "Advertise a single VPN label for all routes in the VRF";
+       leaf static {
+         description "Specify label value to be used";
+         type union {
+           type string {
+             pattern "<.*>|$.*";
+           }
+           type uint32 {
+             range "16 .. 1048575";
+           }
+         }
+       }
+       leaf source-class-usage {
+         description "Enable source class usage";
+         type empty;
+       }
+     }
+     container protocols {
+       description "Routing protocol configuration";
+       container bgp {
+         description "BGP options";
+         list group {
+           key name;
+           ordered-by user;
+           description "Define a peer group";
+           leaf name {
+             description "Group name";
+             type string;
+           }
+           leaf passive {
+             description "Do not send open messages to a peer";
+             type empty;
+           }
+           leaf-list import {
+             ordered-by user;
+             description "Import policy";
+             type jt:policy-algebra;
+           }
+           leaf-list export {
+             ordered-by user;
+             description "Export policy";
+             type jt:policy-algebra;
+           }
+           list neighbor {
+             key name;
+             ordered-by user;
+             description "Configure a neighbor";
+             leaf name {
+               type jt:ipaddr-scoped;
+             }
+             leaf description {
+               description "Text description";
+               type string {
+                 length "1 .. 255";
+               }
+             }
+             leaf peer-as {
+               description " Autonomous system number in plain number or 'higher 16bits'.'Lower 16 bits' (asdot notation) format";
+               type string {
+               }
+             }
+             leaf authentication-key {
+               description "MD5 authentication key";
+               type string {
+                 length "1 .. 126";
+               }
+             }
+             leaf as-override {
+               description "Replace neighbor AS number with our AS number";
+               type empty;
+             }
+             leaf authentication-algorithm {
+               description "Authentication algorithm name";
+               type enumeration {
+                 enum "md5" {
+                   description "Message Digest 5";
+                 }
+                 enum "hmac-sha-1-96" {
+                   description "Hash-based Message Authentication Code (SHA1) (96 bits)";
+                 }
+                 enum "aes-128-cmac-96" {
+                   description "Cipher-based Message Authentication Code (AES128) (96 bits)";
+                 }
+                 enum "ao" {
+                   description "TCP Authentication Option";
+                 }
+               }
+             }
+             container multihop {
+               presence "enable multihop";
+               description "Configure an EBGP multihop session";
+               leaf ttl {
+                 description "TTL value for the session";
+                 type union {
+                   type string {
+                     pattern "<.*>|$.*";
+                   }
+                   type uint8 {
+                     range "1 .. 255";
+                   }
+                 }
+               }
+               leaf no-nexthop-change {
+                 description "Do not change next hop to self in advertisements";
+                 type empty;
+               }
+             }
+           }
+         }
+       }
+       container evpn {
+         description "EVPN configuration";
+         presence "enable evpn";
+         leaf control-word {
+           description "Add control word to the Layer 2 encapsulation";
+           type empty;
+         }
+         leaf no-mac-learning {
+           description "Disable dynamic MAC address learning";
+           type empty;
+         }
+       }
+     }
    }
    grouping juniper-system {
      leaf host-name {
        description "Hostname for this router";
        type string {
          length "1 .. 255";
+       }
+     }
+   }
+   grouping routing-options-group {
+     container routing-options {
+       description "Protocol-independent routing option configuration";
+       uses juniper-routing-options;
+     }
+   }
+   grouping juniper-routing-options {
+     container autonomous-system {
+       description "Autonomous system number";
+       leaf as-number {
+         description " Autonomous system number in plain number or 'higher 16bits'.'Lower 16 bits' (asdot notation) format";
+         type string {
+         }
        }
      }
    }

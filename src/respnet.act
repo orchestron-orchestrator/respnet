@@ -39,7 +39,7 @@ actor main(env):
 
     logh = logging.Handler("Otron")
     logh.add_sink(logging.StdoutSink())
-    logh.set_output_level(logging.DEBUG)
+    logh.set_output_level(logging.TRACE)
 
     logh_http = logging.Handler("HTTP")
     logh_http.set_handler(logh)

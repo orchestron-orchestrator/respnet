@@ -1,0 +1,432 @@
+module: junos-conf-protocols
+
+  augment /jc:configuration:
+    +--rw protocols
+       +--rw bgp
+       |  +--rw path-selection
+       |  |  +--rw l2vpn-use-bgp-rules?       empty
+       |  |  +--rw cisco-non-deterministic?   empty
+       |  |  +--rw always-compare-med?        empty
+       |  |  +--rw med-plus-igp!
+       |  |  |  +--rw med-multiplier?   uint16
+       |  |  |  +--rw igp-multiplier?   uint16
+       |  |  +--rw external-router-id?        empty
+       |  |  +--rw as-path-ignore?            empty
+       |  +--rw group* [name]
+       |  |  +--rw name                        string
+       |  |  +--rw type?                       enumeration
+       |  |  +--rw description?                string
+       |  |  +--rw local-address?              jt:ipaddr
+       |  |  +--rw hold-time?                  uint32
+       |  |  +--rw family
+       |  |  |  +--rw inet-vpn
+       |  |  |  |  +--rw unicast!
+       |  |  |  |     +--rw prefix-limit
+       |  |  |  |     |  +--rw maximum?       uint32
+       |  |  |  |     |  +--rw teardown!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  |  +--rw idle-timeout!
+       |  |  |  |     |  |     +--rw (idle-parm)?
+       |  |  |  |     |  |        +--:(case_1)
+       |  |  |  |     |  |        |  +--rw forever?   empty
+       |  |  |  |     |  |        +--:(case_2)
+       |  |  |  |     |  |           +--rw timeout?   uint32
+       |  |  |  |     |  +--rw drop-excess!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  +--rw hide-excess!
+       |  |  |  |     |     +--rw limit-threshold?   uint32
+       |  |  |  |     +--rw accepted-prefix-limit
+       |  |  |  |     |  +--rw maximum?       uint32
+       |  |  |  |     |  +--rw teardown!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  |  +--rw idle-timeout!
+       |  |  |  |     |  |     +--rw (idle-parm)?
+       |  |  |  |     |  |        +--:(case_1)
+       |  |  |  |     |  |        |  +--rw forever?   empty
+       |  |  |  |     |  |        +--:(case_2)
+       |  |  |  |     |  |           +--rw timeout?   uint32
+       |  |  |  |     |  +--rw drop-excess!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  +--rw hide-excess!
+       |  |  |  |     |     +--rw limit-threshold?   uint32
+       |  |  |  |     +--rw rib-group
+       |  |  |  |     |  +--rw ribgroup-name?   string
+       |  |  |  |     +--rw add-path
+       |  |  |  |     |  +--rw receive?   empty
+       |  |  |  |     |  +--rw send!
+       |  |  |  |     |     +--rw path-selection-mode
+       |  |  |  |     |     |  +--rw (mode)?
+       |  |  |  |     |     |     +--:(case_1)
+       |  |  |  |     |     |     |  +--rw all-paths?          empty
+       |  |  |  |     |     |     +--:(case_2)
+       |  |  |  |     |     |        +--rw equal-cost-paths?   empty
+       |  |  |  |     |     +--rw prefix-policy*         jt:policy-algebra
+       |  |  |  |     |     +--rw path-count?            int32
+       |  |  |  |     |     +--rw include-backup-path?   int32
+       |  |  |  |     |     +--rw multipath?             empty
+       |  |  |  |     +--rw aigp!
+       |  |  |  |     |  +--rw disable?   empty
+       |  |  |  |     +--rw damping?                         empty
+       |  |  |  |     +--rw local-ipv4-address?              jt:ipv4addr
+       |  |  |  |     +--rw loops
+       |  |  |  |     |  +--rw loops?   int32
+       |  |  |  |     +--rw delay-route-advertisements!
+       |  |  |  |     |  +--rw always-wait-for-krt-drain?   empty
+       |  |  |  |     |  +--rw minimum-delay
+       |  |  |  |     |  |  +--rw routing-uptime?        uint32
+       |  |  |  |     |  |  +--rw inbound-convergence?   uint32
+       |  |  |  |     |  +--rw maximum-delay
+       |  |  |  |     |     +--rw route-age?        uint32
+       |  |  |  |     |     +--rw routing-uptime?   uint32
+       |  |  |  |     +--rw nexthop-resolution
+       |  |  |  |     |  +--rw no-resolution?                empty
+       |  |  |  |     |  +--rw preserve-nexthop-hierarchy?   empty
+       |  |  |  |     +--rw defer-initial-multipath-build!
+       |  |  |  |     |  +--rw maximum-delay?   uint32
+       |  |  |  |     +--rw graceful-restart
+       |  |  |  |     |  +--rw long-lived
+       |  |  |  |     |  |  +--rw restarter
+       |  |  |  |     |  |  |  +--rw (enable-disable)?
+       |  |  |  |     |  |  |  |  +--:(case_1)
+       |  |  |  |     |  |  |  |     +--rw disable?   empty
+       |  |  |  |     |  |  |  +--rw stale-time?      string
+       |  |  |  |     |  |  +--rw extended-route-retention
+       |  |  |  |     |  |     +--rw (enable-disable)?
+       |  |  |  |     |  |     |  +--:(case_1)
+       |  |  |  |     |  |     |     +--rw disable?      empty
+       |  |  |  |     |  |     +--rw retention-time?     string
+       |  |  |  |     |  |     +--rw retention-policy*   jt:policy-algebra
+       |  |  |  |     |  +--rw forwarding-state-bit?   enumeration
+       |  |  |  |     +--rw extended-nexthop?                empty
+       |  |  |  |     +--rw extended-nexthop-color?          empty
+       |  |  |  |     +--rw extended-nexthop-tunnel?         empty
+       |  |  |  |     +--rw no-install?                      empty
+       |  |  |  |     +--rw route-age-bgp-view?              empty
+       |  |  |  |     +--rw output-queue-priority
+       |  |  |  |     |  +--rw (class)?
+       |  |  |  |     |     +--:(case_1)
+       |  |  |  |     |     |  +--rw priority?    uint32
+       |  |  |  |     |     +--:(case_2)
+       |  |  |  |     |        +--rw expedited?   empty
+       |  |  |  |     +--rw route-refresh-priority
+       |  |  |  |     |  +--rw (class)?
+       |  |  |  |     |     +--:(case_1)
+       |  |  |  |     |     |  +--rw priority?    uint32
+       |  |  |  |     |     +--:(case_2)
+       |  |  |  |     |        +--rw expedited?   empty
+       |  |  |  |     +--rw withdraw-priority
+       |  |  |  |     |  +--rw (class)?
+       |  |  |  |     |     +--:(case_1)
+       |  |  |  |     |     |  +--rw priority?    uint32
+       |  |  |  |     |     +--:(case_2)
+       |  |  |  |     |        +--rw expedited?   empty
+       |  |  |  |     +--rw advertise-srv6-service?          empty
+       |  |  |  |     +--rw accept-srv6-service?             empty
+       |  |  |  |     +--rw aggregate-label!
+       |  |  |  |     |  +--rw community?   string
+       |  |  |  |     +--rw egress-protection!
+       |  |  |  |     |  +--rw context-identifier
+       |  |  |  |     |  |  +--rw context-id?   jt:ipv4addr
+       |  |  |  |     |  +--rw keep-import*          jt:policy-algebra
+       |  |  |  |     +--rw accept-local-nexthop?            empty
+       |  |  |  |     +--rw accept-own?                      empty
+       |  |  |  +--rw inet6-vpn
+       |  |  |  |  +--rw unicast!
+       |  |  |  |     +--rw prefix-limit
+       |  |  |  |     |  +--rw maximum?       uint32
+       |  |  |  |     |  +--rw teardown!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  |  +--rw idle-timeout!
+       |  |  |  |     |  |     +--rw (idle-parm)?
+       |  |  |  |     |  |        +--:(case_1)
+       |  |  |  |     |  |        |  +--rw forever?   empty
+       |  |  |  |     |  |        +--:(case_2)
+       |  |  |  |     |  |           +--rw timeout?   uint32
+       |  |  |  |     |  +--rw drop-excess!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  +--rw hide-excess!
+       |  |  |  |     |     +--rw limit-threshold?   uint32
+       |  |  |  |     +--rw accepted-prefix-limit
+       |  |  |  |     |  +--rw maximum?       uint32
+       |  |  |  |     |  +--rw teardown!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  |  +--rw idle-timeout!
+       |  |  |  |     |  |     +--rw (idle-parm)?
+       |  |  |  |     |  |        +--:(case_1)
+       |  |  |  |     |  |        |  +--rw forever?   empty
+       |  |  |  |     |  |        +--:(case_2)
+       |  |  |  |     |  |           +--rw timeout?   uint32
+       |  |  |  |     |  +--rw drop-excess!
+       |  |  |  |     |  |  +--rw limit-threshold?   uint32
+       |  |  |  |     |  +--rw hide-excess!
+       |  |  |  |     |     +--rw limit-threshold?   uint32
+       |  |  |  |     +--rw rib-group
+       |  |  |  |     |  +--rw ribgroup-name?   string
+       |  |  |  |     +--rw add-path
+       |  |  |  |     |  +--rw receive?   empty
+       |  |  |  |     |  +--rw send!
+       |  |  |  |     |     +--rw path-selection-mode
+       |  |  |  |     |     |  +--rw (mode)?
+       |  |  |  |     |     |     +--:(case_1)
+       |  |  |  |     |     |     |  +--rw all-paths?          empty
+       |  |  |  |     |     |     +--:(case_2)
+       |  |  |  |     |     |        +--rw equal-cost-paths?   empty
+       |  |  |  |     |     +--rw prefix-policy*         jt:policy-algebra
+       |  |  |  |     |     +--rw path-count?            int32
+       |  |  |  |     |     +--rw include-backup-path?   int32
+       |  |  |  |     |     +--rw multipath?             empty
+       |  |  |  |     +--rw aigp!
+       |  |  |  |     |  +--rw disable?   empty
+       |  |  |  |     +--rw damping?                         empty
+       |  |  |  |     +--rw local-ipv4-address?              jt:ipv4addr
+       |  |  |  |     +--rw loops
+       |  |  |  |     |  +--rw loops?   int32
+       |  |  |  |     +--rw delay-route-advertisements!
+       |  |  |  |     |  +--rw always-wait-for-krt-drain?   empty
+       |  |  |  |     |  +--rw minimum-delay
+       |  |  |  |     |  |  +--rw routing-uptime?        uint32
+       |  |  |  |     |  |  +--rw inbound-convergence?   uint32
+       |  |  |  |     |  +--rw maximum-delay
+       |  |  |  |     |     +--rw route-age?        uint32
+       |  |  |  |     |     +--rw routing-uptime?   uint32
+       |  |  |  |     +--rw nexthop-resolution
+       |  |  |  |     |  +--rw no-resolution?                empty
+       |  |  |  |     |  +--rw preserve-nexthop-hierarchy?   empty
+       |  |  |  |     +--rw defer-initial-multipath-build!
+       |  |  |  |     |  +--rw maximum-delay?   uint32
+       |  |  |  |     +--rw graceful-restart
+       |  |  |  |     |  +--rw long-lived
+       |  |  |  |     |  |  +--rw restarter
+       |  |  |  |     |  |  |  +--rw (enable-disable)?
+       |  |  |  |     |  |  |  |  +--:(case_1)
+       |  |  |  |     |  |  |  |     +--rw disable?   empty
+       |  |  |  |     |  |  |  +--rw stale-time?      string
+       |  |  |  |     |  |  +--rw extended-route-retention
+       |  |  |  |     |  |     +--rw (enable-disable)?
+       |  |  |  |     |  |     |  +--:(case_1)
+       |  |  |  |     |  |     |     +--rw disable?      empty
+       |  |  |  |     |  |     +--rw retention-time?     string
+       |  |  |  |     |  |     +--rw retention-policy*   jt:policy-algebra
+       |  |  |  |     |  +--rw forwarding-state-bit?   enumeration
+       |  |  |  |     +--rw extended-nexthop?                empty
+       |  |  |  |     +--rw extended-nexthop-color?          empty
+       |  |  |  |     +--rw extended-nexthop-tunnel?         empty
+       |  |  |  |     +--rw no-install?                      empty
+       |  |  |  |     +--rw route-age-bgp-view?              empty
+       |  |  |  |     +--rw output-queue-priority
+       |  |  |  |     |  +--rw (class)?
+       |  |  |  |     |     +--:(case_1)
+       |  |  |  |     |     |  +--rw priority?    uint32
+       |  |  |  |     |     +--:(case_2)
+       |  |  |  |     |        +--rw expedited?   empty
+       |  |  |  |     +--rw route-refresh-priority
+       |  |  |  |     |  +--rw (class)?
+       |  |  |  |     |     +--:(case_1)
+       |  |  |  |     |     |  +--rw priority?    uint32
+       |  |  |  |     |     +--:(case_2)
+       |  |  |  |     |        +--rw expedited?   empty
+       |  |  |  |     +--rw withdraw-priority
+       |  |  |  |     |  +--rw (class)?
+       |  |  |  |     |     +--:(case_1)
+       |  |  |  |     |     |  +--rw priority?    uint32
+       |  |  |  |     |     +--:(case_2)
+       |  |  |  |     |        +--rw expedited?   empty
+       |  |  |  |     +--rw advertise-srv6-service?          empty
+       |  |  |  |     +--rw accept-srv6-service?             empty
+       |  |  |  |     +--rw aggregate-label!
+       |  |  |  |     |  +--rw community?   string
+       |  |  |  |     +--rw egress-protection!
+       |  |  |  |     |  +--rw context-identifier
+       |  |  |  |     |  |  +--rw context-id?   jt:ipv4addr
+       |  |  |  |     |  +--rw keep-import*          jt:policy-algebra
+       |  |  |  |     +--rw accept-local-nexthop?            empty
+       |  |  |  |     +--rw accept-own?                      empty
+       |  |  |  +--rw evpn
+       |  |  |  |  +--rw signaling!
+       |  |  |  +--rw route-target!
+       |  |  +--rw authentication-key?         string
+       |  |  +--rw authentication-algorithm?   enumeration
+       |  |  +--rw tcpao-auth-mismatch?        enumeration
+       |  |  +--rw authentication-key-chain?   string
+       |  |  +--rw export*                     jt:policy-algebra
+       |  |  +--rw tcp-mss?                    uint32
+       |  |  +--rw neighbor* [name]
+       |  |     +--rw name           jt:ipaddr-scoped
+       |  |     +--rw description?   string
+       |  |     +--rw passive?       empty
+       |  +--rw log-updown?       empty
+       +--rw isis
+       |  +--rw interface* [name]
+       |  |  +--rw name                   jt:interface-name
+       |  |  +--rw ldp-synchronization!
+       |  |  |  +--rw (enable-disable)?
+       |  |  |  |  +--:(case_1)
+       |  |  |  |     +--rw disable?   empty
+       |  |  |  +--rw hold-time?       uint32
+       |  |  +--rw level* [name]
+       |  |  |  +--rw name             uint32
+       |  |  |  +--rw (enable-disable)?
+       |  |  |  |  +--:(case_1)
+       |  |  |  |     +--rw disable?   empty
+       |  |  |  +--rw metric?          uint32
+       |  |  +--rw lsp-interval?          uint32
+       |  |  +--rw point-to-point?        empty
+       |  |  +--rw passive!
+       |  |  |  +--rw remote-node-iso?   jt:sysid
+       |  |  |  +--rw remote-node-id?    jt:ipv4addr
+       |  |  +--rw family* [name]
+       |  |     +--rw name                      enumeration
+       |  |     +--rw bfd-liveness-detection
+       |  |        +--rw version?                     enumeration
+       |  |        +--rw minimum-interval?            uint32
+       |  |        x--rw minimum-transmit-interval?   uint32
+       |  |        +--rw minimum-receive-interval?    uint32
+       |  |        +--rw multiplier?                  uint32
+       |  |        +--rw inline-disable?              empty
+       |  |        +--rw pdu-size?                    uint32
+       |  |        +--rw (adaptation-choice)?
+       |  |        |  +--:(case_1)
+       |  |        |     +--rw no-adaptation?         empty
+       |  |        +--rw transmit-interval
+       |  |        |  +--rw minimum-interval?   uint32
+       |  |        |  +--rw threshold?          uint32
+       |  |        +--rw detection-time
+       |  |        |  +--rw threshold?   uint32
+       |  |        +--rw authentication
+       |  |        |  +--rw key-chain?     string
+       |  |        |  +--rw algorithm?     enumeration
+       |  |        |  +--rw loose-check?   empty
+       |  |        +--rw echo
+       |  |        |  +--rw minimum-interval?   uint32
+       |  |        +--rw echo-lite
+       |  |        |  +--rw minimum-interval?   uint32
+       |  |        +--rw holddown-interval?           uint32
+       |  +--rw source-packet-routing!
+       |  |  +--rw adjacency-segment
+       |  |  |  +--rw hold-time?   uint32
+       |  |  +--rw udp-tunneling
+       |  |  |  +--rw encapsulation?   empty
+       |  |  |  +--rw decapsulation?   empty
+       |  |  +--rw srgb
+       |  |  |  +--rw start-label?   uint32
+       |  |  |  +--rw index-range?   uint32
+       |  |  +--rw node-segment
+       |  |  |  +--rw ipv4-index?    uint32
+       |  |  |  +--rw ipv6-index?    uint32
+       |  |  |  +--rw index-range?   uint32
+       |  |  +--rw flex-algorithm*                     uint32
+       |  |  +--rw use-flex-algorithm-metric-always?   empty
+       |  |  +--rw strict-asla-based-flex-algorithm?   empty
+       |  |  +--rw new-capability-subtlv?              empty
+       |  |  +--rw explicit-null?                      empty
+       |  |  +--rw mapping-server?                     string
+       |  |  +--rw no-strict-spf?                      empty
+       |  |  +--rw no-binding-sid-leaking?             empty
+       |  |  +--rw ldp-stitching?                      empty
+       |  |  +--rw srv6!
+       |  |  |  +--rw locator* [name]
+       |  |  |     +--rw name               string
+       |  |  |     +--rw anycast?           empty
+       |  |  |     +--rw end-sid* [name]
+       |  |  |     |  +--rw name      jt:ipv6addr
+       |  |  |     |  +--rw flavor!
+       |  |  |     |     +--rw psp?   empty
+       |  |  |     |     +--rw usp?   empty
+       |  |  |     |     +--rw usd?   empty
+       |  |  |     +--rw dynamic-end-sid!
+       |  |  |     |  +--rw flavor!
+       |  |  |     |     +--rw psp?   empty
+       |  |  |     |     +--rw usp?   empty
+       |  |  |     |     +--rw usd?   empty
+       |  |  |     +--rw micro-node-sid?    empty
+       |  |  +--rw sensor-based-stats
+       |  |  |  +--rw per-interface-per-member-link
+       |  |  |  |  +--rw ingress?   empty
+       |  |  |  |  +--rw egress?    empty
+       |  |  |  +--rw per-sid
+       |  |  |  |  +--rw ingress?   empty
+       |  |  |  |  +--rw egress?    empty
+       |  |  |  +--rw subscribe!
+       |  |  |     +--rw interval?   uint32
+       |  |  +--rw traffic-statistics
+       |  |     +--rw statistics-granularity
+       |  |     |  +--rw per-interface?   empty
+       |  |     +--rw congestion-protection?    empty
+       |  |     +--rw auto-bandwidth?           string
+       |  +--rw level* [name]
+       |  |  +--rw name                       uint32
+       |  |  +--rw (enable-disable)?
+       |  |  |  +--:(case_1)
+       |  |  |     +--rw disable?             empty
+       |  |  +--rw authentication-key?        jt:unreadable
+       |  |  +--rw authentication-type?       enumeration
+       |  |  +--rw no-hello-authentication?   empty
+       |  |  +--rw no-csnp-authentication?    empty
+       |  |  +--rw no-psnp-authentication?    empty
+       |  |  +--rw wide-metrics-only?         empty
+       |  +--rw lsp-lifetime?            uint32
+       +--rw ldp
+       |  +--rw traffic-statistics
+       |  |  +--rw file
+       |  |  |  +--rw filename?                  string
+       |  |  |  x--rw replace?                   empty
+       |  |  |  +--rw size?                      string
+       |  |  |  +--rw files?                     uint32
+       |  |  |  x--rw no-stamp?                  empty
+       |  |  |  +--rw (world-readable-choice)?
+       |  |  |     +--:(world-readable)
+       |  |  |     |  +--rw world-readable?      empty
+       |  |  |     +--:(no-world-readable)
+       |  |  |        +--rw no-world-readable?   empty
+       |  |  +--rw interval?             int32
+       |  |  +--rw sensor-based-stats?   empty
+       |  |  +--rw no-penultimate-hop?   empty
+       |  +--rw preference?           uint32
+       |  +--rw transport-address
+       |  |  +--rw (address-choice)?
+       |  |     +--:(case_1)
+       |  |     |  +--rw router-id?   empty
+       |  |     +--:(case_2)
+       |  |     |  +--rw interface?   empty
+       |  |     +--:(case_3)
+       |  |        +--rw address?     jt:ipaddr
+       |  +--rw interface* [name]
+       |     +--rw name                              jt:interface-name
+       |     +--rw (enable-disable)?
+       |     |  +--:(case_1)
+       |     |     +--rw disable?                    empty
+       |     +--rw hello-interval?                   uint32
+       |     +--rw hold-time?                        uint32
+       |     +--rw link-protection!
+       |     |  +--rw (enable-disable)?
+       |     |  |  +--:(case_1)
+       |     |  |     +--rw disable?      empty
+       |     |  +--rw dynamic-rsvp-lsp?   empty
+       |     +--rw transport-address
+       |     |  +--rw (address-choice)?
+       |     |     +--:(case_1)
+       |     |     |  +--rw router-id?   empty
+       |     |     +--:(case_2)
+       |     |     |  +--rw interface?   empty
+       |     |     +--:(case_3)
+       |     |        +--rw address?     jt:ipaddr
+       |     +--rw (allow-subnet-mismatch-choice)?
+       |        +--:(allow-subnet-mismatch)
+       |        |  +--rw allow-subnet-mismatch?      empty
+       |        +--:(no-allow-subnet-mismatch)
+       |           +--rw no-allow-subnet-mismatch?   empty
+       +--rw mpls
+          +--rw no-propagate-ttl?   empty
+          +--rw ipv6-tunneling?     empty
+          +--rw interface* [name]
+             +--rw name                                     jt:interface-name
+             +--rw (enable-disable)?
+             |  +--:(case_1)
+             |     +--rw disable?                           empty
+             +--rw srlg*                                    string
+             +--rw always-mark-connection-protection-tlv?   empty
+             +--rw switch-away-lsps?                        empty
+             +--rw admin-group*                             string
+             +--rw admin-group-extended*                    string
+             +--rw static
+                +--rw protection-revert-time?   uint32

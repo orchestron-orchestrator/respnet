@@ -1360,37 +1360,53 @@ mut def from_json_orchestron_rfs__rfs__base_config__ipv4_address(val: value) -> 
 mut def from_json_orchestron_rfs__rfs__base_config__ipv6_address(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
+mut def from_json_orchestron_rfs__rfs__base_config__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__base_config__ibgp_authentication_key(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
 class orchestron_rfs__rfs__base_config_entry(yang.adata.MNode):
     name: str
     ipv4_address: ?str
     ipv6_address: ?str
+    asn: ?int
+    ibgp_authentication_key: ?str
 
-    mut def __init__(self, name: str, ipv4_address: ?str, ipv6_address: ?str):
+    mut def __init__(self, name: str, ipv4_address: ?str, ipv6_address: ?str, asn: ?int, ibgp_authentication_key: ?str):
         self._ns = "http://example.com/respnet-rfs"
         self.name = name
         self.ipv4_address = ipv4_address
         self.ipv6_address = ipv6_address
+        self.asn = asn
+        self.ibgp_authentication_key = ibgp_authentication_key
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
         _ipv4_address = self.ipv4_address
         _ipv6_address = self.ipv6_address
+        _asn = self.asn
+        _ibgp_authentication_key = self.ibgp_authentication_key
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _ipv4_address is not None:
             children['ipv4-address'] = yang.gdata.Leaf('string', _ipv4_address)
         if _ipv6_address is not None:
             children['ipv6-address'] = yang.gdata.Leaf('string', _ipv6_address)
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
+        if _ibgp_authentication_key is not None:
+            children['ibgp-authentication-key'] = yang.gdata.Leaf('string', _ibgp_authentication_key)
         return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> orchestron_rfs__rfs__base_config_entry:
-        return orchestron_rfs__rfs__base_config_entry(name=n.get_str("name"), ipv4_address=n.get_str("ipv4-address"), ipv6_address=n.get_str("ipv6-address"))
+        return orchestron_rfs__rfs__base_config_entry(name=n.get_str("name"), ipv4_address=n.get_str("ipv4-address"), ipv6_address=n.get_str("ipv6-address"), asn=n.get_int("asn"), ibgp_authentication_key=n.get_str("ibgp-authentication-key"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> orchestron_rfs__rfs__base_config_entry:
-        return orchestron_rfs__rfs__base_config_entry(name=yang.gdata.from_xml_str(n, "name"), ipv4_address=yang.gdata.from_xml_str(n, "ipv4-address"), ipv6_address=yang.gdata.from_xml_str(n, "ipv6-address"))
+        return orchestron_rfs__rfs__base_config_entry(name=yang.gdata.from_xml_str(n, "name"), ipv4_address=yang.gdata.from_xml_str(n, "ipv4-address"), ipv6_address=yang.gdata.from_xml_str(n, "ipv6-address"), asn=yang.gdata.from_xml_int(n, "asn"), ibgp_authentication_key=yang.gdata.from_xml_str(n, "ibgp-authentication-key"))
 
 class orchestron_rfs__rfs__base_config(yang.adata.MNode):
     elements: list[orchestron_rfs__rfs__base_config_entry]
@@ -1399,7 +1415,7 @@ class orchestron_rfs__rfs__base_config(yang.adata.MNode):
         self._name = 'base-config'
         self.elements = elements
 
-    mut def create(self, name, ipv4_address, ipv6_address):
+    mut def create(self, name, ipv4_address, ipv6_address, asn, ibgp_authentication_key):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -1408,7 +1424,7 @@ class orchestron_rfs__rfs__base_config(yang.adata.MNode):
             if match:
                 return e
 
-        res = orchestron_rfs__rfs__base_config_entry(name, ipv4_address, ipv6_address)
+        res = orchestron_rfs__rfs__base_config_entry(name, ipv4_address, ipv6_address, asn, ibgp_authentication_key)
         self.elements.append(res)
         return res
 
@@ -1458,6 +1474,10 @@ mut def from_json_path_orchestron_rfs__rfs__base_config_element(jd: value, path:
             raise ValueError("Invalid json path to non-inner node")
         if point == 'ipv6-address':
             raise ValueError("Invalid json path to non-inner node")
+        if point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'ibgp-authentication-key':
+            raise ValueError("Invalid json path to non-inner node")
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -1500,6 +1520,14 @@ mut def from_json_orchestron_rfs__rfs__base_config_element(jd: dict[str, ?value]
     child_ipv6_address = child_ipv6_address_full if child_ipv6_address_full is not None else jd.get('ipv6-address')
     if child_ipv6_address is not None:
         children['ipv6-address'] = from_json_orchestron_rfs__rfs__base_config__ipv6_address(child_ipv6_address)
+    child_asn_full = jd.get('respnet-rfs:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_orchestron_rfs__rfs__base_config__asn(child_asn)
+    child_ibgp_authentication_key_full = jd.get('respnet-rfs:ibgp-authentication-key')
+    child_ibgp_authentication_key = child_ibgp_authentication_key_full if child_ibgp_authentication_key_full is not None else jd.get('ibgp-authentication-key')
+    if child_ibgp_authentication_key is not None:
+        children['ibgp-authentication-key'] = from_json_orchestron_rfs__rfs__base_config__ibgp_authentication_key(child_ibgp_authentication_key)
     return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
 
 mut def from_json_orchestron_rfs__rfs__base_config(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -1523,6 +1551,14 @@ mut def to_json_orchestron_rfs__rfs__base_config_element(n: yang.gdata.ListEleme
     if child_ipv6_address is not None:
         if isinstance(child_ipv6_address, yang.gdata.Leaf):
             children['ipv6-address'] = child_ipv6_address.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
+    child_ibgp_authentication_key = n.children.get('ibgp-authentication-key')
+    if child_ibgp_authentication_key is not None:
+        if isinstance(child_ibgp_authentication_key, yang.gdata.Leaf):
+            children['ibgp-authentication-key'] = child_ibgp_authentication_key.val
     return children
 
 mut def to_json_orchestron_rfs__rfs__base_config(n: yang.gdata.List) -> list[dict[str, ?value]]:
@@ -1854,38 +1890,243 @@ mut def to_json_orchestron_rfs__rfs__backbone_interface(n: yang.gdata.List) -> l
     return elements
 
 
+mut def from_json_orchestron_rfs__rfs__ibgp_neighbor__address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("union", val)
+
+mut def from_json_orchestron_rfs__rfs__ibgp_neighbor__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__ibgp_neighbor__description(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+class orchestron_rfs__rfs__ibgp_neighbor_entry(yang.adata.MNode):
+    address: str
+    asn: ?int
+    description: ?str
+
+    mut def __init__(self, address: str, asn: ?int, description: ?str):
+        self._ns = "http://example.com/respnet-rfs"
+        self.address = address
+        self.asn = asn
+        self.description = description
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _address = self.address
+        _asn = self.asn
+        _description = self.description
+        if _address is not None:
+            children['address'] = yang.gdata.Leaf('union', _address)
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
+        if _description is not None:
+            children['description'] = yang.gdata.Leaf('string', _description)
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.address)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> orchestron_rfs__rfs__ibgp_neighbor_entry:
+        return orchestron_rfs__rfs__ibgp_neighbor_entry(address=n.get_str("address"), asn=n.get_int("asn"), description=n.get_str("description"))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> orchestron_rfs__rfs__ibgp_neighbor_entry:
+        return orchestron_rfs__rfs__ibgp_neighbor_entry(address=yang.gdata.from_xml_str(n, "address"), asn=yang.gdata.from_xml_int(n, "asn"), description=yang.gdata.from_xml_str(n, "description"))
+
+class orchestron_rfs__rfs__ibgp_neighbor(yang.adata.MNode):
+    elements: list[orchestron_rfs__rfs__ibgp_neighbor_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://example.com/respnet-rfs"
+        self._name = 'ibgp-neighbor'
+        self.elements = elements
+
+    mut def create(self, address, asn, description):
+        for e in self.elements:
+            match = True
+            if e.address != address:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = orchestron_rfs__rfs__ibgp_neighbor_entry(address, asn, description)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['address'], elements, ns='http://example.com/respnet-rfs')
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[orchestron_rfs__rfs__ibgp_neighbor_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(orchestron_rfs__rfs__ibgp_neighbor_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[orchestron_rfs__rfs__ibgp_neighbor_entry]:
+        res = []
+        for node in nodes:
+            res.append(orchestron_rfs__rfs__ibgp_neighbor_entry.from_xml(node))
+        return res
+
+
+mut def from_json_path_orchestron_rfs__rfs__ibgp_neighbor_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        val = from_json_orchestron_rfs__rfs__ibgp_neighbor_element(jd_dict)
+        if op == "merge":
+            return val
+        elif op == "remove":
+            return yang.gdata.AbsentListElement(val.key_vals)
+        raise ValueError("Invalid operation")
+    elif len(path) > 1:
+        keys = path[0].split(",")
+        point = path[1]
+        rest_path = path[2:]
+        children: dict[str, yang.gdata.Node] = {}
+        for idx, key in enumerate(['address']):
+            children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'description':
+            raise ValueError("Invalid json path to non-inner node")
+        return yang.gdata.ListElement(keys, children)
+    raise ValueError("unreachable - no keys to list element")
+
+mut def from_json_path_orchestron_rfs__rfs__ibgp_neighbor(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        # Check that all keys are present in payload.
+        # If present, they must equal the keys in the path
+        # If not present, fill in from path
+        for key in ['address']:
+            if key not in jd_dict:
+                jd_dict[key] = keys.pop(0)
+            else:
+                if str(jd_dict[key]) != keys.pop(0):
+                    raise ValueError("Key value mismatch between path and payload")
+        element = from_json_orchestron_rfs__rfs__ibgp_neighbor_element(jd_dict)
+        elements = []
+        if op == "merge":
+            elements.append(element)
+        elif op == "remove":
+            elements.append(yang.gdata.AbsentListElement(element.key_vals))
+        return yang.gdata.List(['address'], elements)
+    elif len(path) > 1:
+        return yang.gdata.List(['address'], [from_json_path_orchestron_rfs__rfs__ibgp_neighbor_element(jd, path, op)])
+    raise ValueError("Unable to resolve path, no keys provided")
+
+mut def from_json_orchestron_rfs__rfs__ibgp_neighbor_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
+    children = {}
+    child_address_full = jd.get('respnet-rfs:address')
+    child_address = child_address_full if child_address_full is not None else jd.get('address')
+    if child_address is not None:
+        children['address'] = from_json_orchestron_rfs__rfs__ibgp_neighbor__address(child_address)
+    child_asn_full = jd.get('respnet-rfs:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_orchestron_rfs__rfs__ibgp_neighbor__asn(child_asn)
+    child_description_full = jd.get('respnet-rfs:description')
+    child_description = child_description_full if child_description_full is not None else jd.get('description')
+    if child_description is not None:
+        children['description'] = from_json_orchestron_rfs__rfs__ibgp_neighbor__description(child_description)
+    return yang.gdata.ListElement([str(child_address if child_address is not None else "")], children)
+
+mut def from_json_orchestron_rfs__rfs__ibgp_neighbor(jd: list[dict[str, ?value]]) -> yang.gdata.List:
+    elements = []
+    for e in jd:
+        if isinstance(e, dict):
+            elements.append(from_json_orchestron_rfs__rfs__ibgp_neighbor_element(e))
+    return yang.gdata.List(keys=['address'], elements=elements, user_order=False, ns=None, prefix=None)
+
+mut def to_json_orchestron_rfs__rfs__ibgp_neighbor_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
+    children = {}
+    child_address = n.children.get('address')
+    if child_address is not None:
+        if isinstance(child_address, yang.gdata.Leaf):
+            children['address'] = child_address.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
+    child_description = n.children.get('description')
+    if child_description is not None:
+        if isinstance(child_description, yang.gdata.Leaf):
+            children['description'] = child_description.val
+    return children
+
+mut def to_json_orchestron_rfs__rfs__ibgp_neighbor(n: yang.gdata.List) -> list[dict[str, ?value]]:
+    elements = []
+    for e in n.elements:
+        elements.append(to_json_orchestron_rfs__rfs__ibgp_neighbor_element(e))
+    return elements
+
+
 mut def from_json_orchestron_rfs__rfs__vrf__name(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
 mut def from_json_orchestron_rfs__rfs__vrf__description(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
+mut def from_json_orchestron_rfs__rfs__vrf__id(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__vrf__router_id(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__vrf__asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
 class orchestron_rfs__rfs__vrf_entry(yang.adata.MNode):
     name: str
     description: ?str
+    id: ?int
+    router_id: ?int
+    asn: ?int
 
-    mut def __init__(self, name: str, description: ?str):
+    mut def __init__(self, name: str, description: ?str, id: ?int, router_id: ?int, asn: ?int):
         self._ns = "http://example.com/respnet-rfs"
         self.name = name
         self.description = description
+        self.id = id
+        self.router_id = router_id
+        self.asn = asn
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
         _description = self.description
+        _id = self.id
+        _router_id = self.router_id
+        _asn = self.asn
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _description is not None:
             children['description'] = yang.gdata.Leaf('string', _description)
+        if _id is not None:
+            children['id'] = yang.gdata.Leaf('uint32', _id)
+        if _router_id is not None:
+            children['router-id'] = yang.gdata.Leaf('uint32', _router_id)
+        if _asn is not None:
+            children['asn'] = yang.gdata.Leaf('uint32', _asn)
         return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> orchestron_rfs__rfs__vrf_entry:
-        return orchestron_rfs__rfs__vrf_entry(name=n.get_str("name"), description=n.get_opt_str("description"))
+        return orchestron_rfs__rfs__vrf_entry(name=n.get_str("name"), description=n.get_opt_str("description"), id=n.get_int("id"), router_id=n.get_int("router-id"), asn=n.get_int("asn"))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> orchestron_rfs__rfs__vrf_entry:
-        return orchestron_rfs__rfs__vrf_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"))
+        return orchestron_rfs__rfs__vrf_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"), id=yang.gdata.from_xml_int(n, "id"), router_id=yang.gdata.from_xml_int(n, "router-id"), asn=yang.gdata.from_xml_int(n, "asn"))
 
 class orchestron_rfs__rfs__vrf(yang.adata.MNode):
     elements: list[orchestron_rfs__rfs__vrf_entry]
@@ -1894,7 +2135,7 @@ class orchestron_rfs__rfs__vrf(yang.adata.MNode):
         self._name = 'vrf'
         self.elements = elements
 
-    mut def create(self, name):
+    mut def create(self, name, id, router_id, asn):
         for e in self.elements:
             match = True
             if e.name != name:
@@ -1903,7 +2144,7 @@ class orchestron_rfs__rfs__vrf(yang.adata.MNode):
             if match:
                 return e
 
-        res = orchestron_rfs__rfs__vrf_entry(name)
+        res = orchestron_rfs__rfs__vrf_entry(name, id, router_id, asn)
         self.elements.append(res)
         return res
 
@@ -1951,6 +2192,12 @@ mut def from_json_path_orchestron_rfs__rfs__vrf_element(jd: value, path: list[st
             children[key] = yang.gdata.Leaf("str", keys[idx])
         if point == 'description':
             raise ValueError("Invalid json path to non-inner node")
+        if point == 'id':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'router-id':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'asn':
+            raise ValueError("Invalid json path to non-inner node")
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -1989,6 +2236,18 @@ mut def from_json_orchestron_rfs__rfs__vrf_element(jd: dict[str, ?value]) -> yan
     child_description = child_description_full if child_description_full is not None else jd.get('description')
     if child_description is not None:
         children['description'] = from_json_orchestron_rfs__rfs__vrf__description(child_description)
+    child_id_full = jd.get('respnet-rfs:id')
+    child_id = child_id_full if child_id_full is not None else jd.get('id')
+    if child_id is not None:
+        children['id'] = from_json_orchestron_rfs__rfs__vrf__id(child_id)
+    child_router_id_full = jd.get('respnet-rfs:router-id')
+    child_router_id = child_router_id_full if child_router_id_full is not None else jd.get('router-id')
+    if child_router_id is not None:
+        children['router-id'] = from_json_orchestron_rfs__rfs__vrf__router_id(child_router_id)
+    child_asn_full = jd.get('respnet-rfs:asn')
+    child_asn = child_asn_full if child_asn_full is not None else jd.get('asn')
+    if child_asn is not None:
+        children['asn'] = from_json_orchestron_rfs__rfs__vrf__asn(child_asn)
     return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
 
 mut def from_json_orchestron_rfs__rfs__vrf(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -2008,6 +2267,18 @@ mut def to_json_orchestron_rfs__rfs__vrf_element(n: yang.gdata.ListElement) -> d
     if child_description is not None:
         if isinstance(child_description, yang.gdata.Leaf):
             children['description'] = child_description.val
+    child_id = n.children.get('id')
+    if child_id is not None:
+        if isinstance(child_id, yang.gdata.Leaf):
+            children['id'] = child_id.val
+    child_router_id = n.children.get('router-id')
+    if child_router_id is not None:
+        if isinstance(child_router_id, yang.gdata.Leaf):
+            children['router-id'] = child_router_id.val
+    child_asn = n.children.get('asn')
+    if child_asn is not None:
+        if isinstance(child_asn, yang.gdata.Leaf):
+            children['asn'] = child_asn.val
     return children
 
 mut def to_json_orchestron_rfs__rfs__vrf(n: yang.gdata.List) -> list[dict[str, ?value]]:
@@ -2237,51 +2508,299 @@ mut def to_json_orchestron_rfs__rfs__vrf_interface(n: yang.gdata.List) -> list[d
     return elements
 
 
+mut def from_json_orchestron_rfs__rfs__ebgp_customer__vrf(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer__address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("union", val)
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer__local_asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer__peer_asn(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer__description(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer__authentication_key(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+class orchestron_rfs__rfs__ebgp_customer_entry(yang.adata.MNode):
+    vrf: str
+    address: str
+    local_asn: ?int
+    peer_asn: ?int
+    description: ?str
+    authentication_key: ?str
+
+    mut def __init__(self, vrf: str, address: str, local_asn: ?int, peer_asn: ?int, description: ?str, authentication_key: ?str):
+        self._ns = "http://example.com/respnet-rfs"
+        self.vrf = vrf
+        self.address = address
+        self.local_asn = local_asn
+        self.peer_asn = peer_asn
+        self.description = description
+        self.authentication_key = authentication_key
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _vrf = self.vrf
+        _address = self.address
+        _local_asn = self.local_asn
+        _peer_asn = self.peer_asn
+        _description = self.description
+        _authentication_key = self.authentication_key
+        if _vrf is not None:
+            children['vrf'] = yang.gdata.Leaf('string', _vrf)
+        if _address is not None:
+            children['address'] = yang.gdata.Leaf('union', _address)
+        if _local_asn is not None:
+            children['local-asn'] = yang.gdata.Leaf('uint32', _local_asn)
+        if _peer_asn is not None:
+            children['peer-asn'] = yang.gdata.Leaf('uint32', _peer_asn)
+        if _description is not None:
+            children['description'] = yang.gdata.Leaf('string', _description)
+        if _authentication_key is not None:
+            children['authentication-key'] = yang.gdata.Leaf('string', _authentication_key)
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.vrf), yang.gdata.yang_str(self.address)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> orchestron_rfs__rfs__ebgp_customer_entry:
+        return orchestron_rfs__rfs__ebgp_customer_entry(vrf=n.get_str("vrf"), address=n.get_str("address"), local_asn=n.get_int("local-asn"), peer_asn=n.get_int("peer-asn"), description=n.get_opt_str("description"), authentication_key=n.get_str("authentication-key"))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> orchestron_rfs__rfs__ebgp_customer_entry:
+        return orchestron_rfs__rfs__ebgp_customer_entry(vrf=yang.gdata.from_xml_str(n, "vrf"), address=yang.gdata.from_xml_str(n, "address"), local_asn=yang.gdata.from_xml_int(n, "local-asn"), peer_asn=yang.gdata.from_xml_int(n, "peer-asn"), description=yang.gdata.from_xml_opt_str(n, "description"), authentication_key=yang.gdata.from_xml_str(n, "authentication-key"))
+
+class orchestron_rfs__rfs__ebgp_customer(yang.adata.MNode):
+    elements: list[orchestron_rfs__rfs__ebgp_customer_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://example.com/respnet-rfs"
+        self._name = 'ebgp-customer'
+        self.elements = elements
+
+    mut def create(self, vrf, address, local_asn, peer_asn, authentication_key):
+        for e in self.elements:
+            match = True
+            if e.vrf != vrf:
+                match = False
+                continue
+            if e.address != address:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = orchestron_rfs__rfs__ebgp_customer_entry(vrf, address, local_asn, peer_asn, authentication_key)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['vrf', 'address'], elements, ns='http://example.com/respnet-rfs')
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[orchestron_rfs__rfs__ebgp_customer_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(orchestron_rfs__rfs__ebgp_customer_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[orchestron_rfs__rfs__ebgp_customer_entry]:
+        res = []
+        for node in nodes:
+            res.append(orchestron_rfs__rfs__ebgp_customer_entry.from_xml(node))
+        return res
+
+
+mut def from_json_path_orchestron_rfs__rfs__ebgp_customer_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        val = from_json_orchestron_rfs__rfs__ebgp_customer_element(jd_dict)
+        if op == "merge":
+            return val
+        elif op == "remove":
+            return yang.gdata.AbsentListElement(val.key_vals)
+        raise ValueError("Invalid operation")
+    elif len(path) > 1:
+        keys = path[0].split(",")
+        point = path[1]
+        rest_path = path[2:]
+        children: dict[str, yang.gdata.Node] = {}
+        for idx, key in enumerate(['vrf', 'address']):
+            children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'local-asn':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'peer-asn':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'description':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'authentication-key':
+            raise ValueError("Invalid json path to non-inner node")
+        return yang.gdata.ListElement(keys, children)
+    raise ValueError("unreachable - no keys to list element")
+
+mut def from_json_path_orchestron_rfs__rfs__ebgp_customer(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        # Check that all keys are present in payload.
+        # If present, they must equal the keys in the path
+        # If not present, fill in from path
+        for key in ['vrf', 'address']:
+            if key not in jd_dict:
+                jd_dict[key] = keys.pop(0)
+            else:
+                if str(jd_dict[key]) != keys.pop(0):
+                    raise ValueError("Key value mismatch between path and payload")
+        element = from_json_orchestron_rfs__rfs__ebgp_customer_element(jd_dict)
+        elements = []
+        if op == "merge":
+            elements.append(element)
+        elif op == "remove":
+            elements.append(yang.gdata.AbsentListElement(element.key_vals))
+        return yang.gdata.List(['vrf', 'address'], elements)
+    elif len(path) > 1:
+        return yang.gdata.List(['vrf', 'address'], [from_json_path_orchestron_rfs__rfs__ebgp_customer_element(jd, path, op)])
+    raise ValueError("Unable to resolve path, no keys provided")
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
+    children = {}
+    child_vrf_full = jd.get('respnet-rfs:vrf')
+    child_vrf = child_vrf_full if child_vrf_full is not None else jd.get('vrf')
+    if child_vrf is not None:
+        children['vrf'] = from_json_orchestron_rfs__rfs__ebgp_customer__vrf(child_vrf)
+    child_address_full = jd.get('respnet-rfs:address')
+    child_address = child_address_full if child_address_full is not None else jd.get('address')
+    if child_address is not None:
+        children['address'] = from_json_orchestron_rfs__rfs__ebgp_customer__address(child_address)
+    child_local_asn_full = jd.get('respnet-rfs:local-asn')
+    child_local_asn = child_local_asn_full if child_local_asn_full is not None else jd.get('local-asn')
+    if child_local_asn is not None:
+        children['local-asn'] = from_json_orchestron_rfs__rfs__ebgp_customer__local_asn(child_local_asn)
+    child_peer_asn_full = jd.get('respnet-rfs:peer-asn')
+    child_peer_asn = child_peer_asn_full if child_peer_asn_full is not None else jd.get('peer-asn')
+    if child_peer_asn is not None:
+        children['peer-asn'] = from_json_orchestron_rfs__rfs__ebgp_customer__peer_asn(child_peer_asn)
+    child_description_full = jd.get('respnet-rfs:description')
+    child_description = child_description_full if child_description_full is not None else jd.get('description')
+    if child_description is not None:
+        children['description'] = from_json_orchestron_rfs__rfs__ebgp_customer__description(child_description)
+    child_authentication_key_full = jd.get('respnet-rfs:authentication-key')
+    child_authentication_key = child_authentication_key_full if child_authentication_key_full is not None else jd.get('authentication-key')
+    if child_authentication_key is not None:
+        children['authentication-key'] = from_json_orchestron_rfs__rfs__ebgp_customer__authentication_key(child_authentication_key)
+    return yang.gdata.ListElement([str(child_vrf if child_vrf is not None else ""), str(child_address if child_address is not None else "")], children)
+
+mut def from_json_orchestron_rfs__rfs__ebgp_customer(jd: list[dict[str, ?value]]) -> yang.gdata.List:
+    elements = []
+    for e in jd:
+        if isinstance(e, dict):
+            elements.append(from_json_orchestron_rfs__rfs__ebgp_customer_element(e))
+    return yang.gdata.List(keys=['vrf', 'address'], elements=elements, user_order=False, ns=None, prefix=None)
+
+mut def to_json_orchestron_rfs__rfs__ebgp_customer_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
+    children = {}
+    child_vrf = n.children.get('vrf')
+    if child_vrf is not None:
+        if isinstance(child_vrf, yang.gdata.Leaf):
+            children['vrf'] = child_vrf.val
+    child_address = n.children.get('address')
+    if child_address is not None:
+        if isinstance(child_address, yang.gdata.Leaf):
+            children['address'] = child_address.val
+    child_local_asn = n.children.get('local-asn')
+    if child_local_asn is not None:
+        if isinstance(child_local_asn, yang.gdata.Leaf):
+            children['local-asn'] = child_local_asn.val
+    child_peer_asn = n.children.get('peer-asn')
+    if child_peer_asn is not None:
+        if isinstance(child_peer_asn, yang.gdata.Leaf):
+            children['peer-asn'] = child_peer_asn.val
+    child_description = n.children.get('description')
+    if child_description is not None:
+        if isinstance(child_description, yang.gdata.Leaf):
+            children['description'] = child_description.val
+    child_authentication_key = n.children.get('authentication-key')
+    if child_authentication_key is not None:
+        if isinstance(child_authentication_key, yang.gdata.Leaf):
+            children['authentication-key'] = child_authentication_key.val
+    return children
+
+mut def to_json_orchestron_rfs__rfs__ebgp_customer(n: yang.gdata.List) -> list[dict[str, ?value]]:
+    elements = []
+    for e in n.elements:
+        elements.append(to_json_orchestron_rfs__rfs__ebgp_customer_element(e))
+    return elements
+
+
 class orchestron_rfs__rfs_entry(yang.adata.MNode):
     name: str
     base_config: orchestron_rfs__rfs__base_config
     backbone_interface: orchestron_rfs__rfs__backbone_interface
+    ibgp_neighbor: orchestron_rfs__rfs__ibgp_neighbor
     vrf: orchestron_rfs__rfs__vrf
     vrf_interface: orchestron_rfs__rfs__vrf_interface
+    ebgp_customer: orchestron_rfs__rfs__ebgp_customer
 
-    mut def __init__(self, name: str, base_config: list[orchestron_rfs__rfs__base_config_entry]=[], backbone_interface: list[orchestron_rfs__rfs__backbone_interface_entry]=[], vrf: list[orchestron_rfs__rfs__vrf_entry]=[], vrf_interface: list[orchestron_rfs__rfs__vrf_interface_entry]=[]):
+    mut def __init__(self, name: str, base_config: list[orchestron_rfs__rfs__base_config_entry]=[], backbone_interface: list[orchestron_rfs__rfs__backbone_interface_entry]=[], ibgp_neighbor: list[orchestron_rfs__rfs__ibgp_neighbor_entry]=[], vrf: list[orchestron_rfs__rfs__vrf_entry]=[], vrf_interface: list[orchestron_rfs__rfs__vrf_interface_entry]=[], ebgp_customer: list[orchestron_rfs__rfs__ebgp_customer_entry]=[]):
         self._ns = "http://orchestron.org/yang/orchestron-rfs.yang"
         self.name = name
         self.base_config = orchestron_rfs__rfs__base_config(elements=base_config)
         self.base_config._parent = self
         self.backbone_interface = orchestron_rfs__rfs__backbone_interface(elements=backbone_interface)
         self.backbone_interface._parent = self
+        self.ibgp_neighbor = orchestron_rfs__rfs__ibgp_neighbor(elements=ibgp_neighbor)
+        self.ibgp_neighbor._parent = self
         self.vrf = orchestron_rfs__rfs__vrf(elements=vrf)
         self.vrf._parent = self
         self.vrf_interface = orchestron_rfs__rfs__vrf_interface(elements=vrf_interface)
         self.vrf_interface._parent = self
+        self.ebgp_customer = orchestron_rfs__rfs__ebgp_customer(elements=ebgp_customer)
+        self.ebgp_customer._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
         _base_config = self.base_config
         _backbone_interface = self.backbone_interface
+        _ibgp_neighbor = self.ibgp_neighbor
         _vrf = self.vrf
         _vrf_interface = self.vrf_interface
+        _ebgp_customer = self.ebgp_customer
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
         if _base_config is not None:
             children['base-config'] = _base_config.to_gdata()
         if _backbone_interface is not None:
             children['backbone-interface'] = _backbone_interface.to_gdata()
+        if _ibgp_neighbor is not None:
+            children['ibgp-neighbor'] = _ibgp_neighbor.to_gdata()
         if _vrf is not None:
             children['vrf'] = _vrf.to_gdata()
         if _vrf_interface is not None:
             children['vrf-interface'] = _vrf_interface.to_gdata()
+        if _ebgp_customer is not None:
+            children['ebgp-customer'] = _ebgp_customer.to_gdata()
         return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> orchestron_rfs__rfs_entry:
-        return orchestron_rfs__rfs_entry(name=n.get_str("name"), base_config=orchestron_rfs__rfs__base_config.from_gdata(n.get_opt_list("base-config")), backbone_interface=orchestron_rfs__rfs__backbone_interface.from_gdata(n.get_opt_list("backbone-interface")), vrf=orchestron_rfs__rfs__vrf.from_gdata(n.get_opt_list("vrf")), vrf_interface=orchestron_rfs__rfs__vrf_interface.from_gdata(n.get_opt_list("vrf-interface")))
+        return orchestron_rfs__rfs_entry(name=n.get_str("name"), base_config=orchestron_rfs__rfs__base_config.from_gdata(n.get_opt_list("base-config")), backbone_interface=orchestron_rfs__rfs__backbone_interface.from_gdata(n.get_opt_list("backbone-interface")), ibgp_neighbor=orchestron_rfs__rfs__ibgp_neighbor.from_gdata(n.get_opt_list("ibgp-neighbor")), vrf=orchestron_rfs__rfs__vrf.from_gdata(n.get_opt_list("vrf")), vrf_interface=orchestron_rfs__rfs__vrf_interface.from_gdata(n.get_opt_list("vrf-interface")), ebgp_customer=orchestron_rfs__rfs__ebgp_customer.from_gdata(n.get_opt_list("ebgp-customer")))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> orchestron_rfs__rfs_entry:
-        return orchestron_rfs__rfs_entry(name=yang.gdata.from_xml_str(n, "name"), base_config=orchestron_rfs__rfs__base_config.from_xml(yang.gdata.get_xml_children(n, "base-config", "http://example.com/respnet-rfs")), backbone_interface=orchestron_rfs__rfs__backbone_interface.from_xml(yang.gdata.get_xml_children(n, "backbone-interface", "http://example.com/respnet-rfs")), vrf=orchestron_rfs__rfs__vrf.from_xml(yang.gdata.get_xml_children(n, "vrf", "http://example.com/respnet-rfs")), vrf_interface=orchestron_rfs__rfs__vrf_interface.from_xml(yang.gdata.get_xml_children(n, "vrf-interface", "http://example.com/respnet-rfs")))
+        return orchestron_rfs__rfs_entry(name=yang.gdata.from_xml_str(n, "name"), base_config=orchestron_rfs__rfs__base_config.from_xml(yang.gdata.get_xml_children(n, "base-config", "http://example.com/respnet-rfs")), backbone_interface=orchestron_rfs__rfs__backbone_interface.from_xml(yang.gdata.get_xml_children(n, "backbone-interface", "http://example.com/respnet-rfs")), ibgp_neighbor=orchestron_rfs__rfs__ibgp_neighbor.from_xml(yang.gdata.get_xml_children(n, "ibgp-neighbor", "http://example.com/respnet-rfs")), vrf=orchestron_rfs__rfs__vrf.from_xml(yang.gdata.get_xml_children(n, "vrf", "http://example.com/respnet-rfs")), vrf_interface=orchestron_rfs__rfs__vrf_interface.from_xml(yang.gdata.get_xml_children(n, "vrf-interface", "http://example.com/respnet-rfs")), ebgp_customer=orchestron_rfs__rfs__ebgp_customer.from_xml(yang.gdata.get_xml_children(n, "ebgp-customer", "http://example.com/respnet-rfs")))
 
 class orchestron_rfs__rfs(yang.adata.MNode):
     elements: list[orchestron_rfs__rfs_entry]
@@ -2349,10 +2868,14 @@ mut def from_json_path_orchestron_rfs__rfs_element(jd: value, path: list[str]=[]
             children['base-config'] = from_json_path_orchestron_rfs__rfs__base_config(jd, rest_path, op)
         if point == 'backbone-interface':
             children['backbone-interface'] = from_json_path_orchestron_rfs__rfs__backbone_interface(jd, rest_path, op)
+        if point == 'ibgp-neighbor':
+            children['ibgp-neighbor'] = from_json_path_orchestron_rfs__rfs__ibgp_neighbor(jd, rest_path, op)
         if point == 'vrf':
             children['vrf'] = from_json_path_orchestron_rfs__rfs__vrf(jd, rest_path, op)
         if point == 'vrf-interface':
             children['vrf-interface'] = from_json_path_orchestron_rfs__rfs__vrf_interface(jd, rest_path, op)
+        if point == 'ebgp-customer':
+            children['ebgp-customer'] = from_json_path_orchestron_rfs__rfs__ebgp_customer(jd, rest_path, op)
         return yang.gdata.ListElement(keys, children)
     raise ValueError("unreachable - no keys to list element")
 
@@ -2395,6 +2918,10 @@ mut def from_json_orchestron_rfs__rfs_element(jd: dict[str, ?value]) -> yang.gda
     child_backbone_interface = child_backbone_interface_full if child_backbone_interface_full is not None else jd.get('backbone-interface')
     if child_backbone_interface is not None and isinstance(child_backbone_interface, list):
         children['backbone-interface'] = from_json_orchestron_rfs__rfs__backbone_interface(child_backbone_interface)
+    child_ibgp_neighbor_full = jd.get('respnet-rfs:ibgp-neighbor')
+    child_ibgp_neighbor = child_ibgp_neighbor_full if child_ibgp_neighbor_full is not None else jd.get('ibgp-neighbor')
+    if child_ibgp_neighbor is not None and isinstance(child_ibgp_neighbor, list):
+        children['ibgp-neighbor'] = from_json_orchestron_rfs__rfs__ibgp_neighbor(child_ibgp_neighbor)
     child_vrf_full = jd.get('respnet-rfs:vrf')
     child_vrf = child_vrf_full if child_vrf_full is not None else jd.get('vrf')
     if child_vrf is not None and isinstance(child_vrf, list):
@@ -2403,6 +2930,10 @@ mut def from_json_orchestron_rfs__rfs_element(jd: dict[str, ?value]) -> yang.gda
     child_vrf_interface = child_vrf_interface_full if child_vrf_interface_full is not None else jd.get('vrf-interface')
     if child_vrf_interface is not None and isinstance(child_vrf_interface, list):
         children['vrf-interface'] = from_json_orchestron_rfs__rfs__vrf_interface(child_vrf_interface)
+    child_ebgp_customer_full = jd.get('respnet-rfs:ebgp-customer')
+    child_ebgp_customer = child_ebgp_customer_full if child_ebgp_customer_full is not None else jd.get('ebgp-customer')
+    if child_ebgp_customer is not None and isinstance(child_ebgp_customer, list):
+        children['ebgp-customer'] = from_json_orchestron_rfs__rfs__ebgp_customer(child_ebgp_customer)
     return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
 
 mut def from_json_orchestron_rfs__rfs(jd: list[dict[str, ?value]]) -> yang.gdata.List:
@@ -2426,6 +2957,10 @@ mut def to_json_orchestron_rfs__rfs_element(n: yang.gdata.ListElement) -> dict[s
     if child_backbone_interface is not None:
         if isinstance(child_backbone_interface, yang.gdata.List):
             children['respnet-rfs:backbone-interface'] = to_json_orchestron_rfs__rfs__backbone_interface(child_backbone_interface)
+    child_ibgp_neighbor = n.children.get('ibgp-neighbor')
+    if child_ibgp_neighbor is not None:
+        if isinstance(child_ibgp_neighbor, yang.gdata.List):
+            children['respnet-rfs:ibgp-neighbor'] = to_json_orchestron_rfs__rfs__ibgp_neighbor(child_ibgp_neighbor)
     child_vrf = n.children.get('vrf')
     if child_vrf is not None:
         if isinstance(child_vrf, yang.gdata.List):
@@ -2434,6 +2969,10 @@ mut def to_json_orchestron_rfs__rfs_element(n: yang.gdata.ListElement) -> dict[s
     if child_vrf_interface is not None:
         if isinstance(child_vrf_interface, yang.gdata.List):
             children['respnet-rfs:vrf-interface'] = to_json_orchestron_rfs__rfs__vrf_interface(child_vrf_interface)
+    child_ebgp_customer = n.children.get('ebgp-customer')
+    if child_ebgp_customer is not None:
+        if isinstance(child_ebgp_customer, yang.gdata.List):
+            children['respnet-rfs:ebgp-customer'] = to_json_orchestron_rfs__rfs__ebgp_customer(child_ebgp_customer)
     return children
 
 mut def to_json_orchestron_rfs__rfs(n: yang.gdata.List) -> list[dict[str, ?value]]:

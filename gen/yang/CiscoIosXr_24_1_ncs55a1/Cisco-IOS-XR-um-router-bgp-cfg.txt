@@ -1,0 +1,173 @@
+module: Cisco-IOS-XR-um-router-bgp-cfg
+  +--rw as-format
+  |  +--rw asdot!
+  |  +--rw asplain!
+  +--rw bmp
+  |  +--rw servers
+  |     +--rw server* [bmp-server-id]
+  |     |  +--rw bmp-server-id             uint32
+  |     |  +--rw shutdown!
+  |     |  +--rw host!
+  |     |  |  +--rw host-name    string
+  |     |  |  +--rw port?        uint32
+  |     |  +--rw initial-delay?            uint32
+  |     |  +--rw flapping-delay?           uint32
+  |     |  +--rw max-buffer-size?          uint32
+  |     |  +--rw initial-refresh
+  |     |  |  +--rw delay!
+  |     |  |  |  +--rw initial-delay    uint32
+  |     |  |  |  +--rw spread?          uint32
+  |     |  |  +--rw skip!
+  |     |  +--rw stats-reporting-period?   uint32
+  |     |  +--rw description?              string
+  |     |  +--rw dscp?                     enumeration
+  |     |  +--rw precedence?               enumeration
+  |     |  +--rw update-source?            xr:Interface-name
+  |     |  +--rw vrf?                      string
+  |     |  +--rw tcp
+  |     |     +--rw keep-alive?   uint32
+  |     |     +--rw mss?          uint32
+  |     +--rw all
+  |        +--rw max-buffer-size?    uint32
+  |        +--rw route-monitoring
+  |           +--rw bmp-modes
+  |              +--rw bmp-mode* [mode-name]
+  |                 +--rw mode-name                 Bmp-mode
+  |                 +--rw advertisement-interval?   uint32
+  |                 +--rw scan-time?                uint32
+  +--rw router
+     +--rw bgp
+        +--rw as* [as-number]
+           +--rw as-number           xr:Bgp-as-number
+           +--rw rpki
+           |  +--rw servers
+           |  |  +--rw server* [server-id]
+           |  |     +--rw server-id        xr:Cisco-ios-xr-string
+           |  |     +--rw bind-source
+           |  |     |  +--rw interface
+           |  |     |     +--rw interface-name?   xr:Interface-name
+           |  |     +--rw preference?      uint32
+           |  |     +--rw refresh-time
+           |  |     |  +--rw refresh-time-value?   uint32
+           |  |     |  +--rw off!
+           |  |     +--rw response-time
+           |  |     |  +--rw response-time-value?   uint32
+           |  |     |  +--rw off!
+           |  |     +--rw purge-time?      uint32
+           |  |     +--rw username?        string
+           |  |     +--rw password?        string
+           |  |     +--rw transport
+           |  |     |  +--rw tcp
+           |  |     |  |  +--rw port?   uint32
+           |  |     |  +--rw ssh
+           |  |     |     +--rw port?   uint32
+           |  |     +--rw shutdown!
+           |  +--rw routes
+           |  |  +--rw route* [address minimum-prefix-length maximum-prefix-length origin-as-number]
+           |  |     +--rw address                  inet:ip-address-no-zone
+           |  |     +--rw minimum-prefix-length    union
+           |  |     +--rw maximum-prefix-length    union
+           |  |     +--rw origin-as-number         uint32
+           |  +--rw datafile?   xr:Cisco-ios-xr-string
+           +--rw address-families
+           |  +--rw address-family* [af-name]
+           |     +--rw af-name    Bgp-address-family
+           +--rw neighbors
+           |  +--rw neighbor* [neighbor-address]
+           |     +--rw neighbor-address    inet:ip-address-no-zone
+           |     +--rw use
+           |     |  +--rw session-group?    string
+           |     |  +--rw neighbor-group?   string
+           |     +--rw description?        string
+           +--rw neighbor-groups
+           |  +--rw neighbor-group* [neighbor-group-name]
+           |     +--rw neighbor-group-name    xr:Cisco-ios-xr-string
+           |     +--rw address-families
+           |     |  +--rw address-family* [af-name]
+           |     |     +--rw af-name    Bgp-address-family
+           |     +--rw remote-as?             xr:Bgp-as-number
+           |     +--rw description?           string
+           |     +--rw password!
+           |     |  +--rw encrypted?             xr:Proprietary-password
+           |     |  +--rw inheritance-disable!
+           |     +--rw update-source?         xr:Interface-name
+           +--rw bgp
+           |  +--rw router-id?   inet:ipv4-address-no-zone
+           +--rw vrfs
+              +--rw vrf* [vrf-name]
+                 +--rw vrf-name            xr:Cisco-ios-xr-string
+                 +--rw address-families
+                 |  +--rw address-family* [af-name]
+                 |     +--rw af-name    Bgp-address-family
+                 +--rw neighbors
+                 |  +--rw neighbor* [neighbor-address]
+                 |     +--rw neighbor-address    inet:ip-address-no-zone
+                 |     +--rw address-families
+                 |     |  +--rw address-family* [af-name]
+                 |     |     +--rw af-name         Bgp-address-family
+                 |     |     +--rw route-policy
+                 |     |     |  +--rw in?          xr:Route-policy-name
+                 |     |     |  +--rw out?         xr:Route-policy-name
+                 |     |     |  +--rw retention
+                 |     |     |     +--rw route-policy-name?   xr:Route-policy-name
+                 |     |     |     +--rw retention-time?      uint32
+                 |     |     +--rw as-override!
+                 |     |        +--rw inheritance-disable!
+                 |     +--rw remote-as?          xr:Bgp-as-number
+                 |     +--rw description?        string
+                 |     +--rw password!
+                 |        +--rw encrypted?             xr:Proprietary-password
+                 |        +--rw inheritance-disable!
+                 +--rw rd!
+                    +--rw auto!
+                    +--rw two-byte-as!
+                    |  +--rw as-number    xr:Bgp-as-number
+                    |  +--rw index        uint32
+                    +--rw four-byte-as!
+                    |  +--rw as-number    xr:Bgp-as-number
+                    |  +--rw index        uint32
+                    +--rw ip-address!
+                       +--rw ipv4-address    inet:ipv4-address-no-zone
+                       +--rw index           uint32
+
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:unicast:
+    +--rw import
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |        +--rw two-byte-as-rt* [as-number index stitching]
+    |           +--rw as-number    uint32
+    |           +--rw index        uint32
+    |           +--rw stitching    boolean
+    +--rw export
+       +--rw route-target
+          +--rw two-byte-as-rts
+             +--rw two-byte-as-rt* [as-number index stitching]
+                +--rw as-number    uint32
+                +--rw index        uint32
+                +--rw stitching    boolean
+  augment /a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:unicast:
+    +--rw import
+    |  +--rw route-target
+    |     +--rw two-byte-as-rts
+    |        +--rw two-byte-as-rt* [as-number index stitching]
+    |           +--rw as-number    uint32
+    |           +--rw index        uint32
+    |           +--rw stitching    boolean
+    +--rw export
+       +--rw route-target
+          +--rw two-byte-as-rts
+             +--rw two-byte-as-rt* [as-number index stitching]
+                +--rw as-number    uint32
+                +--rw index        uint32
+                +--rw stitching    boolean
+  augment /a2:vrfs/a2:vrf:
+    +--rw rd
+       +--rw two-byte-as!
+       |  +--rw as-number    xr:Bgp-as-number
+       |  +--rw index        uint32
+       +--rw four-byte-as!
+       |  +--rw as-number    xr:Bgp-as-number
+       |  +--rw index        uint32
+       +--rw ip-address!
+          +--rw ipv4-address    inet:ipv4-address-no-zone
+          +--rw index           uint32

@@ -1,0 +1,1370 @@
+module Cisco-IOS-XR-um-router-bgp-cfg {
+  namespace "http://cisco.com/ns/yang/Cisco-IOS-XR-um-router-bgp-cfg";
+  prefix "um-router-bgp-cfg";
+  import Cisco-IOS-XR-types {
+    prefix "xr";
+  }
+  import ietf-inet-types {
+    prefix "inet";
+  }
+  import Cisco-IOS-XR-um-vrf-cfg {
+    prefix "a2";
+  }
+  import cisco-semver {
+    prefix "semver";
+  }
+  organization "Cisco Systems, Inc.";
+  contact "Cisco Systems, Inc.
+Customer Service
+
+Postal: 170 West Tasman Drive
+San Jose, CA 95134
+
+Tel: +1 800 553-NETS
+
+E-mail: cs-yang@cisco.com";
+  description "This module contains a collection of YANG definitions
+for Cisco IOS-XR router-bgp package configuration.
+
+This YANG module augments the
+modules with configuration data.
+
+Copyright (c) 2019-2024 by Cisco Systems, Inc.
+All rights reserved.";
+  revision 2024-01-31 {
+    description "Removed deprecated policy container under route-monitoring
+2024-01-23
+  Updated containers for export to vrf allow-imported-vpn
+disable-adv-source-vrf-vni allow backup best-external
+2023-12-08
+  Updated containers for import from vrf advertise-as-vpn allow backup best-external
+2023-12-03
+  Updated sch-pathnames for next-hop-self
+2023-08-04
+  Added MPLS-VPN label mode per-vrf-46 option
+2023-07-12
+  Support for allocate-secondary-label
+2023-06-05
+  Support for local aggregates OC
+2023-05-01
+  Added segment-routing srv6 alloc mode per-vrf-46 option
+2023-04-18
+  1. Added allowconfedas-in leaf
+2. Added nexthop route-policy under vrf leafs
+2023-03-15
+  Added segment-routing SRv6 uSID allocate from
+WLIB
+2023-02-27
+  Added maximum-paths route-policy and eibgp equal-cost leaf
+2023-02-06
+  Added LPTS secure binding leaf
+2023-01-25
+  Support for update in error-handling
+2022-12-13
+  Support for evpn-link-bandwidth
+2022-12-09
+  Added OC-BGP neighbor logging and addpath
+2022-12-08
+  1. Added OC-BGP restart timer
+2. Added EVPN host import knobs under AF v4/v6 of
+global VRF.
+2022-11-05
+  Updated slow-peer static and dynamic leafs
+2022-10-04
+  Added OC-BGP replace-private-as
+2022-09-23
+  Added BMP route-monitoring suport for L3VPN inbound post-policy
+and Local RIB,
+Deprecated container policy under route-monitoring
+2022-09-19
+  Added EVPN Gateway IP disable
+2022-08-16
+  Updated slow-peer feature
+2022-07-14
+  Added OC-BGP mtu-discovery
+2022-07-11
+  Added missing description statement to nodes
+2022-06-20
+  Added delay/startup support under wait-install
+2022-03-03
+  Added leaf percentage-threshold-high under bandwidth-aware
+2022-02-18
+  Updated maximum-paths ebgp/eibgp and ibgp to remove unused container 'order' and fix pack format
+2021-10-20
+  Added force node under sr-policy";
+    semver:module-version "5.0.0";
+  }
+  revision 2021-10-19 {
+    description "Added leaf flex-algo under container optimal-route-reflection
+2021-09-21
+   Added retention under route-policy
+2021-08-27
+   Increase maximum-paths ebgp range to 1024,
+ Added preference  under rpki/server,
+ Added datafile under rpki,
+ Added unique-nexthop-check-disable under maximum-paths,
+ Added table-version under address-family
+2021-08-23
+   Added epe-bgp/labeled-unicast under advertise and epe/backup/enable
+ Added deterministic under unequal-cost of maximum-paths
+ Added container export under address family
+ Added leaf route-policy under srv6/alloc
+ Added container bandwidth-aware
+ Added leaf route-policy under srv6/alloc of vrfs
+ Added node deterministic under unequal-cost of maximum-paths/address family
+2021-07-29
+   Removed duplicate enforce-first-as-disable which serve same as enforce-first-as/disable";
+    semver:module-version "4.0.0";
+  }
+  revision 2021-05-31 {
+    description "Added must statement under list instances router->bgp
+2021-03-15
+    Added sr-policy under router-bgp->bgp->bestpath and
+  router-bgp->vrf->bgp->bestpath
+2021-02-25
+    Added multipath container under vrf->neighbors->address-family
+2021-02-17
+    Added must constraints in af-group list
+2021-02-11
+    Removed presence statement from match node under eigrp container
+2021-02-10
+    Added labeled-unicast under best-external
+2021-02-04
+    Added sr-policy under nexthop & igp-metric
+2021-02-03
+    Added container option-b-asbr-only
+2020-11-16
+    Added srte-metric and validation under nexthop
+2020-11-10
+    Added mask-length under local-address-subnet as needed
+2020-10-22
+    Added rpki-dropped-only/rpki-tested-only under
+  soft-reconfiguration/inbound. Updated must statements accordingly
+  to define proper constraints with new nodes.
+2020-09-30
+    Added multipath under neighbor address-family
+2020-08-12
+    Added route-target container under retain.
+  Added per-nexthop-received-label under mode.
+  Added appropriate when statements under retain/mode containers.
+  Removed per-prefix under vrf as it's not supported.
+2020-08-05
+    Added some must statements as needed
+2020-07-30
+    Added when statement to local-labeled-route under address-family
+  hierarchy and removed one presence statement as needed";
+    semver:module-version "3.0.0";
+  }
+  revision 2020-07-24 {
+    description "Added internal under remove-private-as. Also added must statements
+  under remove-private-as as appropriate.
+2020-06-05
+  Removed unused nodes from vrf address-family
+  Added constraint to nodes under as-format
+2020-05-17
+  (1) Added enable/label-mode under as
+  (2) Added srv6 under encapsulation-type
+  (3) Added vpnv4/vpnv6/l2vpn nodes under advertise
+  (4) Added segment-routing node under neighbors/neighbor/address-family
+  (5) Changed integer range of multipath, message-log-buffer-size, purge-time
+  (6) Added minimum-ipv6 node under nexthop/resolution/prefix-length
+  (7) Changed sysdb path of log node and its chilren
+  (8) Changed sysdb path of suppress node and its children
+  (9) Added extended-nexthop-encoding node under suppress
+  (10) Added update node under neighbor-group/address-families/address-family
+  (11) Added retain-nbr-routes under graceful-restart
+
+2020-04-14
+  Added rd augment to vrf model
+2020-03-13
+  Added corresponding nodes for peer-set-id, adjacencies,
+  peer-set and peer-node-sid";
+    semver:module-version "2.0.0";
+  }
+  revision 2019-06-10 {
+    description "Establish semantic version baseline.";
+    semver:module-version "1.0.0";
+  }
+  revision 2019-03-30 {
+    description "Initial version";
+  }
+  typedef Bgp-address-family {
+    type enumeration {
+      enum ipv4-unicast {
+        value 0;
+        description "IPv4 unicast";
+      }
+      enum ipv4-multicast {
+        value 1;
+        description "IPv4 multicast";
+      }
+      enum ipv4-labeled-unicast {
+        value 2;
+        description "IPv4 labeled-unicast";
+      }
+      enum ipv4-tunnel {
+        value 3;
+        description "IPv4 tunnel";
+      }
+      enum vpnv4-unicast {
+        value 4;
+        description "VPNv4 unicast";
+      }
+      enum ipv6-unicast {
+        value 5;
+        description "IPv6 unicast";
+      }
+      enum ipv6-multicast {
+        value 6;
+        description "IPv6 multicast";
+      }
+      enum ipv6-labeled-unicast {
+        value 7;
+        description "IPv6 labeled-unicast";
+      }
+      enum vpnv6-unicast {
+        value 8;
+        description "VPNv6 unicast";
+      }
+      enum ipv4-mdt {
+        value 9;
+        description "IPv4 MDT";
+      }
+      enum l2vpn-vpls-vpws {
+        value 10;
+        description "L2VPN VPLS-VPWS";
+      }
+      enum ipv4-rt-filter {
+        value 11;
+        description "IPv4 rt-filter";
+      }
+      enum ipv4-mvpn {
+        value 12;
+        description "IPv4 MVPN";
+      }
+      enum ipv6-mvpn {
+        value 13;
+        description "IPv6 MVPN";
+      }
+      enum l2vpn-evpn {
+        value 14;
+        description "L2VPN EVPN";
+      }
+      enum link-state-link-state {
+        value 15;
+        description "Link-state link-state";
+      }
+      enum vpnv4-multicast {
+        value 16;
+        description "VPNv4 Multicast";
+      }
+      enum vpnv6-multicast {
+        value 17;
+        description "VPNv6 Multicast";
+      }
+      enum ipv4-flowspec {
+        value 18;
+        description "IPv4 flowspec";
+      }
+      enum ipv6-flowspec {
+        value 19;
+        description "IPv6 flowspec";
+      }
+      enum vpnv4-flowspec {
+        value 20;
+        description "VPNv4 flowspec";
+      }
+      enum vpnv6-flowspec {
+        value 21;
+        description "VPNv6 flowspec";
+      }
+      enum l2vpn-mspw {
+        value 22;
+        description "L2VPN MSPW";
+      }
+      enum ipv4-sr-policy {
+        value 23;
+        description "IPv4 SRPolicy";
+      }
+      enum ipv6-sr-policy {
+        value 24;
+        description "IPv6 SRPolicy";
+      }
+      enum all-address-family {
+        value 25;
+        description "All Address Families";
+      }
+    }
+    description "Bgp address family";
+  }
+  typedef Bgp-attribute-code {
+    type union {
+      type uint32 {
+        range "0 | 4..14";
+      }
+      type uint32 {
+        range "6..255";
+      }
+      type enumeration {
+        enum AGGREGATOR {
+          value 7;
+          description "Aggregator attribute (7)";
+        }
+        enum AIGP {
+          value 26;
+          description "AIGP attribute (26)";
+        }
+        enum AS4-AGGREGATOR {
+          value 18;
+          description "AS4_AGGREGATOR attribute (18)";
+        }
+        enum AS4-PATH {
+          value 17;
+          description "AS4_PATH attribute (17)";
+        }
+        enum ATOMIC-AGGREGATE {
+          value 6;
+          description "Atomic aggrgate attribute (6)";
+        }
+        enum ATTRSET {
+          value 128;
+          description "ATTR_SET attribute (128)";
+        }
+        enum CLUSTER-LIST {
+          value 10;
+          description "Cluster List attribute (10)";
+        }
+        enum COMMUNITY {
+          value 8;
+          description "Community attribute (8)";
+        }
+        enum CONNECTOR {
+          value 20;
+          description "Connector attribute (20)";
+        }
+        enum EXTENDED-COMMUNITIES {
+          value 16;
+          description "Extended community attribute (16)";
+        }
+        enum LARGE-COMMUNITY {
+          value 32;
+          description "Large Community attribute (32)";
+        }
+        enum LOCAL-PREF {
+          value 5;
+          description "Local Preference attribute (5)";
+        }
+        enum LSATTR {
+          value 29;
+          description "Link-state attribute (29)";
+        }
+        enum MULTI-EXIT-DISC {
+          value 4;
+          description "MED attribute (4)";
+        }
+        enum ORIGINATOR-ID {
+          value 9;
+          description "Originator attribute (9)";
+        }
+        enum PMSI-TUNNEL {
+          value 22;
+          description "PMSI Tunnel attribute (22)";
+        }
+        enum PPMP {
+          value 70;
+          description "PPMP attribute (70)";
+        }
+        enum PREFIX-SID {
+          value 40;
+          description "Prefix-SID attribute (40)";
+        }
+        enum SSA {
+          value 19;
+          description "SAFI specific attribute (19)";
+        }
+        enum TUNNEL-ENCAP {
+          value 23;
+          description "Tunnel-Encapsulation attribute (23)";
+        }
+      }
+    }
+    description "Bgp attribute code";
+  }
+  typedef Bmp-mode {
+    type enumeration {
+      enum inbound-pre-policy {
+        value 0;
+        description "Pickup routes at inbound direction from peer
+before application of route-policy";
+      }
+      enum inbound-post-policy {
+        value 1;
+        description "Pickup routes at inbound direction from peer
+after application of route-policy";
+      }
+      enum local-rib {
+        value 4;
+        description "Pickup routes that have been selected by the
+local BGP speaker's decision process";
+      }
+    }
+    description "Bmp route monitor mode";
+  }
+  grouping VRF-COMMON {
+    description "Grouping for vrf";
+    container import {
+      description "VRF import";
+      container route-target {
+        description "Specify import route target extended communities";
+        container two-byte-as-rts {
+          description "Two Byte AS Number Route Target";
+          list two-byte-as-rt {
+            key "as-number index stitching";
+            description "Two Byte AS Number Route Target";
+            leaf as-number {
+              type uint32 {
+                range "1..65535";
+              }
+              description "Two Byte AS Number";
+            }
+            leaf index {
+              type uint32 {
+                range "0..4294967295" {
+                  description "ASN2:index (hex or decimal format)";
+                }
+              }
+              description "ASN2:index (hex or decimal format)";
+            }
+            leaf stitching {
+              type boolean;
+              description "These are stitching RTs";
+            }
+          }
+        }
+      }
+    }
+    container export {
+      description "VRF export";
+      container route-target {
+        description "Specify export route target extended communities";
+        container two-byte-as-rts {
+          description "Two Byte AS Number Route Target";
+          list two-byte-as-rt {
+            key "as-number index stitching";
+            description "Two Byte AS Number Route Target";
+            leaf as-number {
+              type uint32 {
+                range "1..65535";
+              }
+              description "Two Byte AS Number";
+            }
+            leaf index {
+              type uint32 {
+                range "0..4294967295" {
+                  description "ASN2:index (hex or decimal format)";
+                }
+              }
+              description "ASN2:index (hex or decimal format)";
+            }
+            leaf stitching {
+              type boolean;
+              description "These are stitching RTs";
+            }
+          }
+        }
+      }
+    }
+  }
+  grouping VRF-RD {
+    description "Grouping for vrf-rd";
+    container rd {
+      description "route distinguisher";
+      container two-byte-as {
+        must "not(../four-byte-as or ../ip-address)";
+        presence "Indicates a two-byte-as node is configured.";
+        description " two-byte-as route distinguisher";
+        leaf as-number {
+          type "xr:Bgp-as-number";
+          mandatory true;
+          description "bgp as-number";
+        }
+        leaf index {
+          type uint32 {
+            range "0..4294967295" {
+              description "ASN2:index (hex or decimal format)";
+            }
+          }
+          mandatory true;
+          description "ASN2:index (hex or decimal format)";
+        }
+      }
+      container four-byte-as {
+        must "not(../two-byte-as or ../ip-address)";
+        presence "Indicates a four-byte-as node is configured.";
+        description "four-byte-as route distinguisher";
+        leaf as-number {
+          type "xr:Bgp-as-number";
+          mandatory true;
+          description "4-byte AS number";
+        }
+        leaf index {
+          type uint32 {
+            range "0..4294967295" {
+              description "ASN2:index (hex or decimal format)";
+            }
+          }
+          mandatory true;
+          description "ASN2:index (hex or decimal format)";
+        }
+      }
+      container ip-address {
+        must "not(../two-byte-as or ../four-byte-as)";
+        presence "Indicates a ip-address node is configured.";
+        description "configure this node";
+        leaf ipv4-address {
+          type "inet:ipv4-address-no-zone";
+          mandatory true;
+          description "configure this node";
+        }
+        leaf index {
+          type uint32 {
+            range "0..65535" {
+              description "IPv4Address:index (hex or decimal format)";
+            }
+          }
+          mandatory true;
+          description "IPv4Address:index (hex or decimal format)";
+        }
+      }
+    }
+  }
+  grouping AS-COMMON {
+    description "Grouping for as-common";
+    container rpki {
+      description "Configure RPKI";
+      container servers {
+        description "Configure RPKI cache-servers";
+        list server {
+          key server-id;
+          description "Configure RPKI cache-servers";
+          leaf server-id {
+            type "xr:Cisco-ios-xr-string" {
+              length "1..1024" {
+                description "Hostname or IP address";
+              }
+            }
+            description "Configure RPKI cache-servers";
+          }
+          container bind-source {
+            description "Specify a bind source for RPKI cache-server";
+            container interface {
+              description "Specify a source interface to bind the cache-server transport";
+              leaf interface-name {
+                type "xr:Interface-name";
+                description "Interface Name";
+              }
+            }
+          }
+          leaf preference {
+            type uint32 {
+              range "1..10" {
+                description "(Deprecated from 7.4.1) RPKI cache-server preference value (lower is better)";
+              }
+            }
+            description "(Deprecated from 7.4.1) Specify a preference value for the RPKI cache";
+          }
+          container refresh-time {
+            description "Time between sending serial-queries for the RPKI cache-server";
+            leaf refresh-time-value {
+              type uint32 {
+                range "15..3600" {
+                  description "Refresh time (in seconds)";
+                }
+              }
+              description "Refresh time (in seconds)";
+            }
+            container off {
+              presence "Indicates a off node is configured.";
+              description "Do not send serial-queries periodically";
+            }
+          }
+          container response-time {
+            description "Time to wait for a response from the RPKI cache-server";
+            leaf response-time-value {
+              type uint32 {
+                range "15..3600" {
+                  description "Response time (in seconds)";
+                }
+              }
+              description "Response time (in seconds)";
+            }
+            container off {
+              presence "Indicates a off node is configured.";
+              description "Wait indefinitely for a response";
+            }
+          }
+          leaf purge-time {
+            type uint32 {
+              range "30..65535" {
+                description "Purge time (in seconds)";
+              }
+            }
+            description "Purge time (in seconds)";
+          }
+          leaf username {
+            type string {
+              length "1..1024" {
+                description "RPKI cache (SSH) username";
+              }
+            }
+            description "Specify a (SSH) username for the RPKI cache-server";
+          }
+          leaf password {
+            type string {
+              length "1..1024" {
+                description "RPKI cache (SSH) password";
+              }
+            }
+            description "Specify a (SSH) password for the RPKI cache-server";
+          }
+          container transport {
+            description "Specify a transport method for the RPKI cache-server";
+            container tcp {
+              description "Connect to the RPKI cache-server using TCP (unencrypted)";
+              leaf port {
+                type uint32 {
+                  range "1..65535" {
+                    description "Specify a port number for the RPKI cache-server transport";
+                  }
+                }
+                must "not(../../ssh/port)";
+                description "Specify a port number for the RPKI cache-server transport";
+              }
+            }
+            container ssh {
+              description "Connect to the RPKI cache-server using SSH";
+              leaf port {
+                type uint32 {
+                  range "1..65535" {
+                    description "Specify a port number for the RPKI cache-server transport";
+                  }
+                }
+                must "not(../../tcp/port)";
+                description "Specify a port number for the RPKI cache-server transport";
+              }
+            }
+          }
+          container shutdown {
+            presence "Indicates a shutdown node is configured.";
+            description "Shutdown the RPKI cache-server";
+          }
+        }
+      }
+      container routes {
+        description "Configure an RPKI route";
+        list route {
+          key "address minimum-prefix-length maximum-prefix-length origin-as-number";
+          description "Configure an RPKI route";
+          leaf address {
+            type "inet:ip-address-no-zone";
+            description "Configure an RPKI route";
+          }
+          leaf minimum-prefix-length {
+            type union {
+              type uint32 {
+                range "0..32" {
+                  description "Minimum prefix length for ipv4 address";
+                }
+              }
+              type uint32 {
+                range "0..128" {
+                  description "Minimum prefix length for ipv6 address";
+                }
+              }
+            }
+            description "Minimum prefix length";
+          }
+          leaf maximum-prefix-length {
+            type union {
+              type uint32 {
+                range "1..32" {
+                  description "Maximum prefix length for ipv4 address";
+                }
+              }
+              type uint32 {
+                range "1..128" {
+                  description "Maximum prefix length for ipv6 addess";
+                }
+              }
+            }
+            description "Maximum prefix length (Default 32/128 for IPv4/IPv6)";
+          }
+          leaf origin-as-number {
+            type uint32 {
+              range "1..4294967295" {
+                description "Origin Autonomous System number (in asplain format)";
+              }
+            }
+            description "Origin Autonomous System number";
+          }
+        }
+      }
+      leaf datafile {
+        type "xr:Cisco-ios-xr-string" {
+          length "1..800" {
+            description "(Deprecated from 7.4.1) File name containing RPKI data entries";
+          }
+        }
+        description "(Deprecated from 7.4.1) Configure an RPKI data file";
+      }
+    }
+    container address-families {
+      description "Enter Address Family command mode";
+      list address-family {
+        key af-name;
+        description "Enter Address Family command mode";
+        leaf af-name {
+          type Bgp-address-family;
+          description "Enter Address Family command mode";
+        }
+      }
+    }
+    container neighbors {
+      description "Specify a neighbor router";
+      list neighbor {
+        key neighbor-address;
+        description "Neighbor address";
+        leaf neighbor-address {
+          type "inet:ip-address-no-zone";
+          description "Neighbor address";
+        }
+        container use {
+          description "Inherit configuration from a group";
+          leaf session-group {
+            type string {
+              length "1..1024" {
+                description "Session group name";
+              }
+            }
+            description "Inherit address-family independent config from a session-group";
+          }
+          leaf neighbor-group {
+            type string {
+              length "1..1024" {
+                description "Neighbor-group name";
+              }
+            }
+            description "Inherit configuration from a neighbor-group";
+          }
+        }
+        leaf description {
+          type string {
+            length "1..1024" {
+              description "Up to 80 characters describing this neighbor";
+            }
+          }
+          description "Neighbor specific description";
+        }
+      }
+    }
+    container neighbor-groups {
+      description "Specify a Neighbor-group";
+      list neighbor-group {
+        key neighbor-group-name;
+        description "Specify a Neighbor-group";
+        leaf neighbor-group-name {
+          type "xr:Cisco-ios-xr-string" {
+            length "1..900" {
+              description "Neighbor-group name";
+            }
+          }
+          description "Specify a Neighbor-group";
+        }
+        container address-families {
+          description "Enter Address Family command mode";
+          list address-family {
+            key af-name;
+            description "Enter Address Family command mode";
+            leaf af-name {
+              type Bgp-address-family;
+              description "Enter Address Family command mode";
+            }
+          }
+        }
+        leaf remote-as {
+          type "xr:Bgp-as-number";
+          description "bgp as-number";
+        }
+        leaf description {
+          type string {
+            length "1..1024" {
+              description "Up to 80 characters describing this neighbor";
+            }
+          }
+          description "Neighbor specific description";
+        }
+        container password {
+          must "encrypted or inheritance-disable";
+          presence "Indicates a password node is configured.";
+          description "Set a password";
+          leaf encrypted {
+            type "xr:Proprietary-password";
+            description "Specifies an ENCRYPTED password will follow";
+          }
+          container inheritance-disable {
+            presence "Indicates a inheritance-disable node is configured.";
+            description "Prevent password from being inherited from parent";
+          }
+        }
+        leaf update-source {
+          type "xr:Interface-name";
+          description "Source of routing updates";
+        }
+      }
+    }
+    container bgp {
+      description "BGP commands";
+      leaf router-id {
+        type "inet:ipv4-address-no-zone";
+        description "Configure Router-id";
+      }
+    }
+    container vrfs {
+      description "Specify a vrf name";
+      list vrf {
+        key vrf-name;
+        description "Specify a vrf name";
+        leaf vrf-name {
+          type "xr:Cisco-ios-xr-string" {
+            length "1..32" {
+              description "VRF name - maximum length 32 characters";
+            }
+          }
+          description "Specify a vrf name";
+        }
+        container address-families {
+          description "Enter Address Family command mode";
+          list address-family {
+            key af-name;
+            description "Enter Address Family command mode";
+            leaf af-name {
+              type Bgp-address-family;
+              description "Enter Address Family command mode";
+            }
+          }
+        }
+        container neighbors {
+          description "Specify a neighbor router";
+          list neighbor {
+            key neighbor-address;
+            description "Neighbor address";
+            leaf neighbor-address {
+              type "inet:ip-address-no-zone";
+              description "Neighbor address";
+            }
+            container address-families {
+              description "Enter Address Family command mode";
+              list address-family {
+                key af-name;
+                description "Enter Address Family command mode";
+                leaf af-name {
+                  type Bgp-address-family;
+                  description "Enter Address Family command mode";
+                }
+                container route-policy {
+                  description "Apply route policy to neighbor";
+                  leaf in {
+                    type "xr:Route-policy-name";
+                    description "Apply route policy to inbound routes";
+                  }
+                  leaf out {
+                    type "xr:Route-policy-name";
+                    description "Apply route policy to outbound routes";
+                  }
+                  container retention {
+                    description "Apply retention policy to inbound routes";
+                    leaf route-policy-name {
+                      type "xr:Route-policy-name";
+                      must "../retention-time";
+                      description "Apply retention policy to inbound routes";
+                    }
+                    leaf retention-time {
+                      type uint32 {
+                        range "0..4294967295" {
+                          description "Max time (seconds)";
+                        }
+                      }
+                      must "../route-policy-name";
+                      description "Retention-time for this neighbor";
+                    }
+                  }
+                }
+                container as-override {
+                  presence "Indicates a as-override node is configured.";
+                  description "Override matching AS-number while sending update";
+                  container inheritance-disable {
+                    presence "Indicates a inheritance-disable node is configured.";
+                    description "Prevent as-override from being inherited from the parent";
+                  }
+                }
+              }
+            }
+            leaf remote-as {
+              type "xr:Bgp-as-number";
+              description "bgp as-number";
+            }
+            leaf description {
+              type string {
+                length "1..1024" {
+                  description "Up to 80 characters describing this neighbor";
+                }
+              }
+              description "Neighbor specific description";
+            }
+            container password {
+              must "encrypted or inheritance-disable";
+              presence "Indicates a password node is configured.";
+              description "Set a password";
+              leaf encrypted {
+                type "xr:Proprietary-password";
+                description "Specifies an ENCRYPTED password will follow";
+              }
+              container inheritance-disable {
+                presence "Indicates a inheritance-disable node is configured.";
+                description "Prevent password from being inherited from parent";
+              }
+            }
+          }
+        }
+        container rd {
+          must "auto or two-byte-as or four-byte-as or ip-address";
+          presence "Indicates a rd node is configured.";
+          description "route distinguisher";
+          container auto {
+            must "not(../two-byte-as or ../four-byte-as or ../ip-address)";
+            presence "Indicates a auto node is configured.";
+            description "Automatic route distinguisher";
+          }
+          container two-byte-as {
+            must "not(../auto or ../four-byte-as or ../ip-address)";
+            presence "Indicates a two-byte-as node is configured.";
+            description "two-byte-as route distinguisher";
+            leaf as-number {
+              type "xr:Bgp-as-number";
+              mandatory true;
+              description "bgp as-number";
+            }
+            leaf index {
+              type uint32 {
+                range "0..4294967295" {
+                  description "ASN2:index (hex or decimal format)";
+                }
+              }
+              mandatory true;
+              description "ASN2:index (hex or decimal format)";
+            }
+          }
+          container four-byte-as {
+            must "not(../auto or ../two-byte-as or ../ip-address)";
+            presence "Indicates a four-byte-as node is configured.";
+            description "four-byte-as route distinguisher";
+            leaf as-number {
+              type "xr:Bgp-as-number";
+              mandatory true;
+              description "4-byte AS number";
+            }
+            leaf index {
+              type uint32 {
+                range "0..4294967295" {
+                  description "ASN2:index (hex or decimal format)";
+                }
+              }
+              mandatory true;
+              description "ASN2:index (hex or decimal format)";
+            }
+          }
+          container ip-address {
+            must "not(../auto or ../two-byte-as or ../four-byte-as)";
+            presence "Indicates a ip-address node is configured.";
+            description "configure this node";
+            leaf ipv4-address {
+              type "inet:ipv4-address-no-zone";
+              mandatory true;
+              description "configure this node";
+            }
+            leaf index {
+              type uint32 {
+                range "0..65535" {
+                  description "IPv4Address:index (hex or decimal format)";
+                }
+              }
+              mandatory true;
+              description "IPv4Address:index (hex or decimal format)";
+            }
+          }
+        }
+      }
+    }
+  }
+  augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv4/a2:unicast" {
+    description "This augment extends vrf ipv4 unicast nodes
+configuration";
+    uses VRF-COMMON;
+  }
+  augment "/a2:vrfs/a2:vrf/a2:address-family/a2:ipv6/a2:unicast" {
+    description "This augment extends vrf ipv6 unicast nodes
+configuration";
+    uses VRF-COMMON;
+  }
+  augment "/a2:vrfs/a2:vrf" {
+    description "This augment extends vrf nodes
+configuration";
+    uses VRF-RD;
+  }
+  container as-format {
+    description "Autonomous system number format";
+    container asdot {
+      must "not(../asplain)";
+      presence "Indicates a asdot node is configured.";
+      description "AS Dot format";
+    }
+    container asplain {
+      must "not(../asdot)";
+      presence "Indicates a asplain node is configured.";
+      description "AS Plain format";
+    }
+  }
+  container bmp {
+    description "BGP Monitoring Protocol commands";
+    container servers {
+      description "BMP server configuration";
+      list server {
+        key bmp-server-id;
+        description "BMP server ID to configure";
+        leaf bmp-server-id {
+          type uint32 {
+            range "1..8" {
+              description "BMP server ID to configure";
+            }
+          }
+          description "BMP server ID to configure";
+        }
+        container shutdown {
+          presence "Indicates a shutdown node is configured.";
+          description "Shutdown connection to BMP server";
+        }
+        container host {
+          presence "Indicates a host node is configured.";
+          description "Hostname of BMP Server";
+          leaf host-name {
+            type string {
+              length "1..1024" {
+                description "Name of the BMP server(accepts IP Address format too)";
+              }
+            }
+            mandatory true;
+            description "Hostname of BMP Server";
+          }
+          leaf port {
+            type uint32 {
+              range "1..65535" {
+                description "Port Number of listening BMP server";
+              }
+            }
+            description "BMP Server Listen Port";
+          }
+        }
+        leaf initial-delay {
+          type uint32 {
+            range "1..3600" {
+              description "Initial connect delay in sending BMP server updates";
+            }
+          }
+          description "Initial connect delay in sending BMP server updates. Default=0";
+        }
+        leaf flapping-delay {
+          type uint32 {
+            range "60..3600" {
+              description "Range in seconds for the connection delay after flap";
+            }
+          }
+          description "delay in connecting to BMP Server after a flap had been detected. Default=300";
+        }
+        leaf max-buffer-size {
+          type uint32 {
+            range "1..4294967295" {
+              description "Range in MegaBytes for the maximum buffer size of BMP message queue.";
+            }
+          }
+          description "Set BMP message buffer size";
+        }
+        container initial-refresh {
+          description "Initial refresh to generate BGP updates. DEfault=1";
+          container delay {
+            presence "Indicates a delay node is configured.";
+            description "Initial delay before sending route refresh request";
+            leaf initial-delay {
+              type uint32 {
+                range "1..3600" {
+                  description "Delay in sending Refresh request to Peers (default : 30 secs)";
+                }
+              }
+              mandatory true;
+              description "Initial delay before sending route refresh request";
+            }
+            leaf spread {
+              type uint32 {
+                range "1..3600" {
+                  description "Maximum additional random delay (in secs)";
+                }
+              }
+              description "Maximum additional random delay for initial Refresh Request";
+            }
+          }
+          container skip {
+            presence "Indicates a skip node is configured.";
+            description "Skip sending Refresh request to Peers";
+          }
+        }
+        leaf stats-reporting-period {
+          type uint32 {
+            range "1..3600" {
+              description "Stats-report-period in seconds";
+            }
+          }
+          description "Stats reporting period for BMP server. Default=0";
+        }
+        leaf description {
+          type string {
+            length "1..1024" {
+              description "Up to 250 characters describing this BMP server";
+            }
+          }
+          description "BMP server specific description";
+        }
+        leaf dscp {
+          type enumeration {
+            enum default {
+              value 0;
+              description "Set packets with default dscp (000000)";
+            }
+            enum cs1 {
+              value 8;
+              description "Set packets with CS1(precedence 1) dscp (001000)";
+            }
+            enum af11 {
+              value 10;
+              description "Set packets with AF11 dscp (001010)";
+            }
+            enum af12 {
+              value 12;
+              description "Set packets with AF12 dscp (001100)";
+            }
+            enum af13 {
+              value 14;
+              description "Set packets with AF13 dscp (001110)";
+            }
+            enum cs2 {
+              value 16;
+              description "Set packets with CS2(precedence 2) dscp (010000)";
+            }
+            enum af21 {
+              value 18;
+              description "Set packets with AF21 dscp (010010)";
+            }
+            enum af22 {
+              value 20;
+              description "Set packets with AF22 dscp (010100)";
+            }
+            enum af23 {
+              value 22;
+              description "Set packets with AF23 dscp (010110)";
+            }
+            enum cs3 {
+              value 24;
+              description "Set packets with CS3(precedence 3) dscp (011000)";
+            }
+            enum af31 {
+              value 26;
+              description "Set packets with AF31 dscp (011010)";
+            }
+            enum af32 {
+              value 28;
+              description "Set packets with AF32 dscp (011100)";
+            }
+            enum af33 {
+              value 30;
+              description "Set packets with AF33 dscp (011110)";
+            }
+            enum cs4 {
+              value 32;
+              description "Set packets with CS4(precedence 4) dscp (100000)";
+            }
+            enum af41 {
+              value 34;
+              description "Set packets with AF41 dscp (100010)";
+            }
+            enum af42 {
+              value 36;
+              description "Set packets with AF42 dscp (100100)";
+            }
+            enum af43 {
+              value 38;
+              description "Set packets with AF43 dscp (100110)";
+            }
+            enum cs5 {
+              value 40;
+              description "Set packets with CS5(precedence 5) dscp (101000)";
+            }
+            enum ef {
+              value 46;
+              description "Set packets with EF dscp (101110)";
+            }
+            enum cs6 {
+              value 48;
+              description "Set packets with CS6(precedence 6) dscp (110000)";
+            }
+            enum cs7 {
+              value 56;
+              description "Set packets with CS7(precedence 7) dscp (111000)";
+            }
+          }
+          description "Set IP DSCP (DiffServ CodePoint)";
+        }
+        leaf precedence {
+          type enumeration {
+            enum routine {
+              value 0;
+              description "Set packets with routine precedence (0)";
+            }
+            enum priority {
+              value 1;
+              description "Set packets with priority precedence (1)";
+            }
+            enum immediate {
+              value 2;
+              description "Set packets with immediate precedence (2)";
+            }
+            enum flash {
+              value 3;
+              description "Set packets with flash precedence (3)";
+            }
+            enum flash-override {
+              value 4;
+              description "Set packets with flash override precedence (4)";
+            }
+            enum critical {
+              value 5;
+              description "Set packets with critical precedence (5)";
+            }
+            enum internet {
+              value 6;
+              description "Set packets with internetwork control precedence (6)";
+            }
+            enum network {
+              value 7;
+              description "Set packets with network control precedence (7)";
+            }
+          }
+          description "Set precedence";
+        }
+        leaf update-source {
+          type "xr:Interface-name";
+          description "Source to reach BMP server";
+        }
+        leaf vrf {
+          type string {
+            length "1..1024" {
+              description "VRF Name";
+            }
+          }
+          description "VRF for the BMP server";
+        }
+        container tcp {
+          description "Configure TCP related parameters";
+          leaf keep-alive {
+            type uint32 {
+              range "0..7200" {
+                description "Keep Alive interval in seconds";
+              }
+            }
+            description "configure TCP keep alives to be exchanged between client and server";
+          }
+          leaf mss {
+            type uint32 {
+              range "68..10000" {
+                description "TCP segment size in bytes";
+              }
+            }
+            description "configure TCP maximum segment size";
+          }
+        }
+      }
+      container all {
+        description "Common commands for all BMP servers";
+        leaf max-buffer-size {
+          type uint32 {
+            range "1..4294967295" {
+              description "Range in MegaBytes for the maximum buffer size of BMP message queue.";
+            }
+          }
+          description "Maximum buffer limit upto which BMP messages will be queued to TCP sockets.
+If total size of BMP messages queued up for BMP sockets exceeds this set limit,
+messages will be dropped. The maximum buf-size is 20% and default buf-size is 15%
+of the platform virtual memory max-limit (aka rlimit). Please run
+show bgp process performance-statistics
+to see the individual values. Unit is in MegaBytes.";
+        }
+        container route-monitoring {
+          description "Enable Route Monitoring capability for the BMP servers.
+BGP update messages will be regenerated with a table walk
+";
+          container bmp-modes {
+            description "Enter BMP route monitoring command mode";
+            list bmp-mode {
+              key mode-name;
+              description "Enter BMP route monitoring command mode";
+              leaf mode-name {
+                type Bmp-mode;
+                description "Enter BMP route monitoring command mode";
+              }
+              leaf advertisement-interval {
+                when "../mode-name = 'inbound-post-policy' or ../mode-name = 'local-rib'";
+                type uint32 {
+                  range "2..600" {
+                    description "Time in seconds";
+                  }
+                }
+                description "Minimum interval between updates sent to BMP servers";
+              }
+              leaf scan-time {
+                when "../mode-name = 'inbound-post-policy'";
+                type uint32 {
+                  range "5..3600" {
+                    description "Time in seconds";
+                  }
+                }
+                description "Configure scanner interval";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  container router {
+    description "Enable a routing process";
+    container bgp {
+      description "BGP configuration subcommands";
+      list as {
+        key as-number;
+        description "bgp as-number";
+        leaf as-number {
+          type "xr:Bgp-as-number";
+          description "bgp as-number";
+        }
+        uses AS-COMMON;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import file
+import process
 
 import orchestron.build
 import orchestron.yang as oyang
@@ -15,6 +16,9 @@ netinfra_yang = """module netinfra {
     description "test revision";
     reference "ref1";
   }
+  import ietf-inet-types {
+    prefix inet;
+  }
 
   container netinfra {
     description "Network infrastructure";
@@ -27,11 +31,16 @@ netinfra_yang = """module netinfra {
         type string;
       }
       leaf id {
-        type string;
+        type uint32;
         description "router id";
+        mandatory true;
       }
       leaf role {
         type string;
+      }
+      leaf asn {
+        type inet:as-number;
+        mandatory true;
       }
       leaf mock {
         type enumeration {
@@ -1614,6 +1623,7 @@ identity urllc {
      "Type of routing protocol.";
     }
     container ospf {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:ospf')" {
      description
      "Only applies when protocol is OSPF.";
@@ -1671,6 +1681,7 @@ identity urllc {
      "OSPF-specific configuration.";
     }
     container bgp {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:bgp')" {
       description
       "Only applies when protocol is BGP.";
@@ -1696,6 +1707,7 @@ identity urllc {
      "BGP-specific configuration.";
     }
     container static {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:static')" {
        description
        "Only applies when protocol is static.
@@ -1755,6 +1767,7 @@ identity urllc {
      "Configuration specific to static routing.";
     }
     container rip {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:rip')" {
       description
       "Only applies when the protocol is RIP.  For IPv4,
@@ -1774,6 +1787,7 @@ identity urllc {
      "Configuration specific to RIP routing.";
     }
     container vrrp {
+     presence "acton-yang doesn't support when clause";
      when "derived-from-or-self(../type, 'l3vpn-svc:vrrp')" {
       description
       "Only applies when protocol is VRRP.";
@@ -3344,6 +3358,9 @@ netinfra_inter_yang = """module netinfra-inter {
     description "test revision";
     reference "ref1";
   }
+  import ietf-inet-types {
+    prefix inet;
+  }
 
   container netinfra {
     description "Network infrastructure";
@@ -3356,8 +3373,9 @@ netinfra_inter_yang = """module netinfra-inter {
         type string;
       }
       leaf id {
-        type string;
+        type uint32;
         description "router id";
+        mandatory true;
       }
       leaf role {
         type string;
@@ -3366,6 +3384,40 @@ netinfra_inter_yang = """module netinfra-inter {
         type enumeration {
           enum cisco-ios-xr;
           enum juniper-junos;
+        }
+      }
+      container base-config {
+        leaf asn {
+          type inet:as-number;
+          mandatory true;
+        }
+        // Allocated to the router in the CFS layer
+        leaf ipv4-address {
+          type inet:ipv4-address;
+          mandatory true;
+        }
+        // Allocated to the router in the CFS layer
+        leaf ipv6-address {
+          type inet:ipv6-address;
+          mandatory true;
+        }
+      }
+      // This list contains vpn-id entries written from the CFS layer.
+      // We use it in the "inter" layer to relay the router (/netinfra/router) parameters
+      // to the the "rfs" layer tranforms: rfs.Vrf and rfs.EbgpCustomer need the router id and asn.
+      // The data for these transforms is part of the L3VPN transform stack so these
+      // are written to from the inter.L3Vpn transform primarily.
+      // But, we want to avoid having the router id and asn in the L3VPN CFS model!
+      // By writing to this list from the cfs.L3VpnSite we can "register" an VPN instance
+      // on this router. Then in the inter.Router transform we can read the router id and asn
+      // from the inputs and write them to the rfs.Vrf and rfs.EbgpCustomer transforms.
+      list l3vpn-vrf {
+        key "vpn-id";
+        leaf vpn-id {
+          type string;
+        }
+        leaf-list ebgp-customer-address {
+          type inet:ip-address;
         }
       }
     }
@@ -3386,6 +3438,30 @@ netinfra_inter_yang = """module netinfra-inter {
       }
       leaf right-interface {
         type string;
+      }
+    }
+
+    list ibgp-fullmesh {
+      key "asn";
+      leaf asn {
+        type inet:as-number;
+      }
+      leaf authentication-key {
+        type string;
+        mandatory true;
+      }
+
+      orchestron:transform respnet.inter.IbgpFullmesh;
+
+      list router {
+        key "name";
+        leaf name {
+          type string;
+        }
+        leaf ipv4-address {
+          type inet:ipv4-address;
+          mandatory true;
+        }
       }
     }
   }
@@ -3432,12 +3508,24 @@ l3vpn_inter_yang = """module l3vpn-inter {
           type string;
           mandatory true;
         }
-        leaf ipv4-address {
+        leaf provider-ipv4-address {
+          type string;
+          mandatory true;
+        }
+        leaf customer-ipv4-address {
           type string;
         }
         leaf ipv4-prefix-length {
           type uint8 {
             range "0..32";
+          }
+          mandatory true;
+        }
+        container bgp {
+          presence "BGP enabled";
+          leaf as-number {
+            type uint32;
+            mandatory true;
           }
         }
       }
@@ -3475,6 +3563,16 @@ respnet_rfs_yang = """module respnet-rfs {
             }
 
             leaf ipv6-address {
+                type string;
+                mandatory true;
+            }
+
+            leaf asn {
+                type inet:as-number;
+                mandatory true;
+            }
+
+            leaf ibgp-authentication-key {
                 type string;
                 mandatory true;
             }
@@ -3522,16 +3620,45 @@ respnet_rfs_yang = """module respnet-rfs {
             }
         }
 
-        list vrf {
-            key name;
-            orchestron:rfs-transform respnet.rfs.Vrf;
-            leaf name {
-                type string;
-            }
+        list ibgp-neighbor {
+          key address;
+          orchestron:rfs-transform respnet.rfs.IbgpNeighbor;
+          leaf address {
+            type inet:ip-address;
+          }
+          leaf asn {
+            // Need this one for IOS XR: router bgp <asn>
+            type inet:as-number;
+            mandatory true;
+          }
+          leaf description {
+            type string;
+            mandatory true;
+          }
+        }
 
-            leaf description {
-                type string;
-            }
+        list vrf {
+          key name;
+          orchestron:rfs-transform respnet.rfs.Vrf;
+          leaf name {
+            type string;
+          }
+          leaf description {
+            type string;
+          }
+          // TODO: compute RD in the layer above and use as key?!
+          leaf id {
+            type uint32;
+            mandatory true;
+          }
+          leaf router-id {
+            type uint32;
+            mandatory true;
+          }
+          leaf asn {
+            type inet:as-number;
+            mandatory true;
+          }
         }
 
         list vrf-interface {
@@ -3559,7 +3686,33 @@ respnet_rfs_yang = """module respnet-rfs {
                 default "30";
             }
         }
+
+    list ebgp-customer {
+      key "vrf address";
+      orchestron:rfs-transform respnet.rfs.EbgpCustomer;
+      leaf vrf {
+        type string;
+      }
+      leaf address {
+        type inet:ip-address;
+      }
+      leaf local-asn {
+        type uint32;
+        mandatory true;
+      }
+      leaf peer-asn {
+        type uint32;
+        mandatory true;
+      }
+      leaf description {
+        type string;
+      }
+      leaf authentication-key {
+        type string;
+        mandatory true;
+      }
     }
+  }
 }
 """
 
@@ -3606,14 +3759,22 @@ dev_xr_yang = """module xr {
 actor main(env):
     fc = file.FileCap(env.cap)
     wfc = file.WriteFileCap(fc)
+    pc = process.ProcessCap(env.cap)
+
+    orchestron.build.apply_schema_transforms_to_dir(fc, "yang/CiscoIosXr_24_1_ncs55a1", [
+        orchestron.build.SchemaTransformChain(".*yang.orig", [orchestron.build.SchemaTransformNoComments()])
+    ])
+    orchestron.build.apply_schema_transforms_to_dir(fc, "yang/JuniperCRPD_23_4R1_9", [
+        orchestron.build.SchemaTransformChain(".*yang.orig", [orchestron.build.SchemaTransformUnions()])
+    ])
 
     spec = orchestron.build.SysSpec("respnet", [
-        orchestron.build.Layer([netinfra_yang, l3vpn_yang, oyang.ietf_inet_types, yang_types_yang]),
-        orchestron.build.Layer([netinfra_inter_yang, l3vpn_inter_yang]),
+        orchestron.build.Layer([netinfra_yang, l3vpn_yang, oyang.ietf_inet_types, yang_types_yang, oyang.ietf_inet_types]),
+        orchestron.build.Layer([netinfra_inter_yang, l3vpn_inter_yang, oyang.ietf_inet_types]),
         orchestron.build.Layer([oyang.rfs, oyang.ietf_inet_types, respnet_rfs_yang]),
     ], [
         orchestron.build.DeviceType.from_dir(fc, "CiscoIosXr_24_1_ncs55a1", "yang/CiscoIosXr_24_1_ncs55a1"),
-        orchestron.build.DeviceType.from_dir(fc, "JuniperCRPD_23_4R1_9", "yang/JuniperCRPD_23_4R1_9"),
+        orchestron.build.DeviceType.from_dir(fc, "JuniperCRPD_23_4R1_9", "yang/JuniperCRPD_23_4R1_9")
     ])
     spec.gen_app(wfc, "../src/")
 

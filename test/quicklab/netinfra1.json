@@ -4,12 +4,14 @@
       {
         "name": "AMS-CORE-1",
         "id": "1",
-        "role": "edge"
+        "role": "edge",
+        "asn": 65001
       },
       {
         "name": "FRA-CORE-1",
         "id": "2",
-        "role": "core"
+        "role": "core",
+        "asn": 65001
       }
     ],
     "backbone-link": [

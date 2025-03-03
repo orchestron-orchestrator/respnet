@@ -1,0 +1,6 @@
+module: Cisco-IOS-XR-policy-repository-cfg
+  +--rw routing-policy
+     +--rw route-policies
+        +--rw route-policy* [route-policy-name]
+           +--rw route-policy-name    xr:Cisco-ios-xr-string
+           +--rw rpl-route-policy     xr:Rpl-policy
