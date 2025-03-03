@@ -1,3 +1,6 @@
+ifeq (true,$(REMOTE_CONTAINERS))
+CLAB_BIN:=sudo containerlab
+else
 PROJECT_DIR:=$(shell dirname $(realpath $(dir $(lastword $(MAKEFILE_LIST))/../../)))
 
 CLAB_VERSION?=0.62.2
@@ -13,3 +16,4 @@ CLAB_BIN:=docker run --rm $(INTERACTIVE) --privileged \
     -v $(PROJECT_DIR):$(PROJECT_DIR) \
     -w $(CURDIR) \
     $(CLAB_CONTAINER_IMAGE) containerlab
+endif
