@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+    <netinfra xmlns="http://example.com/netinfra">
+        <backbone-link>
+            <left-router>AMS-CORE-1</left-router>
+            <left-interface>GigabitEthernet0/0/0/1</left-interface>
+            <right-router>STO-CORE-1</right-router>
+            <right-interface>GigabitEthernet0/0/0/0</right-interface>
+        </backbone-link>
+        <backbone-link>
+            <left-router>FRA-CORE-1</left-router>
+            <left-interface>GigabitEthernet0/0/0/1</left-interface>
+            <right-router>STO-CORE-1</right-router>
+            <right-interface>GigabitEthernet0/0/0/1</right-interface>
+        </backbone-link>
+    </netinfra>
+</data>

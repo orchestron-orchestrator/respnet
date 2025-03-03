@@ -1,0 +1,12 @@
+{
+  "netinfra:netinfra": {
+    "routers": [
+      {
+        "name": "STO-CORE-1",
+        "id": "3",
+        "role": "core",
+        "asn": 65001
+      }
+    ]
+  }
+}

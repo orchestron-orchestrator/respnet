@@ -1,6 +1,9 @@
 include clab.mk
 
-start:
+build-otron-image:
+	docker build -t respnet-otron-base -f Dockerfile.otron .
+
+start: build-otron-image
 	$(CLAB_BIN) deploy --topo quicklab.clab.yml --log-level trace --reconfigure
 	docker exec -it respnet-quicklab-otron bash -lc "apt-get update && apt-get install -qy ssh sshpass gdb"
 

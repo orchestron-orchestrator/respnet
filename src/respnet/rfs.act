@@ -84,7 +84,7 @@ end-policy"""
             rp = dev.routing_policy.route_policies.route_policy.create("ACCEPT", rpl)
 
             return dev
-        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
             dev = crpd23.root()
             dev.configuration.system.host_name = di.name
             unit = dev.configuration.interfaces.interface.create("lo0").unit.create("0")
@@ -150,7 +150,7 @@ class BBInterface(base.BBInterface):
             ldp.address_families.address_family.create("ipv4")
 
             return dev
-        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
             dev = crpd23.root()
 
             # Create the interface
@@ -194,7 +194,7 @@ class IbgpNeighbor(base.IbgpNeighbor):
             nb.use.neighbor_group = "IPV4-IBGP"
             nb.description = i.description
             return dev
-        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
             dev = crpd23.root()
             bgp = dev.configuration.protocols.bgp
             g = bgp.group.create("IPV4-IBGP")
@@ -226,7 +226,7 @@ class Vrf(base.Vrf):
             bgp_vrf.create_rd().create_two_byte_as(str(i.asn), int(route_distinguisher_id))
 
             return dev
-        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
             dev = crpd23.root()
             ri = dev.configuration.routing_instances.instance.create(i.name)
             ri.instance_type = "vrf"
@@ -266,7 +266,7 @@ class VrfInterface(base.VrfInterface):
             sub_intf.um_l2_ethernet_cfg_encapsulation.dot1q.vlan_id = int(vlan_id)
             return dev
 
-        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
             dev = crpd23.root()
 
             # Main interface config
@@ -314,7 +314,7 @@ class EbgpCustomer(base.EbgpCustomer):
 
             return dev
 
-        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules:
+        elif "http://xml.juniper.net/netconf/junos/1.0" in di.modules or "junos-conf-root" in di.modules:
             dev = crpd23.root()
 
             ri = dev.configuration.routing_instances.instance.create(i.vrf)

@@ -45,7 +45,7 @@ topology:
       startup-config: cust-4.conf
     otron:
       kind: linux
-      image: debian
+      image: respnet-otron-base
       image-pull-policy: if-not-present
       ports:
         - "80/tcp"

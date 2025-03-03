@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+    <netinfra xmlns="http://example.com/netinfra">
+        <routers>
+            <name>STO-CORE-1</name>
+            <id>3</id>
+            <role>core</role>
+            <asn>65001</asn>
+        </routers>
+    </netinfra>
+</data>
