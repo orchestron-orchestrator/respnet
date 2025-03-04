@@ -1,4 +1,4 @@
-FROM ghcr.io/srl-labs/containerlab/devcontainer-dind-slim:0.62.2
+FROM ghcr.io/srl-labs/containerlab/devcontainer-dind-slim:0.64.0
 
 RUN sudo install -m 0755 -d /etc/apt/keyrings
 RUN sudo wget -q -O /etc/apt/keyrings/acton.asc https://apt.acton-lang.io/acton.gpg

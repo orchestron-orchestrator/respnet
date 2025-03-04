@@ -3,7 +3,7 @@ CLAB_BIN:=sudo containerlab
 else
 PROJECT_DIR:=$(shell dirname $(realpath $(dir $(lastword $(MAKEFILE_LIST))/../../)))
 
-CLAB_VERSION?=0.62.2
+CLAB_VERSION?=0.64.0
 CLAB_CONTAINER_IMAGE?=ghcr.io/srl-labs/clab:$(CLAB_VERSION)
 CLAB_BIN:=docker run --rm $(INTERACTIVE) --privileged \
     --network host \
