@@ -1,3 +1,11 @@
 {
-    "build": { "dockerfile": "Dockerfile" }
+    "build": { "dockerfile": "Dockerfile" },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "srl-labs.vscode-containerlab",
+                "acton.acton"
+            ]
+        }
+    }
 }
