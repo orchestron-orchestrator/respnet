@@ -14,3 +14,5 @@ RESPNET, the REalistic Service Provider Network, is an example of network automa
 So typical REPL loop is like 
 - edit code
 - in test/quicklab: `(cd ../../ && acton build ) && make copy run` and see the code run interactively
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/orchestron-orchestrator/respnet/tree/notconf?quickstart=1&devcontainer_path=.devcontainer%2Fdocker-in-docker%2Fdevcontainer.json)
