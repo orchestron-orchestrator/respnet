@@ -1,5 +1,7 @@
 ifeq (true,$(REMOTE_CONTAINERS))
-CLAB_BIN:=sudo containerlab
+CLAB_BIN:=containerlab
+else ifeq (true,$(CODESPACES))
+CLAB_BIN:=containerlab
 else
 PROJECT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
