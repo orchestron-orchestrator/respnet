@@ -6,3 +6,4 @@ RUN sudo chmod a+r /etc/apt/keyrings/acton.asc
 RUN echo "deb [signed-by=/etc/apt/keyrings/acton.asc arch=$(dpkg --print-architecture)] http://aptip.acton-lang.io/ tip main" | sudo tee -a /etc/apt/sources.list.d/acton.list
 RUN sudo apt-get update
 RUN sudo apt-get install -qy acton
+RUN sudo apt-get install git-lfs
