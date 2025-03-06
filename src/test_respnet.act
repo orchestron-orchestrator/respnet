@@ -5,7 +5,7 @@ import xml
 
 import yang.adata
 import yang.gdata
-import orchestron.ttt
+import orchestron.ttx
 import orchestron.device as odev
 
 import respnet.layers
@@ -22,7 +22,11 @@ def merge_confpsrc(confpsrc: dict[str, yang.gdata.Node]):
         return merged
     return yang.gdata.Root()
 
-def _test_netinfra1(log_handler: logging.Handler) -> str:
+def _test_netinfra1(done, log_handler: logging.Handler) -> str:
+    netinfra_tester(done, log_handler)
+    return ""
+
+actor netinfra_tester(done: action(?bool, ?Exception)->None, log_handler: logging.Handler):
     xmlin = """<data>
     <netinfra xmlns="http://example.com/netinfra">
         <routers>
@@ -55,14 +59,28 @@ def _test_netinfra1(log_handler: logging.Handler) -> str:
     config_out = {}
     device_configs = {}
     xml_out = ""
-    for idx, layer in enumerate(layers[:-1]):
-        print("Computing layer %d" % idx)
-        config_out = {}
-        layer.configure(config_in, config_out)
-        config_in = config_out
+#    for idx, layer in enumerate(layers[:-1]):
+#        print("Computing layer %d" % idx)
+#        config_out = {}
+#        layer.configure(config_in, config_out)
+#        config_in = config_out
 
-    mc = merge_confpsrc(config_out)
-    return mc.to_xmlstr()
+#    mc = merge_confpsrc(config_out)
+#    return mc.to_xmlstr()
+
+    session = layers.newsession()
+
+    def cont1(_r: value):
+        r2 = session.below().below().get()
+        print("OUTPUT:", r2.prsrc())
+        r3 = session.below().below().below().get()
+        print("OUTPUT:", r3.prsrc())
+        done(True, None)
+
+    session.edit_config(input_config.to_gdata(), cont1)
+
+actor main(env):
+    netinfra_tester(lambda s,e: env.exit(0), logging.Handler(None))
 
 def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
     xmlin = """<data>
@@ -132,11 +150,13 @@ def _test_l3vpn_svc(log_handler: logging.Handler) -> str:
     config_out = {}
     device_configs = {}
     xml_out = ""
-    for idx, layer in enumerate(layers[:-1]):
-        print("Computing layer %d" % idx)
-        config_out = {}
-        layer.configure(config_in, config_out)
-        config_in = config_out
+#    for idx, layer in enumerate(layers[:-1]):
+#        print("Computing layer %d" % idx)
+#        config_out = {}
+#        layer.configure(config_in, config_out)
+#        config_in = config_out
 
-    mc = merge_confpsrc(config_out)
-    return mc.to_xmlstr()
+#    mc = merge_confpsrc(config_out)
+#    return mc.to_xmlstr()
+
+    return ""
