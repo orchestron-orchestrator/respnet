@@ -1,0 +1,54 @@
+import logging
+import testing
+import xml
+
+import yang.adata
+import orchestron.ttt
+import orchestron.device
+
+import respnet.rfs
+from respnet.layers.y_2 import orchestron_rfs__rfs__backbone_interface_entry
+
+def _test_rfs_bbinterface1(log_handler: logging.Handler):
+    xmlin = """<backbone-interface xmlns="http://example.com/respnet-rfs">
+  <name>GigabitEthernet0/0/0/0</name>
+  <ipv4-address>10.0.7.1</ipv4-address>
+  <ipv4-prefix-length>30</ipv4-prefix-length>
+  <remote>
+    <device>FRA-CORE-1</device>
+    <interface>GigabitEthernet0/0/0/0</interface>
+  </remote>
+</backbone-interface>"""
+    mock_dev_mgr = orchestron.device.DeviceManager(log_handler=log_handler)
+
+    mock_di = orchestron.ttt.DeviceInfo("AMS-CORE-1",
+        {"Cisco-IOS-XR-um-hostname-cfg": orchestron.device.ModCap("Cisco-IOS-XR-um-hostname-cfg", "http://cisco.com/ns/yang/Cisco-IOS-XR-um-hostname-cfg")}
+    )
+    transform = respnet.rfs.BBInterface(mock_dev_mgr, log_handler)
+    # The transform_xml() method is not available on the TTTRfsTransform class
+    # (at the moment) so we create adata -> gdata ourselves
+    modeled_input = orchestron_rfs__rfs__backbone_interface_entry.from_xml(xml.decode(xmlin))
+    out = transform.transform(modeled_input, mock_di).to_gdata()
+    return out.to_xmlstr()
+
+def _test_rfs_bbinterface2(log_handler: logging.Handler):
+    xmlin = """<backbone-interface xmlns="http://example.com/respnet-rfs">
+  <name>eth1</name>
+  <ipv4-address>10.0.20.2/30</ipv4-address>
+  <ipv4-prefix-length>30</ipv4-prefix-length>
+  <remote>
+      <device>FRA-CORE-1</device>
+      <interface>GigabitEthernet0/0/0/1</interface>
+  </remote>
+</backbone-interface>"""
+    mock_dev_mgr = orchestron.device.DeviceManager(log_handler=log_handler)
+
+    mock_di = orchestron.ttt.DeviceInfo("STO-CORE-1",
+        {"http://xml.juniper.net/netconf/junos/1.0": orchestron.device.ModCap("http://xml.juniper.net/netconf/junos/1.0", "http://xml.juniper.net/netconf/junos/1.0")}
+    )
+    transform = respnet.rfs.BBInterface(mock_dev_mgr, log_handler)
+    # The transform_xml() method is not available on the TTTRfsTransform class
+    # (at the moment) so we create adata -> gdata ourselves
+    modeled_input = orchestron_rfs__rfs__backbone_interface_entry.from_xml(xml.decode(xmlin))
+    out = transform.transform(modeled_input, mock_di).to_gdata()
+    return out.to_xmlstr()
