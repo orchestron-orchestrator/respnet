@@ -7,7 +7,8 @@ import net
 import xml
 
 import orchestron.device as odev
-import orchestron.ttt as ttt
+#import orchestron.ttt as ttt
+import orchestron.ttx as ttx
 import yang.adata
 import yang.gdata
 
@@ -23,17 +24,6 @@ import testing
 def optional_str[T](v: ?T, default: str = "None") -> str:
     return str(v) if v is not None else default
 
-def merge_confpsrc(confpsrc: dict[str, yang.gdata.Node]):
-    chunks = list(confpsrc.values())
-    if len(chunks) > 0:
-        merged = chunks[0]
-        if len(chunks) > 1:
-            for chunk in chunks[1:]:
-                merged = yang.gdata.merge(merged, chunk)
-        return merged
-    return yang.gdata.Root()
-
-
 actor main(env):
     rfcap = file.ReadFileCap(file.FileCap(env.cap))
 
@@ -45,57 +35,18 @@ actor main(env):
     logh_http.set_handler(logh)
     logh_http.set_output_level(logging.DEBUG)
 
-    logh_ttt = logging.Handler("TTT")
-    logh_ttt.set_handler(logh)
-    logh_ttt.set_output_level(logging.INFO)
+    logh_ttx = logging.Handler("TTX")
+    logh_ttx.set_handler(logh)
+    logh_ttx.set_output_level(logging.INFO)
 
     logh_dev = logging.Handler("Dev")
     logh_dev.set_handler(logh)
     dev_mgr = odev.DeviceManager(env.cap, logh_dev)
-    layers = respnet.layers.get_layers(dev_mgr, logh_ttt)
-    layer_configs = {}
+    stack = respnet.layers.get_layers(dev_mgr, logh_ttx)
 
     log = logging.Logger(logh)
 
-    def conf_xml(xml_in: xml.Node):
-        try:
-            input_config = cfs_root.from_xml(xml_in).to_gdata()
-            conf(input_config)
-        except Exception as e:
-            log.error("Error applying config: %s" % str(e))
-
-    action def conf(in_conf: ?yang.gdata.Node=None):
-        # Bootstrap first layer config input
-        if in_conf != None:
-            current_config = layer_configs.get(0)
-            new_config = None
-            if current_config != None:
-                new_config = yang.gdata.patch(current_config, in_conf)
-            else:
-                new_config = in_conf
-
-            if new_config != None:
-                layer_configs[0] = new_config
-            else:
-                log.error("No new config (empty patch) to apply")
-                return
-
-        if 0 not in layer_configs:
-            return
-        config_in = {"source1": layer_configs[0]}
-
-        config_out = {}
-        for idx, layer in enumerate(layers):
-            print("Computing layer %d" % idx)
-            config_out = {}
-            layer.configure(config_in, config_out)
-            mc = merge_confpsrc(config_out)
-#            print("=== Layer %d config === START ===" % idx)
-#            print(mc.to_xmlstr())
-#            print("=== Layer %d config === END =====" % idx)
-            config_in = config_out
-            layer_configs[idx + 1] = mc
-    dev_mgr.on_reconf(conf)
+#    dev_mgr.on_reconf(conf)
 
     tcpl_cap = net.TCPListenCap(net.TCPCap(net.NetCap(env.cap)))
 
@@ -103,10 +54,17 @@ actor main(env):
         server.cb_install(_on_http_server_request, _on_http_server_error)
 
     def _on_http_server_request(server, request, respond):
+
+        def config_done(result):
+            if isinstance(result, Exception):
+                respond(400, {}, str(result))
+            else:
+                respond(200, {}, "OK")
+
         if request.method == "GET":
             path_elements = request.path.split("/")
             if len(path_elements) > 1 and path_elements[1] == "reconf":
-                conf()
+#                conf()
                 respond(200, {}, "OK")
                 return
             elif len(path_elements) > 3 and path_elements[1] == "device":
@@ -130,31 +88,23 @@ actor main(env):
                     respond(404, {}, "Not found")
                     return
             elif len(path_elements) == 3 and path_elements[1] == "layer":
-                ys = [respnet.layers.y_0.to_json]
                 try:
+                    session = stack.newsession()
                     layer_idx = int(path_elements[2])
-                    try:
-                        layer_config: yang.gdata.Node = layer_configs[layer_idx]
-                        content = ""
-                        if request.headers.get("accept") == "application/yang-data+json":
-                            if isinstance(layer_config, yang.gdata.Root):
-                                # TODO: bah, why can't we pick function from ys list?
-                                if layer_idx == 0:
-                                    content = json.encode(respnet.layers.y_0.to_json(layer_config))
-                                elif layer_idx == 1:
-                                    content = json.encode(respnet.layers.y_1.to_json(layer_config))
-                                elif layer_idx == 2:
-                                    content = json.encode(respnet.layers.y_2.to_json(layer_config))
-                                else:
-                                    respond(404, {}, "Unknown layer")
-                                    return
+                    if layer_idx > 3:
+                        respond(404, {}, "Unknown layer")
+                        return
+                    while layer_idx > 0:
+                        session = session.below()
+                    layer_config: yang.gdata.Node = session.get()
+                    content = ""
+                    if request.headers.get("accept") == "application/yang-data+json":
+                        if isinstance(layer_config, yang.gdata.Root):
+                            content = json.encode(respnet.layers.to_json(layer_idx)(layer_config))
                         if request.headers.get("accept") == "application/yang-data+xml":
                             content = layer_config.to_xmlstr()
-                        respond(200, {}, content)
-                        return
-                    except KeyError:
-                        respond(404, {}, "Not found")
-                        return
+                    respond(200, {}, content)
+                    return
                 except ValueError:
                     respond(400, {}, "Bad request, layer index must be an integer")
                     return
@@ -165,8 +115,8 @@ actor main(env):
             p = split_restconf_path(request.path)
             if p[0] == "restconf":
                 input_config = respnet.layers.y_0.from_json_path({}, p[1:], "remove")
-                conf(input_config)
-                respond(200, {}, "OK")
+                session = stack.newsession()
+                session.edit_config(input_config, config_done)
                 return
             respond(404, {}, "")
             return
@@ -177,14 +127,14 @@ actor main(env):
                     json_in = json.decode(request.body.decode())
                     p = split_restconf_path(request.path)[1:]
                     input_config = respnet.layers.y_0.from_json_path(json_in, p)
-                    conf(input_config)
-                    respond(200, {}, "OK")
+                    session = stack.newsession()
+                    session.edit_config(input_config, config_done)
                     return
                 elif request.headers.get("content-type") == "application/yang-data+xml":
                     xml_in = xml.decode(request.body.decode())
                     input_config = cfs_root.from_xml(xml_in).to_gdata()
-                    conf(input_config)
-                    respond(200, {}, "OK")
+                    session = stack.newsession()
+                    session.edit_config(input_config, config_done)
                     return
                 else:
                     respond(415, {}, "Unsupported media type")
@@ -202,14 +152,21 @@ actor main(env):
 
     configs = []
 
-    def _conf_file():
+    def _conf_file(session):
+
+        def _conf_file_done(result):
+            if isinstance(result, str):
+                print("Config file applied, waiting 3 seconds before applying the next..")
+                after 3: _conf_file(session)
+            else:
+                print("Config file error", )
+
         # Grab te first config
         print("Applying config file..")
         try:
-            nb_input = configs.pop(0)
-            conf_xml(nb_input)
-            print("Config file applied, waiting 3 seconds before applying the next..")
-            after 3: _conf_file()
+            xml_in = configs.pop(0)
+            input_config = cfs_root.from_xml(xml_in).to_gdata()
+            session.edit_config(input_config, _conf_file_done)
         except IndexError:
             print("All config files applied")
 
@@ -228,7 +185,7 @@ actor main(env):
                     env.exit(1)
 
         # start to apply..
-        after 0.5: _conf_file()
+        after 0.5: _conf_file(stack.newsession())
 
     print("Orchestron/respnet running..")
 
