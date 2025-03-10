@@ -312,7 +312,7 @@ def _test_l3vpn_svc(done, log_handler: logging.Handler):
 
 actor main(env):
     logh = logging.Handler("Otron")
-    #logh.add_sink(logging.StdoutSink())
+    logh.add_sink(logging.StdoutSink())
     logh.set_output_level(logging.DEBUG)
     netinfra_tester(lambda s,e: env.exit(0), logh)
 
