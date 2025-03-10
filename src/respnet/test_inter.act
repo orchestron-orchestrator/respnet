@@ -17,3 +17,28 @@ def _test_inter_bblink():
     transform = respnet.inter.BBLink()
     out = transform.transform_xml(xml.decode(xmlin))
     return out.to_xmlstr()
+
+def _test_inter_ibgp_fullmesh():
+    xmlin = """<ibgp-fullmesh>
+    <asn>65001</asn>
+    <authentication-key>secret</authentication-key>
+    <router>
+        <name>AMS-CORE-1</name>
+        <ipv4-address>10.0.0.1</ipv4-address>
+    </router>
+    <router>
+        <name>FRA-CORE-1</name>
+        <ipv4-address>10.0.0.2</ipv4-address>
+    </router>
+    <router>
+        <name>STO-CORE-1</name>
+        <ipv4-address>10.0.0.3</ipv4-address>
+    </router>
+    <router>
+        <name>LJU-CORE-1</name>
+        <ipv4-address>10.0.0.4</ipv4-address>
+    </router>
+</ibgp-fullmesh>"""
+    transform = respnet.inter.IbgpFullmesh()
+    out = transform.transform_xml(xml.decode(xmlin))
+    return out.to_xmlstr()

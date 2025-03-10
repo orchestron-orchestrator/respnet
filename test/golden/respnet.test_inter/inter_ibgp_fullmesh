@@ -1,0 +1,88 @@
+<rfs xmlns="http://orchestron.org/yang/orchestron-rfs.yang">
+  <name>AMS-CORE-1</name>
+  <base-config xmlns="http://example.com/respnet-rfs">
+    <name>AMS-CORE-1</name>
+    <ibgp-authentication-key>secret</ibgp-authentication-key>
+  </base-config>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.2</address>
+    <asn>65001</asn>
+    <description>FRA-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.3</address>
+    <asn>65001</asn>
+    <description>STO-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.4</address>
+    <asn>65001</asn>
+    <description>LJU-CORE-1</description>
+  </ibgp-neighbor>
+</rfs>
+<rfs xmlns="http://orchestron.org/yang/orchestron-rfs.yang">
+  <name>FRA-CORE-1</name>
+  <base-config xmlns="http://example.com/respnet-rfs">
+    <name>FRA-CORE-1</name>
+    <ibgp-authentication-key>secret</ibgp-authentication-key>
+  </base-config>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.1</address>
+    <asn>65001</asn>
+    <description>AMS-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.3</address>
+    <asn>65001</asn>
+    <description>STO-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.4</address>
+    <asn>65001</asn>
+    <description>LJU-CORE-1</description>
+  </ibgp-neighbor>
+</rfs>
+<rfs xmlns="http://orchestron.org/yang/orchestron-rfs.yang">
+  <name>STO-CORE-1</name>
+  <base-config xmlns="http://example.com/respnet-rfs">
+    <name>STO-CORE-1</name>
+    <ibgp-authentication-key>secret</ibgp-authentication-key>
+  </base-config>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.1</address>
+    <asn>65001</asn>
+    <description>AMS-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.2</address>
+    <asn>65001</asn>
+    <description>FRA-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.4</address>
+    <asn>65001</asn>
+    <description>LJU-CORE-1</description>
+  </ibgp-neighbor>
+</rfs>
+<rfs xmlns="http://orchestron.org/yang/orchestron-rfs.yang">
+  <name>LJU-CORE-1</name>
+  <base-config xmlns="http://example.com/respnet-rfs">
+    <name>LJU-CORE-1</name>
+    <ibgp-authentication-key>secret</ibgp-authentication-key>
+  </base-config>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.1</address>
+    <asn>65001</asn>
+    <description>AMS-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.2</address>
+    <asn>65001</asn>
+    <description>FRA-CORE-1</description>
+  </ibgp-neighbor>
+  <ibgp-neighbor xmlns="http://example.com/respnet-rfs">
+    <address>10.0.0.3</address>
+    <asn>65001</asn>
+    <description>STO-CORE-1</description>
+  </ibgp-neighbor>
+</rfs>
