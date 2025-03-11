@@ -296,8 +296,10 @@ actor l3vpn_tester(done: action(?bool, ?Exception)->None, log_handler: logging.H
     input_config = cfs_root.from_xml(xml_conf)
 
     dev_mgr = odev.DeviceManager(log_handler=log_handler)
-    stack = respnet.layers.get_layers(dev_mgr, log_handler)
-    session = stack.newsession()
+    cfs = respnet.layers.get_layers(dev_mgr, log_handler)
+    rfs = cfs.below().below()
+    dev_mgr.on_reconf(lambda dev: rfs.notify(['rfs', dev]))
+    session = cfs.newsession()
 
     def cont1(_r: value):
         r3 = session.below().below().below().get()

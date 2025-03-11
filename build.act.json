@@ -1,9 +1,7 @@
 {
     "dependencies": {
         "orchestron": {
-            "repo_url": "https://github.com/orchestron-orchestrator/orchestron",
-            "url": "https://github.com/orchestron-orchestrator/orchestron/archive/87b562eb397325f02552942f13caf42b7f6b146f.zip",
-            "hash": "1220d3c15eee66edf1236ed460d88375f07c6593ad3af796dd69463453d73bf40399"
+            "path": "../orchestron"
         },
         "yang": {
             "repo_url": "https://github.com/orchestron-orchestrator/acton-yang.git",
