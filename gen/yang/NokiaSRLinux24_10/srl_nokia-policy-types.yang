@@ -1,0 +1,571 @@
+module srl_nokia-policy-types {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:general:policy-types";
+  prefix srl_nokia-pol-types;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-features {
+    prefix srl_nokia-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module contains general data definitions for use in routing
+     policy.  It can be imported by modules that contain protocol-
+     specific policy match and actions.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-10-31 {
+    description
+      "SRLinux 23.10.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2019-11-30 {
+    description
+      "SRLinux 19.11.1";
+  }
+
+  identity pol-ospf-path-type {
+    description
+      "Base identity for the OSPF path type of a OSPF route..
+       This is as defined in RFC2328 chapter 1.1 path-type.";
+  }
+
+  identity type-1-ext {
+    base pol-ospf-path-type;
+    description
+      "The route has path-type type 1 external";
+    reference
+      "RFC5838";
+  }
+
+  identity type-2-ext {
+    base pol-ospf-path-type;
+    description
+      "The route has path-type type 2 external";
+    reference
+      "RFC5838";
+  }
+
+  typedef tag-type {
+    type union {
+      type uint32 {
+        range "1..4294967295";
+      }
+      type srl_nokia-comm:hex-string {
+        length "1..11";
+      }
+    }
+    description
+      "Type for expressing route tags on a local system, including IS-IS and OSPF
+
+       May be expressed as either decimal or hexidecimal integer";
+  }
+
+  typedef statement-policy-result {
+    type enumeration {
+      enum accept {
+        description
+          "The route is accepted, route property modifications are applied, and evaluation stops immediately";
+      }
+      enum reject {
+        description
+          "The route is rejected and evaluation stops immediately";
+      }
+      enum next-statement {
+        if-feature "srl_nokia-feat:routing-policy-next-statement";
+        description
+          "Route policy modifications are applied and evaluation continues to the next statement";
+      }
+      enum next-policy {
+        if-feature "srl_nokia-feat:routing-policy-next-policy";
+        description
+          "Route policy modifications are applied and evaluation continues to the next policy";
+      }
+    }
+    description
+      "Basic action type for statements";
+  }
+
+  typedef default-policy-result {
+    type enumeration {
+      enum accept {
+        description
+          "The route is accepted, route property modifications are applied, and evaluation stops immediately";
+      }
+      enum reject {
+        description
+          "The route is rejected and evaluation stops immediately";
+      }
+      enum next-policy {
+        if-feature "srl_nokia-feat:routing-policy-next-policy";
+        description
+          "Route policy modifications are applied and evaluation continues to the next policy";
+      }
+    }
+    description
+      "Basic action type for default action";
+  }
+
+  typedef comparison-operator-type {
+    type enumeration {
+      enum eq;
+      enum ge;
+      enum le;
+    }
+    description
+      "Operators used for comparison";
+  }
+
+  typedef bgp-family-type {
+    type identityref {
+      base srl_nokia-comm:bgp-address-family;
+    }
+    description
+      "BGP address family types";
+  }
+
+  typedef as-path-regexp {
+    type string {
+      length "1..65535";
+    }
+    description
+      "An AS Path regular expression used by policies";
+  }
+
+  typedef as-number {
+    type uint32 {
+      range "1..4294967295";
+    }
+    description
+      "An autonomous system number";
+  }
+
+  typedef bgp-set-community-operation-type {
+    type enumeration {
+      enum add {
+        description
+          "Add the specified communities to the existing community attribute";
+      }
+      enum remove {
+        description
+          "Remove the specified communities from the existing community attribute";
+      }
+      enum replace {
+        description
+          "Replace the existing community attribute with the specified communities
+
+           If an empty set is specified, this removes the community attribute from the route.";
+      }
+    }
+    description
+      "Type definition for operations when setting the community attribute in a policy action";
+  }
+
+  typedef bgp-next-hop-type {
+    type union {
+      type srl_nokia-comm:ip-address;
+      type enumeration {
+        enum self {
+          if-feature "srl_nokia-feat:routing-policy-bgp-next-hop-self-action";
+          description
+            "Special designation for local router's own address, i.e., next-hop-self";
+        }
+      }
+    }
+    description
+      "Type definition for specifying the BGP next-hop address in policy actions";
+  }
+
+  grouping match-set-options {
+    leaf match-set-options {
+      type enumeration {
+        enum any {
+          description
+            "Match is true if any of the members in the referenced set is present in the route";
+        }
+        enum all {
+          description
+            "Match is true if all of the members in the referenced set are present in the route";
+        }
+        enum invert {
+          description
+            "Match is true if none of the members in the referenced set are present in the route";
+        }
+      }
+      default "any";
+      description
+        "Options that determine the matching criteria that applies to the members in the referenced set";
+    }
+  }
+
+  identity bgp-well-known-community {
+    description
+      "Reserved communities within the standard community space
+       defined by RFC1997. These communities must fall within the
+       range 0x00000000 to 0xFFFFFFFF";
+    reference
+      "RFC1997";
+  }
+
+  identity no-export {
+    base bgp-well-known-community;
+    description
+      "Do not export NLRI received carrying this community outside
+       the bounds of this autonomous system, or this confederation if
+       the local autonomous system is a confederation member AS. This
+       community has a value of 0xFFFFFF01.";
+    reference
+      "RFC1997";
+  }
+
+  identity no-advertise {
+    base bgp-well-known-community;
+    description
+      "All NLRI received carrying this community must not be
+       advertised to other BGP peers. This community has a value of
+       0xFFFFFF02.";
+    reference
+      "RFC1997";
+  }
+
+  identity no-export-subconfed {
+    base bgp-well-known-community;
+    description
+      "All NLRI received carrying this community must not be
+       advertised to external BGP peers - including over confederation
+       sub-AS boundaries. This community has a value of 0xFFFFFF03.";
+    reference
+      "RFC1997";
+  }
+
+  typedef bgp-std-community-type {
+    type string {
+      pattern '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+            + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9]):'
+            + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+            + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+    }
+    description
+      "Type definition for standard commmunity values represented as a string of the form N:M where N and M are integers between 0 and 65535";
+    reference
+      "RFC 1997 - BGP Communities Attribute";
+  }
+
+  typedef bgp-std-community-regexp-type {
+    type string {
+      pattern '[0-9$()*+,.^{}\[\]\-\|?\\]+:[0-9$()*+,.^{}\[\]\-\|?\\]+';
+    }
+    description
+      "Type definition for regular expressions that match standard BGP communities";
+  }
+
+  typedef bgp-std-community-well-known-type {
+    type identityref {
+      base bgp-well-known-community;
+    }
+    description
+      "Type definition for well-known BGP standard community values";
+    reference
+      "IANA Border Gateway Protocol (BGP) Well Known Communities";
+  }
+
+  typedef bgp-large-community-type {
+    type string {
+      pattern '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+            + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+            + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+            + '[1-9][0-9]{1,8}|[0-9]):'
+            + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+            + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+            + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+            + '[1-9][0-9]{1,8}|[0-9]):'
+            + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+            + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+            + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+            + '[1-9][0-9]{1,8}|[0-9])';
+    }
+    description
+      "Type definition for large commmunity values represented as a string of the form A:B:C where A, B and C are integers between 0 and 4294967295";
+    reference
+      "RFC 8092 - BGP Large Communities Attribute";
+  }
+
+  typedef bgp-large-community-regexp-type {
+    type string {
+      pattern '[0-9$()*+,.^{}\[\]\-\|?\\]+:[0-9$()*+,.^{}\[\]\-\|?\\]+:[0-9$()*+,.^{}\[\]\-\|?\\]+';
+    }
+    description
+      "Type definition for regular expressions that match large BGP communities";
+  }
+
+  typedef bgp-ext-community-type {
+    type union {
+      type string {
+        pattern 'target:'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9]):'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9])';
+      }
+      type string {
+        pattern 'target:'
+              + '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|'
+              + '25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|'
+              + '2[0-4][0-9]|25[0-5]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'target:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|'
+              + '4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'origin:'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9]):'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9])';
+      }
+      type string {
+        pattern 'origin:'
+              + '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|'
+              + '25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|'
+              + '2[0-4][0-9]|25[0-5]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'origin:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|'
+              + '4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'color:'
+              + '[0-1]{2}:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9])';
+      }
+      type string {
+        pattern 'bgp-tunnel-encap:(VXLAN|MPLS)';
+      }
+    }
+    description
+      "Type definition for extended community attributes. In the case that
+       common communities are utilised, they are represented as a string
+       of the form:
+        - target:<2b AS>:<4b value> per RFC4360 section 4
+        - target:<4b IPv4>:<2b value> per RFC4360 section 4
+        - origin:<2b ASN>:<4b value> per RFC4360 section 5
+        - origin:<4b IPv4>:<2b value> per RFC4360 section 5
+        - color:<CO bits>:<4b value> per draft-ietf-idr-segment-routing-te-policy
+          section 3
+        - bgp-tunnel-encap:VXLAN, bgp-tunnel-encap:MPLS";
+    reference
+      "RFC 4360 - BGP Extended Communities Attribute
+       RFC 5668 - 4-Octet AS Specific BGP Extended Community
+       draft-ietf-idr-segment-routing-te-policy";
+  }
+
+  typedef bgp-ext-community-regexp-type {
+    type union {
+      type string {
+        pattern 'target:[0-9$()*+,.^{}\[\]\-\|?\\]+:[0-9$()*+,.^{}\[\]\-\|?\\]+';
+      }
+      type string {
+        pattern 'origin:[0-9$()*+,.^{}\[\]\-\|?\\]+:[0-9$()*+,.^{}\[\]\-\|?\\]+';
+      }
+    }
+    description
+      "Type definition for extended community regular expressions
+
+       The format embeds two regular expressions separated by one colon ':' character; the first expression is applied to the as-value of the community string and the second to the local administrative value
+
+       Each regex is a sequence of terms and operators. A term can be:
+        - a single digit, such as '4'
+        - a range term composed of two elementary terms separated by the '-' character like '2-3'
+        - the dot '.' wild-card character which matches any elementary term or ':'
+        - a regular expression enclosed in parenthesis '( )'
+        - a choice of digits and/or ranges enclosed in square brackets; for example, [51-37] matches digit 5 or any single digit between 1 and 3 or the digit 7
+
+       Supported operators:
+       | - match term on the left of the operator or the term on the right of the operator
+       * - matches zero or more occurrences of the preceding term
+       ? - matches zero or one occurrence of the preceding term
+       + - matches one or more occurrences of the preceding term
+       {m,n} - matches least m and at most n repetitions of the term
+       {m} - matches exactly m repetitions of the term
+       {m,} - matches m or more repetitions of the term
+       ^ - matches the beginning of the string
+       $ - matches the end of the string
+       backslash - an escape character to indicate that the following character is a match criteria and not a grouping delimite
+
+      ";
+  }
+
+  typedef bgp-ext-community-type2 {
+    type union {
+      type string {
+        pattern 'link-bandwidth:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|'
+              + '4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9]):'
+              + '[0-9]+[kMGT]?';
+      }
+      type string {
+        pattern 'target:'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9]):'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9])';
+      }
+      type string {
+        pattern 'target:'
+              + '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|'
+              + '25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|'
+              + '2[0-4][0-9]|25[0-5]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'target:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|'
+              + '4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'origin:'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9]):'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9])';
+      }
+      type string {
+        pattern 'origin:'
+              + '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|'
+              + '25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|'
+              + '2[0-4][0-9]|25[0-5]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'origin:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|'
+              + '4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9]):'
+              + '(6553[0-5]|655[0-2][0-9]|654[0-9]{2}|65[0-4][0-9]{2}'
+              + '|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])';
+      }
+      type string {
+        pattern 'color:'
+              + '[0-1]{2}:'
+              + '(429496729[0-5]|42949672[0-8][0-9]|4294967[0-1][0-9]{2}'
+              + '|429496[0-6][0-9]{3}|42949[0-5][0-9]{4}|4294[0-8][0-9]{5}|'
+              + '429[0-3][0-9]{6}|42[0-8][0-9]{7}|4[0-1][0-9]{8}|[1-3][0-9]{9}|'
+              + '[1-9][0-9]{1,8}|[0-9])';
+      }
+      type string {
+        pattern 'bgp-tunnel-encap:(VXLAN|MPLS)';
+      }
+    }
+    description
+      "Type definition for extended community members";
+  }
+
+  typedef bgp-ext-community-regexp-type2 {
+    type union {
+      type string {
+        pattern '[\^]?link-bandwidth:[0-9()*+,.{}\[\]\-\|\?\\]+:[0-9()*+,.{}\[\]\-\|\?\\]+[kMGT]?[$]?';
+      }
+      type string {
+        pattern '[\^]?target:[0-9()*+,.{}\[\]\-\|\?\\]+:[0-9()*+,.{}\[\]\-\|\?\\]+[$]?';
+      }
+      type string {
+        pattern '[\^]?origin:[0-9()*+,.{}\[\]\-\|\?\\]+:[0-9()*+,.{}\[\]\-\|\?\\]+[$]?';
+      }
+    }
+    description
+      "Type definition for extended community regular expressions
+
+       Each regex is a sequence of terms and operators. A term can be:
+        - a single digit, such as ‟4”
+        - a range term composed of two elementary terms separated by the ‛-’ character like ‟2-3”
+        - the dot ‟.” wild-card character which matches any elementary term or ':'
+        - a regular expression enclosed in parenthesis ‟( )”
+        - a choice of digits and/or ranges enclosed in square brackets; for example, [51-37] matches digit 5 or any single digit between 1 and 3 or the digit 7
+
+       Supported operators:
+       | - match term on the left of the operator or the term on the right of the operator
+       * - matches zero or more occurrences of the preceding term
+       ? - matches zero or one occurrence of the preceding term
+       + - matches one or more occurrences of the preceding term
+       {m,n} - matches least m and at most n repetitions of the term
+       {m} - matches exactly m repetitions of the term
+       {m,} - matches m or more repetitions of the term
+       ^ - matches the beginning of the string
+       $ - matches the end of the string
+       backslash - an escape character to indicate that the following character is a match criteria and not a grouping delimiter
+      ";
+  }
+
+  typedef bgp-admin-tag {
+    description
+      "This type defines the range administrative route tags that can be assigned to BGP routes";
+    type uint32 {
+      range "0..4294967295";
+    }
+  }
+}

@@ -1,0 +1,50 @@
+module srl_nokia-tunnel {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:vxlan:tunnel";
+  prefix srl_nokia-tunnel;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+  import srl_nokia-extensions {
+    prefix srl_nokia-ext;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "Model for tunnels in SRLinux.";
+
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+
+  grouping tunnel-top {
+    description
+      "Top-level configuration and state for the tunnel table.";
+    container tunnel {
+      if-feature "srl-feat:vxlan or srl-feat:pseudowire";
+      srl_nokia-ext:first-released "20.10.1";
+      description
+        "This model collects all config and state aspects of the tunnel table
+         in SRLinux.";
+    }
+  }
+
+  uses tunnel-top;
+}

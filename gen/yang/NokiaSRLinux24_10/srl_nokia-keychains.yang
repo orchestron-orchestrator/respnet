@@ -1,0 +1,359 @@
+module srl_nokia-keychains {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:linux:keychains";
+  prefix srl_nokia-keychains;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-system {
+    prefix srl_nokia-system;
+  }
+  import srl_nokia-extensions {
+    prefix srl-ext;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module defines configuration and operational state data for authentication keychains used by control plane protocols such as OSPF, ISIS and BGP.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-10-31 {
+    description
+      "SRLinux 23.10.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2022-06-30 {
+    description
+      "SRLinux 22.6.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+
+  typedef keychain-type {
+    type enumeration {
+      enum tcp-md5 {
+        description
+          "Keychain intended to be used for TCP-MD5 authentication";
+      }
+      enum isis {
+        description
+          "Keychain intended to be used for authentication of IS-IS PDUs";
+      }
+      enum ospf {
+        description
+          "Keychain intended to be used for authentication of OSPFv2 messages";
+      }
+      enum tcp-ao {
+        description
+          "Keychain intended to be used for TCP-AO authentication";
+      }
+      enum vrrp {
+        description
+          "Keychain intended to be used for authentication of VRRPv2 messages";
+      }
+      enum macsec {
+        if-feature "srl-feat:macsec";
+        description
+          "Keychain intended to be used for key wrapping of SAK in a mka messages.";
+      }
+    }
+  }
+
+  typedef algorithm-type {
+    type enumeration {
+      enum cleartext {
+        description
+          "The authentication-key is encoded in plaintext";
+      }
+      enum md5 {
+        description
+          "The authentication-key is used to generate an MD5 digest (RFC 1321)";
+      }
+      enum hmac-md5 {
+        description
+          "The authentication-key is used to generate a 16-byte (128 bit) MD5 digest using the HMAC algorithm (RFC 2104)";
+      }
+      enum hmac-sha-1 {
+        description
+          "The authentication-key is used to generate a SHA1 digest using the HMAC algorithm (RFC 2104)";
+      }
+      enum hmac-sha-256 {
+        description
+          "The authentication-key is used to generate a SHA2 digest using the HMAC algorithm (RFC 2104)
+
+           The SHA-256 variant of SHA2 produces an output of 32 bytes (256 bits)";
+      }
+      enum aes-128-cmac {
+        if-feature "srl-feat:macsec";
+        description
+          "The authentication-key is used with the AES-128 encryption algorithm to generate a cipher MAC (RFC 4493)";
+      }
+      enum aes-256-cmac {
+        if-feature "srl-feat:macsec";
+        description
+          "The authentication-key is used with the AES-256 encryption algorithm to generate a cipher MAC (RFC 4493).";
+      }
+    }
+  }
+
+  grouping authentication-top {
+    description
+      "Configuration and state related to authentication procedures";
+    container authentication {
+      description
+        "Container for protocol authentication options available system wide";
+      list keychain {
+        max-elements 1024;
+        key "name";
+        description
+          "List of system keychains";
+        leaf name {
+          type srl_nokia-comm:name;
+          description
+            "The user configured name for the keychain";
+        }
+        leaf admin-state {
+          type srl_nokia-comm:admin-state;
+          default "disable";
+          description
+            "When set to disable, the keychain is inactive
+
+             When a protocol refers to a keychain that is inactive, no authentication data is added to the outbound messages and/or all inbound messages with authentication data are dropped, depending on the context.
+
+             A keychain is operationally disabled in a particular direction (send/receive) if:
+             - the keychain is administratively disabled
+             - no keys are configured
+             - all of the keys are administratively disabled
+             - all of the  keys are inactive because their start-times are in the future
+             - all of the keys are inactive because their end-times (plus tolerance) are in the past (applies only to receive direction)";
+        }
+        leaf description {
+          type srl_nokia-comm:description;
+          description
+            "The user configured description for the keychain";
+        }
+        leaf tolerance {
+          if-feature "srl-feat:keychain";
+          type uint32;
+          default "0";
+          units "seconds";
+          description
+            "Tolerance for receive keys
+
+             If tolerance is Z then all receive keys remain valid up to the configured/applicable end-time plus an additional Z seconds.";
+          must "(. = 0) or (../type = 'isis') or (../type = 'macsec')" {
+            error-message "Only ISIS or MACSec supports keychains with tolerance.";
+          }
+        }
+        leaf type {
+          type keychain-type;
+          description
+            "Specifies the intended use of the keychain
+
+             The type constrains the set of crypto algorithms that are available to use with each key in the keychain. It is also used to ensure that this keychain is only used by protocols for which it is intended.";
+        }
+        leaf usable {
+          config false;
+          description
+            "The value of this object indicates if the keychain is usable for authentication";
+          type boolean;
+        }
+        leaf expired {
+          config false;
+          description
+            "The value of this object indicates whether the keychain is expired
+
+             Expired can mean past end-time or prior to start-time.";
+          type boolean;
+        }
+        leaf active-key-for-send {
+          config false;
+          description
+            "Provides the key index of the currently active Keychain key";
+          type union {
+            type enumeration {
+              enum none {
+                description
+                  "No send key is usable";
+              }
+            }
+            type leafref {
+              path "../key/index";
+            }
+          }
+        }
+        list key {
+          key "index";
+          description
+            "List of keys in the keychain";
+          leaf index {
+            type uint8;
+            description
+              "Each key in a keychain requires a unique identifier, the index value specifies this identifier";
+            must "( (../../type = 'isis') or (../../type = 'macsec')  or . = 1)" {
+              error-message "Only ISIS or MACSec supports keychains with key index not 1";
+            }
+          }
+          leaf algorithm {
+            type algorithm-type;
+            description
+              "The cryptographic algorithm used with the keying material to secure the messages";
+            must ". = 'cleartext' and (../../type = 'ospf' or ../../type = 'isis' or ../../type = 'vrrp') or
+                  . = 'md5' and (../../type = 'ospf' or ../../type = 'tcp-md5' or ../../type = 'vrrp') or
+                  . = 'hmac-md5' and ../../type = 'isis' or
+                  . = 'hmac-sha-1' and ../../type = 'isis' or
+                  . = 'hmac-sha-256' and ../../type = 'isis' or
+                  . = 'aes-128-cmac' and ../../type = 'macsec' or
+                  . = 'aes-256-cmac' and ../../type = 'macsec'";
+          }
+          leaf authentication-key {
+            type srl_nokia-comm:routing-password;
+            description
+              "The secret key to use for authentication";
+          }
+          container macsec {
+            if-feature "srl-feat:macsec";
+            description
+              "Container to configure macsec CAK and CAK Name.";
+            must "(../../type = 'macsec')" {
+              error-message " is only valid for macsec type.";
+            }
+            presence "Configure Keychain for MacSec";
+            leaf cak {
+              if-feature "srl-feat:macsec";
+              description
+                "MACsec CAK, a hexadecimal name is only valid";
+              type srl_nokia-comm:macsec-password {
+                length "32 | 64";
+              }
+            }
+            leaf key-name {
+              if-feature "srl-feat:macsec";
+              description
+                "MACsec CKN, a hexadecimal name is onlynumber";
+              type srl_nokia-comm:macsec-key-name {
+                length "2..64";
+              }
+            }
+            leaf admin-state {
+              type srl_nokia-comm:admin-state;
+              default "disable";
+              description
+                "When set to disable, this key entry is inactive
+
+                 For macsec the cak and key-name can only be changed
+
+                 when the key entry id disabled";
+            }
+          }
+          container send-lifetime {
+            if-feature "srl-feat:keychain";
+            description
+              "Specifies the lifetime of the key for sending authentication information to the peer";
+            leaf start-time {
+              type srl_nokia-comm:date-and-time-delta;
+              description
+                "The time at which the key becomes valid for use in the send direction
+
+                 The default is the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+
+                 If there are multiple keys in the keychain the one used for sending authentication information is the key with the most recent send-lifetime start-time that is earlier than the current date and time";
+              must "((../../../type = 'isis') or (../../../type = 'macsec'))" {
+                error-message "Only ISIS or MACsec supports keychains with individual key start and end times.";
+              }
+            }
+            leaf send-and-receive {
+              type boolean;
+              description
+                "When this is set to true (the default value), the specified start-time also applies to the receive direction
+
+                 When set to false, router uses the specific start-time for the receive direction (asymmetric mode).";
+              must "((../../../type = 'isis') or (../../../type = 'macsec'))" {
+                error-message "Only ISIS or MACsec supports keychains with individual key start and end times.";
+              }
+            }
+          }
+          container receive-lifetime {
+            if-feature "srl-feat:keychain";
+            leaf start-time {
+              type srl_nokia-comm:date-and-time-delta;
+              description
+                "The time at which the key becomes valid for use in the receive direction
+
+                 If send-and-receive is true, this value is ignored. If send-and-receive is false the default is the Unix Epoch (Jan 1, 1970 00:00:00 UTC).
+
+                 If there are multiple keys in the keychain the one used for checking received authentication information is the key with the most recent receive-lifetime start-time that is earlier than the current date and time and that has not exceeded its receive-lifetime end-time by more than 'tolerance' seconds";
+              must "((../../../type = 'isis') or (../../../type = 'macsec'))" {
+                error-message "Only ISIS or MACsec supports keychains with individual key start and end times.";
+              }
+              must '(../../send-lifetime/send-and-receive != true())' {
+                error-message "receive-lifetime can not be configured when send-lifetime send-and-recive is true";
+              }
+            }
+            leaf end-time {
+              type union {
+                type enumeration {
+                  enum forever {
+                    description
+                      "Receive key does not expire (equivalent to infinite tolerance)";
+                  }
+                }
+                type srl_nokia-comm:date-and-time-delta;
+              }
+              description
+                "The time at which the key becomes invalid for use in the receive direction
+
+                 The default is forever.";
+              must "(../../../type = 'isis')" {
+                error-message "Only ISIS supports keychains with individual key start and end times.";
+              }
+              must '(../../send-lifetime/send-and-receive != true())' {
+                error-message "receive-lifetime can not be configured when send-lifetime send-and-recive is true";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  augment "/srl_nokia-system:system" {
+    uses authentication-top;
+  }
+}

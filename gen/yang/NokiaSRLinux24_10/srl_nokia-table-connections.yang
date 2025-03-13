@@ -1,0 +1,120 @@
+module srl_nokia-table-connections {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:plcy:table-connections";
+  prefix srl_nokia-tblconn;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-features {
+    prefix srl_nokia-feat;
+  }
+  import srl_nokia-routing-policy {
+    prefix srl_nokia-rpol;
+  }
+  import srl_nokia-policy-types {
+    prefix srl_nokia-pol-types;
+  }
+  import srl_nokia-network-instance {
+    prefix srl_nokia-ni;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "YANG model for table connections, which are policies that support the redistribution of routes between protocol instances associated with a particular network instance";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+
+  grouping table-connection-top {
+    container table-connections {
+      description
+        "Container with all defined table connections";
+      leaf admin-state {
+        type srl_nokia-comm:admin-state;
+        default "disable";
+        description
+          "Enable/disable table connections in the network instance
+
+           When set to disable, configuration of table-connection list entries is blocked. For protocol B to advertise active routes of protocol A, it is sufficient for protocol B to be configured with an export-policy that accepts routes of protocol A.
+
+           When admin-state  is set to enable, protocol B cannot advertise an active route of protocol A unless there is an A->B table connection that causes the route to be accepted. When a route of protocol A is redistributed to protocol B, it is added to the RIB of protocol B and as such it is advertisable to peers of protocol B without any export policy. However if protocol B does have an export policy, this policy (or list of policies) has final control over the advertisement of the redistributed route.";
+      }
+      list table-connection {
+        key "source-protocol destination-protocol address-family";
+        description
+          "List of connections describing vectors of possible route redistribution between a source and destination protocol instance";
+        leaf source-protocol {
+          type identityref {
+            base srl_nokia-comm:routing-policy-protocol-match-type;
+          }
+          description
+            "The source protocol for the table connection";
+        }
+        leaf address-family {
+          type enumeration {
+            enum ipv4;
+            enum ipv6;
+          }
+          description
+            "The address family associated with the connection
+
+             The target address family is implicitly the same as the address family specified for the source protocol.";
+        }
+        leaf destination-protocol {
+          type identityref {
+            base srl_nokia-comm:routing-policy-protocol-match-type;
+          }
+          description
+            "The destination protocol for the table connection";
+        }
+        leaf disable-metric-propagation {
+          type boolean;
+          default "false";
+          description
+            "When set to true, the metric is not carried over from the source to the destination protocol
+
+             When set to false, the metric in the destination protocol is carried over in some way from the source protocol. For example:
+
+             * IS-IS metric may be reflected in BGP MED
+             * OSPF metric may be reflected in the BGP MED";
+        }
+        leaf-list import-policy {
+          description
+            "The sequence of import policies that determine the set of routes to be redistributed from the source protocol to the dest protocol";
+          ordered-by user;
+          max-elements 14;
+          type leafref {
+            path "/srl_nokia-rpol:routing-policy/srl_nokia-rpol:policy/srl_nokia-rpol:name";
+          }
+        }
+        leaf default-import-policy {
+          type enumeration {
+            enum accept {
+              description
+                "If no import policy rule is matched, the route should be redistributed";
+            }
+            enum reject {
+              description
+                "If no import policy rule is matched, the route should not be redistributed";
+            }
+          }
+          default "reject";
+          description
+            "Specify the route redistribution behavior if no import policy rule is matched";
+        }
+      }
+    }
+  }
+
+  augment "/srl_nokia-ni:network-instance" {
+    if-feature "srl_nokia-feat:routing-policy-table-connections";
+    uses table-connection-top;
+  }
+}
