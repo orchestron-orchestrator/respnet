@@ -1,0 +1,64 @@
+module l3vpn-inter {
+  yang-version "1.1";
+  namespace "http://example.com/l3vpn-inter";
+  prefix "l3vpn-inter";
+  description "L3VPN intermediate";
+  revision 2019-01-01 {
+    description "test revision";
+    reference "ref1";
+  }
+
+  container l3vpns {
+    description "L3VPN";
+    list l3vpn {
+      key name;
+
+      orchestron:transform respnet.inter.L3Vpn;
+
+      leaf name {
+        type string;
+      }
+      leaf description {
+        type string;
+      }
+      list endpoint {
+        key "device interface";
+
+        leaf device {
+          type string;
+        }
+        leaf interface {
+          type string;
+        }
+        leaf site {
+          type string;
+          mandatory true;
+        }
+        leaf site-network-access {
+          type string;
+          mandatory true;
+        }
+        leaf provider-ipv4-address {
+          type string;
+          mandatory true;
+        }
+        leaf customer-ipv4-address {
+          type string;
+        }
+        leaf ipv4-prefix-length {
+          type uint8 {
+            range "0..32";
+          }
+          mandatory true;
+        }
+        container bgp {
+          presence "BGP enabled";
+          leaf as-number {
+            type uint32;
+            mandatory true;
+          }
+        }
+      }
+    }
+  }
+}

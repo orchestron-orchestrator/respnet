@@ -8,59 +8,15 @@ import orchestron.ttt as ttt
 import yang.adata
 import yang.gdata
 
-from respnet.layers.y_0 import ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry
-from respnet.layers.y_0 import ietf_l3vpn_svc__l3vpn_svc__sites__site_entry
 from respnet.layers.y_0 import netinfra__netinfra__router_entry
 from respnet.layers.y_0 import netinfra__netinfra__backbone_link_entry
+from respnet.layers.y_0 import ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry
+from respnet.layers.y_0 import ietf_l3vpn_svc__l3vpn_svc__sites__site_entry
 from respnet.layers.y_1_loose import root as output_root
 
 def o_root():
     return output_root()
 
-
-class L3VpnVpnService(ttt.TTTTransform):
-    transform: mut(ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry) -> yang.adata.MNode
-
-    @staticmethod
-    def input_type():
-        """Return the modeled input type for this transform"""
-        return ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry
-
-    mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
-        """Wrap the user provided transform method to convert from gdata to
-        modeled input and back to gdata
-        """
-        modeled_input = ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry.from_gdata(i)
-        return self.transform(modeled_input).to_gdata()
-
-    mut def transform_xml(self, i: xml.Node) -> yang.gdata.Node:
-        """Wrap the user provided transform method to convert from XML to
-        modeled input and return gdata
-        """
-        modeled_input = ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry.from_xml(i)
-        return self.transform(modeled_input).to_gdata()
-
-class L3VpnSite(ttt.TTTTransform):
-    transform: mut(ietf_l3vpn_svc__l3vpn_svc__sites__site_entry) -> yang.adata.MNode
-
-    @staticmethod
-    def input_type():
-        """Return the modeled input type for this transform"""
-        return ietf_l3vpn_svc__l3vpn_svc__sites__site_entry
-
-    mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
-        """Wrap the user provided transform method to convert from gdata to
-        modeled input and back to gdata
-        """
-        modeled_input = ietf_l3vpn_svc__l3vpn_svc__sites__site_entry.from_gdata(i)
-        return self.transform(modeled_input).to_gdata()
-
-    mut def transform_xml(self, i: xml.Node) -> yang.gdata.Node:
-        """Wrap the user provided transform method to convert from XML to
-        modeled input and return gdata
-        """
-        modeled_input = ietf_l3vpn_svc__l3vpn_svc__sites__site_entry.from_xml(i)
-        return self.transform(modeled_input).to_gdata()
 
 class Router(ttt.TTTTransform):
     transform: mut(netinfra__netinfra__router_entry) -> yang.adata.MNode
@@ -104,4 +60,48 @@ class BBLink(ttt.TTTTransform):
         modeled input and return gdata
         """
         modeled_input = netinfra__netinfra__backbone_link_entry.from_xml(i)
+        return self.transform(modeled_input).to_gdata()
+
+class L3VpnVpnService(ttt.TTTTransform):
+    transform: mut(ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry) -> yang.adata.MNode
+
+    @staticmethod
+    def input_type():
+        """Return the modeled input type for this transform"""
+        return ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry
+
+    mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
+        """Wrap the user provided transform method to convert from gdata to
+        modeled input and back to gdata
+        """
+        modeled_input = ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry.from_gdata(i)
+        return self.transform(modeled_input).to_gdata()
+
+    mut def transform_xml(self, i: xml.Node) -> yang.gdata.Node:
+        """Wrap the user provided transform method to convert from XML to
+        modeled input and return gdata
+        """
+        modeled_input = ietf_l3vpn_svc__l3vpn_svc__vpn_services__vpn_service_entry.from_xml(i)
+        return self.transform(modeled_input).to_gdata()
+
+class L3VpnSite(ttt.TTTTransform):
+    transform: mut(ietf_l3vpn_svc__l3vpn_svc__sites__site_entry) -> yang.adata.MNode
+
+    @staticmethod
+    def input_type():
+        """Return the modeled input type for this transform"""
+        return ietf_l3vpn_svc__l3vpn_svc__sites__site_entry
+
+    mut def transform_wrapper(self, i: yang.gdata.Node) -> yang.gdata.Node:
+        """Wrap the user provided transform method to convert from gdata to
+        modeled input and back to gdata
+        """
+        modeled_input = ietf_l3vpn_svc__l3vpn_svc__sites__site_entry.from_gdata(i)
+        return self.transform(modeled_input).to_gdata()
+
+    mut def transform_xml(self, i: xml.Node) -> yang.gdata.Node:
+        """Wrap the user provided transform method to convert from XML to
+        modeled input and return gdata
+        """
+        modeled_input = ietf_l3vpn_svc__l3vpn_svc__sites__site_entry.from_xml(i)
         return self.transform(modeled_input).to_gdata()

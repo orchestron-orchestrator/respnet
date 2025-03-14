@@ -1,0 +1,117 @@
+module netinfra-inter {
+  yang-version "1.1";
+  namespace "http://example.com/netinfra-inter";
+  prefix "netinfra-inter";
+  description "Network Infrastructure intermediate";
+  revision 2019-01-01 {
+    description "test revision";
+    reference "ref1";
+  }
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+  container netinfra {
+    description "Network infrastructure";
+    list router {
+      key name;
+
+      orchestron:transform respnet.inter.Router;
+
+      leaf name {
+        type string;
+      }
+      leaf id {
+        type uint32;
+        description "router id";
+        mandatory true;
+      }
+      leaf role {
+        type string;
+      }
+      leaf mock {
+        type enumeration {
+          enum cisco-ios-xr;
+          enum juniper-junos;
+        }
+      }
+      container base-config {
+        leaf asn {
+          type inet:as-number;
+          mandatory true;
+        }
+        // Allocated to the router in the CFS layer
+        leaf ipv4-address {
+          type inet:ipv4-address;
+          mandatory true;
+        }
+        // Allocated to the router in the CFS layer
+        leaf ipv6-address {
+          type inet:ipv6-address;
+          mandatory true;
+        }
+      }
+      // This list contains vpn-id entries written from the CFS layer.
+      // We use it in the "inter" layer to relay the router (/netinfra/router) parameters
+      // to the the "rfs" layer tranforms: rfs.Vrf and rfs.EbgpCustomer need the router id and asn.
+      // The data for these transforms is part of the L3VPN transform stack so these
+      // are written to from the inter.L3Vpn transform primarily.
+      // But, we want to avoid having the router id and asn in the L3VPN CFS model!
+      // By writing to this list from the cfs.L3VpnSite we can "register" an VPN instance
+      // on this router. Then in the inter.Router transform we can read the router id and asn
+      // from the inputs and write them to the rfs.Vrf and rfs.EbgpCustomer transforms.
+      list l3vpn-vrf {
+        key "vpn-id";
+        leaf vpn-id {
+          type string;
+        }
+        leaf-list ebgp-customer-address {
+          type inet:ip-address;
+        }
+      }
+    }
+
+    list backbone-link {
+      key "left-router left-interface right-router right-interface";
+
+      orchestron:transform respnet.inter.BBLink;
+
+      leaf left-router {
+        type string;
+      }
+      leaf left-interface {
+        type string;
+      }
+      leaf right-router {
+        type string;
+      }
+      leaf right-interface {
+        type string;
+      }
+    }
+
+    list ibgp-fullmesh {
+      key "asn";
+      leaf asn {
+        type inet:as-number;
+      }
+      leaf authentication-key {
+        type string;
+        mandatory true;
+      }
+
+      orchestron:transform respnet.inter.IbgpFullmesh;
+
+      list router {
+        key "name";
+        leaf name {
+          type string;
+        }
+        leaf ipv4-address {
+          type inet:ipv4-address;
+          mandatory true;
+        }
+      }
+    }
+  }
+}

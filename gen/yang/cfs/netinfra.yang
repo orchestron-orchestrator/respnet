@@ -1,0 +1,63 @@
+module netinfra {
+  yang-version "1.1";
+  namespace "http://example.com/netinfra";
+  prefix "netinfra";
+  description "Network Infrastructure";
+  revision 2019-01-01 {
+    description "test revision";
+    reference "ref1";
+  }
+  import ietf-inet-types {
+    prefix inet;
+  }
+
+  container netinfra {
+    description "Network infrastructure";
+    list router {
+      key name;
+
+      orchestron:transform respnet.cfs.Router;
+
+      leaf name {
+        type string;
+      }
+      leaf id {
+        type uint32;
+        description "router id";
+        mandatory true;
+      }
+      leaf role {
+        type string;
+      }
+      leaf asn {
+        type inet:as-number;
+        mandatory true;
+      }
+      leaf mock {
+        type enumeration {
+          enum cisco-ios-xr;
+          enum juniper-junos;
+        }
+      }
+    }
+
+    list backbone-link {
+      key "left-router left-interface right-router right-interface";
+
+      orchestron:transform respnet.cfs.BBLink;
+
+      leaf left-router {
+        type string;
+      }
+      leaf left-interface {
+        type string;
+      }
+      leaf right-router {
+        type string;
+      }
+      leaf right-interface {
+        type string;
+      }
+    }
+  }
+}
