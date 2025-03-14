@@ -7,587 +7,6 @@ import yang.gdata
 # == This file is generated ==
 
 
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__name(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__description(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__device(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__interface(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site_network_access(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__provider_ipv4_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__customer_ipv4_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__ipv4_prefix_length(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint8", val)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp__as_number(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint32", val)
-
-class l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.adata.MNode):
-    as_number: ?int
-
-    mut def __init__(self, as_number: ?int):
-        self._ns = "http://example.com/l3vpn-inter"
-        self.as_number = as_number
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _as_number = self.as_number
-        if _as_number is not None:
-            children['as-number'] = yang.gdata.Leaf('uint32', _as_number)
-        return yang.gdata.Container(children, presence=True)
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp:
-        if n != None:
-            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=n.get_int("as-number"))
-        return None
-
-    @staticmethod
-    mut def from_xml(n: ?xml.Node) -> ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp:
-        if n != None:
-            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=yang.gdata.from_xml_int(n, "as-number"))
-        return None
-
-
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
-    # path handling
-    if len(path) > 0:
-        point = path[0]
-        rest_path = path[1:]
-        if point == 'l3vpn-inter:as-number' or point == 'as-number':
-            raise ValueError("Invalid json path to non-inner node")
-        raise ValueError("Invalid path")
-    elif len(path) == 0:
-        if op == "merge":
-            return from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.gdata.unwrap_dict(jd))
-        elif op == "remove":
-            return yang.gdata.Absent()
-        raise ValueError("Invalid operation")
-    raise ValueError("Unable to resolve path")
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd: dict[str, ?value]) -> yang.gdata.Container:
-    children = {}
-    child_as_number_full = jd.get('l3vpn-inter:as-number')
-    child_as_number = child_as_number_full if child_as_number_full is not None else jd.get('as-number')
-    if child_as_number is not None:
-        children['as-number'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp__as_number(child_as_number)
-    return yang.gdata.Container(children)
-
-mut def to_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(n: yang.gdata.Container) -> dict[str, ?value]:
-    children = {}
-    child_as_number = n.children.get('as-number')
-    if child_as_number is not None:
-        if isinstance(child_as_number, yang.gdata.Leaf):
-            children['as-number'] = child_as_number.val
-    return children
-
-
-class l3vpn_inter__l3vpns__l3vpn__endpoint_entry(yang.adata.MNode):
-    device: str
-    interface: str
-    site: ?str
-    site_network_access: ?str
-    provider_ipv4_address: ?str
-    customer_ipv4_address: ?str
-    ipv4_prefix_length: ?int
-    bgp: ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp
-
-    mut def __init__(self, device: str, interface: str, site: ?str, site_network_access: ?str, provider_ipv4_address: ?str, customer_ipv4_address: ?str, ipv4_prefix_length: ?int, bgp: ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp=None):
-        self._ns = "http://example.com/l3vpn-inter"
-        self.device = device
-        self.interface = interface
-        self.site = site
-        self.site_network_access = site_network_access
-        self.provider_ipv4_address = provider_ipv4_address
-        self.customer_ipv4_address = customer_ipv4_address
-        self.ipv4_prefix_length = ipv4_prefix_length
-        self.bgp = bgp
-        self_bgp = self.bgp
-        if self_bgp is not None:
-            self_bgp._parent = self
-
-    mut def create_bgp(self, as_number):
-        res = l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number)
-        self.bgp = res
-        return res
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _device = self.device
-        _interface = self.interface
-        _site = self.site
-        _site_network_access = self.site_network_access
-        _provider_ipv4_address = self.provider_ipv4_address
-        _customer_ipv4_address = self.customer_ipv4_address
-        _ipv4_prefix_length = self.ipv4_prefix_length
-        _bgp = self.bgp
-        if _device is not None:
-            children['device'] = yang.gdata.Leaf('string', _device)
-        if _interface is not None:
-            children['interface'] = yang.gdata.Leaf('string', _interface)
-        if _site is not None:
-            children['site'] = yang.gdata.Leaf('string', _site)
-        if _site_network_access is not None:
-            children['site-network-access'] = yang.gdata.Leaf('string', _site_network_access)
-        if _provider_ipv4_address is not None:
-            children['provider-ipv4-address'] = yang.gdata.Leaf('string', _provider_ipv4_address)
-        if _customer_ipv4_address is not None:
-            children['customer-ipv4-address'] = yang.gdata.Leaf('string', _customer_ipv4_address)
-        if _ipv4_prefix_length is not None:
-            children['ipv4-prefix-length'] = yang.gdata.Leaf('uint8', _ipv4_prefix_length)
-        if _bgp is not None:
-            children['bgp'] = _bgp.to_gdata()
-        return yang.gdata.ListElement([yang.gdata.yang_str(self.device), yang.gdata.yang_str(self.interface)], children)
-
-    @staticmethod
-    mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
-        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=n.get_str("device"), interface=n.get_str("interface"), site=n.get_str("site"), site_network_access=n.get_str("site-network-access"), provider_ipv4_address=n.get_str("provider-ipv4-address"), customer_ipv4_address=n.get_opt_str("customer-ipv4-address"), ipv4_prefix_length=n.get_int("ipv4-prefix-length"), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_gdata(n.get_opt_container("bgp")))
-
-    @staticmethod
-    mut def from_xml(n: xml.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
-        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=yang.gdata.from_xml_str(n, "device"), interface=yang.gdata.from_xml_str(n, "interface"), site=yang.gdata.from_xml_str(n, "site"), site_network_access=yang.gdata.from_xml_str(n, "site-network-access"), provider_ipv4_address=yang.gdata.from_xml_str(n, "provider-ipv4-address"), customer_ipv4_address=yang.gdata.from_xml_opt_str(n, "customer-ipv4-address"), ipv4_prefix_length=yang.gdata.from_xml_int(n, "ipv4-prefix-length"), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_xml(yang.gdata.get_xml_opt_child(n, "bgp")))
-
-class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
-    elements: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]
-    mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/l3vpn-inter"
-        self._name = 'endpoint'
-        self.elements = elements
-
-    mut def create(self, device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length):
-        for e in self.elements:
-            match = True
-            if e.device != device:
-                match = False
-                continue
-            if e.interface != interface:
-                match = False
-                continue
-            if match:
-                return e
-
-        res = l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length)
-        self.elements.append(res)
-        return res
-
-    mut def to_gdata(self):
-        elements = []
-        for e in self.elements:
-            e_gdata = e.to_gdata()
-            if isinstance(e_gdata, yang.gdata.ListElement):
-                elements.append(e_gdata)
-        return yang.gdata.List(['device', 'interface'], elements)
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.List) -> list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]:
-        res = []
-        if n is not None:
-            for e in n.elements:
-                res.append(l3vpn_inter__l3vpns__l3vpn__endpoint_entry.from_gdata(e))
-        return res
-
-    @staticmethod
-    mut def from_xml(nodes: list[xml.Node]) -> list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]:
-        res = []
-        for node in nodes:
-            res.append(l3vpn_inter__l3vpns__l3vpn__endpoint_entry.from_xml(node))
-        return res
-
-
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
-    if len(path) == 1:
-        point = path[0]
-        keys = point.split(",")
-        jd_dict = yang.gdata.unwrap_dict(jd)
-        val = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd_dict)
-        if op == "merge":
-            return val
-        elif op == "remove":
-            return yang.gdata.AbsentListElement(val.key_vals)
-        raise ValueError("Invalid operation")
-    elif len(path) > 1:
-        keys = path[0].split(",")
-        point = path[1]
-        rest_path = path[2:]
-        children: dict[str, yang.gdata.Node] = {}
-        for idx, key in enumerate(['device', 'interface']):
-            children[key] = yang.gdata.Leaf("str", keys[idx])
-        if point == 'site':
-            raise ValueError("Invalid json path to non-inner node")
-        if point == 'site-network-access':
-            raise ValueError("Invalid json path to non-inner node")
-        if point == 'provider-ipv4-address':
-            raise ValueError("Invalid json path to non-inner node")
-        if point == 'customer-ipv4-address':
-            raise ValueError("Invalid json path to non-inner node")
-        if point == 'ipv4-prefix-length':
-            raise ValueError("Invalid json path to non-inner node")
-        if point == 'bgp':
-            children['bgp'] = from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd, rest_path, op)
-        return yang.gdata.ListElement(keys, children)
-    raise ValueError("unreachable - no keys to list element")
-
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
-    if len(path) == 1:
-        point = path[0]
-        keys = point.split(",")
-        jd_dict = yang.gdata.unwrap_dict(jd)
-        # Check that all keys are present in payload.
-        # If present, they must equal the keys in the path
-        # If not present, fill in from path
-        for key in ['device', 'interface']:
-            if key not in jd_dict:
-                jd_dict[key] = keys.pop(0)
-            else:
-                if str(jd_dict[key]) != keys.pop(0):
-                    raise ValueError("Key value mismatch between path and payload")
-        element = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd_dict)
-        elements = []
-        if op == "merge":
-            elements.append(element)
-        elif op == "remove":
-            elements.append(yang.gdata.AbsentListElement(element.key_vals))
-        return yang.gdata.List(['device', 'interface'], elements)
-    elif len(path) > 1:
-        return yang.gdata.List(['device', 'interface'], [from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd, path, op)])
-    raise ValueError("Unable to resolve path, no keys provided")
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
-    children = {}
-    child_device_full = jd.get('l3vpn-inter:device')
-    child_device = child_device_full if child_device_full is not None else jd.get('device')
-    if child_device is not None:
-        children['device'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__device(child_device)
-    child_interface_full = jd.get('l3vpn-inter:interface')
-    child_interface = child_interface_full if child_interface_full is not None else jd.get('interface')
-    if child_interface is not None:
-        children['interface'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__interface(child_interface)
-    child_site_full = jd.get('l3vpn-inter:site')
-    child_site = child_site_full if child_site_full is not None else jd.get('site')
-    if child_site is not None:
-        children['site'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site(child_site)
-    child_site_network_access_full = jd.get('l3vpn-inter:site-network-access')
-    child_site_network_access = child_site_network_access_full if child_site_network_access_full is not None else jd.get('site-network-access')
-    if child_site_network_access is not None:
-        children['site-network-access'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site_network_access(child_site_network_access)
-    child_provider_ipv4_address_full = jd.get('l3vpn-inter:provider-ipv4-address')
-    child_provider_ipv4_address = child_provider_ipv4_address_full if child_provider_ipv4_address_full is not None else jd.get('provider-ipv4-address')
-    if child_provider_ipv4_address is not None:
-        children['provider-ipv4-address'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__provider_ipv4_address(child_provider_ipv4_address)
-    child_customer_ipv4_address_full = jd.get('l3vpn-inter:customer-ipv4-address')
-    child_customer_ipv4_address = child_customer_ipv4_address_full if child_customer_ipv4_address_full is not None else jd.get('customer-ipv4-address')
-    if child_customer_ipv4_address is not None:
-        children['customer-ipv4-address'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__customer_ipv4_address(child_customer_ipv4_address)
-    child_ipv4_prefix_length_full = jd.get('l3vpn-inter:ipv4-prefix-length')
-    child_ipv4_prefix_length = child_ipv4_prefix_length_full if child_ipv4_prefix_length_full is not None else jd.get('ipv4-prefix-length')
-    if child_ipv4_prefix_length is not None:
-        children['ipv4-prefix-length'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__ipv4_prefix_length(child_ipv4_prefix_length)
-    child_bgp_full = jd.get('l3vpn-inter:bgp')
-    child_bgp = child_bgp_full if child_bgp_full is not None else jd.get('bgp')
-    if child_bgp is not None and isinstance(child_bgp, dict):
-        children['bgp'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(child_bgp)
-    return yang.gdata.ListElement([str(child_device if child_device is not None else ""), str(child_interface if child_interface is not None else "")], children)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: list[dict[str, ?value]]) -> yang.gdata.List:
-    elements = []
-    for e in jd:
-        if isinstance(e, dict):
-            elements.append(from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(e))
-    return yang.gdata.List(keys=['device', 'interface'], elements=elements, user_order=False, ns=None, prefix=None)
-
-mut def to_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
-    children = {}
-    child_device = n.children.get('device')
-    if child_device is not None:
-        if isinstance(child_device, yang.gdata.Leaf):
-            children['device'] = child_device.val
-    child_interface = n.children.get('interface')
-    if child_interface is not None:
-        if isinstance(child_interface, yang.gdata.Leaf):
-            children['interface'] = child_interface.val
-    child_site = n.children.get('site')
-    if child_site is not None:
-        if isinstance(child_site, yang.gdata.Leaf):
-            children['site'] = child_site.val
-    child_site_network_access = n.children.get('site-network-access')
-    if child_site_network_access is not None:
-        if isinstance(child_site_network_access, yang.gdata.Leaf):
-            children['site-network-access'] = child_site_network_access.val
-    child_provider_ipv4_address = n.children.get('provider-ipv4-address')
-    if child_provider_ipv4_address is not None:
-        if isinstance(child_provider_ipv4_address, yang.gdata.Leaf):
-            children['provider-ipv4-address'] = child_provider_ipv4_address.val
-    child_customer_ipv4_address = n.children.get('customer-ipv4-address')
-    if child_customer_ipv4_address is not None:
-        if isinstance(child_customer_ipv4_address, yang.gdata.Leaf):
-            children['customer-ipv4-address'] = child_customer_ipv4_address.val
-    child_ipv4_prefix_length = n.children.get('ipv4-prefix-length')
-    if child_ipv4_prefix_length is not None:
-        if isinstance(child_ipv4_prefix_length, yang.gdata.Leaf):
-            children['ipv4-prefix-length'] = child_ipv4_prefix_length.val
-    child_bgp = n.children.get('bgp')
-    if child_bgp is not None:
-        if isinstance(child_bgp, yang.gdata.Container):
-            children['bgp'] = to_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(child_bgp)
-    return children
-
-mut def to_json_l3vpn_inter__l3vpns__l3vpn__endpoint(n: yang.gdata.List) -> list[dict[str, ?value]]:
-    elements = []
-    for e in n.elements:
-        elements.append(to_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(e))
-    return elements
-
-
-class l3vpn_inter__l3vpns__l3vpn_entry(yang.adata.MNode):
-    name: str
-    description: ?str
-    endpoint: l3vpn_inter__l3vpns__l3vpn__endpoint
-
-    mut def __init__(self, name: str, description: ?str, endpoint: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]=[]):
-        self._ns = "http://example.com/l3vpn-inter"
-        self.name = name
-        self.description = description
-        self.endpoint = l3vpn_inter__l3vpns__l3vpn__endpoint(elements=endpoint)
-        self.endpoint._parent = self
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _name = self.name
-        _description = self.description
-        _endpoint = self.endpoint
-        if _name is not None:
-            children['name'] = yang.gdata.Leaf('string', _name)
-        if _description is not None:
-            children['description'] = yang.gdata.Leaf('string', _description)
-        if _endpoint is not None:
-            children['endpoint'] = _endpoint.to_gdata()
-        return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
-
-    @staticmethod
-    mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
-        return l3vpn_inter__l3vpns__l3vpn_entry(name=n.get_str("name"), description=n.get_opt_str("description"), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_gdata(n.get_opt_list("endpoint")))
-
-    @staticmethod
-    mut def from_xml(n: xml.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
-        return l3vpn_inter__l3vpns__l3vpn_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_xml(yang.gdata.get_xml_children(n, "endpoint")))
-
-class l3vpn_inter__l3vpns__l3vpn(yang.adata.MNode):
-    elements: list[l3vpn_inter__l3vpns__l3vpn_entry]
-    mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/l3vpn-inter"
-        self._name = 'l3vpn'
-        self.elements = elements
-
-    mut def create(self, name):
-        for e in self.elements:
-            match = True
-            if e.name != name:
-                match = False
-                continue
-            if match:
-                return e
-
-        res = l3vpn_inter__l3vpns__l3vpn_entry(name)
-        self.elements.append(res)
-        return res
-
-    mut def to_gdata(self):
-        elements = []
-        for e in self.elements:
-            e_gdata = e.to_gdata()
-            if isinstance(e_gdata, yang.gdata.ListElement):
-                elements.append(e_gdata)
-        return yang.gdata.List(['name'], elements)
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.List) -> list[l3vpn_inter__l3vpns__l3vpn_entry]:
-        res = []
-        if n is not None:
-            for e in n.elements:
-                res.append(l3vpn_inter__l3vpns__l3vpn_entry.from_gdata(e))
-        return res
-
-    @staticmethod
-    mut def from_xml(nodes: list[xml.Node]) -> list[l3vpn_inter__l3vpns__l3vpn_entry]:
-        res = []
-        for node in nodes:
-            res.append(l3vpn_inter__l3vpns__l3vpn_entry.from_xml(node))
-        return res
-
-
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
-    if len(path) == 1:
-        point = path[0]
-        keys = point.split(",")
-        jd_dict = yang.gdata.unwrap_dict(jd)
-        val = from_json_l3vpn_inter__l3vpns__l3vpn_element(jd_dict)
-        if op == "merge":
-            return val
-        elif op == "remove":
-            return yang.gdata.AbsentListElement(val.key_vals)
-        raise ValueError("Invalid operation")
-    elif len(path) > 1:
-        keys = path[0].split(",")
-        point = path[1]
-        rest_path = path[2:]
-        children: dict[str, yang.gdata.Node] = {}
-        for idx, key in enumerate(['name']):
-            children[key] = yang.gdata.Leaf("str", keys[idx])
-        if point == 'description':
-            raise ValueError("Invalid json path to non-inner node")
-        if point == 'endpoint':
-            children['endpoint'] = from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint(jd, rest_path, op)
-        return yang.gdata.ListElement(keys, children)
-    raise ValueError("unreachable - no keys to list element")
-
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
-    if len(path) == 1:
-        point = path[0]
-        keys = point.split(",")
-        jd_dict = yang.gdata.unwrap_dict(jd)
-        # Check that all keys are present in payload.
-        # If present, they must equal the keys in the path
-        # If not present, fill in from path
-        for key in ['name']:
-            if key not in jd_dict:
-                jd_dict[key] = keys.pop(0)
-            else:
-                if str(jd_dict[key]) != keys.pop(0):
-                    raise ValueError("Key value mismatch between path and payload")
-        element = from_json_l3vpn_inter__l3vpns__l3vpn_element(jd_dict)
-        elements = []
-        if op == "merge":
-            elements.append(element)
-        elif op == "remove":
-            elements.append(yang.gdata.AbsentListElement(element.key_vals))
-        return yang.gdata.List(['name'], elements)
-    elif len(path) > 1:
-        return yang.gdata.List(['name'], [from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd, path, op)])
-    raise ValueError("Unable to resolve path, no keys provided")
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
-    children = {}
-    child_name_full = jd.get('l3vpn-inter:name')
-    child_name = child_name_full if child_name_full is not None else jd.get('name')
-    if child_name is not None:
-        children['name'] = from_json_l3vpn_inter__l3vpns__l3vpn__name(child_name)
-    child_description_full = jd.get('l3vpn-inter:description')
-    child_description = child_description_full if child_description_full is not None else jd.get('description')
-    if child_description is not None:
-        children['description'] = from_json_l3vpn_inter__l3vpns__l3vpn__description(child_description)
-    child_endpoint_full = jd.get('l3vpn-inter:endpoint')
-    child_endpoint = child_endpoint_full if child_endpoint_full is not None else jd.get('endpoint')
-    if child_endpoint is not None and isinstance(child_endpoint, list):
-        children['endpoint'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint(child_endpoint)
-    return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
-
-mut def from_json_l3vpn_inter__l3vpns__l3vpn(jd: list[dict[str, ?value]]) -> yang.gdata.List:
-    elements = []
-    for e in jd:
-        if isinstance(e, dict):
-            elements.append(from_json_l3vpn_inter__l3vpns__l3vpn_element(e))
-    return yang.gdata.List(keys=['name'], elements=elements, user_order=False, ns=None, prefix=None)
-
-mut def to_json_l3vpn_inter__l3vpns__l3vpn_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
-    children = {}
-    child_name = n.children.get('name')
-    if child_name is not None:
-        if isinstance(child_name, yang.gdata.Leaf):
-            children['name'] = child_name.val
-    child_description = n.children.get('description')
-    if child_description is not None:
-        if isinstance(child_description, yang.gdata.Leaf):
-            children['description'] = child_description.val
-    child_endpoint = n.children.get('endpoint')
-    if child_endpoint is not None:
-        if isinstance(child_endpoint, yang.gdata.List):
-            children['endpoint'] = to_json_l3vpn_inter__l3vpns__l3vpn__endpoint(child_endpoint)
-    return children
-
-mut def to_json_l3vpn_inter__l3vpns__l3vpn(n: yang.gdata.List) -> list[dict[str, ?value]]:
-    elements = []
-    for e in n.elements:
-        elements.append(to_json_l3vpn_inter__l3vpns__l3vpn_element(e))
-    return elements
-
-
-class l3vpn_inter__l3vpns(yang.adata.MNode):
-    l3vpn: l3vpn_inter__l3vpns__l3vpn
-
-    mut def __init__(self, l3vpn: list[l3vpn_inter__l3vpns__l3vpn_entry]=[]):
-        self._ns = "http://example.com/l3vpn-inter"
-        self.l3vpn = l3vpn_inter__l3vpns__l3vpn(elements=l3vpn)
-        self.l3vpn._parent = self
-
-    mut def to_gdata(self) -> yang.gdata.Node:
-        children = {}
-        _l3vpn = self.l3vpn
-        if _l3vpn is not None:
-            children['l3vpn'] = _l3vpn.to_gdata()
-        return yang.gdata.Container(children, ns='http://example.com/l3vpn-inter')
-
-    @staticmethod
-    mut def from_gdata(n: ?yang.gdata.Node) -> l3vpn_inter__l3vpns:
-        if n != None:
-            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_gdata(n.get_opt_list("l3vpn")))
-        return l3vpn_inter__l3vpns()
-
-    @staticmethod
-    mut def from_xml(n: ?xml.Node) -> l3vpn_inter__l3vpns:
-        if n != None:
-            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_xml(yang.gdata.get_xml_children(n, "l3vpn")))
-        return l3vpn_inter__l3vpns()
-
-
-mut def from_json_path_l3vpn_inter__l3vpns(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
-    # path handling
-    if len(path) > 0:
-        point = path[0]
-        rest_path = path[1:]
-        if point == 'l3vpn-inter:l3vpn' or point == 'l3vpn':
-            child = {'l3vpn': from_json_path_l3vpn_inter__l3vpns__l3vpn(jd, rest_path, op) }
-            return yang.gdata.Container(child)
-        raise ValueError("Invalid path")
-    elif len(path) == 0:
-        if op == "merge":
-            return from_json_l3vpn_inter__l3vpns(yang.gdata.unwrap_dict(jd))
-        elif op == "remove":
-            return yang.gdata.Absent()
-        raise ValueError("Invalid operation")
-    raise ValueError("Unable to resolve path")
-
-mut def from_json_l3vpn_inter__l3vpns(jd: dict[str, ?value]) -> yang.gdata.Container:
-    children = {}
-    child_l3vpn_full = jd.get('l3vpn-inter:l3vpn')
-    child_l3vpn = child_l3vpn_full if child_l3vpn_full is not None else jd.get('l3vpn')
-    if child_l3vpn is not None and isinstance(child_l3vpn, list):
-        children['l3vpn'] = from_json_l3vpn_inter__l3vpns__l3vpn(child_l3vpn)
-    return yang.gdata.Container(children)
-
-mut def to_json_l3vpn_inter__l3vpns(n: yang.gdata.Container) -> dict[str, ?value]:
-    children = {}
-    child_l3vpn = n.children.get('l3vpn')
-    if child_l3vpn is not None:
-        if isinstance(child_l3vpn, yang.gdata.List):
-            children['l3vpn'] = to_json_l3vpn_inter__l3vpns__l3vpn(child_l3vpn)
-    return children
-
-
 mut def from_json_netinfra_inter__netinfra__router__name(val: value) -> yang.gdata.Leaf:
     return yang.gdata.Leaf("string", val)
 
@@ -1727,19 +1146,593 @@ mut def to_json_netinfra_inter__netinfra(n: yang.gdata.Container) -> dict[str, ?
     return children
 
 
-class root(yang.adata.MNode):
-    l3vpns: l3vpn_inter__l3vpns
-    netinfra: netinfra_inter__netinfra
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__name(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
 
-    mut def __init__(self, l3vpns: ?l3vpn_inter__l3vpns=None, netinfra: ?netinfra_inter__netinfra=None):
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__description(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__device(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__interface(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site_network_access(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__provider_ipv4_address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__customer_ipv4_address(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("string", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__ipv4_prefix_length(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint8", val)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp__as_number(val: value) -> yang.gdata.Leaf:
+    return yang.gdata.Leaf("uint32", val)
+
+class l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.adata.MNode):
+    as_number: ?int
+
+    mut def __init__(self, as_number: ?int):
+        self._ns = "http://example.com/l3vpn-inter"
+        self.as_number = as_number
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _as_number = self.as_number
+        if _as_number is not None:
+            children['as-number'] = yang.gdata.Leaf('uint32', _as_number)
+        return yang.gdata.Container(children, presence=True)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp:
+        if n != None:
+            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=n.get_int("as-number"))
+        return None
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp:
+        if n != None:
+            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=yang.gdata.from_xml_int(n, "as-number"))
+        return None
+
+
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+    # path handling
+    if len(path) > 0:
+        point = path[0]
+        rest_path = path[1:]
+        if point == 'l3vpn-inter:as-number' or point == 'as-number':
+            raise ValueError("Invalid json path to non-inner node")
+        raise ValueError("Invalid path")
+    elif len(path) == 0:
+        if op == "merge":
+            return from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.gdata.unwrap_dict(jd))
+        elif op == "remove":
+            return yang.gdata.Absent()
+        raise ValueError("Invalid operation")
+    raise ValueError("Unable to resolve path")
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd: dict[str, ?value]) -> yang.gdata.Container:
+    children = {}
+    child_as_number_full = jd.get('l3vpn-inter:as-number')
+    child_as_number = child_as_number_full if child_as_number_full is not None else jd.get('as-number')
+    if child_as_number is not None:
+        children['as-number'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp__as_number(child_as_number)
+    return yang.gdata.Container(children)
+
+mut def to_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(n: yang.gdata.Container) -> dict[str, ?value]:
+    children = {}
+    child_as_number = n.children.get('as-number')
+    if child_as_number is not None:
+        if isinstance(child_as_number, yang.gdata.Leaf):
+            children['as-number'] = child_as_number.val
+    return children
+
+
+class l3vpn_inter__l3vpns__l3vpn__endpoint_entry(yang.adata.MNode):
+    device: str
+    interface: str
+    site: ?str
+    site_network_access: ?str
+    provider_ipv4_address: ?str
+    customer_ipv4_address: ?str
+    ipv4_prefix_length: ?int
+    bgp: ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp
+
+    mut def __init__(self, device: str, interface: str, site: ?str, site_network_access: ?str, provider_ipv4_address: ?str, customer_ipv4_address: ?str, ipv4_prefix_length: ?int, bgp: ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp=None):
+        self._ns = "http://example.com/l3vpn-inter"
+        self.device = device
+        self.interface = interface
+        self.site = site
+        self.site_network_access = site_network_access
+        self.provider_ipv4_address = provider_ipv4_address
+        self.customer_ipv4_address = customer_ipv4_address
+        self.ipv4_prefix_length = ipv4_prefix_length
+        self.bgp = bgp
+        self_bgp = self.bgp
+        if self_bgp is not None:
+            self_bgp._parent = self
+
+    mut def create_bgp(self, as_number):
+        res = l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number)
+        self.bgp = res
+        return res
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _device = self.device
+        _interface = self.interface
+        _site = self.site
+        _site_network_access = self.site_network_access
+        _provider_ipv4_address = self.provider_ipv4_address
+        _customer_ipv4_address = self.customer_ipv4_address
+        _ipv4_prefix_length = self.ipv4_prefix_length
+        _bgp = self.bgp
+        if _device is not None:
+            children['device'] = yang.gdata.Leaf('string', _device)
+        if _interface is not None:
+            children['interface'] = yang.gdata.Leaf('string', _interface)
+        if _site is not None:
+            children['site'] = yang.gdata.Leaf('string', _site)
+        if _site_network_access is not None:
+            children['site-network-access'] = yang.gdata.Leaf('string', _site_network_access)
+        if _provider_ipv4_address is not None:
+            children['provider-ipv4-address'] = yang.gdata.Leaf('string', _provider_ipv4_address)
+        if _customer_ipv4_address is not None:
+            children['customer-ipv4-address'] = yang.gdata.Leaf('string', _customer_ipv4_address)
+        if _ipv4_prefix_length is not None:
+            children['ipv4-prefix-length'] = yang.gdata.Leaf('uint8', _ipv4_prefix_length)
+        if _bgp is not None:
+            children['bgp'] = _bgp.to_gdata()
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.device), yang.gdata.yang_str(self.interface)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
+        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=n.get_str("device"), interface=n.get_str("interface"), site=n.get_str("site"), site_network_access=n.get_str("site-network-access"), provider_ipv4_address=n.get_str("provider-ipv4-address"), customer_ipv4_address=n.get_opt_str("customer-ipv4-address"), ipv4_prefix_length=n.get_int("ipv4-prefix-length"), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_gdata(n.get_opt_container("bgp")))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
+        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=yang.gdata.from_xml_str(n, "device"), interface=yang.gdata.from_xml_str(n, "interface"), site=yang.gdata.from_xml_str(n, "site"), site_network_access=yang.gdata.from_xml_str(n, "site-network-access"), provider_ipv4_address=yang.gdata.from_xml_str(n, "provider-ipv4-address"), customer_ipv4_address=yang.gdata.from_xml_opt_str(n, "customer-ipv4-address"), ipv4_prefix_length=yang.gdata.from_xml_int(n, "ipv4-prefix-length"), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_xml(yang.gdata.get_xml_opt_child(n, "bgp")))
+
+class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
+    elements: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://example.com/l3vpn-inter"
+        self._name = 'endpoint'
+        self.elements = elements
+
+    mut def create(self, device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length):
+        for e in self.elements:
+            match = True
+            if e.device != device:
+                match = False
+                continue
+            if e.interface != interface:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['device', 'interface'], elements)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(l3vpn_inter__l3vpns__l3vpn__endpoint_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]:
+        res = []
+        for node in nodes:
+            res.append(l3vpn_inter__l3vpns__l3vpn__endpoint_entry.from_xml(node))
+        return res
+
+
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        val = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd_dict)
+        if op == "merge":
+            return val
+        elif op == "remove":
+            return yang.gdata.AbsentListElement(val.key_vals)
+        raise ValueError("Invalid operation")
+    elif len(path) > 1:
+        keys = path[0].split(",")
+        point = path[1]
+        rest_path = path[2:]
+        children: dict[str, yang.gdata.Node] = {}
+        for idx, key in enumerate(['device', 'interface']):
+            children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'site':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'site-network-access':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'provider-ipv4-address':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'customer-ipv4-address':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'ipv4-prefix-length':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'bgp':
+            children['bgp'] = from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd, rest_path, op)
+        return yang.gdata.ListElement(keys, children)
+    raise ValueError("unreachable - no keys to list element")
+
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        # Check that all keys are present in payload.
+        # If present, they must equal the keys in the path
+        # If not present, fill in from path
+        for key in ['device', 'interface']:
+            if key not in jd_dict:
+                jd_dict[key] = keys.pop(0)
+            else:
+                if str(jd_dict[key]) != keys.pop(0):
+                    raise ValueError("Key value mismatch between path and payload")
+        element = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd_dict)
+        elements = []
+        if op == "merge":
+            elements.append(element)
+        elif op == "remove":
+            elements.append(yang.gdata.AbsentListElement(element.key_vals))
+        return yang.gdata.List(['device', 'interface'], elements)
+    elif len(path) > 1:
+        return yang.gdata.List(['device', 'interface'], [from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd, path, op)])
+    raise ValueError("Unable to resolve path, no keys provided")
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
+    children = {}
+    child_device_full = jd.get('l3vpn-inter:device')
+    child_device = child_device_full if child_device_full is not None else jd.get('device')
+    if child_device is not None:
+        children['device'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__device(child_device)
+    child_interface_full = jd.get('l3vpn-inter:interface')
+    child_interface = child_interface_full if child_interface_full is not None else jd.get('interface')
+    if child_interface is not None:
+        children['interface'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__interface(child_interface)
+    child_site_full = jd.get('l3vpn-inter:site')
+    child_site = child_site_full if child_site_full is not None else jd.get('site')
+    if child_site is not None:
+        children['site'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site(child_site)
+    child_site_network_access_full = jd.get('l3vpn-inter:site-network-access')
+    child_site_network_access = child_site_network_access_full if child_site_network_access_full is not None else jd.get('site-network-access')
+    if child_site_network_access is not None:
+        children['site-network-access'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site_network_access(child_site_network_access)
+    child_provider_ipv4_address_full = jd.get('l3vpn-inter:provider-ipv4-address')
+    child_provider_ipv4_address = child_provider_ipv4_address_full if child_provider_ipv4_address_full is not None else jd.get('provider-ipv4-address')
+    if child_provider_ipv4_address is not None:
+        children['provider-ipv4-address'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__provider_ipv4_address(child_provider_ipv4_address)
+    child_customer_ipv4_address_full = jd.get('l3vpn-inter:customer-ipv4-address')
+    child_customer_ipv4_address = child_customer_ipv4_address_full if child_customer_ipv4_address_full is not None else jd.get('customer-ipv4-address')
+    if child_customer_ipv4_address is not None:
+        children['customer-ipv4-address'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__customer_ipv4_address(child_customer_ipv4_address)
+    child_ipv4_prefix_length_full = jd.get('l3vpn-inter:ipv4-prefix-length')
+    child_ipv4_prefix_length = child_ipv4_prefix_length_full if child_ipv4_prefix_length_full is not None else jd.get('ipv4-prefix-length')
+    if child_ipv4_prefix_length is not None:
+        children['ipv4-prefix-length'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__ipv4_prefix_length(child_ipv4_prefix_length)
+    child_bgp_full = jd.get('l3vpn-inter:bgp')
+    child_bgp = child_bgp_full if child_bgp_full is not None else jd.get('bgp')
+    if child_bgp is not None and isinstance(child_bgp, dict):
+        children['bgp'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(child_bgp)
+    return yang.gdata.ListElement([str(child_device if child_device is not None else ""), str(child_interface if child_interface is not None else "")], children)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: list[dict[str, ?value]]) -> yang.gdata.List:
+    elements = []
+    for e in jd:
+        if isinstance(e, dict):
+            elements.append(from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(e))
+    return yang.gdata.List(keys=['device', 'interface'], elements=elements, user_order=False, ns=None, prefix=None)
+
+mut def to_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
+    children = {}
+    child_device = n.children.get('device')
+    if child_device is not None:
+        if isinstance(child_device, yang.gdata.Leaf):
+            children['device'] = child_device.val
+    child_interface = n.children.get('interface')
+    if child_interface is not None:
+        if isinstance(child_interface, yang.gdata.Leaf):
+            children['interface'] = child_interface.val
+    child_site = n.children.get('site')
+    if child_site is not None:
+        if isinstance(child_site, yang.gdata.Leaf):
+            children['site'] = child_site.val
+    child_site_network_access = n.children.get('site-network-access')
+    if child_site_network_access is not None:
+        if isinstance(child_site_network_access, yang.gdata.Leaf):
+            children['site-network-access'] = child_site_network_access.val
+    child_provider_ipv4_address = n.children.get('provider-ipv4-address')
+    if child_provider_ipv4_address is not None:
+        if isinstance(child_provider_ipv4_address, yang.gdata.Leaf):
+            children['provider-ipv4-address'] = child_provider_ipv4_address.val
+    child_customer_ipv4_address = n.children.get('customer-ipv4-address')
+    if child_customer_ipv4_address is not None:
+        if isinstance(child_customer_ipv4_address, yang.gdata.Leaf):
+            children['customer-ipv4-address'] = child_customer_ipv4_address.val
+    child_ipv4_prefix_length = n.children.get('ipv4-prefix-length')
+    if child_ipv4_prefix_length is not None:
+        if isinstance(child_ipv4_prefix_length, yang.gdata.Leaf):
+            children['ipv4-prefix-length'] = child_ipv4_prefix_length.val
+    child_bgp = n.children.get('bgp')
+    if child_bgp is not None:
+        if isinstance(child_bgp, yang.gdata.Container):
+            children['bgp'] = to_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(child_bgp)
+    return children
+
+mut def to_json_l3vpn_inter__l3vpns__l3vpn__endpoint(n: yang.gdata.List) -> list[dict[str, ?value]]:
+    elements = []
+    for e in n.elements:
+        elements.append(to_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(e))
+    return elements
+
+
+class l3vpn_inter__l3vpns__l3vpn_entry(yang.adata.MNode):
+    name: str
+    description: ?str
+    endpoint: l3vpn_inter__l3vpns__l3vpn__endpoint
+
+    mut def __init__(self, name: str, description: ?str, endpoint: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]=[]):
+        self._ns = "http://example.com/l3vpn-inter"
+        self.name = name
+        self.description = description
+        self.endpoint = l3vpn_inter__l3vpns__l3vpn__endpoint(elements=endpoint)
+        self.endpoint._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _name = self.name
+        _description = self.description
+        _endpoint = self.endpoint
+        if _name is not None:
+            children['name'] = yang.gdata.Leaf('string', _name)
+        if _description is not None:
+            children['description'] = yang.gdata.Leaf('string', _description)
+        if _endpoint is not None:
+            children['endpoint'] = _endpoint.to_gdata()
+        return yang.gdata.ListElement([yang.gdata.yang_str(self.name)], children)
+
+    @staticmethod
+    mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
+        return l3vpn_inter__l3vpns__l3vpn_entry(name=n.get_str("name"), description=n.get_opt_str("description"), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_gdata(n.get_opt_list("endpoint")))
+
+    @staticmethod
+    mut def from_xml(n: xml.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
+        return l3vpn_inter__l3vpns__l3vpn_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_xml(yang.gdata.get_xml_children(n, "endpoint")))
+
+class l3vpn_inter__l3vpns__l3vpn(yang.adata.MNode):
+    elements: list[l3vpn_inter__l3vpns__l3vpn_entry]
+    mut def __init__(self, elements=[]):
+        self._ns = "http://example.com/l3vpn-inter"
+        self._name = 'l3vpn'
+        self.elements = elements
+
+    mut def create(self, name):
+        for e in self.elements:
+            match = True
+            if e.name != name:
+                match = False
+                continue
+            if match:
+                return e
+
+        res = l3vpn_inter__l3vpns__l3vpn_entry(name)
+        self.elements.append(res)
+        return res
+
+    mut def to_gdata(self):
+        elements = []
+        for e in self.elements:
+            e_gdata = e.to_gdata()
+            if isinstance(e_gdata, yang.gdata.ListElement):
+                elements.append(e_gdata)
+        return yang.gdata.List(['name'], elements)
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.List) -> list[l3vpn_inter__l3vpns__l3vpn_entry]:
+        res = []
+        if n is not None:
+            for e in n.elements:
+                res.append(l3vpn_inter__l3vpns__l3vpn_entry.from_gdata(e))
+        return res
+
+    @staticmethod
+    mut def from_xml(nodes: list[xml.Node]) -> list[l3vpn_inter__l3vpns__l3vpn_entry]:
+        res = []
+        for node in nodes:
+            res.append(l3vpn_inter__l3vpns__l3vpn_entry.from_xml(node))
+        return res
+
+
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.ListElement:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        val = from_json_l3vpn_inter__l3vpns__l3vpn_element(jd_dict)
+        if op == "merge":
+            return val
+        elif op == "remove":
+            return yang.gdata.AbsentListElement(val.key_vals)
+        raise ValueError("Invalid operation")
+    elif len(path) > 1:
+        keys = path[0].split(",")
+        point = path[1]
+        rest_path = path[2:]
+        children: dict[str, yang.gdata.Node] = {}
+        for idx, key in enumerate(['name']):
+            children[key] = yang.gdata.Leaf("str", keys[idx])
+        if point == 'description':
+            raise ValueError("Invalid json path to non-inner node")
+        if point == 'endpoint':
+            children['endpoint'] = from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint(jd, rest_path, op)
+        return yang.gdata.ListElement(keys, children)
+    raise ValueError("unreachable - no keys to list element")
+
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+    if len(path) == 1:
+        point = path[0]
+        keys = point.split(",")
+        jd_dict = yang.gdata.unwrap_dict(jd)
+        # Check that all keys are present in payload.
+        # If present, they must equal the keys in the path
+        # If not present, fill in from path
+        for key in ['name']:
+            if key not in jd_dict:
+                jd_dict[key] = keys.pop(0)
+            else:
+                if str(jd_dict[key]) != keys.pop(0):
+                    raise ValueError("Key value mismatch between path and payload")
+        element = from_json_l3vpn_inter__l3vpns__l3vpn_element(jd_dict)
+        elements = []
+        if op == "merge":
+            elements.append(element)
+        elif op == "remove":
+            elements.append(yang.gdata.AbsentListElement(element.key_vals))
+        return yang.gdata.List(['name'], elements)
+    elif len(path) > 1:
+        return yang.gdata.List(['name'], [from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd, path, op)])
+    raise ValueError("Unable to resolve path, no keys provided")
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn_element(jd: dict[str, ?value]) -> yang.gdata.ListElement:
+    children = {}
+    child_name_full = jd.get('l3vpn-inter:name')
+    child_name = child_name_full if child_name_full is not None else jd.get('name')
+    if child_name is not None:
+        children['name'] = from_json_l3vpn_inter__l3vpns__l3vpn__name(child_name)
+    child_description_full = jd.get('l3vpn-inter:description')
+    child_description = child_description_full if child_description_full is not None else jd.get('description')
+    if child_description is not None:
+        children['description'] = from_json_l3vpn_inter__l3vpns__l3vpn__description(child_description)
+    child_endpoint_full = jd.get('l3vpn-inter:endpoint')
+    child_endpoint = child_endpoint_full if child_endpoint_full is not None else jd.get('endpoint')
+    if child_endpoint is not None and isinstance(child_endpoint, list):
+        children['endpoint'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint(child_endpoint)
+    return yang.gdata.ListElement([str(child_name if child_name is not None else "")], children)
+
+mut def from_json_l3vpn_inter__l3vpns__l3vpn(jd: list[dict[str, ?value]]) -> yang.gdata.List:
+    elements = []
+    for e in jd:
+        if isinstance(e, dict):
+            elements.append(from_json_l3vpn_inter__l3vpns__l3vpn_element(e))
+    return yang.gdata.List(keys=['name'], elements=elements, user_order=False, ns=None, prefix=None)
+
+mut def to_json_l3vpn_inter__l3vpns__l3vpn_element(n: yang.gdata.ListElement) -> dict[str, ?value]:
+    children = {}
+    child_name = n.children.get('name')
+    if child_name is not None:
+        if isinstance(child_name, yang.gdata.Leaf):
+            children['name'] = child_name.val
+    child_description = n.children.get('description')
+    if child_description is not None:
+        if isinstance(child_description, yang.gdata.Leaf):
+            children['description'] = child_description.val
+    child_endpoint = n.children.get('endpoint')
+    if child_endpoint is not None:
+        if isinstance(child_endpoint, yang.gdata.List):
+            children['endpoint'] = to_json_l3vpn_inter__l3vpns__l3vpn__endpoint(child_endpoint)
+    return children
+
+mut def to_json_l3vpn_inter__l3vpns__l3vpn(n: yang.gdata.List) -> list[dict[str, ?value]]:
+    elements = []
+    for e in n.elements:
+        elements.append(to_json_l3vpn_inter__l3vpns__l3vpn_element(e))
+    return elements
+
+
+class l3vpn_inter__l3vpns(yang.adata.MNode):
+    l3vpn: l3vpn_inter__l3vpns__l3vpn
+
+    mut def __init__(self, l3vpn: list[l3vpn_inter__l3vpns__l3vpn_entry]=[]):
+        self._ns = "http://example.com/l3vpn-inter"
+        self.l3vpn = l3vpn_inter__l3vpns__l3vpn(elements=l3vpn)
+        self.l3vpn._parent = self
+
+    mut def to_gdata(self) -> yang.gdata.Node:
+        children = {}
+        _l3vpn = self.l3vpn
+        if _l3vpn is not None:
+            children['l3vpn'] = _l3vpn.to_gdata()
+        return yang.gdata.Container(children, ns='http://example.com/l3vpn-inter')
+
+    @staticmethod
+    mut def from_gdata(n: ?yang.gdata.Node) -> l3vpn_inter__l3vpns:
+        if n != None:
+            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_gdata(n.get_opt_list("l3vpn")))
+        return l3vpn_inter__l3vpns()
+
+    @staticmethod
+    mut def from_xml(n: ?xml.Node) -> l3vpn_inter__l3vpns:
+        if n != None:
+            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_xml(yang.gdata.get_xml_children(n, "l3vpn")))
+        return l3vpn_inter__l3vpns()
+
+
+mut def from_json_path_l3vpn_inter__l3vpns(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+    # path handling
+    if len(path) > 0:
+        point = path[0]
+        rest_path = path[1:]
+        if point == 'l3vpn-inter:l3vpn' or point == 'l3vpn':
+            child = {'l3vpn': from_json_path_l3vpn_inter__l3vpns__l3vpn(jd, rest_path, op) }
+            return yang.gdata.Container(child)
+        raise ValueError("Invalid path")
+    elif len(path) == 0:
+        if op == "merge":
+            return from_json_l3vpn_inter__l3vpns(yang.gdata.unwrap_dict(jd))
+        elif op == "remove":
+            return yang.gdata.Absent()
+        raise ValueError("Invalid operation")
+    raise ValueError("Unable to resolve path")
+
+mut def from_json_l3vpn_inter__l3vpns(jd: dict[str, ?value]) -> yang.gdata.Container:
+    children = {}
+    child_l3vpn_full = jd.get('l3vpn-inter:l3vpn')
+    child_l3vpn = child_l3vpn_full if child_l3vpn_full is not None else jd.get('l3vpn')
+    if child_l3vpn is not None and isinstance(child_l3vpn, list):
+        children['l3vpn'] = from_json_l3vpn_inter__l3vpns__l3vpn(child_l3vpn)
+    return yang.gdata.Container(children)
+
+mut def to_json_l3vpn_inter__l3vpns(n: yang.gdata.Container) -> dict[str, ?value]:
+    children = {}
+    child_l3vpn = n.children.get('l3vpn')
+    if child_l3vpn is not None:
+        if isinstance(child_l3vpn, yang.gdata.List):
+            children['l3vpn'] = to_json_l3vpn_inter__l3vpns__l3vpn(child_l3vpn)
+    return children
+
+
+class root(yang.adata.MNode):
+    netinfra: netinfra_inter__netinfra
+    l3vpns: l3vpn_inter__l3vpns
+
+    mut def __init__(self, netinfra: ?netinfra_inter__netinfra=None, l3vpns: ?l3vpn_inter__l3vpns=None):
         self._ns = ""
-        if l3vpns is not None:
-            self.l3vpns = l3vpns
-        else:
-            self.l3vpns = l3vpn_inter__l3vpns()
-        self_l3vpns = self.l3vpns
-        if self_l3vpns is not None:
-            self_l3vpns._parent = self
         if netinfra is not None:
             self.netinfra = netinfra
         else:
@@ -1747,27 +1740,34 @@ class root(yang.adata.MNode):
         self_netinfra = self.netinfra
         if self_netinfra is not None:
             self_netinfra._parent = self
+        if l3vpns is not None:
+            self.l3vpns = l3vpns
+        else:
+            self.l3vpns = l3vpn_inter__l3vpns()
+        self_l3vpns = self.l3vpns
+        if self_l3vpns is not None:
+            self_l3vpns._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
-        _l3vpns = self.l3vpns
         _netinfra = self.netinfra
-        if _l3vpns is not None:
-            children['l3vpns'] = _l3vpns.to_gdata()
+        _l3vpns = self.l3vpns
         if _netinfra is not None:
             children['netinfra'] = _netinfra.to_gdata()
+        if _l3vpns is not None:
+            children['l3vpns'] = _l3vpns.to_gdata()
         return yang.gdata.Root(children)
 
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> root:
         if n != None:
-            return root(l3vpns=l3vpn_inter__l3vpns.from_gdata(n.get_opt_container("l3vpns")), netinfra=netinfra_inter__netinfra.from_gdata(n.get_opt_container("netinfra")))
+            return root(netinfra=netinfra_inter__netinfra.from_gdata(n.get_opt_container("netinfra")), l3vpns=l3vpn_inter__l3vpns.from_gdata(n.get_opt_container("l3vpns")))
         return root()
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> root:
         if n != None:
-            return root(l3vpns=l3vpn_inter__l3vpns.from_xml(yang.gdata.get_xml_opt_child(n, "l3vpns", "http://example.com/l3vpn-inter")), netinfra=netinfra_inter__netinfra.from_xml(yang.gdata.get_xml_opt_child(n, "netinfra", "http://example.com/netinfra-inter")))
+            return root(netinfra=netinfra_inter__netinfra.from_xml(yang.gdata.get_xml_opt_child(n, "netinfra", "http://example.com/netinfra-inter")), l3vpns=l3vpn_inter__l3vpns.from_xml(yang.gdata.get_xml_opt_child(n, "l3vpns", "http://example.com/l3vpn-inter")))
         return root()
 
 
@@ -1776,11 +1776,11 @@ mut def from_json_path(jd: value, path: list[str]=[], op: ?str="merge") -> yang.
     if len(path) > 0:
         point = path[0]
         rest_path = path[1:]
-        if point == 'l3vpn-inter:l3vpns':
-            child = {'l3vpns': from_json_path_l3vpn_inter__l3vpns(jd, rest_path, op) }
-            return yang.gdata.Root(child)
         if point == 'netinfra-inter:netinfra':
             child = {'netinfra': from_json_path_netinfra_inter__netinfra(jd, rest_path, op) }
+            return yang.gdata.Root(child)
+        if point == 'l3vpn-inter:l3vpns':
+            child = {'l3vpns': from_json_path_l3vpn_inter__l3vpns(jd, rest_path, op) }
             return yang.gdata.Root(child)
         raise ValueError("Invalid path")
     elif len(path) == 0:
@@ -1793,23 +1793,23 @@ mut def from_json_path(jd: value, path: list[str]=[], op: ?str="merge") -> yang.
 
 mut def from_json(jd: dict[str, ?value]) -> yang.gdata.Root:
     children = {}
-    child_l3vpns = jd.get('l3vpn-inter:l3vpns')
-    if child_l3vpns is not None and isinstance(child_l3vpns, dict):
-        children['l3vpns'] = from_json_l3vpn_inter__l3vpns(child_l3vpns)
     child_netinfra = jd.get('netinfra-inter:netinfra')
     if child_netinfra is not None and isinstance(child_netinfra, dict):
         children['netinfra'] = from_json_netinfra_inter__netinfra(child_netinfra)
+    child_l3vpns = jd.get('l3vpn-inter:l3vpns')
+    if child_l3vpns is not None and isinstance(child_l3vpns, dict):
+        children['l3vpns'] = from_json_l3vpn_inter__l3vpns(child_l3vpns)
     return yang.gdata.Root(children)
 
 mut def to_json(n: yang.gdata.Root) -> dict[str, ?value]:
     children = {}
-    child_l3vpns = n.children.get('l3vpns')
-    if child_l3vpns is not None:
-        if isinstance(child_l3vpns, yang.gdata.Container):
-            children['l3vpn-inter:l3vpns'] = to_json_l3vpn_inter__l3vpns(child_l3vpns)
     child_netinfra = n.children.get('netinfra')
     if child_netinfra is not None:
         if isinstance(child_netinfra, yang.gdata.Container):
             children['netinfra-inter:netinfra'] = to_json_netinfra_inter__netinfra(child_netinfra)
+    child_l3vpns = n.children.get('l3vpns')
+    if child_l3vpns is not None:
+        if isinstance(child_l3vpns, yang.gdata.Container):
+            children['l3vpn-inter:l3vpns'] = to_json_l3vpn_inter__l3vpns(child_l3vpns)
     return children
 

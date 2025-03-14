@@ -1,0 +1,180 @@
+module respnet-rfs {
+    yang-version "1.1";
+    namespace "http://example.com/respnet-rfs";
+    prefix "respnet-rfs";
+
+    import orchestron-rfs {
+        prefix orfs;
+    }
+    import ietf-inet-types {
+      prefix inet;
+    }
+
+    augment "/orfs:rfs" {
+        // TODO: should really be a P-container
+        list base-config {
+            key name;
+
+            orchestron:rfs-transform respnet.rfs.BaseConfig;
+
+            leaf name {
+                type string;
+            }
+
+            leaf ipv4-address {
+                type string;
+                mandatory true;
+            }
+
+            leaf ipv6-address {
+                type string;
+                mandatory true;
+            }
+
+            leaf asn {
+                type inet:as-number;
+                mandatory true;
+            }
+
+            leaf ibgp-authentication-key {
+                type string;
+                mandatory true;
+            }
+        }
+
+        list backbone-interface {
+            key name;
+
+            orchestron:rfs-transform respnet.rfs.BBInterface;
+
+            leaf name {
+                type string;
+            }
+
+            leaf ipv4-address {
+                type string;
+            }
+
+            leaf ipv4-prefix-length {
+                type uint8 {
+                    range "0..32";
+                }
+                default "30";
+            }
+
+            leaf ipv6-address {
+                type string;
+            }
+
+            leaf ipv6-prefix-length {
+                type uint8 {
+                    range "0..128";
+                }
+            }
+
+            container remote {
+                leaf device {
+                    type string;
+                    mandatory true;
+                }
+                leaf interface {
+                    type string;
+                    mandatory true;
+                }
+            }
+        }
+
+        list ibgp-neighbor {
+          key address;
+          orchestron:rfs-transform respnet.rfs.IbgpNeighbor;
+          leaf address {
+            type inet:ip-address;
+          }
+          leaf asn {
+            // Need this one for IOS XR: router bgp <asn>
+            type inet:as-number;
+            mandatory true;
+          }
+          leaf description {
+            type string;
+            mandatory true;
+          }
+        }
+
+        list vrf {
+          key name;
+          orchestron:rfs-transform respnet.rfs.Vrf;
+          leaf name {
+            type string;
+          }
+          leaf description {
+            type string;
+          }
+          // TODO: compute RD in the layer above and use as key?!
+          leaf id {
+            type uint32;
+            mandatory true;
+          }
+          leaf router-id {
+            type uint32;
+            mandatory true;
+          }
+          leaf asn {
+            type inet:as-number;
+            mandatory true;
+          }
+        }
+
+        list vrf-interface {
+            key "name";
+            orchestron:rfs-transform respnet.rfs.VrfInterface;
+            leaf name {
+                type string;
+            }
+            leaf description {
+                type string;
+            }
+            leaf vrf {
+                type string;
+                description
+                    "VRF name";
+                mandatory true;
+            }
+            leaf ipv4-address {
+                type inet:ipv4-address;
+            }
+            leaf ipv4-prefix-length {
+                type uint8 {
+                    range "1..31";
+                }
+                default "30";
+            }
+        }
+
+    list ebgp-customer {
+      key "vrf address";
+      orchestron:rfs-transform respnet.rfs.EbgpCustomer;
+      leaf vrf {
+        type string;
+      }
+      leaf address {
+        type inet:ip-address;
+      }
+      leaf local-asn {
+        type uint32;
+        mandatory true;
+      }
+      leaf peer-asn {
+        type uint32;
+        mandatory true;
+      }
+      leaf description {
+        type string;
+      }
+      leaf authentication-key {
+        type string;
+        mandatory true;
+      }
+    }
+  }
+}
