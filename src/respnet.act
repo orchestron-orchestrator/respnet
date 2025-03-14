@@ -24,6 +24,13 @@ import testing
 def optional_str[T](v: ?T, default: str = "None") -> str:
     return str(v) if v is not None else default
 
+def rfs_for_device(dev):
+    return yang.gdata.Container({
+        'rfs': yang.gdata.List(["name"], [
+            yang.gdata.ListElement([dev])
+        ])
+    })
+
 actor main(env):
     rfcap = file.ReadFileCap(file.FileCap(env.cap))
 
@@ -41,12 +48,13 @@ actor main(env):
 
     logh_dev = logging.Handler("Dev")
     logh_dev.set_handler(logh)
-    dev_mgr = odev.DeviceManager(env.cap, logh_dev)
-    stack = respnet.layers.get_layers(dev_mgr, logh_ttx)
 
     log = logging.Logger(logh)
 
-#    dev_mgr.on_reconf(conf)
+    dev_mgr = odev.DeviceManager(env.cap, logh_dev)
+    cfs = respnet.layers.get_layers(dev_mgr, logh_ttx)
+    rfs = cfs.below().below()
+    dev_mgr.on_reconf(lambda dev: rfs.edit_config(rfs_for_device(dev), force=True))
 
     tcpl_cap = net.TCPListenCap(net.TCPCap(net.NetCap(env.cap)))
 
@@ -89,7 +97,7 @@ actor main(env):
                     return
             elif len(path_elements) == 3 and path_elements[1] == "layer":
                 try:
-                    session = stack.newsession()
+                    session = cfs.newsession()
                     layer_idx = int(path_elements[2])
                     if layer_idx > 3:
                         respond(404, {}, "Unknown layer")
@@ -115,7 +123,7 @@ actor main(env):
             p = split_restconf_path(request.path)
             if p[0] == "restconf":
                 input_config = respnet.layers.y_0.from_json_path({}, p[1:], "remove")
-                session = stack.newsession()
+                session = cfs.newsession()
                 session.edit_config(input_config, config_done)
                 return
             respond(404, {}, "")
@@ -127,13 +135,13 @@ actor main(env):
                     json_in = json.decode(request.body.decode())
                     p = split_restconf_path(request.path)[1:]
                     input_config = respnet.layers.y_0.from_json_path(json_in, p)
-                    session = stack.newsession()
+                    session = cfs.newsession()
                     session.edit_config(input_config, config_done)
                     return
                 elif request.headers.get("content-type") == "application/yang-data+xml":
                     xml_in = xml.decode(request.body.decode())
                     input_config = cfs_root.from_xml(xml_in).to_gdata()
-                    session = stack.newsession()
+                    session = cfs.newsession()
                     session.edit_config(input_config, config_done)
                     return
                 else:
@@ -185,7 +193,7 @@ actor main(env):
                     env.exit(1)
 
         # start to apply..
-        after 0.5: _conf_file(stack.newsession())
+        after 0.5: _conf_file(cfs.newsession())
 
     print("Orchestron/respnet running..")
 
