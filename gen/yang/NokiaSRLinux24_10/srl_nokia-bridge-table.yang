@@ -1,0 +1,76 @@
+module srl_nokia-bridge-table {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:net-inst:bridge-table";
+  prefix srl_nokia-bridge-table;
+
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This yang file gives a description of bridge table configuration.";
+
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+
+  grouping mac-flush-top {
+    description
+      "Grouping containing MAC Flush configuration";
+    container tldp-mac-flush {
+      description
+        "Targeted Label Distribution Protocol MAC Flush parameters";
+      if-feature "srl-feat:pseudowire";
+      leaf send-flush-on-failure {
+        type boolean;
+        default "false";
+        description
+          "Triggers a MAC address flush-all-from-me indication to the TLDP peers upon failure
+
+           This command enables sending out flush-all-from-me messages to all
+           Targeted LDP peers included in the MAC-VRF, in the event of a failure of
+           at least one MAC-VRF subinterface or a pseudowire or the BGP EVPN destinations.
+           This feature provides an LDP-based mechanism for recovering a link
+           failure in a dual-homed connection to a MAC-VRF.";
+      }
+    }
+  }
+
+  grouping bridge-table-top {
+    description
+      "Top-level grouping containing the bridge-table model.";
+    leaf discard-unknown-dest-mac {
+      type boolean;
+      default "false";
+      description
+        "Discard frames with unknown destination mac addresses. The source mac address of the discarded
+         frame is learned as long as the mac is valid, mac-learning is enabled, and the number of entries
+         has not reached the maximum-entries threshold.";
+    }
+    leaf protect-anycast-gw-mac {
+      type boolean;
+      default "false";
+      description
+        "Protect anycast gateway mac's installed in the FDB, when this mac-vrf is part of an IRB.";
+    }
+    uses mac-flush-top;
+  }
+}

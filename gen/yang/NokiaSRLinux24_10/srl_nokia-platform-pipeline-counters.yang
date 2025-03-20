@@ -1,0 +1,274 @@
+module srl_nokia-platform-pipeline-counters {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:chassis:platform-pipeline-counters";
+  prefix srl_nokia-platform-host-interface-pipeline;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module defines configuration and operational state related to extraction and injection of packets between a linecard ASIC and the host CPU";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+
+  identity extraction-reason {
+    description
+      "Base type for packet extraction reasons applicable to the ingress and/or egress pipeline";
+  }
+
+  identity ipv4-header-options {
+    base extraction-reason;
+    description
+      "IPv4 header options are present in the packet.";
+  }
+
+  identity ipv6-hop-by-hop-option {
+    base extraction-reason;
+    description
+      "IPv6 packet with topmost next-header value of zero.";
+  }
+
+  identity icmp {
+    base extraction-reason;
+    description
+      "ICMPv4 packets with this router as destination.";
+  }
+
+  identity icmp6 {
+    base extraction-reason;
+    description
+      "ICMPv6 packets including neighbor-solicitation and neighbor-advertisement messages.";
+  }
+
+  identity icmp-redirect {
+    base extraction-reason;
+    description
+      "Received IPv4 and IPv6 packets that should cause an ICMP redirect to be generated.";
+  }
+
+  identity bfd {
+    base extraction-reason;
+    description
+      "BFD and micro-BFD packets with this router as destination.";
+  }
+
+  identity bgp {
+    base extraction-reason;
+    description
+      "BGP packets; TCP port 179.";
+  }
+
+  identity grpc {
+    base extraction-reason;
+    description
+      "GRPC packets; TCP port 57400";
+  }
+
+  identity ospf {
+    base extraction-reason;
+    description
+      "OSPF packets; IP protocol 89";
+  }
+
+  identity vrrp {
+    base extraction-reason;
+    description
+      "VRRP packets; IP protocol 112";
+  }
+
+  identity ldp {
+    base extraction-reason;
+    description
+      "LDP packets; UDP port 646";
+  }
+
+  identity dhcp {
+    base extraction-reason;
+    description
+      "DHCP packets; UDP ports 67,68";
+  }
+
+  identity ip-other-terminating {
+    base extraction-reason;
+    description
+      "Any other IP packets that are locally destined";
+  }
+
+  identity ip-blackhole-icmp {
+    base extraction-reason;
+    description
+      "Traffic matched a blackhole route with generate-icmp=true";
+  }
+
+  identity ipv6-multicast {
+    base extraction-reason;
+    description
+      "IPv6 DA = FF01:0:0:0:0:0:0:1 or IPv6 DA = FF01:0:0:0:0:0:0:2";
+  }
+
+  identity ipv6-link-local {
+    base extraction-reason;
+    description
+      "IPv6 DA = FE80::/10 address";
+  }
+
+  identity ipv4-broadcast {
+    base extraction-reason;
+    description
+      "IPv4 packets were received with a subnet broadcast address or a limited broadcast and not recognized as another type";
+  }
+
+  identity ip-no-route {
+    base extraction-reason;
+    description
+      "IPv4 and IPv6 packets for which there was no route to the destination";
+  }
+
+  identity ip-header-errors {
+    base extraction-reason;
+    description
+      "IP version error, IP header checksum error, IP header length error, IP header total length error, IPv6 next-header is null, IPv6 SA is link-local while IPv6 DA is global";
+  }
+
+  identity ip-ttl-expired {
+    base extraction-reason;
+    description
+      "The IP packet is not destined for this router and it was received with TTL 0 or TTL 1";
+  }
+
+  identity mpls-ttl-expired {
+    base extraction-reason;
+    description
+      "The MPLS packet was received with MPLS label stack TTL 0 or TTL 1";
+  }
+
+  identity ip-arp-miss {
+    base extraction-reason;
+    description
+      "The IP DA itself or the next-hop of the route used to forward the packet has no ARP/IPv6 neighbor entry";
+  }
+
+  identity ip-arp {
+    base extraction-reason;
+    description
+      "The received frame is an ARP packet recognized by ethertype 0x0806";
+  }
+
+  identity lldp {
+    base extraction-reason;
+    description
+      "The received frame is an LLDP packet recognized by ethertype 0x88cc";
+  }
+
+  identity isis {
+    base extraction-reason;
+    description
+      "The received frame is an ISIS packet";
+  }
+
+  identity lacp {
+    base extraction-reason;
+    description
+      "The received frame is an LACP packet";
+  }
+
+  identity google-discovery {
+    base extraction-reason;
+    description
+      "The received frame is a GDP packet recognized by ethertype 0x6007";
+  }
+
+  identity capture-filter-copy {
+    base extraction-reason;
+    description
+      "Packets matching a capture-filter copy rule";
+  }
+
+  identity cpm-filter-log {
+    base extraction-reason;
+    description
+      "Packets matching a CPM-filter rule with log action";
+  }
+
+  identity ingress-acl-log {
+    base extraction-reason;
+    description
+      "Packets matching an interface IP filter rule with log action";
+  }
+
+  identity egress-acl-log {
+    base extraction-reason;
+    description
+      "Packet matched an egress ACL rule with log action.";
+  }
+
+  identity ip-mpls-mtu-exceeded {
+    base extraction-reason;
+    description
+      "The egress subinterface IP MTU or MPLS MTU (as applicable) is less than the size of the IP or MPLS packet that needs to be transmitted.";
+  }
+
+  grouping extraction-stats {
+    leaf extracted-packets {
+      type srl_nokia-comm:zero-based-counter64;
+      description
+        "The number of Ethernet frames extracted towards the CPU from the pipeline; this includes packets that might be dropped (due to congestion or rate limiting) before reaching the final consuming application on the CPM";
+    }
+    leaf extracted-octets {
+      type srl_nokia-comm:zero-based-counter64;
+      description
+        "The number of octets in Ethernet frames extracted towards the CPU from the pipeline; this includes packets that might be dropped (due to congestion or rate limiting) before reaching the final consuming application on the CPM";
+    }
+  }
+
+  grouping pipeline-counters {
+    container pipeline-counters {
+      if-feature "srl-feat:ixr-dnx";
+      config false;
+      description
+        "Top-level container for the packet counters associated with the different NPU sub-blocks.";
+      container host-interface-block {
+        description
+          "The ASIC host interface block subsystem that connects the NPU to the host CPU (on the CPM)";
+        container packet-extraction {
+          description
+            "Packet extraction from the NPU towards the CPU";
+          uses extraction-stats;
+          list extraction-reason {
+            description
+              "List of extraction reasons that are possible for the pipeline";
+            key "reason";
+            leaf reason {
+              description
+                "A reason for extracting the packet towards the host CPU";
+              type identityref {
+                base extraction-reason;
+              }
+            }
+            uses extraction-stats;
+          }
+        }
+      }
+    }
+  }
+}
