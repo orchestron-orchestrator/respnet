@@ -159,21 +159,13 @@ actor netinfra_tester(done: action(?bool, ?Exception)->None, log_handler: loggin
     dev_mgr.on_reconf(lambda dev: rfs.edit_config(rfs_for_device(dev), force=True))
     session = cfs.newsession()
 
-    def cont1(_r: value):
-        #r2 = session.below().below().get()
-        #print("OUTPUT:", r2.prsrc())
-        r3 = session.below().below().below().get()
-        print(r3.prsrc())
-#        testing.assertEqual(r3, netinfra1_out)
-#        done(True, None)
-        after 1: cont2()
-
-    def cont2():
-        r3 = session.below().below().below().get()
-        print(r3.prsrc())
+    def cont(_r: value):
+        res = session.below().below().below().get()
+        testing.assertEqual(res, netinfra1_out)
+        print(res.prsrc())
         done(True, None)
 
-    session.edit_config(input_config.to_gdata(), cont1)
+    session.edit_config(input_config.to_gdata(), None, cont)
 
 def _test_netinfra1(done, log_handler: logging.Handler):
     netinfra_tester(done, log_handler)
@@ -315,19 +307,13 @@ actor l3vpn_tester(done: action(?bool, ?Exception)->None, log_handler: logging.H
     dev_mgr.on_reconf(lambda dev: rfs.edit_config(rfs_for_device(dev), force=True))
     session = cfs.newsession()
 
-    def cont1(_r: value):
-        r3 = session.below().below().below().get()
-        #print(r3.prsrc())
-#        testing.assertEqual(r3, l3vpn_out)
-#        done(True, None)
-        after 1: cont2()
-
-    def cont2():
-        r3 = session.below().below().below().get()
-        print(r3.prsrc())
+    def cont(_r: value):
+        res = session.below().below().below().get()
+        testing.assertEqual(res, l3vpn_out)
+        print(res.prsrc())
         done(True, None)
 
-    session.edit_config(input_config.to_gdata(), cont1)
+    session.edit_config(input_config.to_gdata(), None, cont)
 
 def _test_l3vpn_svc(done, log_handler: logging.Handler):
     l3vpn_tester(done, log_handler)
@@ -336,5 +322,5 @@ actor main(env):
     logh = logging.Handler("Otron")
 #    logh.add_sink(logging.StdoutSink())
     logh.set_output_level(logging.DEBUG)
+#    netinfra_tester(lambda s,e: env.exit(0), logh)
     l3vpn_tester(lambda s,e: env.exit(0), logh)
-
