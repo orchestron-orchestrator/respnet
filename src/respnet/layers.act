@@ -25,7 +25,7 @@ def get_layers(dev_mgr: odev.DeviceManager, log_handler: logging.Handler):
             ttx.Layer("inter", respnet.layers.t_1.get_ttx(dev_mgr, log_handler),
               ttx.Layer("rfs", respnet.layers.t_2.get_ttx(dev_mgr, log_handler),
                 ttx.Layer("device", respnet.layers.t_3.get_ttx(dev_mgr, log_handler),
-                  ttx.Sink()))))
+                  None))))
     return res
 
 to_json_funs: list[mut(yang.gdata.Root)->dict[str,?value]] = \
