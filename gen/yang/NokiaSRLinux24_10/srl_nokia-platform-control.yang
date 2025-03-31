@@ -1,0 +1,238 @@
+module srl_nokia-platform-control {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:chassis:platform-control";
+  prefix srl_nokia-platform-control;
+
+  import srl_nokia-platform {
+    prefix srl-platform;
+  }
+  import srl_nokia-extensions {
+    prefix srl-ext;
+  }
+  import srl_nokia-common {
+    prefix srl-comm;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module defines configuration and operational state data related to control modules.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-07-31 {
+    description
+      "SRLinux 23.7.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+  revision 2019-11-30 {
+    description
+      "SRLinux 19.11.1";
+  }
+
+  identity control-interfaces {
+    description
+      "Types of interfaces present on control modules";
+  }
+
+  identity usb {
+    base control-interfaces;
+    description
+      "The single USB type A interface present on the control module";
+  }
+
+  identity switchover-reason {
+    description
+      "Reasons the active control module performed a switchover";
+  }
+
+  identity user-initiated {
+    base switchover-reason;
+    description
+      "A user initiated the switchover directly via the tools schema";
+  }
+
+  identity control-reboot {
+    base switchover-reason;
+    description
+      "A user initiated the switchover indirectly via rebooting the active control module";
+  }
+
+  identity control-failure {
+    base switchover-reason;
+    description
+      "The system has forced a switchover due to a failure on the active control module";
+  }
+
+  identity linecard-connectivity {
+    base switchover-reason;
+    description
+      "The system has forced a switchover due to a loss of connectivity between the active control module and one or more linecards";
+  }
+
+  typedef control-role-type {
+    description
+      "Details the current role of the control module";
+    type enumeration {
+      enum active;
+      enum standby;
+    }
+  }
+
+  grouping last-switchover-reason {
+    description
+      "Grouping for state related to the last switchover";
+    container last-switchover-reason {
+      config false;
+      description
+        "State information relating to the last control module switchover";
+      leaf trigger {
+        description
+          "Indicates the trigger of the last switchover
+
+           This field is not populated if the system has not performed a switchover since initial startup.";
+        type identityref {
+          base switchover-reason;
+        }
+      }
+      leaf details {
+        description
+          "Any additional details relating to the last switchover
+
+           This field is not populated if the system has not performed a switchover since initial startup.";
+        type string;
+      }
+    }
+  }
+
+  grouping control-interfaces-top {
+    description
+      "Grouping for configuration and state relating to control module interfaces";
+    list interface {
+      key "name";
+      leaf name {
+        description
+          "Name of a specific control module interface";
+        type identityref {
+          base control-interfaces;
+        }
+      }
+      leaf admin-state {
+        description
+          "Set the administrative state of this interface";
+        type srl-comm:admin-state;
+      }
+      leaf oper-state {
+        config false;
+        description
+          "Indicates the current operational state of this interface";
+        type srl-comm:oper-state;
+      }
+    }
+  }
+
+  grouping control-state-top {
+    description
+      "Grouping for control module state";
+    leaf slot {
+      type string {
+        pattern 'A|B';
+      }
+      description
+        "Slot identifier for the control module
+
+         This is set to 'A' for systems without removable control modules.";
+    }
+    leaf type {
+      config false;
+      type string;
+      srl-ext:show-importance "high";
+      description
+        "Control module type, as translated from the components EEPROM";
+    }
+    leaf role {
+      config false;
+      if-feature "srl-feat:chassis";
+      type control-role-type;
+      srl-ext:show-importance "high";
+      description
+        "Control module role, detailing active or standby state
+
+         This field is not present on systems without removable control modules.";
+    }
+    leaf disk-encrypted {
+      if-feature "srl-feat:disk-encryption";
+      description
+        "Indicates if the disk is encrypted on a control module";
+      config false;
+      type boolean;
+    }
+  }
+
+  grouping control-top {
+    description
+      "Grouping for control module configuration and state";
+    list control {
+      key "slot";
+      description
+        "Top-level container for control module configuration and state";
+      uses control-state-top;
+      uses srl-platform:component-common-state-top;
+      uses srl-platform:component-common-eeprom;
+      uses srl-platform:component-bootloader-common {
+        if-feature "not srl-feat:platform-vsrl";
+      }
+      uses srl-platform:component-bios-common {
+        if-feature "not srl-feat:platform-vsrl";
+      }
+      uses control-interfaces-top {
+        if-feature "srl-feat:platform-7250-ixr-x1b or srl-feat:platform-7250-ixr-x3b or srl-feat:platform-7730-sxr-1x-44s or srl-feat:platform-7730-sxr-1d-32d or srl-feat:platform-7220-h4-32";
+      }
+      uses last-switchover-reason {
+        if-feature "srl-feat:chassis";
+      }
+      uses srl-platform:component-delayed-reboot-state {
+        if-feature "srl-feat:chassis";
+      }
+      uses srl-platform:component-common-state-sw;
+      uses srl-platform:component-locator;
+      uses srl-platform:component-power-state-top;
+      uses srl-platform:component-temperature-state-top;
+    }
+  }
+
+  augment "/srl-platform:platform" {
+    uses control-top;
+  }
+}

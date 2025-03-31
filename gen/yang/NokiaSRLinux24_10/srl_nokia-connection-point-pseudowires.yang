@@ -1,0 +1,428 @@
+module srl_nokia-connection-point-pseudowires {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:net-inst:connection-point-pseudowires";
+  prefix srl_nokia-connection-point-pseudowires;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-extensions {
+    prefix srl_nokia-ext;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+  import srl_nokia-tunnel {
+    prefix srl_nokia-tunnel;
+  }
+  import srl_nokia-pw-tunnel {
+    prefix srl_nokia-pw-tunnel;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This yang file models configuration and state of the connection endpoints";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+
+  typedef pseudowire-precedence {
+    type union {
+      type uint32 {
+        range "1..4";
+      }
+      type enumeration {
+        enum primary;
+      }
+    }
+    description
+      "The precedence value of the endpoint within the connection point";
+  }
+
+  typedef vc-id {
+    type uint32 {
+      range "1..4294967295";
+    }
+    description
+      "The 'vc-id' defines virtual circuit identifier";
+  }
+
+  typedef vc-type {
+    type enumeration {
+      enum ethernet {
+        value 2;
+      }
+      enum vlan {
+        value 4;
+      }
+    }
+    description
+      "Specifies the type of virtual circuit (VC) associated with
+       the pseudowire";
+  }
+
+  typedef pseudowire-status-bits {
+    type enumeration {
+      enum pseudowire-forwarding {
+        value 0;
+      }
+      enum pseudowire-not-forwarding {
+        value 1;
+      }
+      enum local-attachment-circuit-ingress-fault {
+        value 2;
+      }
+      enum local-attachment-circuit-egress-fault {
+        value 3;
+      }
+      enum provider-service-network-ingress-fault {
+        value 4;
+      }
+      enum provider-service-network-egress-fault {
+        value 5;
+      }
+      enum pseudowire-forwarding-standby {
+        value 6;
+      }
+      enum pseudowire-request-switchover {
+        value 7;
+      }
+    }
+    description
+      "The pseudowire status bits signaled in TLDP
+
+       The values can indicate:
+       - pseudowire-forwarding, if all the pseudowire status bits are set to zero
+       - pseudowire-not-forwarding
+       - local-attachment-circuit-ingress-fault, if the local subinterface ingress is in a fault state
+       - local-attachment-circuit-egress-fault, if the local subinterface egress is in a fault state
+       - provider-service-network-ingress-fault, if the network ingress is in a fault state
+       - provider-service-network-egress-fault, if the network egress is in a fault state
+       - pseudowire-forwarding-standby, if the pseudowire is in standby state
+       - pseudowire-request-switchover, if the pseudowire is in request switchover status";
+  }
+
+  grouping pseudowire-statistics {
+    description
+      "Statistics of the pseudowire";
+    container statistics {
+      srl_nokia-ext:delivery-node-override "true";
+      srl_nokia-ext:stream-mode "sample=5";
+      config false;
+      leaf in-octets {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "Ingress octets
+
+           This counts the number of total ingress forwarded octets.";
+      }
+      leaf in-packets {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "Ingress discarded packets
+
+           This counts the number of total ingress forwarded packets.";
+      }
+      leaf in-discarded-octets {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "Ingress discarded octets
+
+           This counts the number of total octets discarded.";
+      }
+      leaf in-discarded-packets {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "Ingress discarded packets
+
+           This counts the number of total packets discarded.";
+      }
+      leaf out-octets {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "Egress octets
+
+           This counts the number of total egress forwarded octets.";
+      }
+      leaf out-packets {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "Egress packets
+
+           This counts the number of total egress forwarded packets.";
+      }
+      leaf last-clear {
+        type srl_nokia-comm:date-and-time-delta;
+        description
+          "Timestamp of the last time the MAC counters were cleared.";
+      }
+    }
+  }
+
+  grouping pseudowire-common-fields {
+    description
+      "Configuration of common fields in pseudowires of any signaling";
+    leaf control-word {
+      type boolean;
+      default "false";
+      description
+        "Whether control word is enabled for the pseudowire
+
+         If set to true, the router signals the support of the control
+         word for the pseudowires. If the remote peer signals support
+         for the control word too, the router pushes the control word
+         immediately below the vc label (or the flow-label if enabled).";
+    }
+    leaf flow-label {
+      if-feature "srl-feat:flow-aware-transport-label";
+      type boolean;
+      default "false";
+      description
+        "Whether the flow aware transport (FAT) label is enabled for the
+         pseudowire. If set to true, the router signals the support of the FAT
+         label for the pseudowire. If the remote peer signals support for the
+         FAT label too, the router pushes the FAT label immediately below the
+         vc label.";
+    }
+    leaf flow-label-oper-state {
+      config false;
+      srl_nokia-ext:show-importance "high";
+      if-feature "srl-feat:flow-aware-transport-label";
+      description
+        "Operational state of the flow label on the pseudowire
+
+         The state depends on the local configuration of flow-label and the R
+         flag signaled by the peer. When set to down, the flow-aware transport
+         label is not used irrespective of the local configuration of the
+         flow-label.";
+      type srl_nokia-comm:oper-state;
+    }
+  }
+
+  grouping pseudowires-top {
+    list pseudowire {
+      max-elements 1;
+      must "(../../type = 'mac-vrf')" {
+        srl_nokia-ext:if-feature "not srl_nokia-feat:pseudowire-in-vpws";
+        error-message "pseudowire configuration is only possible on network-instances of type mac-vrf";
+      }
+      key "name";
+      description
+        "Pseudowire that can be used for this connection point
+
+         Multiple pseudowires can be configured within the same connection point.
+         The active pseudowire is selected based on the precedence that it is
+         configured with the endpoint.";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "The identifier for the pseudowire";
+      }
+      leaf admin-state {
+        srl_nokia-ext:show-importance "high";
+        type srl_nokia-comm:admin-state;
+        default "enable";
+        description
+          "The configured, desired state of the pseudowire";
+      }
+      leaf oper-state {
+        config false;
+        srl_nokia-ext:show-importance "high";
+        type srl_nokia-comm:oper-state;
+        description
+          "The operational state of the pseudowire";
+      }
+      leaf-list oper-down-reason {
+        config false;
+        srl_nokia-ext:show-importance "high";
+        type enumeration {
+          enum admin-disabled;
+          enum network-instance-oper-down;
+          enum no-ingress-vc-label;
+          enum no-egress-vc-label;
+          enum network-instance-mtu-mismatch;
+          enum remote-system-fault-status-bits;
+          enum evpn-route-conflict;
+          enum transport-tunnel-oper-down;
+          enum no-destination-id;
+          enum connection-point-dup-detect;
+        }
+        description
+          "The reason for the pseudowire being oper down";
+      }
+      leaf index {
+        config false;
+        type uint64;
+        default "0";
+        description
+          "Network instance allocated pseudowire index";
+      }
+      leaf destination-index {
+        config false;
+        type uint64;
+        srl_nokia-ext:show-importance "high";
+        description
+          "A system-wide unique identifier of a pseudowire object (system allocated).";
+      }
+      leaf last-change {
+        srl_nokia-ext:show-importance "high";
+        config false;
+        type srl_nokia-comm:date-and-time-delta;
+        description
+          "The date and time of the most recent change to the pseudowire state";
+      }
+      leaf pw-tunnel {
+        srl_nokia-ext:show-importance "high";
+        mandatory true;
+        if-feature "srl-feat:vxlan or srl-feat:connection-point";
+        type leafref {
+          path "/srl_nokia-tunnel:tunnel/srl_nokia-pw-tunnel:pseudowire-tunnel/srl_nokia-pw-tunnel:tunnel/srl_nokia-pw-tunnel:name";
+        }
+        description
+          "The tunnel over which the pseudowire is transported";
+      }
+      uses pseudowire-common-fields;
+      container signaling {
+        description
+          "Signaling configuration for the pseudowire";
+        leaf virtual-circuit-identifier {
+          mandatory true;
+          type vc-id;
+          description
+            "The virtual circuit identifier of the pseudowire";
+        }
+        choice signaling {
+          mandatory true;
+          case static {
+            container static {
+              description
+                "Static pseudowire parameters
+
+                 The virtual circuit labels are configured on both ends of the
+                 pseudowire.";
+              leaf ingress-vc-label {
+                type srl_nokia-comm:mpls-label-non-reserved;
+                description
+                  "The value of the configured ingress vc label
+
+                   The ingress virtual circuit mpls label is configured if the
+                   pseudowire signaling is static.";
+              }
+              leaf egress-vc-label {
+                type srl_nokia-comm:mpls-label-non-reserved;
+                description
+                  "The value of the configured egress vc label
+
+                   The egress virtual circuit mpls label is allocated by the
+                   system when the endpoint signaling is of type TLDP or
+                   configured in this case since the signaling is static.";
+              }
+            }
+          }
+          case tldp {
+            container tldp {
+              description
+                "Targeted Label Distribution Protocol pseudowire signaling parameters
+
+                 When the network instance is of type vpws, the use of TLDP is
+                 specified in RFC4447. When the network instance is of type mac-vrf,
+                 the use of TLDP is specified in RFC4762.";
+              leaf virtual-circuit-type {
+                type vc-type;
+                default "ethernet";
+                description
+                  "The virtual circuit (VC) type of the pseudowire
+
+                   When set to vlan, the router signals vc-type 'vlan' and pushes
+                   vlan tag in the inner frame when sending frames over the
+                   pseudowire.";
+              }
+              leaf advertise-l2-mtu {
+                type uint16 {
+                  range "1450..9500";
+                }
+                units "bytes";
+                description
+                  "Layer-2 MTU advertised to the remote peer in bytes.
+
+                   The default value signaled for a pseudowire is taken from the oper-mac-vrf-mtu
+                   (in case of a mac-vrf) or from the oper-vpws-mtu (in case of a vpws) parameters.
+                   However, that default value is overridden by the value configured with this
+                   command.";
+              }
+              leaf ignore-mtu-mismatch {
+                type boolean;
+                default "false";
+                description
+                  "Whether the received signaled Layer-2 MTU is ignored
+
+                   In case the local advertised l2-mtu and the received remote l2-mtu do not match
+                   the pseudowire will be kept operationally down if this command is set to false.
+                   When set to true, the received l2-mtu is ignored and the pseudowire can be
+                   operationally up even if the local and remote l2-mtu values do not match.";
+              }
+            }
+          }
+        }
+      }
+      container local {
+        config false;
+        description
+          "The local parameters of the pseudowire";
+        leaf-list pseudowire-status {
+          type pseudowire-status-bits;
+          description
+            "Indicates a local fault in the pseudowire
+
+             The bits are signaled in the pseudowire status bits TLV
+             of the TLDP messages to the peer.";
+        }
+        leaf operational-ingress-vc-label {
+          type srl_nokia-comm:mpls-label-non-reserved;
+          description
+            "The value of the operational ingress vc label
+
+             The ingress virtual circuit mpls label is allocated by the
+             system when the signaling is of type TLDP or configured if the signaling is
+             static.";
+        }
+      }
+      container remote {
+        config false;
+        description
+          "The remote parameters of the pseudowire";
+        leaf-list pseudowire-status {
+          type pseudowire-status-bits;
+          description
+            "Indicates a peer fault in the pseudowire
+
+             The bits are received in the pseudowire status bits TLV
+             of the TLDP messages from the peer.";
+        }
+        leaf operational-egress-vc-label {
+          type srl_nokia-comm:mpls-label-non-reserved;
+          description
+            "The value of the operational egress vc label
+
+             The egress virtual circuit mpls label is received via TLDP
+             when the signaling is of type TLDP or configured if the signaling
+             is static.";
+        }
+      }
+    }
+  }
+}

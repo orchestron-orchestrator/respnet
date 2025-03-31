@@ -1,0 +1,41 @@
+module srl_nokia-platform-control-fp {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:chassis:platform-control-fp";
+  prefix srl_nokia-platform-control-fp;
+
+  import srl_nokia-platform {
+    prefix srl_nokia-platform;
+  }
+  import srl_nokia-platform-control {
+    prefix srl_nokia-platform-control;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module defines operational state related to the control plane datapath";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+
+  grouping control-datapath-top {
+    container forwarding-plane {
+      config false;
+      description
+        "Container for state related to the datapath on the control card";
+      container fib-table {
+        description
+          "A representation of the IP FIB table maintained by each control card";
+      }
+    }
+  }
+
+  augment "/srl_nokia-platform:platform/srl_nokia-platform-control:control" {
+    uses control-datapath-top;
+  }
+}

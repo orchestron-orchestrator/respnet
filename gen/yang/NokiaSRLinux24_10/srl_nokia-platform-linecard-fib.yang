@@ -1,0 +1,118 @@
+module srl_nokia-platform-linecard-fib {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:chassis:platform-linecard-fib";
+  prefix srl_nokia-platform-lc-fib;
+
+  import srl_nokia-features {
+    prefix srl_nokia-feat;
+  }
+  import srl_nokia-platform {
+    prefix srl_nokia-platform;
+  }
+  import srl_nokia-platform-lc {
+    prefix srl_nokia-platform-lc;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module defines a state model for FIB objects maintained in each forwarding complex";
+
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+
+  typedef nhg-nh-oper-state {
+    type enumeration {
+      enum up {
+        description
+          "The NHG or NH is fully resolved and operational";
+      }
+      enum down {
+        description
+          "The NHG or NH is unresolved and not viable for carrying traffic";
+      }
+      enum failed {
+        description
+          "The NHG or NH is not operational because of an underlying hardware resource issue";
+      }
+      enum up-unused {
+        description
+          "The NH is up and resolved but not used for carrying traffic, possibly because of resilient-hash-prefix configuration";
+      }
+    }
+  }
+
+  grouping fib-table-top {
+    container fib-table {
+      config false;
+      list next-hop-group {
+        description
+          "List of next hop groups (NHGs) in the FIB table";
+        key "index";
+        leaf index {
+          type uint64;
+          description
+            "A system-wide unique identifier of a next-hop-group";
+        }
+        leaf oper-state {
+          description
+            "Operational state of the next-hop group";
+          type nhg-nh-oper-state;
+        }
+        leaf backup-next-hop-group {
+          type leafref {
+            path "../index";
+          }
+          description
+            "The backup next-hop-group for the current group. When all entries within the next-hop group become unusable, the backup next-hop group is used if specified.";
+        }
+        leaf backup-active {
+          description
+            "When true, this NHG is not being used to forward traffic and its backup NHG is being relied upon to provide reachability";
+          type boolean;
+        }
+        list next-hop {
+          key "id";
+          leaf id {
+            type uint16 {
+              range "0..1023";
+            }
+            description
+              "Index of the next-hop within the NHG";
+          }
+          leaf next-hop {
+            type uint64;
+            description
+              "The system-wide unique identifier of the next-hop object";
+          }
+          leaf oper-state {
+            description
+              "Operational state of the next-hop member";
+            type nhg-nh-oper-state;
+          }
+          leaf normalized-weight {
+            if-feature "srl_nokia-feat:future-0-0";
+            type uint8;
+            description
+              "The normalized weight assigned to the next-hop within the group
+
+               This represents the number of ECMP hash buckets assigned to the next-hop based on the currently-active set of next-hops in the NHG";
+          }
+        }
+      }
+    }
+  }
+
+  augment "/srl_nokia-platform:platform/srl_nokia-platform-lc:linecard/srl_nokia-platform-lc:forwarding-complex" {
+    uses fib-table-top;
+  }
+}

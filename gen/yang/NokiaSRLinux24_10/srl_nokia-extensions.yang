@@ -1,0 +1,271 @@
+module srl_nokia-extensions {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:general:extensions";
+  prefix srl_nokia-ext;
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "YANG module detailing SRLinux extensions";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2022-06-30 {
+    description
+      "SRLinux 22.6.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2021-06-30 {
+    description
+      "SRLinux 21.6.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+  revision 2018-10-21 {
+    description
+      "SRLinux 19.11.1";
+  }
+
+  extension application-group {
+    description
+      "Takes as an argument an application group name and optional xpath expression. This application group is used
+       to indicate to application manager which applications need to be started.
+
+       For example: app-group-b
+                    app-group-c, ./type == 'ip'";
+    argument value;
+  }
+
+  extension generated-class-name {
+    description
+      "Takes as an argument a name string. Makes the telemetry code generator use the given name
+       as the name of the key or data class used for storing the content of this type
+
+       Currently the only class names supported are:
+       InterfaceName, IpAddress, IpAddressWithZone, IpPrefix, MacAddress, PasswordHash, RouteDistinguisher, SecretKey, SubinterfaceName";
+    argument name;
+  }
+
+  extension generated-class-variant {
+    description
+      "Takes as an argument a variant string. Makes the telemetry code generator use the given variant
+       of the key or data class used for storing the content of this type
+
+       Valid values depend of the generated-class-name extension.";
+    argument name;
+  }
+
+  extension hash-algorithm {
+    description
+      "Takes as an argument a value string. Used only when generated-class-name is PasswordHash.
+       PasswordHash defaults to Yescrypt hashing (yescrypt).
+
+       Currently the only hash algorithms supported are: ar2, sha1, sha2, yescrypt";
+    argument value;
+  }
+
+  extension delivery-node-override {
+    description
+      "Takes as an argument a string value. Makes the container behave as a delivery node if set to 'true'. If set
+       to 'false', then behave as normal. Regular delivery nodes are the root, all direct children of root, any lists
+       (not leaf-lists), child containers where parent's owning application is different than the child container's
+       owning application. When set to the value 'separate-state-request', then only the state request will be launched
+       separately for this node (as if the node belonged to another application). This extension is not inherited from
+       parent nodes (it is like a tag).
+
+       Currently the only values supported are: true, separate-state-request, false";
+    argument value;
+  }
+
+  extension unordered-state-list {
+    description
+      "Takes as an argument a boolean value. If set to 'true', then mgmt_server will not enforce the key order in the
+       received state responses from the application. Similar to what ordered-by user does for config lists. Applicable
+       only for lists.
+
+       Currently the only values supported are: true, false";
+    argument value;
+  }
+
+  extension deliver-decrypted {
+    description
+      "Takes as an argument a boolean value. Decrypts leaf value before delivering it to the application. Applies only
+       for applications with config-delivery-format is set to json in their .yml configuration (e.g. NDK apps).";
+    argument value;
+  }
+
+  extension output-flavor {
+    description
+      "Takes as an argument a string defining the special formatting of this type with respect to
+       the info from state output.  By default the output fields are formatted according to their
+       basic yang type.  This flavor specification makes it possible to transform the value as it
+       is printed as part of info from state output. Applies to any cli outputs (text/json/table).
+       Can be suppressed from cli by doing info detail from state.
+
+       Currently the only values supported are: time-delta, natural-time-delta, with-units, hex, hex-with-colons
+
+       time-delta
+
+           When this flavor is used to display a date and time, info from state will display it as
+           a delta with respect to the current date and time in the format 'dddd:hh:mm:ss ago' (for
+           a past event) or 'in dddd:hh:mm:ss' (future event), where dddd is the number of days, hh is
+           the number of  hours, mm is the number of  minutes and ss is the number of seconds.
+
+       natural-time-delta
+
+           When this flavor is used to display a date and time, info from state will display it as
+           a delta with respect to the current date and time in the format 'X ago' (for a past event) or
+           'X from now' (future event). Where X is natural sounding description sentence like:
+           a moment ago, 15 seconds ago, an hour ago, 5 minutes ago, 3 days from now, 2 hours from now, ...
+
+       timestamp-and-natural-time-delta
+
+           Combination of RFC3389 timestamp and natural-time-delta in parenthesis:
+           2023-12-21T12:29:28.386Z (a day ago)
+
+       with-units
+
+           When this flavor is used to display a value then the units text is appended after it. For example
+           mtu \"9232 bytes\". Where mtu is a yang typedef of uint16 with units specified as bytes.
+
+       hex
+
+           When this flavor is used to display a numerical value, info from state will display it converted to hex
+           value (with leading 0x and using uppercase letters for hex digits). E.g. instead of 168 will show 0xA8.
+
+       hex-with-colons
+
+           When this flavor is used to display a numerical value, info from state will display it converted to hex
+           value where every byte is sepated by a colon (using uppercase letters for hex digits).
+           E.g. instead of 10010 will show 27:1A.
+      ";
+    argument flavor-name;
+  }
+
+  extension preferred-column-width {
+    description
+      "Takes as an argument a number defining the preferred width of this type for the tabular output in the cli.";
+    argument width;
+  }
+
+  extension show-importance {
+    description
+      "Takes as an argument a string describing the importance of this leaf (and leaves
+       underneath it if it is a node) with respect to the info/show outputs. This field makes
+       it possible to hide the field by default. Any config field is by default medium.  Any
+       state field is low by default. Info displays anything medium and above. Show as table
+       displays only high. Inheritance is supported for this extension.
+
+       Currently the only values supported are: low, medium, high";
+    argument level;
+  }
+
+  extension first-released {
+    description
+      "Takes as an argument a string describing the first release this leaf appeared in.
+       For example 19.11.1, 20.6.1.
+
+       This extension supports inheritance, where unless specified the field is populated with
+       the most recent ancestors first-released value.";
+    argument release;
+  }
+
+  extension stream-mode {
+    description
+      "Takes as an argument a string describing the default stream mode used when a gNMI client
+       specifies TARGET_DEFINED as the stream mode. This mode is inherited on all children of this
+       node, unless a more specific default-stream-mode is set on them (following normal YANG
+       inheritance).
+
+       Valid options are 'sample', 'sample=<n>', 'on_change'
+
+       sample
+          Uses the sample stream mode, which sends updates every 1s
+
+       sample=n
+          Uses the sample stream mode, with the specified interval as the sample period
+
+       on_change
+          Uses the on_change stream mode, which sends updates immediately as they happen
+
+       The default if not specified is on_change.";
+    argument mode;
+  }
+
+  extension filtering-support {
+    description
+      "Takes as an argument a string describing the filtering support of the application.
+
+       Valid options are 'parent', 'none'
+
+       parent
+          The application supports filtering conditions between parents, children fields
+          and containers within the same application.
+
+       none
+          The application does not suport filtering. Limited filtering of children fields
+          and containers is supported within same application model by fallback.
+
+       The value is inherited from parents within the same model. The default if not specified or inherited is none.";
+    argument mode;
+  }
+
+  extension statistics-node {
+    description
+      "Takes as an argument a boolean value. Explicitely marks the list/container as
+       a statistics list/container or a non-statistics one. Without this extension statistics
+       nodes are nodes with stream-mode extension set to sampling.  Statitics nodes can be
+       omitted from state get responses/streaming when using no-statistics streaming options.";
+    argument value;
+  }
+
+  extension telemetry-atomic {
+    description
+      "Takes as an argument a string value. Indicates that all nodes within the subtree are always updated together
+       within the data model. For example, all elements under the subtree may be updated as a result of a new alarm
+       being raised, or the arrival of a new protocol message. This mode is inherited on all children of this node,
+       unless a more specific default-stream-mode is set on them (following normal YANG inheritance).
+
+       Currently the only values supported are: true, false";
+    argument value;
+  }
+
+  extension no-globbing {
+    description
+      "Disables globbing for this leaf (useful for fields defining regex patterns)";
+  }
+
+  extension no-auto-completion {
+    description
+      "Disables existing instance based auto-completion for this list";
+  }
+
+  extension if-feature {
+    description
+      "Takes as an argument a string defining the if-feature expression (same format as regular YANG if-feature),
+       allows using if-feature under must statements";
+    argument expression;
+  }
+}

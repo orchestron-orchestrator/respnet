@@ -1,0 +1,2484 @@
+module srl_nokia-features {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:general:features";
+  prefix srl_nokia-feat;
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "YANG module detailing SRLinux features";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-10-31 {
+    description
+      "SRLinux 23.10.1";
+  }
+  revision 2023-07-31 {
+    description
+      "SRLinux 23.7.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2022-06-30 {
+    description
+      "SRLinux 22.6.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2021-11-30 {
+    description
+      "SRLinux 21.11.1";
+  }
+  revision 2021-06-30 {
+    description
+      "SRLinux 21.6.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+
+  feature future-0-0 {
+    description
+      "Only true in 0.0 stream, false in other streams. The feature is for an unknown future release.";
+  }
+
+  feature aaa-spiffe-id {
+    description
+      "Support for authentication using spiffe-id";
+  }
+
+  feature acl-ip-prefix-list {
+    description
+      "Support for ACL IP Prefix List";
+  }
+
+  feature acl-qos-ip-prefix-list {
+    description
+      "Support for QOS IP Prefix List";
+  }
+
+  feature aaa-superuser {
+    description
+      "Support for superuser flag for local users and roles";
+  }
+
+  feature acl-cpm-filter-match-network-instance {
+    description
+      "Support for ACL CPM-filter network-istance match criterion";
+  }
+
+  feature acl-cpm-filter-type-mac {
+    description
+      "Support for ACL CPM-filter of type mac";
+  }
+
+  feature acl-filter-allowed-on-irb-interfaces {
+    description
+      "Support for ACL filters on irb interfaces";
+  }
+
+  feature acl-filter-allowed-on-l2-interfaces {
+    description
+      "Support for ACL filters on l2 interfaces";
+  }
+
+  feature acl-filter-qos-forwarding-class {
+    description
+      "Support for ACL filter based assignment of forwarding QOS class";
+  }
+
+  feature acl-filter-qos-profile {
+    description
+      "Support for ACL filter based assignment of QOS profile";
+  }
+
+  feature acl-filter-redirect-to-next-hop {
+    description
+      "Support for ACL based redirection to netx hop";
+  }
+
+  feature acl-policer {
+    description
+      "Support for ACL policers";
+  }
+
+  feature acl-subinterface-entry-statistics {
+    description
+      "Support for ACL subinterface entry statistics";
+  }
+
+  feature acl-tcam-profiles {
+    description
+      "Support for Acl tcam profiles";
+  }
+
+  feature admin-user-roles {
+    description
+      "Support for configurable roles for the admin user";
+  }
+
+  feature anycast-gw {
+    description
+      "Support for bridged feature and anycast-gw configuration on interface";
+  }
+
+  feature application-hot-restart {
+    description
+      "Support for application hot restart";
+  }
+
+  feature arp-nd-datapath-programming {
+    description
+      "Support for datapath programming of arp-nd routes";
+  }
+
+  feature backplane-facing-capacity {
+    description
+      "Support for backplane facing capacity paths";
+  }
+
+  feature bfd {
+    description
+      "Support for BFD";
+  }
+
+  feature bgp-accumulated-igp-metric {
+    description
+      "Support for AIGP metric path attribute";
+  }
+
+  feature bgp-add-paths {
+    description
+      "Support for bgp add path.";
+  }
+
+  feature bgp-add-paths-evpn {
+    description
+      "Support for bgp add path on evpn afi-safi.";
+  }
+
+  feature bgp-add-paths-l3vpn {
+    description
+      "Support for bgp add path on afi-safis l3vpn-ipv4-unicast and l3vpn-ipv6-unicast.";
+  }
+
+  feature bgp-add-paths-labeled-unicast {
+    description
+      "Support for bgp add path on afi-safis ipv4-labeled-unicast and ipv6-labeled-unicast..";
+  }
+
+  feature bgp-add-paths-policy-control {
+    description
+      "Support for bgp add path policy control.";
+  }
+
+  feature bgp-afi-safi-policy {
+    description
+      "Support for import and export policy per afi-safi.";
+  }
+
+  feature bgp-auth-password {
+    description
+      "Provide a BGP TCP MD5 authentication password without defining a keychain";
+  }
+
+  feature bgp-backup-path-frr-vpn {
+    description
+      "BGP support for backup paths using BGP VPN routes. Also known as Edge PIC";
+  }
+
+  feature bgp-backup-path-frr-evpn {
+    description
+      "BGP support for backup paths using BGP-EVPN routes. Also known as Edge PIC";
+  }
+
+  feature bgp-backup-path-frr-ip {
+    description
+      "BGP support for backup paths using IP routes. Also known as Edge PIC";
+  }
+
+  feature bgp-backup-path-frr-label-ip {
+    description
+      "BGP support for backup paths using label-unicast routes. Also known as Edge PIC";
+  }
+
+  feature bgp-cfg-afi-safi-list {
+    description
+      "Support for the AFI-SAFI list based configuration and state model in BGP for instances, groups and neighbors.";
+  }
+
+  feature bgp-auto-discovery-using-lldp {
+    description
+      "Using LLDP to initiate outbound dynamic BGP sessions";
+  }
+
+  feature bgp-graceful-restart-gaps {
+    description
+      "Add missing leafs for graceful-restart";
+  }
+
+  feature bgp-import-export-policy-leaflist {
+    description
+      "Change bgp import-policy and export-policy to a leaf-list";
+  }
+
+  feature bgp-ipv6-next-hop-tunnel-resolution {
+    description
+      "Resolve BGP IPv6 next-hops over IPv6 tunnels";
+  }
+
+  feature bgp-labeled-unicast {
+    description
+      "Support for BGP-LU address families";
+  }
+
+  feature bgp-labeled-unicast-future {
+    description
+      "Future (post 24.3) features for BGP-LU address families";
+  }
+
+  feature bgp-labeled-unicast-prefix-sid {
+    description
+      "Support for prefix SID attribute in the context of SR-MPLS";
+  }
+
+  feature bgp-labeled-unicast-tunnel-statistics {
+    description
+      "BGP Labeled Prefix statistics";
+  }
+
+  feature bgp-labeled-unicast-over-sr-te {
+    description
+      "Support for BGP-LU next-hop resolving over SR-TE tunnel";
+  }
+
+  feature bgp-labeled-unicast-selective-install {
+    description
+      "Support for BGP-LU selective tunnel installation based on service endpoints";
+  }
+
+  feature bgp-local-as-container-iso-list {
+    description
+      "Change list local-as to container in bgp group and neighbor";
+  }
+
+  feature bgp-max-ecmp-hash-buckets {
+    description
+      "Configuration of maximum hash buckets for weighted ECMP of BGP routes";
+  }
+
+  feature bgp-mtu-discovery {
+    description
+      "Support for BGP path MTU discovery.";
+  }
+
+  feature bgp-multipath-maximum-paths {
+    description
+      "Support for maximum BGP ECMP next-hops configuration.";
+  }
+
+  feature bgp-multipath-maximum-paths-limit-128 {
+    description
+      "Support multipath maximum-paths upper limit 128 depending on platform and afi-safi";
+  }
+
+  feature bgp-multipath-maximum-paths-limit-256 {
+    description
+      "Support multipath maximum-paths upper limit 256 depending on platform and afi-safi";
+  }
+
+  feature bgp-next-hop-resolution-tag {
+    description
+      "Support for BGP next-hop resolution based on tags";
+  }
+
+  feature bgp-prefix-limit {
+    description
+      "Support for Bgp Prefix Limit enhancements.";
+  }
+
+  feature bgp-prefix-limit-last-exceeded {
+    description
+      "Support of prefix-limit timestamp";
+  }
+
+  feature bgp-prefix-limit-post-policy {
+    description
+      "Support of prefix-limit-accepted configuration";
+  }
+
+  feature bgp-prefix-limit-received {
+    description
+      "Renaming bgp containers prefix-limit to prefix-limit-received.";
+  }
+
+  feature bgp-restart-max-wait {
+    description
+      "Introduction of system-wide BGP configuration container at /system/protocols/bgp for BGP AWR timer.";
+  }
+
+  feature bgp-rib-afi-safi-list {
+    description
+      "Support for the AFI-SAFI list based model in BGP RIB representation inspired from OC.";
+  }
+
+  feature bgp-rib-afi-safi-list-for-evpn {
+    description
+      "Support for the AFI-SAFI list based model in BGP RIB evpn representation inspired from OC.";
+  }
+
+  feature bgp-rib-afi-safi-route {
+    description
+      "Use list route in stead of list routes in bgp-rib";
+  }
+
+  feature bgp-route-flap-damping {
+    description
+      "Support for BGP route flap damping";
+  }
+
+  feature bgp-rtc {
+    description
+      "Support for BGP route target constraint";
+  }
+
+  feature bgp-send-community-leaflist {
+    description
+      "Use leaf-list send-community-type iso container send-community";
+  }
+
+  feature bgp-single-hop-connected-check {
+    description
+      "Support for Bgp transport Single Hop Connected Check.";
+  }
+
+  feature bgp-srte-policy {
+    description
+      "Support for BGP SR-TE policy address families";
+  }
+
+  feature bgp-unnumbered-peers {
+    description
+      "Support dynamic bgp unnumbered peers.";
+  }
+
+  feature bgp-weighted-ecmp {
+    description
+      "Support for BGP weighted ECMP using link-bandwidth";
+  }
+
+  feature breakout-ports-1 {
+    description
+      "Support for 1 breakout port";
+  }
+
+  feature breakout-ports-2 {
+    description
+      "Support for 2 breakout ports";
+  }
+
+  feature breakout-ports-3 {
+    description
+      "Support for 3 breakout ports";
+  }
+
+  feature breakout-ports-4 {
+    description
+      "Support for 4 breakout ports";
+  }
+
+  feature breakout-ports-8 {
+    description
+      "Support for 8 breakout ports";
+  }
+
+  feature breakout-speed-100G {
+    description
+      "Support for 100G breakout port speed";
+  }
+
+  feature breakout-speed-10G {
+    description
+      "Support for 10G breakout port speed";
+  }
+
+  feature breakout-speed-200G {
+    description
+      "Support for 200G breakout port speed";
+  }
+
+  feature breakout-speed-25G {
+    description
+      "Support for 25G breakout port speed";
+  }
+
+  feature breakout-speed-400G {
+    description
+      "Support for 400G breakout port speed";
+  }
+
+  feature breakout-speed-50G {
+    description
+      "Support for 50G breakout port speed";
+  }
+
+  feature bridged {
+    description
+      "Support for MAC-VRF services";
+  }
+
+  feature bt-split-horizon-groups {
+    description
+      "Support for Bridge-Table split horizon groups";
+  }
+
+  feature chassis {
+    description
+      "The platform is in a chassis configuration";
+  }
+
+  feature chassis-vertical-orientation {
+    description
+      "The platform supports a configurable mount orientation";
+  }
+
+  feature cli-plugin-authorization {
+    description
+      "Support for cli plugin authorization";
+  }
+
+  feature combined-bgp-ecmp {
+    description
+      "Support for ECMP across different BGP owners in an IP-VRF network-instance";
+  }
+
+  feature config-l2-mtu-default {
+    description
+      "Support for system mtu default-l2-mtu config";
+  }
+
+  feature config-sub-if-l2-mtu {
+    description
+      "Support for subinterface l2-mtu config";
+  }
+
+  feature configurable-intf-mac-addr {
+    description
+      "Support for configurable interface mac address";
+  }
+
+  feature connection-point {
+    description
+      "Support for connection points on network-instances";
+  }
+
+  feature crc-symbol-monitoring {
+    description
+      "Support for interface crc and symbol monitoring";
+  }
+
+  feature l2-proxy-arp-nd-control-flood-on-evpn {
+    description
+      "Support for controlling snooped arp/nd frames on evpn in mac-vrf network-instances";
+  }
+
+  feature cpm-warm-redundancy {
+    description
+      "Support for CPM Warm Redundancy";
+  }
+
+  feature dac-link-training {
+    description
+      "Support for configurable interface dac-link-training";
+  }
+
+  feature datapath-resource-watermarks {
+    description
+      "Support for monitoring high-watermark level of datapath resources";
+  }
+
+  feature dco-logical-channels {
+    description
+      "Support for logical channels for digital coherent optics modules";
+  }
+
+  feature dco-loopback {
+    description
+      "Support for loopbacks withing the digital coherent optics modules";
+  }
+
+  feature dhcp-relay-fqdn {
+    description
+      "Support for dhcp relay fqdn feature";
+  }
+
+  feature digital-coherent-optics {
+    description
+      "Support for digital coherent optics modules";
+  }
+
+  feature disabled {
+    description
+      "Feature flag that is always disabled";
+  }
+
+  feature disk-encryption {
+    description
+      "Support for Disk Encryption";
+  }
+
+  feature dot1q-vlan-ranges {
+    description
+      "Support for configurable dot1q vlan-ranges";
+  }
+
+  feature dot1x {
+    description
+      "Support for dot1x configuration";
+  }
+
+  feature dot1x-authenticator {
+    description
+      "Support for dot1x authenticator configuration";
+  }
+
+  feature dot1x-authenticator-mode-multi-domain {
+    description
+      "Support for IEEE 802.1X authenticator multi-domain host-mode";
+  }
+
+  feature dot1x-authenticator-mode-multi-host {
+    description
+      "Support for IEEE 802.1X authenticator multi-host host-mode";
+  }
+
+  feature dot1x-interface-stats {
+    description
+      "Support for dot1x stats per interface";
+  }
+
+  feature dot1x-system {
+    description
+      "Support for dot1x for system";
+  }
+
+  feature dot1x-tunnel-all {
+    description
+      "Support for dot1x tunnelling of all packets, irrespective of their dot1q encap
+
+       Some platforms can only tunnel dot1x packets irrespective of the dot1q encap.";
+  }
+
+  feature dot1x-tunnel-not-all {
+    description
+      "Support for specific dot1x tunneling
+
+       Some platforms can tunnel with finer granularity of untagged, single-tagged, double-tagged.";
+  }
+
+  feature dynamic-tcam {
+    description
+      "Support for Dynamic TCAM";
+  }
+
+  feature entropy-bgp-sr {
+    description
+      "Support for Entropy label with BGP and SR-ISIS";
+  }
+
+  feature ethcfm {
+    description
+      "Support for Ethernet CFM";
+  }
+
+  feature ethcfm-ingress-squelching {
+    description
+      "Support for Ethernet CFM ingress squelching";
+  }
+
+  feature ethcfm-mp-custom-mac-address {
+    description
+      "Support for Ethernet CFM Management Point custom MAC address configuration";
+  }
+
+  feature ethcfm-mp-mac-address-allocation {
+    description
+      "Support selectable Ethernet CFM Management Point MAC allocation scheme";
+  }
+
+  feature ethcfm-nsr {
+    description
+      "Support for Ethernet CFM non-stop-routing";
+  }
+
+  feature ethcfm-opcode-stats {
+    description
+      "Support for Ethernet CFM per operational code statistics";
+  }
+
+  feature ethcfm-sender-id-tx {
+    description
+      "Support for Ethernet CFM transmission of sedner id tlv";
+  }
+
+  feature ethcfm-subinterface {
+    description
+      "Support for Ethernet CFM configuration on subinterface";
+  }
+
+  feature event-handler {
+    description
+      "Support for the MicroPython-based event handler";
+  }
+
+  feature evpn {
+    description
+      "Support for EVPN";
+  }
+
+  feature evpn-ifl-unequal-ecmp {
+    description
+      "Support for EVPN unequal ECMP for RT5 IFL routes";
+  }
+
+  feature evpn-iml-label-block {
+    description
+      "Support for allocation of labels for EVPN IML routes from a seperate label block.";
+  }
+
+  feature evpn-mh {
+    description
+      "Support for EVPN Multi-Homing";
+  }
+
+  feature evpn-mh-ip-aliasing {
+    description
+      "Support for EVPN Multi-Homing IP Aliasing Ethernet Segments";
+  }
+
+  feature evpn-mh-virtual-es {
+    description
+      "Support for virtual ethernet-segments";
+  }
+
+  feature evpn-mh-multicast-non-df-tcam-resource {
+    description
+      "Report TCAM entries used by egress filtering of IP multicast traffic to non-Designated Forwarder subinterfaces";
+  }
+
+  feature evpn-mpls {
+    description
+      "Support for EVPN MPLS";
+  }
+
+  feature evpn-mpls-control-word {
+    description
+      "Support for control-word in evpn-mpls";
+  }
+
+  feature evpn-mpls-shg {
+    description
+      "Support for EVPN MPLS Split-Horizon-Groups";
+  }
+
+  feature evpn-route-internal-tags {
+    description
+      "Support for internal tags associated to evpn routes";
+  }
+
+  feature exponential-port-dampening {
+    description
+      "Support for exponential port dampening";
+  }
+
+  feature factory-reset {
+    description
+      "Support for gNOI Factory Reset";
+  }
+
+  feature fixed {
+    description
+      "The platform is in a fixed configuration, i.e. non-chassis platforms";
+  }
+
+  feature flow-aware-transport-label {
+    description
+      "Support for Flow-Aware Transport (FAT) label";
+  }
+
+  feature flow-aware-transport-label-evpn-mpls-vpws {
+    description
+      "Support for BGP-EVPN mpls flow aware transport (FAT) label in VPWS network-instances";
+  }
+
+  feature forwarding-complex-1 {
+    description
+      "Support for forwarding-complex 1";
+  }
+
+  feature forwarding-complex-pipeline-counters {
+    description
+      "Support for forwarding-complex drop counters and aggregate CPU extration statistics";
+  }
+
+  feature gnmi-extensions {
+    description
+      "gNMI commit confirmed, depth and config subscription extensions";
+  }
+
+  feature gnmi-services {
+    description
+      "gNMI services";
+  }
+
+  feature gnoi-bgp {
+    description
+      "gNOI Bgp service";
+  }
+
+  feature gnoi-export-protos {
+    description
+      "OpenConfig protos";
+  }
+
+  feature gnoi-healthz {
+    description
+      "gNOI Healthz service";
+  }
+
+  feature gnsi-accounting {
+    description
+      "gNSI Accounting service";
+  }
+
+  feature gnsi-authz {
+    description
+      "gNSI Authz service";
+  }
+
+  feature gnsi-certz {
+    description
+      "gNSI Certz service";
+  }
+
+  feature gnsi-credentialz {
+    description
+      "gNSI Credentialz service";
+  }
+
+  feature gnsi-pathz {
+    description
+      "gNSI Pathz service";
+  }
+
+  feature grpc-server {
+    description
+      "Unification of gnmi/gribi/p4rt servers into grpc server";
+  }
+
+  feature grpc-server-max-concurrent-streams {
+    description
+      "Configurable gRPC max concurrent streams parameter";
+  }
+
+  feature hold-time-fpcx {
+    description
+      "Support for interface hold-time on fpcx chipset";
+  }
+
+  feature host-network-instance {
+    description
+      "Support for host network-instance type";
+  }
+
+  feature icmp-rate-control {
+    description
+      "System-wide control of ICMP message generation rates";
+  }
+
+  feature igmp {
+    description
+      "Support for IGMP";
+  }
+
+  feature igmp-ipvrf {
+    description
+      "Support for IGMP on ipvrf";
+  }
+
+  feature igmp-snooping {
+    description
+      "Support for IGMP snooping";
+  }
+
+  feature egress-subif-policing {
+    description
+      "Support for egress subinterface policing based on policer-templates";
+  }
+
+  feature fib-programming-progress {
+    description
+      "Support for FIB programming progress per forwarding complex";
+  }
+
+  feature ingress-subif-policing {
+    description
+      "Support for ingress subinterface policing based on policer-templates";
+  }
+
+  feature interface-evpn-internal-tags {
+    description
+      "Support for internal tags associated to arp/nd routes advertised in evpn";
+  }
+
+  feature interface-references {
+    description
+      "Support for interface-ref containers under network-instance.";
+  }
+
+  feature inter-as-nhsrr-ipvpn {
+    description
+      "Support for inter-as model B and next hop self route reflector functionality for ipvpn";
+  }
+
+  feature ip-acl-dscp-set {
+    description
+      "Support for IP ACL matching on DSCP sets";
+  }
+
+  feature ip-qos-multifield {
+    description
+      "Support for ingress QoS classification based on multifield classifier policies";
+  }
+
+  feature ip-tunnel-decap-groups {
+    description
+      "Support for IP tunnel decap groups";
+  }
+
+  feature ipv4-unnumbered {
+    description
+      "Support for IPv4 unnumbered interfaces";
+  }
+
+  feature ipvpn {
+    description
+      "Support for bgp-ipvpn";
+  }
+
+  feature ipvpn-route-internal-tags {
+    description
+      "Support for internal tags associated to ipvpn routes";
+  }
+
+  feature isis-adjsid-holdtime {
+    description
+      "Support for isis adjacency sid holdtime";
+  }
+
+  feature isis-dyn-delay {
+    description
+      "Support for isis dynamic delay advertisement";
+  }
+
+  feature isis-flex-algo {
+    description
+      "Support for ISIS flexible algorithms";
+  }
+
+  feature isis-lfa {
+    description
+      "Support for isis loopfree-alternate protection";
+  }
+
+  feature isis-level-database {
+    description
+      "Support for isis level-database telemetry";
+  }
+
+  feature isis-level-passive {
+    description
+      "Support for isis per level passive configuration";
+  }
+
+  feature isis-lsdb {
+    description
+      "Support for isis link-state-database";
+  }
+
+  feature isis-maint-mode {
+    description
+      "Support for isis maintainance mode";
+  }
+
+  feature isis-mi {
+    description
+      "Support for isis multi-instance";
+  }
+
+  feature isis-mt {
+    description
+      "Support for isis multi-topology";
+  }
+
+  feature isis-nsf {
+    description
+      "Support for isis non-stop-forwarding";
+  }
+
+  feature isis-app-hot-restart {
+    description
+      "Support for isis non-stop-routing";
+  }
+
+  feature isis-rtr-capability {
+    description
+      "Support for configurable advertise-router-capability";
+  }
+
+  feature isis-ucmp {
+    description
+      "Support for isis weighted ecmp";
+  }
+
+  feature keychain {
+    description
+      "Support for protocol authentication keychains with multiple keys";
+  }
+
+  feature l2-proxy-arp {
+    description
+      "Support for Bridge Table proxy ARP functionality";
+  }
+
+  feature l2-proxy-arp-nd-route-internal-tags {
+    description
+      "Support for internal tags associated to proxy arp/nd evpn routes";
+  }
+
+  feature l2-proxy-nd {
+    description
+      "Support for Bridge Table proxy ND functionality";
+  }
+
+  feature l2cp-transparency {
+    description
+      "Support for Layer-2 Control Protocol transparency or tunneling";
+  }
+
+  feature l2cp-transparency-elmi {
+    description
+      "Support for Layer-2 Control Protocol transparency or tunneling for elmi frames";
+  }
+
+  feature l2cp-transparency-efm-oam {
+    description
+      "Support for Layer-2 Control Protocol transparency or tunneling for efm-oam frames";
+  }
+
+  feature l2cp-transparency-esmc {
+    description
+      "Support for Layer-2 Control Protocol transparency or tunneling for esmc frames";
+  }
+
+  feature l3-multicast-vpn {
+    description
+      "Support for l3-multicast-vpn";
+  }
+
+  feature l3-multicast-vpn-policy {
+    description
+      "Support for l3-multicast-vpn";
+  }
+
+  feature l3-proxy-arp {
+    description
+      "Support for layer-3 sub-interface proxy ARP functionality";
+  }
+
+  feature l3-proxy-arp-irb {
+    description
+      "Support for layer-3 sub-interface proxy ARP functionality on IRB interfaces";
+  }
+
+  feature l3-proxy-nd {
+    description
+      "Support for layer-3 sub-interface proxy ND functionality";
+  }
+
+  feature l3-proxy-nd-irb {
+    description
+      "Support for layer-3 sub-interface proxy ND functionality on IRB interfaces";
+  }
+
+  feature label-management {
+    description
+      "Support for mpls label management";
+  }
+
+  feature label-range-user-owner {
+    description
+      "Use 'owner' instead of 'protocol' to refer to the user of an MPLS label-range.";
+  }
+
+  feature lacp-fallback {
+    description
+      "Support for link aggregation control protocol fallback";
+  }
+
+  feature lag {
+    description
+      "Support for link aggregation groups";
+  }
+
+  feature lag-forwarding-viable {
+    description
+      "Support for lag member forwarding-viable option";
+  }
+
+  feature lawful-intercept {
+    description
+      "Support for lawful intercept";
+  }
+
+  feature ldp {
+    description
+      "Support for label distribution protocol";
+  }
+
+  feature ldp-bfd {
+    description
+      "Support for BFD in LDP";
+  }
+
+  feature ldp-ipv4-auto-rx-tx-targeted {
+    description
+      "Support for IPv4 auto-rx and auto-tx T-LDP";
+  }
+
+  feature ldp-ipv6 {
+    description
+      "Support for LDP IPv6 extensions";
+  }
+
+  feature ldp-entropy-label {
+    description
+      "Support for entropy label with LDP LSPs";
+  }
+
+  feature ldp-label-wdraw-delay {
+    description
+      "Support for configuring the LDP label withdrawal delay";
+  }
+
+  feature ldp-lfa {
+    description
+      "Support for LFA in LDP";
+  }
+
+  feature ldp-local-lsr-id {
+    description
+      "Support for local LSR ID in LDP";
+  }
+
+  feature ldp-prefix-policies {
+    description
+      "Support for prefix policies in LDP";
+  }
+
+  feature ldp-rlfa {
+    description
+      "Support for Remote Loop-Free Alternate in LDP";
+  }
+
+  feature ldp-static-fec-pop {
+    description
+      "Support for static FEC pop in LDP";
+  }
+
+  feature ldp-targeted {
+    description
+      "Support for targeted label distribution protocol";
+  }
+
+  feature ldp-tunnel-down-damp-time {
+    description
+      "Support for configuring the LDP tunnel down dampening time";
+  }
+
+  feature license {
+    description
+      "Support for licenses";
+  }
+
+  feature link-loss-forwarding {
+    description
+      "Support for link-loss-forwarding";
+  }
+
+  feature link-measurement {
+    description
+      "Support for dynamic link neasurement";
+  }
+
+  feature longest-prefix-match {
+    description
+      "Support show route table for the longest prefix match";
+  }
+
+  feature loopback-mode-facility {
+    description
+      "Support facility option for loopback-mode";
+  }
+
+  feature maintenance-mode-improvements {
+    description
+      "Improvements for maintenance mode";
+  }
+
+  feature macsec {
+    description
+      "Support for macsec";
+  }
+
+  feature maintenance-policies {
+    description
+      "Support for Maintenance policies";
+  }
+
+  feature mcast-route-policy {
+    description
+      "Support for multicast handling in route policy";
+  }
+
+  feature measured-boot {
+    description
+      "Support for Measured Boot";
+  }
+
+  feature mirror-dest-local {
+    description
+      "Support for local mirror-destination";
+  }
+
+  feature mirror-dest-remote {
+    description
+      "Support for remote mirror-destination";
+  }
+
+  feature mirror-dest-remote-tunnel-encap-l2ogre {
+    description
+      "Support for remote mirror-destination encap l2overgre";
+  }
+
+  feature mirror-dest-remote-tunnel-encap-l3ogre {
+    description
+      "Support for remote mirror-destination encap l3overgre";
+  }
+
+  feature mirror-dest-remote-tunnel-encap-mplsogre {
+    description
+      "Support for remote mirror-destination encap mplsovergre";
+  }
+
+  feature mirror-dest-statistics {
+    description
+      "Support for mirror-destination statistics";
+  }
+
+  feature mirror-dest-statistics-egress-pkts {
+    description
+      "Support for mirror-destination statistics for egress packets count";
+  }
+
+  feature mirror-dest-statistics-octets {
+    description
+      "Support for mirror-destination statistics for total octets";
+  }
+
+  feature mirror-source-acl {
+    description
+      "Support for acl based mirror-source";
+  }
+
+  feature mirror-source-intf {
+    description
+      "Support for interface based mirror-source";
+  }
+
+  feature mirror-source-subintf {
+    description
+      "Support for subinterface based mirror-source";
+  }
+
+  feature mirroring {
+    description
+      "Support for mirroring (SPAN/ERSPAN)";
+  }
+
+  feature mirroring-intf-stats {
+    description
+      "Support for mirroring interface stats";
+  }
+
+  feature mirroring-tools-mirror-dest-statistics {
+    description
+      "Support for tools mirror-dest-statistics";
+  }
+
+  feature mld {
+    description
+      "Support for MLD";
+  }
+
+  feature mld-ipvrf {
+    description
+      "Support for MLD on ipvrf";
+  }
+
+  feature mld-snooping {
+    description
+      "Support for MLD snooping";
+  }
+
+  feature mpls {
+    description
+      "Support for MPLS";
+  }
+
+  feature mpls-ndk {
+    description
+      "Support for NDK static MPLS";
+  }
+
+  feature mpls-oam {
+    description
+      "Support for lsp-ping/trace over MPLS tunnels";
+  }
+
+  feature mpls-oam-uncolored-tepolicy {
+    description
+      "Support for lsp-ping/trace over uncolored TE-policy";
+  }
+
+  feature named-queues-and-named-fcs {
+    description
+      "Support for named queues and forwarding classes";
+  }
+
+  feature ndk-auto-telemetry-state {
+    description
+      "Support for option to auto update config state for NDK apps";
+  }
+
+  feature ndk-disable-caching {
+    description
+      "Support for disabling caching in NDK mgr";
+  }
+
+  feature netconf {
+    description
+      "Support for NETCONF";
+  }
+
+  feature network-instance-mpls {
+    description
+      "Support for MPLS Services";
+  }
+
+  feature network-instance-static-mpls {
+    description
+      "Support for MPLS Services with static labels";
+  }
+
+  feature nhsrr-evpn {
+    description
+      "Support for next hop self route reflector functionality for evpn";
+  }
+
+  feature num-physical-channels {
+    description
+      "Support for configuring the number of physical channels for interfaces";
+  }
+
+  feature oam {
+    description
+      "Support for OAM";
+  }
+
+  feature oam-pm {
+    description
+      "Support for OAM Performance Monitoring";
+  }
+
+  feature oam-pm-ethcfm {
+    description
+      "Support for Ethernet CFM performance monitoring";
+  }
+
+  feature oam-pm-ip {
+    description
+      "Support for OAM Performance Monitoring IP";
+  }
+
+  feature oc-extracted-cpm-traffic-stats {
+    description
+      "Support for OpenConfig extracted CPM traffic statistics";
+  }
+
+  feature openconfig {
+    description
+      "Support for OpenConfig";
+  }
+
+  feature p4rt {
+    description
+      "Support for P4Runtime";
+  }
+
+  feature packet-link-qualification {
+    description
+      "Support for gNOI Packet Link Qualification";
+  }
+
+  feature packet-tracer {
+    description
+      "Support for oam packet-trace";
+  }
+
+  feature pcep-pcc {
+    description
+      "Path Computation Element client functionality";
+  }
+
+  feature pcep-pcc-pce-association {
+    description
+      "Path Computation Element client functionality for pce associations";
+  }
+
+  feature pim {
+    description
+      "Support for PIM";
+  }
+
+  feature pim-ipvrf {
+    description
+      "Support for PIM IP VRF";
+  }
+
+  feature pim-spt-switchover{
+    description
+      "Support for PIM SPT switchover";
+  }
+
+  feature policy-based-forwarding-decap-actions {
+    description
+      "Support for policy-based forwarding decap actions";
+  }
+
+  feature policy-based-forwarding-dscp-ip-protocol {
+    description
+      "Support for policy-based forwarding based on DSCP and/or IP protocol";
+  }
+
+  feature policy-based-forwarding-encapsulate-gre {
+    description
+      "Support for policy-based forwarding action: encapsulate GRE";
+  }
+
+  feature policy-based-forwarding-match-ipv6-conditions {
+    description
+      "Support for policy-based forwarding match IPv6 conditions";
+  }
+
+  feature policy-based-forwarding-nh-transport {
+    description
+      "Support for policy-forwarding to next-hop and network-instance";
+  }
+
+  feature port-breakout {
+    description
+      "Support for ethernet port breakout (port connector)";
+  }
+
+  feature port-fec-clause74 {
+    description
+      "Support for legacy base-r FEC";
+  }
+
+  feature port-speed-100G {
+    description
+      "Support for 100G ethernet port speed";
+  }
+
+  feature port-speed-10G {
+    description
+      "Support for 10G ethernet port speed";
+  }
+
+  feature port-speed-100M {
+    description
+      "Support for 100M ethernet port speed";
+  }
+
+  feature port-speed-10M {
+    description
+      "Support for 10M ethernet port speed";
+  }
+
+  feature port-speed-1G {
+    description
+      "Support for 1G ethernet port speed";
+  }
+
+  feature port-speed-200G {
+    description
+      "Support for 200G ethernet port speed";
+  }
+
+  feature port-speed-25G {
+    description
+      "Support for 25G ethernet port speed";
+  }
+
+  feature port-speed-400G {
+    description
+      "Support for 400G ethernet port speed";
+  }
+
+  feature port-speed-40G {
+    description
+      "Support for 40G ethernet port speed";
+  }
+
+  feature port-speed-50G {
+    description
+      "Support for 50G ethernet port speed";
+  }
+
+  feature port-speed-800G {
+    description
+      "Support for 800G ethernet port speed";
+  }
+
+  feature power-management {
+    description
+      "Support for chassis power management";
+  }
+
+  feature pseudowire {
+    description
+      "Support for pseudowires";
+  }
+
+  feature pseudowire-in-vpws {
+    description
+      "Support for pseudowires in vpws network-instances";
+  }
+
+  feature qinq {
+    description
+      "Support for qinq subinterfaces";
+  }
+
+  feature qos {
+    description
+      "Support for qos";
+  }
+
+  feature qos-classify-profile {
+    description
+      "Support for qos";
+  }
+
+  feature qos-committed-burst-size-table {
+    description
+      "Support for qos committed burst size";
+  }
+
+  feature qos-de-out-profile {
+    description
+      "Support for qos de out profile";
+  }
+
+  feature qos-dot1p-classifier-policy {
+    description
+      "Support for qos dot1p classifier policy";
+  }
+
+  feature qos-dot1p-rewrite-policy {
+    description
+      "Support for qos dot1p rewrite policy";
+  }
+
+  feature qos-drop-probability {
+    description
+      "Support for qos drop probability";
+  }
+
+  feature qos-drop-zones {
+    description
+      "Support for qos drop zones";
+  }
+
+  feature qos-dscp-classifier-policy {
+    description
+      "Support for qos dscp classifier policy";
+  }
+
+  feature qos-dscp-reclassifier-policy {
+    description
+      "Support for qos dscp reclassifier policy";
+  }
+
+  feature qos-dscp-rewrite-policy {
+    description
+      "Support for qosdscp rewrite policy";
+  }
+
+  feature qos-ecn {
+    description
+      "Support for qos ecn";
+  }
+
+  feature qos-ecn-dscp-policy {
+    description
+      "Support for qos dscp policy";
+  }
+
+  feature qos-forwarding-class-index {
+    description
+      "Support for qos forwarding class index";
+  }
+
+  feature qos-forwarding-class-resource-priority {
+    description
+      "Support for qos forwarding class resource priority";
+  }
+
+  feature qos-forwarding-complexes {
+    description
+      "Support for qos forwarding complexes";
+  }
+
+  feature qos-fp-pool-policy {
+    description
+      "Support for qos forwarding class";
+  }
+
+  feature qos-input-class-map {
+    description
+      "Support for qos input class map";
+  }
+
+  feature qos-interface-pool-policy {
+    description
+      "Support for qos interface pool policy";
+  }
+
+  feature qos-ip-rewrite-policy {
+    description
+      "Support for qos ip rewrite policy";
+  }
+
+  feature qos-ipv4-dscp-classifier-policy {
+    description
+      "Support for qos ipv4 dscp classifier policy";
+  }
+
+  feature qos-ipv4-dscp-rewrite-policy {
+    description
+      "Support for qos ipv4 dscp rewrite policy";
+  }
+
+  feature qos-ipv6-dscp-classifier-policy {
+    description
+      "Support for qos ipv6 dscp classifier policy";
+  }
+
+  feature qos-ipv6-dscp-rewrite-policy {
+    description
+      "Support for qos ipv6 dscp rewrite policy";
+  }
+
+  feature qos-irb-subinterface {
+    description
+      "Support for qos on irb subinterface";
+  }
+
+  feature qos-ler-use-dscp {
+    description
+      "Support for qos ler use dscp";
+  }
+
+  feature qos-management-protocols-dscp {
+    description
+      "Support for qos management protocols dscp";
+  }
+
+  feature qos-match-qinq-dot1p {
+    description
+      "Support for qos match qinq dot1p";
+  }
+
+  feature qos-mpls-classifier-policy {
+    description
+      "Support for qos mpls classifier policy";
+  }
+
+  feature qos-mpls-rewrite-policy {
+    description
+      "Support for qos mpls rewrite policy";
+  }
+
+  feature qos-multi-traffic-queue {
+    description
+      "Support for qos multi traffic queue";
+  }
+
+  feature qos-multicast-queue {
+    description
+      "Support for qos multicast queue";
+  }
+
+  feature qos-output-class-map {
+    description
+      "Support for qos output class map";
+  }
+
+  feature qos-pfc {
+    description
+      "Priority-based Flow Control (PFC) support";
+  }
+
+  feature qos-pfc-dnx {
+    description
+      "Priority-based Flow Control (PFC) support on DNX platforms, 7250 IXR-6e/10e and 7250 IXR-x1b/x3b  variants";
+  }
+
+  feature qos-pfc-dynamic-buffer-allocation {
+    description
+      "Dynamic buffer allocation support for Priority-based Flow Control (PFC)";
+  }
+
+  feature qos-pfc-xgs {
+    description
+      "Priority-based Flow Control (PFC) support on XGS platforms, 7220 D5/D4 and 7220 H4 variants";
+  }
+
+  feature qos-policer-policies {
+    description
+      "Support for qos policer policies";
+  }
+
+  feature qos-preserve-dscp {
+    description
+      "Support for qos preserve dscp";
+  }
+
+  feature qos-queue-cbs-adaptation-rule {
+    description
+      "Support for qos cbs adaptation rule";
+  }
+
+  feature qos-queue-committed-burst-size {
+    description
+      "Support for qos queue committed burst size";
+  }
+
+  feature qos-queue-depth-sampling {
+    description
+      "Support for qos queue depth sampling";
+  }
+
+  feature qos-queue-ecn-stats {
+    description
+      "Support for per-forwarding-class per port ECN statistics";
+  }
+
+  feature qos-queue-high-threshold {
+    description
+      "Support for qos queue high threshold";
+  }
+
+  feature qos-queue-management-profile {
+    description
+      "Support for qos queue management profile";
+  }
+
+  feature qos-queue-mbs-adaptation-rule {
+    description
+      "Support for qos queue mbs adaptation rule ";
+  }
+
+  feature qos-queue-profile-stats {
+    description
+      "Support for qos queue profile stats";
+  }
+
+  feature qos-queue-scheduling-class {
+    description
+      "Support for qos queue scheduling class";
+  }
+
+  feature qos-queue-scheduling-policy {
+    description
+      "Support for qos queue scheduling policy";
+  }
+
+  feature qos-rewrite-dot1p {
+    description
+      "Support for qos rewrite dot1p";
+  }
+
+  feature qos-rewrite-inner-de {
+    description
+      "Support for qos rewrite  inner de";
+  }
+
+  feature qos-rewrite-inner-dot1p {
+    description
+      "Support for qos rewrite inner dot1p";
+  }
+
+  feature qos-rewrite-outer-de {
+    description
+      "Support for qos rewrite outer de";
+  }
+
+  feature qos-rewrite-outer-dot1p {
+    description
+      "Support for qos rewrite outer dot1p";
+  }
+
+  feature qos-rewrite-profile {
+    description
+      "Support for qos rewrite profile";
+  }
+
+  feature qos-resource-management {
+    description
+      "Support for qos resource management";
+  }
+
+  feature qos-resource-utilization-thresholds {
+    description
+      "Support for qos resource utilization thresholds";
+  }
+
+  feature qos-sched-class-scheduling-policy {
+    description
+      "Support for qos sched class scheduling policy";
+  }
+
+  feature qos-scheduler-output-weight {
+    description
+      "Support for qos scheduler output weight";
+  }
+
+  feature qos-scheduler-policies {
+    description
+      "Support for scheduler policies";
+  }
+
+  feature qos-scheduling-priority-mapping {
+    description
+      "Support for qos scheduling priority mapping";
+  }
+
+  feature qos-slope-policy {
+    description
+      "Support for qos slope policy";
+  }
+
+  feature qos-subinterface-dot1p-rewrite {
+    description
+      "Support for qos subinterface dot1p rewrite";
+  }
+
+  feature qos-subinterface-dscp-rewrite {
+    description
+      "Support for qos subinterface dscp rewrite";
+  }
+
+  feature qos-subinterface-members {
+    description
+      "Support for per subinterface member instance state";
+  }
+
+  feature qos-subinterface-queue-type {
+    description
+      "Support for qos subinterface queue type";
+  }
+
+  feature qos-system-generated-traffic-map {
+    description
+      "Support for qos system generated traffic map";
+  }
+
+  feature qos-tos-rewrite {
+    description
+      "Support for qos tos rewrite";
+  }
+
+  feature qos-unicast-queue {
+    description
+      "Support for qos unicast queue";
+  }
+
+  feature qos-virtual-output-queue {
+    description
+      "Support for qos virtual output queue";
+  }
+
+  feature qos-vxlan-classifier-policy {
+    description
+      "Support for qos vxlan classifier policy";
+  }
+
+  feature qos-vxlan-outer-header-rewrite {
+    description
+      "Support for qos vxlan outer header rewrite";
+  }
+
+  feature qos-wred-traffic-type-tcp {
+    description
+      "Support for qos wred traffic type tcp/non-tcp";
+  }
+
+  feature ra-guard {
+    description
+      "Support for ra guard";
+  }
+
+  feature radius-source-address {
+    description
+      "Support for configurable source address for radius servers";
+  }
+
+  feature reload-delay {
+    description
+      "Support for interface reload-delay timers";
+  }
+
+  feature internal-tags {
+    description
+      "Support for internal tags associated to routes";
+  }
+
+  feature route-leaking {
+    description
+      "Support for inter network-instance route leaking";
+  }
+
+  feature routing-policy-as-path-set-match-options-any {
+    description
+      "Support for match-set-options for AS path sets";
+  }
+
+  feature routing-policy-as-path-set-member-list {
+    description
+      "Support for AS path sets that are lists of expressions";
+  }
+
+  feature routing-policy-bgp-disable-fib {
+    description
+      "Support for disabling FIB download for BGP routes matched by import policy as a route policy action";
+  }
+
+  feature routing-policy-bgp-med {
+    description
+      "Support for MED in BGP and routing policy actions";
+  }
+
+  feature routing-policy-bgp-next-hop-self-action {
+    description
+      "Support for next-hop self as a policy action";
+  }
+
+  feature routing-policy-bgp-next-hop-set-action {
+    description
+      "Support for modifying the BGP next-hop address as a route policy action";
+  }
+
+  feature routing-policy-bgp-next-hop-resolution-action {
+    description
+      "Support for modifying the BGP next-hop resolution constraints as a route policy action";
+  }
+
+  feature routing-policy-community-match-set-options {
+    description
+      "Support for community-set match-set-options: any, all and invert";
+  }
+
+  feature routing-policy-extended-community-actions {
+    description
+      "Support for extended community actions aligned with OC";
+  }
+
+  feature routing-policy-extended-community-sets {
+    description
+      "Support for extended-community-set construct";
+  }
+
+  feature routing-policy-isis-actions {
+    description
+      "Support for ISIS policy actions";
+  }
+
+  feature routing-policy-match-protocol-redefine {
+    description
+      "Redefine supported match protocols in routing policy";
+  }
+
+  feature routing-policy-named-statements {
+    description
+      "Support for named statements in routing policy";
+  }
+
+  feature routing-policy-next-policy {
+    description
+      "Support for next-policy as a route policy action";
+  }
+
+  feature routing-policy-next-statement {
+    description
+      "Support for next-statement as a route policy action";
+  }
+
+  feature routing-policy-preference-action {
+    description
+      "Support for route policy action to set preference";
+  }
+
+  feature routing-policy-subroutines {
+    description
+      "Support for route policy subroutines";
+  }
+
+  feature routing-policy-prefix-set-match-options-any {
+    description
+      "Support for match-set-options any with prefix-set";
+  }
+
+  feature routing-policy-table-connections {
+    description
+      "Support for network-instance table connections for route redistribution";
+  }
+
+  feature routing-policy-standard-community-actions {
+    description
+      "Support for standard community actions aligned with OC";
+  }
+
+  feature routing-policy-standard-community-sets {
+    description
+      "Support for standard-community-set construct";
+  }
+
+  feature routing-policy-tag-set-match-options {
+    description
+      "Support for match-set-options with tag-sets";
+  }
+
+  feature sath {
+    description
+      "Support of Service Activation TestHead / Y.1564 feature";
+  }
+
+  feature seamless-bfd {
+    description
+      "Support Seamless BFD for SR segment lists";
+  }
+
+  feature secure-boot {
+    description
+      "Support for Secure Boot";
+  }
+
+  feature segment-routing {
+    description
+      "Support for segment routing using the MPLS dataplane";
+  }
+
+  feature segment-routing-adjacency-sid {
+    description
+      "Support for segment routing adjacency sid";
+  }
+
+  feature segment-routing-colored-te-policies {
+    description
+      "Support for colored segment routing TE policies";
+  }
+
+  feature segment-routing-shared-sid {
+    description
+      "Support for segment routing shared sid";
+  }
+
+  feature sflow {
+    description
+      "Support for Sflow";
+  }
+
+  feature sflow-collector-dscp {
+    description
+      "Support for configuring DSCP for Sflow agent";
+  }
+
+  feature sflow-interface-sampling {
+    description
+      "Support for Sflow Egress and Ingress sampling on interface level";
+  }
+
+  feature sflow-ipv6-udp-cksum-knob {
+    description
+      "Support for config knob to set checksum to 0x0 or 0xFFFF in Sflow IPv6 UDP packets";
+  }
+
+  feature sflow-lag {
+    description
+      "Support Sflow for LAG/aggregate type of interfaces";
+  }
+
+  feature snmp-counters {
+    description
+      "Support for SNMP packet counters";
+  }
+
+  feature snmp-over-tcp {
+    description
+      "Support for SNMP over TCP";
+  }
+
+  feature snmp-tools-trap {
+    description
+      "Support for sending SNMP Traps with a tools command";
+  }
+
+  feature snmp-traps {
+    description
+      "Support for SNMP traps";
+  }
+
+  feature snmp-v3 {
+    description
+      "Support for SNMPv3";
+  }
+
+  feature stamp {
+    description
+      "Support for Simple Two-way Active Measurement Protocol STAMP";
+  }
+
+  feature special-ptp-ip-timestamping {
+    description
+      "Support disabling of L3 timestamping";
+  }
+
+  feature static-next-hop-group-gre-tunnel {
+    description
+      "Support GRE tunnel next-hops in static NHGs";
+  }
+
+  feature static-route-tag-set {
+    description
+      "Support for association of a static route with a configured tag-set";
+  }
+
+  feature static-route-tag-value {
+    description
+      "Support for association of a static route with a configured tag value";
+  }
+
+  feature storm-control {
+    description
+      "Support for storm control";
+  }
+
+  feature storm-control-action {
+    description
+      "Support for storm control threshold action";
+  }
+
+  feature stp {
+    description
+      "Support for xSTP";
+  }
+
+  feature subif-acl-policer {
+    description
+      "Support for acl based subinterface policer";
+  }
+
+  feature subif-detailed-stats-config {
+    description
+      "Support for configuring subinterface detailed stats";
+  }
+
+  feature subif-policer {
+    description
+      "Support for sub interface policer";
+  }
+
+  feature subif-stats-per-ipv4-ipv6-container {
+    description
+      "Support for sub interface stats in ipv4 and ipv6 containers";
+  }
+
+  feature sync {
+    description
+      "Support for PTP, SyncE, BITS, ToD, 1PPSTEST";
+  }
+
+  feature sync-one-pps {
+    description
+      "Support for 1PPS timing port";
+  }
+
+  feature sync-gnss {
+    description
+      "Support for GNSS receiver module";
+  }
+
+  feature sync-gnss-redundant {
+    description
+      "Support for GNSS redundant receivers";
+  }
+
+  feature sync-ptp-ip-peers {
+    description
+      "Support for PTP peers using IP transport and unicast negotitation";
+  }
+
+  feature sync-ptp-ip-peers-ipv6 {
+    description
+      "Support for PTP peers using IPv6 transport and unicast negotitation";
+  }
+
+  feature sync0-port {
+    description
+      "Platform includes a dedicated sync0 port for synce and ptp";
+  }
+
+  feature sync-ptp-freq {
+    description
+      "Support for recovery of frequency from the PTP messages.  Profiles G.8275.2 and G.8265.1";
+  }
+
+  feature sync-ptp-ip-port-tracking {
+    description
+      "Support for tracking of rx/tx ports for ptp over ip";
+  }
+
+  feature system-forwarding-mode {
+    description
+      "Support for configurable switching mode";
+  }
+
+  feature system-fips-mode {
+    description
+      "Support for fips mode";
+  }
+
+  feature system-hash-seed-from-mac {
+    description
+      "Support for auto-generating a hash-seed from the base chassis MAC address";
+  }
+
+  feature system-resource-ip-gre-tunnels {
+    description
+      "Support for system resource ip-gre-tunnels";
+  }
+
+  feature system-resource-ip-in-ip-tunnels {
+    description
+      "Support for system resource ip-in-ip-tunnels";
+  }
+
+  feature system-resource-mpls-next-hops {
+    description
+      "Support for system resource mpls-next-hops";
+  }
+
+  feature system-resource-pg-groups {
+    description
+      "Support for system resource pg-groups";
+  }
+
+  feature system-resource-tunnels {
+    description
+      "Support for system resource tunnels";
+  }
+
+  feature system-resource-utilization {
+    description
+      "Support for system resource utilization";
+  }
+
+  feature system-resource-vp-lag-groups {
+    description
+      "Support for system resource vp-lag-groups";
+  }
+
+  feature tacacs-source-address {
+    description
+      "Support for configurable source address for tacacs servers";
+  }
+
+  feature te-policies {
+    description
+      "Support for SR-TE and segment routing policies using the MPLS dataplane";
+  }
+
+  feature te-policy-exclude-srlg {
+    description
+      "Support for exclude-srlg under TE-Policy";
+  }
+
+  feature te-policy-delay-metric-limit {
+    description
+      "Support for delay metric limit under TE-Policy";
+  }
+
+  feature te-policy-statistics {
+    description
+      "Support for TE-Policy segment-list or candidate-path statistics";
+  }
+
+  feature te-policies-entropy-label {
+    description
+      "Support for entropy label with SR-TE and segment routing policies";
+  }
+
+  feature te-policies-tag-set {
+    description
+      "Support for tag-set with SR-TE and segment routing policies";
+  }
+
+  feature tpm-idevid {
+    description
+      "Support for TPM IDevID";
+  }
+
+  feature tpm-oidevid {
+    description
+      "Support for TPM OIDevID certificate in tls profile";
+  }
+
+  feature tools-force-pwd-change {
+    description
+      "Support for tools commands to force users to change password";
+  }
+
+  feature tpm-attestz {
+    description
+      "Openconfig Attestz Service";
+  }
+
+  feature tpm-enrollz {
+    description
+      "Openconfig Enrollz Service";
+  }
+
+  feature traffic-engineering {
+    description
+      "Support for TE advertisement by ISIS";
+  }
+
+  feature traffic-engineering-bgpls {
+    description
+      "Support for BGP-LS advertisement of IGP link-state data";
+  }
+
+  feature traffic-engineering-bgpls-directly-connected {
+    description
+      "Support for BGP-LS advertisement of directly connected link-state data";
+  }
+
+  feature traffic-engineering-isis-tedb-install {
+    description
+      "Support for TE DB by ISIS";
+  }
+
+  feature traffic-engineering-ospf {
+    description
+      "Support for TE DB, BGP-LS and TE advertisement by OSPF";
+  }
+
+  feature twamp {
+    description
+      "Support for TWAMP";
+  }
+
+  feature tx-flow-control {
+    description
+      "Support for transmitting Ethernet flow control (PAUSE) frames";
+  }
+
+  feature unequal-ecmp {
+    description
+      "Support for unequal Equal Cost Multi Path";
+  }
+
+  feature unified-forwarding-tables {
+    description
+      "Support for UFT resources";
+  }
+
+  feature virtual-ip-discovery {
+    description
+      "Support for arp/nd virtual ip discovery";
+  }
+
+  feature vlan-id-any {
+    description
+      "Support for configurable vlan-id any";
+  }
+
+  feature vlan-id-optional {
+    description
+      "Support for configurable vlan-id optional";
+  }
+
+  feature vlan-manipulation {
+    description
+      "Support for configurable vlan manipulation";
+  }
+
+  feature vlan-tpid {
+    description
+      "Support for configurable VLAN Tagging TPID";
+  }
+
+  feature vpws {
+    description
+      "Support for VPWS Services";
+  }
+
+  feature vrrp {
+    description
+      "Support for VRRP";
+  }
+
+  feature vxlan {
+    description
+      "Support for VXLAN";
+  }
+
+  feature vxlan-stats {
+    description
+      "Support for VXLAN statistics";
+  }
+
+  feature vxlan-destination-groups {
+    description
+      "Support for VXLAN destination groups";
+  }
+
+  feature warm-reboot {
+    description
+      "Support for warm reboot";
+  }
+
+  feature ztp-boot-mode {
+    description
+      "Support for ztp-boot mode";
+  }
+
+  feature ac5x;
+
+  feature fpcx {
+    description
+      "FPcx based platforms";
+  }
+
+  feature jericho2;
+
+  feature jericho2cp;
+
+  feature qumran2cp;
+
+  feature tomahawk3;
+
+  feature tomahawk4;
+
+  feature tomahawk5;
+
+  feature trident3;
+
+  feature trident4;
+
+  feature platform-7215-a1;
+
+  feature platform-7220-d1;
+
+  feature platform-7220-d2;
+
+  feature platform-7220-d3;
+
+  feature platform-7220-d4;
+
+  feature platform-7220-d5;
+
+  feature platform-7220-h2;
+
+  feature platform-7220-h3;
+
+  feature platform-7220-h4;
+
+  feature platform-7220-h4-32;
+
+  feature platform-7220-h5-64;
+
+  feature platform-7250-ixr;
+
+  feature platform-7250-ixr-e;
+
+  feature platform-7250-ixr-x1b;
+
+  feature platform-7250-ixr-x3b;
+
+  feature platform-7250-j2;
+
+  feature platform-7730-sxr-1d-32d;
+
+  feature platform-7730-sxr-1x-44s;
+
+  feature platform-crimson;
+
+  feature platform-imgmt;
+
+  feature platform-vsrl;
+
+  feature ixr-dnx;
+
+  feature spine;
+}
