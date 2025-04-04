@@ -101,9 +101,9 @@ L3VPN MPLS VPN.
 The three testenvs are fully containerized and the topology is defined as a
 Containerlab topology YAML (file `$TESTENV.clab.yml`)
 - `test/quicklab`: fully functioning network using Juniper cRPD and Cisco IOS XRd
-  for PE routers, Cisco IOS XRd for CPE
-- `test/quicklab-crpd`: fully functioninf network using only Juniper cRPD for
-  all devices ([runs native on ARM64](#running-on-arm64-and-apple-silicon))
+  for PE routers, Cisco IOS XRd for CPE. Requires x86_64.
+- `test/quicklab-crpd`: fully functioning network using only Juniper cRPD for
+  all devices ([runs native on ARM64](#running-on-arm64-like-apple-silicon))
 - `test/quicklab-notconf`: simulated core network PE routers using [notconf](https://github.com/notconf/notconf)
 
 All testenvs share a common interface for startup, using RESPNET to create an
@@ -111,7 +111,7 @@ L3VPN MPLS VPN service and verifying the configuration was applied to the
 network.
 
 To start the testenv, use the `start` recipe, then `run-and-configure` to start
-RESPNET and apply the configuration immediatelly.
+RESPNET and apply the configuration immediately.
 
 ```shell
 $ make -C test/quicklab-notconf start
@@ -249,7 +249,7 @@ the container part of the quicklab dev environment.
 
 So the typical REPL loop is like:
 - edit code
-- in test/quicklab: `(cd ../../ && make build ) && make copy run-and-configure` and see the code run interactively
+- in `test/quicklab`: `(cd ../../ && make build ) && make copy run-and-configure` and see the code run interactively
 
 If you also modified the YANG models in `respnet_gen.act`, then you also need
 to regenerate the layer dataclasses with `make gen` and then run `make build`
@@ -270,10 +270,70 @@ $ make build
 
 ## Preparing the Development Environment
 
+You have a choice for how to run your development environment:
+- [locally installed dependencies on your machine](#local-development)
+  - on Linux or MacOS on x86_64
+  - on Linux or MacOS on arm64 (Apple Silicon)
+- [Dev Containers](#dev-container)
+- [GitHub Codespaces](#github-codespaces)
+
+### Local development
+
+Install dependencies:
+- Acton tip: https://acton.guide/install_tip.html
+- Docker
+  - See MacOS instructions below, see MacOS instructions below
+- For native Linux, make sure you have *vrf* and *mpls_iptunnel* kernel modules
+  loaded for cRPD to function properly
+- Follow the [Getting started guide](#getting-started)
+
+#### MacOS
+
+For MacOS, you need a runtime for Docker, like Colima. By default Colima uses a
+minimal Ubuntu VM that lacks extra kernel modules.. For cRPD to properly forward
+MPLS traffic, we need the *vrf* and *mpls_iptunnel* kernel modules in the VM.
+
+``` shell
+# brew.sh to install Homebrew if you don't have it
+brew install colima docker
+colima start
+colima list
+colima ssh
+# Now you are inside the Colima VM where we will add kernel modules necessary for MPLS to work
+sudo apt update
+sudo apt install linux-modules-extra-$(uname -r)
+# exit from colima VM
+exit
+# Now we are ready to run containers!
+```
+
+#### Running on ARM64 (like Apple silicon)
+
+The default `quicklab` testenv uses a mix of Juniper cRPD and Cisco IOS XRd
+containers for the core PE routers and Cisco IOS XRd for the CPE devices. This
+works well on x86_64, but not so much on ARM64. Juniper cRPD runs on arm64,
+including in the colima VM if you are using MacOS whereas Cisco XRd does not.
+
+To that end, the `quicklab-crpd` testenv contains only Juniper cRPD devices for
+both PE and CPE. To run the containers natively on ARM64 make sure to download
+the ARM64 container images from Juniper. Note how the `quicklab-crpd` testenv
+contains no references to ARM64 - the container image referenced is a
+[multi-arch manifest](https://www.docker.com/blog/multi-arch-build-and-images-the-simple-way/).
+The docker client will pick up the image matching the runtime platform when
+pulling images.
+
+Then in your [favorite terminal emulator](https://ghostty.org) on MacOS:
+
+```shell
+make build-aarch64  # We're cross-compiling for aarch64 running in the Linux VM
+make -C test/quicklab-crpd start
+make -C test/quicklab-crpd copy run-and-configure
+```
+
 ### Dev Container
 
 This repository includes a [Development Container](https://containers.dev)
-configuration. The container image includes everything you need to get started,
+configuration. The container image includes everything you need to get started,
 apart from the licensed containerized router images. Use VS Code to open this
 project and it will detect the dev container configuration automatically.
 
@@ -294,15 +354,6 @@ There are two flavors of the container:
 
 If you're using GitHub Codespaces, use the *docker-in-docker* flavor.
 
-### Local development
-
-Dev Containers are not required for local development. If you prefer, it is
-quite simple install the dependencies in your local environment yourself:
-- Acton tip: https://acton.guide/install_tip.html
-- Containerlab: https://containerlab.dev/install/
-
-After that just clone the project repository and follow the Getting started guide.
-
 ### GitHub Codespaces
 
 GitHub Codespaces is a VM managed by GitHub that runs the Dev Container (part
@@ -322,44 +373,3 @@ Setting up a fresh VM will take a couple of minutes. After is it done you have
 access to VS Code running in Dev Container with all the tools and source code
 available in your browser. There is no need to clone the project repository,
 just follow the Getting started guide.
-
-### Running on ARM64 (and Apple silicon)
-
-The default `quicklab` testenv uses a mix of Juniper cRPD and Cisco IOS XRd
-containers for the core PE routers and Cisco IOS XRd for the CPE devices. This
-works well on x86_64, but not so much on ARM64. With some emulation magic
-Juniper cRPD actually works on Apple silicon and performs the network function,
-but Cisco XRd 24.1.1 did not. Maybe that will change in future as I noodle with
-it some more ...
-
-To that end, the `quicklab-crpd` testenv contains only Juniper cRPD devices for
-both PE and CPE. To run the containers natively on ARM64 make sure to download
-the ARM64 container images from Juniper. Note how the `quicklab-crpd` testenv
-contains no references to ARM64 - the container image referenced is a
-[multi-arch manifest](https://www.docker.com/blog/multi-arch-build-and-images-the-simple-way/).
-The docker client will pick up the image matching the runtime platform when
-pulling images.
-
-The smoothest method of running `quicklab-crpd` testenv on Apple silicon is to
-use [colima](https://github.com/abiosoft/colima). It sets up a Linux ARM64 VM
-with Docker inside, and configures your local environment to access the Docker
-daemon seamlessly. The only caveat is the lack of the *vrf* and *mpls_iptunnel*
-kernel modules in the VM. The default Ubuntu template for Colima uses a minimal
-server image with the kernel modules missing. Without the *vrf* module the PE
-cannot deal with the customer eBGP session in the customer VRF. The solution is
-simple though - just install the `linux-modules-extra` package in the VM.
-
-```shell
-colima ssh
-sudo apt update
-sudo apt install linux-modules-extra-$(uname -r)
-```
-
-Then in your [favorite terminal emulator](https://ghostty.org) on MacOS:
-
-```shell
-# Install acton (tip)
-make build-aarch64  # We're cross-compiling for aarch64 running in the Linux VM
-make -C test/quicklab-crpd start
-make -C test/quicklab-crpd copy run-and-configure
-```
