@@ -1,0 +1,104 @@
+module srl_nokia-pw-tunnel {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:pw:pw-tunnel";
+  prefix srl_nokia-pw-tunnel;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-features {
+    prefix srl_nokia-feat;
+  }
+  import srl_nokia-extensions {
+    prefix srl_nokia-ext;
+  }
+  import srl_nokia-tunnel {
+    prefix srl_nokia-tunnel;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "Config state for pseudowire tunnel in SRLinux.";
+
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+
+  grouping pw-tunnel-top {
+    container pseudowire-tunnel {
+      list tunnel {
+        max-elements 4096;
+        key "name";
+        description
+          "The name that identifies the remote system of the tunnel";
+        leaf name {
+          type srl_nokia-comm:name;
+          description
+            "The name that identifies the remote system";
+        }
+        leaf remote-system {
+          mandatory true;
+          type srl_nokia-comm:ip-address-unicast-without-local;
+          description
+            "The ip-address of the remote system that hosts the remote pseudowire-tunnel";
+        }
+        leaf index {
+          srl_nokia-ext:show-importance "high";
+          config false;
+          type uint64;
+          description
+            "The system allocated ID of the pw tunnel";
+        }
+        leaf-list allowed-tunnel-types {
+          min-elements 1;
+          type identityref {
+            base srl_nokia-comm:tunnel-type;
+          }
+          must "(.='bgp' or .='ldp' or .='sr-isis' or .='sr-ospfv2' or .='sr-ospfv3' or .='te-policy-sr-mpls-colored' or .='te-policy-sr-mpls-uncolored')" {
+            error-message "Unsupported transport tunnel";
+          }
+          description
+            "List of allowed transport tunnel types for the pseudowire
+
+             If multiple tunnel types are allowed and there are multiple
+             tunnel types available to the remote system, the router
+             selects the lowest preference tunnel in the tunnel-table.";
+        }
+        leaf last-change {
+          srl_nokia-ext:show-importance "high";
+          config false;
+          type srl_nokia-comm:date-and-time-delta;
+          description
+            "The date and time of the most recent change to the tunnel state";
+        }
+        leaf operational-tunnel-type {
+          config false;
+          type identityref {
+            base srl_nokia-comm:tunnel-type;
+          }
+        }
+        leaf operational-tunnel-id {
+          config false;
+          type uint32;
+          description
+            "The owner-assigned tunnel table index value that identifies
+             the tunnel used by the pseudowire .";
+        }
+      }
+    }
+  }
+
+  augment "/srl_nokia-tunnel:tunnel" {
+    if-feature "srl_nokia-feat:pseudowire";
+    uses pw-tunnel-top;
+  }
+}

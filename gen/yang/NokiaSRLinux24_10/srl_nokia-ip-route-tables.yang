@@ -1,0 +1,775 @@
+module srl_nokia-ip-route-tables {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:fib:ip-route-tables";
+  prefix srl_nokia-ip-route-tables;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-extensions {
+    prefix srl_nokia-ext;
+  }
+  import srl_nokia-network-instance {
+    prefix srl_nokia-netinst;
+  }
+  import srl_nokia-interfaces {
+    prefix srl_nokia-if;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+  import srl_nokia-platform {
+    prefix srl_nokia-platform;
+  }
+  import srl_nokia-platform-lc {
+    prefix srl_nokia-platform-lc;
+  }
+  import srl_nokia-platform-control {
+    prefix srl_nokia-platform-control;
+  }
+  import srl_nokia-platform-control-fp {
+    prefix srl_nokia-platform-control-fp;
+  }
+  import srl_nokia-platform-linecard-fib {
+    prefix srl-lc-fib;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "A model describing the IP routing tables of a network instance.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-10-31 {
+    description
+      "SRLinux 23.10.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2022-06-30 {
+    description
+      "SRLinux 22.6.1";
+  }
+  revision 2021-11-30 {
+    description
+      "SRLinux 21.11.1";
+  }
+  revision 2021-06-30 {
+    description
+      "SRLinux 21.6.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+  revision 2019-11-30 {
+    description
+      "SRLinux 19.11.1";
+  }
+
+  typedef failed-complex-list {
+    type string {
+      pattern '(\(([0-9]|[1][0-9]|[2][0-4]),[0-1]\))';
+    }
+  }
+
+  identity fib-nexthop-type {
+    description
+      "Base type for next-hop object types.";
+  }
+
+  identity extract {
+    base fib-nexthop-type;
+    description
+      "Next-hop will cause matching packets to be delivered to the CPM.";
+  }
+
+  identity direct {
+    base fib-nexthop-type;
+    description
+      "Next-hop was resolved by a local route - i.e. it is an address on a connected subnet.";
+  }
+
+  identity discard {
+    base fib-nexthop-type;
+    description
+      "Next-hop will cause matching packets to be dropped without ICMP generation.";
+  }
+
+  identity reject {
+    base fib-nexthop-type;
+    description
+      "Next-hop will cause matching packets to be dropped with ICMP generation.";
+  }
+
+  identity indirect {
+    base fib-nexthop-type;
+    description
+      "Next-hop was resolved by a non-local route - i.e. it is not an address on a connected subnet.";
+  }
+
+  identity mpls {
+    base fib-nexthop-type;
+    description
+      "An MPLS label will be pushed when forwarding to this next-hop.";
+  }
+
+  identity tunnel {
+    base fib-nexthop-type;
+    description
+      "Next-hop is a tunnel.";
+  }
+
+  identity broadcast {
+    base fib-nexthop-type;
+    description
+      "Next-hop will cause matching subnet-bradcast packets to be delivered to the control plane.";
+  }
+
+  identity redirect {
+    base fib-nexthop-type;
+    description
+      "Next-hop will redirect to another network-instance.";
+  }
+
+  identity interface-with-mac {
+    base fib-nexthop-type;
+    description
+      "Next-hop is associated with an outbound interface plus MAC address";
+  }
+
+  typedef encapsulation-header-type {
+    type enumeration {
+      enum gre {
+        description
+          "The encapsulation header is a Generic Routing Encapsulation
+           header.";
+      }
+      enum ipv4 {
+        description
+          "The encapsulation header is an IPv4 packet header";
+      }
+      enum ipv6 {
+        description
+          "The encapsulation header is an IPv6 packet header";
+      }
+      enum mpls {
+        description
+          "The encapsulation header is one or more MPLS labels indicated
+           by the pushed and popped label stack lists.";
+      }
+    }
+  }
+
+  typedef operation-type {
+    type enumeration {
+      enum add {
+        description
+          "The current or last operation was an attempt to create a new entry.";
+      }
+      enum delete {
+        description
+          "The current or last operation was an attempt to delete an existing entry.";
+      }
+      enum modify {
+        description
+          "The current or last operation was an attempt to modify an existing entry.";
+      }
+      enum none {
+        description
+          "There was no prior operation for this entry or there is no current operation that is in process";
+      }
+    }
+  }
+
+  grouping internal-tags {
+    description
+      "Grouping containing the state of internal tags";
+    leaf-list internal-tags {
+      if-feature "srl-feat:internal-tags";
+      max-elements 2;
+      type string;
+      description
+        "Internal route tag written in the route/tunnel tables or BGP rib
+
+         The internal-tag value is shown with the format 'type-string = hex-value-string'.
+         For example:
+         - tag-value = ff:ff
+         - tag-value = 20";
+    }
+  }
+
+  grouping ipv4-ipv6-entry-common-fields {
+    leaf route-type {
+      type identityref {
+        base srl_nokia-comm:ip-route-type;
+      }
+      srl_nokia-ext:show-importance "high";
+      description
+        "The type of the IP route";
+    }
+    leaf route-owner {
+      type string;
+      srl_nokia-ext:show-importance "high";
+      description
+        "The application name of the owner of the IP route";
+    }
+    leaf origin-network-instance {
+      type leafref {
+        path "/srl_nokia-netinst:network-instance/srl_nokia-netinst:name";
+      }
+      description
+        "Origin network instance of the route (where it was originally learned or configured)
+
+         If the route was leaked from another network instance, the value of this leaf reflects the network-instance from which it was learned. If it was not leaked the value is the same as the parent network-instance.";
+    }
+    leaf leakable {
+      if-feature "srl-feat:route-leaking";
+      description
+        "Reads true when the route was matched and accepted by the route-leaking inter-instance export-policy";
+      type boolean;
+    }
+    leaf-list target-network-instances {
+      type leafref {
+        path "/srl_nokia-netinst:network-instance/srl_nokia-netinst:name";
+      }
+      description
+        "List of network-instances that have imported this route as a result of matching and accepting it in their inter-instance import-policy";
+    }
+    leaf metric {
+      type uint32;
+      srl_nokia-ext:show-importance "high";
+      description
+        "The metric of the IP route. In general, when comparing two routes with the same owner and preference, the route with the lower metric is the one that is activated and used for forwarding.";
+    }
+    leaf preference {
+      type uint8;
+      srl_nokia-ext:show-importance "high";
+      description
+        "The IP route table preference. This is sometimes called the administrative distance of the route. In general, when comparing any two routes, the route with the lower preference is the one that is activated and used for forwarding.";
+    }
+    leaf active {
+      type boolean;
+      srl_nokia-ext:show-importance "high";
+      description
+        "If set to true then the route is installed as the active route for the IP prefix in the FIB. A route can be inactive because there is a more preferred route for the same prefix or else its next-hops are unresolved.";
+    }
+    leaf last-app-update {
+      type srl_nokia-comm:date-and-time-delta;
+      description
+        "The date and time of the last update of this route by the owning application or protocol.";
+    }
+    leaf next-hop-group {
+      type leafref {
+        path "../../../next-hop-group/index";
+      }
+      description
+        "The next-hop-group indirection object used by this route.";
+    }
+    leaf next-hop-group-network-instance {
+      type leafref {
+        path "/srl_nokia-netinst:network-instance/srl_nokia-netinst:name";
+      }
+      description
+        "The network instance where the next-hop-group can be found.  If unspecified, the next hop group is in the local network instance.";
+    }
+    leaf gribi-metadata {
+      type binary {
+        length "0..8";
+      }
+      description
+        "Metadata persistently stored with the entry.";
+    }
+    leaf resilient-hash {
+      type boolean;
+      description
+        "Set to true if the route is covered by a resilient-hash-prefix entry";
+    }
+    uses internal-tags;
+    uses fib-programming-status;
+  }
+
+  grouping fib-programming-status {
+    container fib-programming {
+      description
+        "Container for state related to the FIB programming of the object";
+      leaf suppressed {
+        description
+          "When true, FIB programming for this entry has been suppressed and it is only installed in the control plane route table";
+        type boolean;
+      }
+      leaf last-successful-operation-type {
+        type operation-type;
+        description
+          "The last operation type that completed successfully, if the entry was not suppressed.";
+      }
+      leaf last-successful-operation-timestamp {
+        type srl_nokia-comm:date-and-time-delta;
+        description
+          "The date and time of the last operation to complete successfully, if the entry was not suppressed.
+
+           A delete operation is immediately timestamped by FIB manager on the assumption that it will ultimately be successful on all complexes. For other operations the timestamp is generated when the last complex that was expected to respond has responded with a success acknowledgement.";
+      }
+      leaf pending-operation-type {
+        type operation-type;
+        description
+          "The current operation type that is in progress because not all complexes have responded.";
+      }
+      leaf last-failed-operation-type {
+        type operation-type;
+        description
+          "The last operation type that failed.";
+      }
+      leaf-list last-failed-complexes {
+        description
+          "List of forwarding complexes that reported a failure for the last operation. They appear in the format (slot-number,complex-number).";
+        type failed-complex-list;
+      }
+    }
+  }
+
+  grouping ip-table-statistics {
+    container statistics {
+      leaf active-routes {
+        type uint32;
+        description
+          "The total number of prefixes, belonging to this address family, with an active route in the FIB.";
+      }
+      leaf active-routes-with-ecmp {
+        type uint32;
+        description
+          "The total number of prefixes, belonging to this address family, that have an active route in the FIB with multiple ECMP next-hops.";
+      }
+      leaf resilient-hash-routes {
+        type uint32;
+        description
+          "The total number of prefixes, belonging to this address family, with an active route in the FIB that have resilient hash support.";
+      }
+      leaf fib-failed-routes {
+        type uint32;
+        description
+          "The total number of prefixes, belonging to this address family, that were not installed successfully because datapath resources were unavailable.";
+      }
+      leaf total-routes {
+        type srl_nokia-comm:zero-based-counter64;
+        description
+          "The total number of routes, active and inactive, belonging to this address family, that are present in the routing table.";
+      }
+    }
+  }
+
+  grouping route-summary {
+    container route-summary {
+      description
+        "Route summary information";
+      list route-type {
+        key "ip-route-type-name";
+        leaf ip-route-type-name {
+          type identityref {
+            base srl_nokia-comm:ip-route-type;
+          }
+          description
+            "IP route type";
+        }
+        leaf active-routes {
+          type uint32;
+          description
+            "Total number of prefixes associated with this route type that were submitted to fib-mgr and that fib-mgr successfully installed as active routes";
+        }
+      }
+    }
+  }
+
+  grouping entry-programming-progress {
+    leaf entries-remaining-to-add {
+      type uint64;
+      description
+        "The number of entries that need to be created in order to reach synchronization with the CPM";
+    }
+    leaf entries-remaining-to-modify {
+      type uint64;
+      description
+        "The number of entries that need to be modified in order to reach synchronization with the CPM";
+    }
+    leaf last-sync-time {
+      type srl_nokia-comm:date-and-time-delta;
+      description
+        "The time when the forwarding complex last reached sync with the control plane
+
+         A linecard reaches sync when both entries-remaining-to-add and entries-remaining-to-modify reach zero";
+    }
+  }
+
+  grouping ip-tables-top {
+    container ipv4-unicast {
+      description
+        "The container for the IPv4 unicast routing table of the network instance.";
+      list route {
+        key "ipv4-prefix route-type route-owner id origin-network-instance";
+        leaf ipv4-prefix {
+          type srl_nokia-comm:ipv4-prefix;
+          description
+            "The IPv4 prefix associated with the route.";
+        }
+        leaf id {
+          type uint32;
+          description
+            "An owner-assigned index value that is unique for each of the routes for a given prefix.";
+        }
+        uses ipv4-ipv6-entry-common-fields;
+      }
+      uses ip-table-statistics;
+      uses route-summary;
+    }
+    container ipv6-unicast {
+      description
+        "The container for the IPv6 unicast routing table of the network instance.";
+      list route {
+        key "ipv6-prefix route-type route-owner id origin-network-instance";
+        leaf ipv6-prefix {
+          type srl_nokia-comm:ipv6-prefix;
+          description
+            "The IPv6 prefix associated with the route.";
+        }
+        leaf id {
+          type uint32;
+          description
+            "An owner-assigned index value that is unique for each of the routes for a given prefix.";
+        }
+        uses ipv4-ipv6-entry-common-fields;
+      }
+      uses ip-table-statistics;
+      uses route-summary;
+    }
+  }
+
+  grouping fib-programming-progress {
+    container programming-progress {
+      description
+        "State that shows the FIB programming progress of the forwarding complex";
+      container ip-routes {
+        description
+          "Container for the FIB programming state of IP route entries";
+        uses entry-programming-progress;
+      }
+      container next-hop-groups {
+        description
+          "Container for the FIB programming state of next-hop-group (NHG) entries";
+        uses entry-programming-progress;
+      }
+    }
+  }
+
+  grouping next-hops-top {
+    list next-hop-group {
+      key "index";
+      leaf index {
+        type uint64;
+        description
+          "A system-wide unique identifier of a next-hop-group indirection object (system allocated).";
+      }
+      leaf group-name-alias {
+        type string;
+        description
+          "The alias name associated with this next-hop-group.";
+      }
+      leaf programmed-index {
+        type uint64;
+        description
+          "The index assigned to the next-hop-group by the gRIBI client";
+      }
+      leaf backup-next-hop-group {
+        type leafref {
+          path "../index";
+        }
+        description
+          "The backup next-hop-group for the current group. When all entries within the next-hop group become unusable, the backup next-hop group is used if specified.";
+      }
+      uses fib-programming-status;
+      list next-hop {
+        description
+          "List of primary next-hops associated with the NHG";
+        key "id";
+        leaf id {
+          type uint16 {
+            range "0..1023";
+          }
+          description
+            "A unique identifier of a next-hop member (system allocated).";
+        }
+        leaf next-hop {
+          type leafref {
+            path "../../../next-hop/index";
+          }
+        }
+        leaf weight {
+          type uint64;
+          description
+            "The configured/programmed weight assigned to the next-hop within the group
+
+             This may be different from the actual weight used by the datapath, which changes depending on the next-hops that are up/down in the group. Traffic is balanced across the next-hops within the group in proportion of the actual weight.";
+        }
+        leaf resolved {
+          type enumeration {
+            enum true;
+            enum false;
+            enum not-applicable;
+          }
+          description
+            "Set to true when the next-hop was resolved. This reads not-applicable for resolve=false next-hops.";
+        }
+      }
+      list backup-next-hop {
+        description
+          "List of backup next-hops associated with the NHG";
+        key "id";
+        leaf id {
+          type uint16 {
+            range "0..1023";
+          }
+          description
+            "A unique identifier of a next-hop member (system allocated).";
+        }
+        leaf next-hop {
+          type leafref {
+            path "../../../next-hop/index";
+          }
+        }
+        leaf resolved {
+          type enumeration {
+            enum true;
+            enum false;
+            enum not-applicable;
+          }
+          description
+            "Set to true when the next-hop was resolved. This reads not-applicable for resolve=false next-hops.";
+        }
+      }
+    }
+    list next-hop {
+      srl_nokia-ext:telemetry-atomic "true";
+      key "index";
+      leaf index {
+        type uint64;
+        description
+          "A system-wide unique identifier of a next-hop object (system allocated).";
+      }
+      leaf programmed-index {
+        type uint64;
+        description
+          "The index assigned to the next-hop by the gRIBI client";
+      }
+      leaf type {
+        type identityref {
+          base fib-nexthop-type;
+        }
+        srl_nokia-ext:show-importance "high";
+        description
+          "The next-hop type used by the datapath.";
+      }
+      leaf network-instance {
+        type leafref {
+          path "/srl_nokia-netinst:network-instance/srl_nokia-netinst:name";
+        }
+        description
+          "Indicates that the next-hop is another network instance. If this is specified but an IP address or interface is not provided, the meaning is that a new IP lookup should occur in the other network instance.";
+      }
+      leaf ip-address {
+        type srl_nokia-comm:ip-address;
+        srl_nokia-ext:show-importance "high";
+        description
+          "The next-hop IP address. Only populated when the next-hop type is indirect or tunnel or static-mpls.
+
+           For a VXLAN tunnel this is the destination VTEP address.";
+      }
+      leaf mac-address {
+        type srl_nokia-comm:mac-address;
+        description
+          "The MAC address of the next-hop that has been provided directly.
+
+           No value is populated if the next-hop IP is resolved by an ARP or IPv6 ND entry.";
+      }
+      leaf subinterface {
+        type leafref {
+          path "/srl_nokia-if:interface/srl_nokia-if:subinterface/srl_nokia-if:name";
+        }
+        srl_nokia-ext:show-importance "high";
+        description
+          "The next-hop interface. Only populated when the next-hop type is direct.";
+      }
+      container resolving-route {
+        leaf ip-prefix {
+          type srl_nokia-comm:ip-prefix;
+          description
+            "The prefix of the resolving route.";
+        }
+        leaf route-type {
+          type identityref {
+            base srl_nokia-comm:ip-route-type;
+          }
+          description
+            "The type of the resolving route.";
+        }
+        leaf route-owner {
+          type string;
+          description
+            "The application name of the owner of the resolving route.";
+        }
+        leaf next-hop-group {
+          type leafref {
+            path "../../../next-hop-group/index";
+          }
+          description
+            "Reference to the next-hop-group used by the route that resolves this next-hop";
+        }
+      }
+      container resolving-tunnel {
+        leaf ip-prefix {
+          type srl_nokia-comm:ip-prefix;
+          description
+            "The prefix of the resolving tunnel.";
+        }
+        leaf tunnel-type {
+          type identityref {
+            base srl_nokia-comm:tunnel-type;
+          }
+          description
+            "The type of the tunnel.";
+        }
+        leaf tunnel-owner {
+          type string;
+          description
+            "The application name of the owner of the resolving tunnel.";
+        }
+        leaf tunnel-id {
+          type uint32;
+          description
+            "An owner-assigned index value that is unique for each of the tunnels terminating at a particular prefix";
+        }
+        leaf next-hop-group {
+          type leafref {
+            path "../../../next-hop-group/index";
+          }
+          description
+            "Reference to the next-hop-group used by the tunnel that resolves this next-hop";
+        }
+      }
+      container mpls {
+        leaf-list pushed-mpls-label-stack {
+          type srl_nokia-comm:mpls-label-with-implicit-and-explicit-null;
+          max-elements 1;
+          description
+            "The list of MPLS labels to push onto the packet when forwarding to this particular next-hop.";
+        }
+        leaf entropy-label-transmit {
+          description
+            "Entropy label (EL/ELI) is pushed when transmitting to this next-hop";
+          type boolean;
+        }
+      }
+      container vxlan {
+        leaf vni {
+          type uint32 {
+            range "1..16777215";
+          }
+          description
+            "VXLAN Network Identifier of the destination.";
+        }
+        leaf source-mac {
+          type srl_nokia-comm:mac-address;
+          description
+            "VXLAN inner ethernet source mac-address.";
+        }
+        leaf destination-mac {
+          type srl_nokia-comm:mac-address;
+          description
+            "VXLAN inner ethernet destination mac-address.";
+        }
+      }
+      leaf decapsulate-header {
+        description
+          "Packets matching this next-hop are decapsulated by removing the specified header.";
+        type encapsulation-header-type;
+      }
+      leaf encapsulate-header {
+        type encapsulation-header-type;
+        description
+          "Packets matching this next-hop are encapsulated by adding the specified header.";
+      }
+      container ip-in-ip {
+        description
+          "Specifies details of the IP-in-IP header added to the packet. This is valid only when encapsulate-header is ipv4 or ipv6";
+        leaf src-ip {
+          type srl_nokia-comm:ip-address;
+          description
+            "Source IP address to use for the encapsulated packet.";
+        }
+        leaf dst-ip {
+          type srl_nokia-comm:ip-address;
+          description
+            "Destination IP address to use for the encapsulated packet.";
+        }
+      }
+      container counters {
+        description
+          "Next-hop forwarding counters";
+        leaf resource-allocation-failed {
+          type boolean;
+          description
+            "An available decap-next-hop-statistics resource was not available for this next-hop in all forwarding complexes";
+        }
+        leaf packets-forwarded {
+          type srl_nokia-comm:zero-based-counter64;
+          description
+            "The number of packets forwarded to this next-hop";
+        }
+        leaf octets-forwarded {
+          type srl_nokia-comm:zero-based-counter64;
+          description
+            "The number of octets in packets forwarded to this next-hop";
+        }
+      }
+    }
+  }
+
+  augment "/srl_nokia-netinst:network-instance/srl_nokia-netinst:route-table" {
+    uses ip-tables-top;
+    uses next-hops-top;
+  }
+
+  augment "/srl_nokia-platform:platform/srl_nokia-platform-lc:linecard/srl_nokia-platform-lc:forwarding-complex/srl-lc-fib:fib-table" {
+    uses fib-programming-progress {
+      if-feature "srl-feat:fib-programming-progress";
+    }
+  }
+
+  augment "/srl_nokia-platform:platform/srl_nokia-platform-control:control/srl_nokia-platform-control-fp:forwarding-plane/srl_nokia-platform-control-fp:fib-table" {
+    uses fib-programming-progress {
+      if-feature "srl-feat:fib-programming-progress";
+    }
+  }
+}

@@ -1,0 +1,980 @@
+module srl_nokia-routing-policy {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:plcy:routing-policy";
+  prefix srl_rpol;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-extensions {
+    prefix srl_nokia-ext;
+  }
+  import srl_nokia-policy-types {
+    prefix srl_nokia-pol-types;
+  }
+  import srl_nokia-ospf-types {
+    prefix srl_nokia-ospf-types;
+  }
+  import srl_nokia-isis-types {
+    prefix srl_nokia-isis-types;
+  }
+  import srl_nokia-features {
+    prefix srl_nokia-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "YANG model for route policies. It supports widely used constructs for managing how routes are imported, exported, and modified across different routing protocols.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2024-07-31 {
+    description
+      "SRLinux 24.7.1";
+  }
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2023-10-31 {
+    description
+      "SRLinux 23.10.1";
+  }
+  revision 2023-07-31 {
+    description
+      "SRLinux 23.7.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+  revision 2022-11-30 {
+    description
+      "SRLinux 22.11.1";
+  }
+  revision 2022-06-30 {
+    description
+      "SRLinux 22.6.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2021-11-30 {
+    description
+      "SRLinux 21.11.1";
+  }
+  revision 2021-06-30 {
+    description
+      "SRLinux 21.6.1";
+  }
+  revision 2021-03-31 {
+    description
+      "SRLinux 21.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+  revision 2019-11-30 {
+    description
+      "SRLinux 19.11.1";
+  }
+
+  grouping prefix-top {
+    list prefix {
+      key "ip-prefix mask-length-range";
+      description
+        "List of prefixes in the prefix set";
+      leaf ip-prefix {
+        type srl_nokia-comm:ip-prefix;
+        description
+          "The IPv4 or IPv6 prefix in CIDR notation";
+      }
+      leaf mask-length-range {
+        type string {
+          pattern '([0-9]+\.\.[0-9]+)|exact';
+        }
+        description
+          "The range of prefix lengths to match
+
+           Example: 10.3.192.0/21 through 10.3.192.0/24 would be expressed as prefix: 10.3.192.0/21, mask-length-range: 21..24.
+
+           Example: 10.3.192.0/21 would be expressed as prefix: 10.3.192.0/21,
+           mask-length-range: exact";
+      }
+    }
+  }
+
+  grouping as-path-set-top {
+    list as-path-set {
+      key "name";
+      description
+        "AS Path regular expressions for use in policy entries";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the AS path regular expression";
+      }
+      leaf expression {
+        type srl_nokia-pol-types:as-path-regexp;
+        description
+          "A regular expression where each AS number is an elemental term";
+      }
+      leaf-list as-path-set-member {
+        srl_nokia-ext:no-globbing;
+        max-elements 32;
+        if-feature "srl_nokia-feat:routing-policy-as-path-set-member-list";
+        type srl_nokia-pol-types:as-path-regexp;
+        description
+          "A list of regular expressions";
+      }
+    }
+  }
+
+  grouping prefix-set-top {
+    list prefix-set {
+      key "name";
+      description
+        "List of defined prefix sets";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the prefix set";
+      }
+      uses prefix-top;
+    }
+  }
+
+  grouping community-member-top {
+    description
+      "Members of a community set";
+    leaf-list member {
+      srl_nokia-ext:no-globbing;
+      type union {
+        type srl_nokia-pol-types:bgp-std-community-well-known-type;
+        type srl_nokia-pol-types:bgp-std-community-type;
+        type srl_nokia-pol-types:bgp-large-community-type;
+        type srl_nokia-pol-types:bgp-ext-community-type;
+        type srl_nokia-pol-types:bgp-ext-community-regexp-type;
+        type srl_nokia-pol-types:bgp-large-community-regexp-type;
+        type srl_nokia-pol-types:bgp-std-community-regexp-type;
+      }
+      description
+        "A standard BGP community value, regular expression or well-known name or else a large BGP community value or regular expression";
+    }
+    leaf match-set-options {
+      if-feature "srl_nokia-feat:routing-policy-community-match-set-options";
+      type enumeration {
+        enum any {
+          description
+            "Match is true if any of the listed community member values is present in the route";
+        }
+        enum all {
+          description
+            "Match is true if all of the listed community member values are present in the route";
+        }
+        enum invert {
+          description
+            "Match is true if none of the listed community member values are present in the route";
+        }
+      }
+      default "all";
+      description
+        "Options that determine the matching criteria that applies to the list of community members";
+    }
+  }
+
+  grouping std-community-member-top {
+    description
+      "Members of a standard community set";
+    leaf-list member {
+      srl_nokia-ext:no-globbing;
+      type union {
+        type srl_nokia-pol-types:bgp-std-community-type;
+        type srl_nokia-pol-types:bgp-std-community-well-known-type;
+        type srl_nokia-pol-types:bgp-std-community-regexp-type;
+      }
+      description
+        "An extended BGP community value or regular expression";
+    }
+  }
+
+  grouping ext-community-member-top {
+    description
+      "Members of an extended community set";
+    leaf-list member {
+      srl_nokia-ext:no-globbing;
+      type union {
+        type srl_nokia-pol-types:bgp-ext-community-type2;
+        type srl_nokia-pol-types:bgp-ext-community-regexp-type2;
+      }
+      description
+        "An extended BGP community value or regular expression";
+    }
+  }
+
+  grouping community-set-top {
+    list community-set {
+      key "name";
+      description
+        "List of BGP community sets containing standard, extended and large BGP communities";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the community set";
+      }
+      uses community-member-top;
+    }
+  }
+
+  grouping standard-community-set-top {
+    list standard-community-set {
+      key "name";
+      description
+        "List of BGP standard community sets containing only standard BGP communities";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the community set";
+      }
+      uses std-community-member-top;
+    }
+  }
+
+  grouping extended-community-set-top {
+    list extended-community-set {
+      key "name";
+      description
+        "List of BGP extended community sets containing only extended BGP communities";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the community set";
+      }
+      uses ext-community-member-top;
+    }
+  }
+
+  grouping tag-set-top {
+    description
+      "Configuration and state for tag-sets";
+    list tag-set {
+      if-feature "srl_nokia-feat:internal-tags";
+      key "name";
+      max-elements 1024;
+      description
+        "List of administrative tag sets";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the tag set";
+      }
+      leaf-list tag-value {
+        min-elements 1;
+        max-elements 2;
+        type srl_nokia-pol-types:tag-type;
+        must "not(string(.)='00' or string(.)='00:00' or string(.)='00:00:00' or string(.)='00:00:00:00')";
+        description
+          "Value of the tag set member";
+      }
+      leaf tag-set-index {
+        config false;
+        type uint32;
+        description
+          "System-wide persistent unique identifier assigned to the tag-set";
+      }
+    }
+  }
+
+  grouping tags-action {
+    description
+      "Group containing actions related to tags";
+    container internal-tags {
+      if-feature "srl_nokia-feat:internal-tags";
+      description
+        "Configuration of internal tags";
+      leaf-list set-tag-set {
+        max-elements 1;
+        type leafref {
+          path "/srl_rpol:routing-policy/srl_rpol:tag-set/srl_rpol:name";
+        }
+        description
+          "Reference to a tag-set defined under routing-policy";
+      }
+    }
+  }
+
+  grouping route-preference-action {
+    container route-preference {
+      if-feature "srl_nokia-feat:routing-policy-preference-action";
+      description
+        "Options for modifying route preference";
+      leaf set {
+        type uint8;
+        description
+          "Overwrite the route preference with the specified value
+
+           The IP route table preference is sometimes called the administrative distance of the route. In general, when comparing any two routes, the route with the lower preference is the one that is activated and used for forwarding.
+
+           This action has an effect only in BGP import policies and VRF import policies";
+      }
+    }
+  }
+
+  grouping common-action-top {
+    description
+      "Common grouping containing policy actions";
+    container bgp {
+      container as-path {
+        description
+          "Modify AS Path attribute of routes";
+        leaf remove {
+          description
+            "Clear the AS path to make it empty.";
+          type boolean;
+        }
+        leaf-list replace {
+          type srl_nokia-pol-types:as-number;
+          ordered-by user;
+          must 'not(../remove)';
+          description
+            "Clear the existing AS path and replace it a new AS_SEQUENCE containing the listed AS numbers.";
+        }
+        container prepend {
+          description
+            "Prepend a BGP AS number to the AS Path attribute of routes";
+          leaf as-number {
+            type union {
+              type srl_nokia-pol-types:as-number;
+              type enumeration {
+                enum auto {
+                  value 1;
+                }
+              }
+            }
+            description
+              "The AS number to prepend to the AS Path attributes
+
+               If 'auto' is specified then the peer's AS number is used in the context of an import policy and the local AS number is used in the context of an export policy.";
+          }
+          leaf repeat-n {
+            type uint8 {
+              range "1..50";
+            }
+            description
+              "The number of repetitions of the prepended AS number";
+          }
+        }
+      }
+      container communities {
+        description
+          "Modify BGP communities attached to routes";
+        leaf add {
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:community-set/name";
+          }
+          description
+            "Reference to a community-set name
+
+             All of the non-regex community members in the referenced community-set are added to the COMMUNTIES and LARGE_COMMUNITIES attributes.";
+        }
+        leaf remove {
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:community-set/name";
+          }
+          description
+            "Reference to a community-set name
+
+             The communities in the route are compared to all of the community members in the referenced community-set, and all matching communities are removed from the COMMUNITIES and LARGE_COMMUNITIES  attributes.";
+        }
+        leaf replace {
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:community-set/name";
+          }
+          description
+            "Reference to a community-set name
+
+             All of the existing communities are deleted and then all of the non-regex community members in the referenced community-set are encoded in new COMMUNTIES and LARGE_COMMUNITIES attributes.";
+          must 'not(../remove or ../add)';
+        }
+      }
+      container standard-community {
+        if-feature "srl_nokia-feat:routing-policy-standard-community-actions";
+        leaf operation {
+          type srl_nokia-pol-types:bgp-set-community-operation-type;
+          description
+            "The type of operation for modifying the community attribute with the specified values";
+        }
+        leaf-list referenced-sets {
+          if-feature "srl_nokia-feat:routing-policy-standard-community-sets";
+          max-elements 28;
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:standard-community-set/name";
+          }
+        }
+        leaf method {
+          type enumeration {
+            enum reference {
+              description
+                "The standard communities are specified by referencing a defined standard-community set";
+            }
+          }
+          default "reference";
+          description
+            "Indicates the method used to specify the standard communities for the action";
+        }
+      }
+      container extended-community {
+        if-feature "srl_nokia-feat:routing-policy-extended-community-actions";
+        leaf operation {
+          type srl_nokia-pol-types:bgp-set-community-operation-type;
+          description
+            "The type of operation for modifying the community attribute with the specified values";
+        }
+        leaf-list referenced-sets {
+          if-feature "srl_nokia-feat:routing-policy-extended-community-sets";
+          max-elements 28;
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:extended-community-set/name";
+          }
+        }
+        leaf method {
+          type enumeration {
+            enum reference {
+              description
+                "The extended communities are specified by referencing a defined extended-community set";
+            }
+          }
+          default "reference";
+          description
+            "Indicates the method used to specify the extended communities for the action";
+        }
+      }
+      leaf disable-ip-route-install {
+        if-feature "srl_nokia-feat:routing-policy-bgp-disable-fib";
+        type boolean;
+        description
+          "Accept the route, allowing its re-advertisement, but do not install the route to the IP FIB";
+      }
+      container local-preference {
+        leaf set {
+          type uint32;
+          description
+            "The new value of LOCAL_PREF to write into the matching BGP routes";
+        }
+      }
+      container med {
+        if-feature "srl_nokia-feat:routing-policy-bgp-med";
+        leaf set {
+          type union {
+            type uint32;
+            type enumeration {
+              enum route-table-cost;
+            }
+          }
+          description
+            "The new value of the Multi-Exit Discriminator attribute value to write into the matching BGP routes. The route-table-cost option derives the MED from the route metric.";
+        }
+      }
+      container next-hop {
+        description
+          "Container for BGP next-hop modifications";
+        leaf set {
+          if-feature "srl_nokia-feat:routing-policy-bgp-next-hop-set-action";
+          description
+            "Set the protocol next-hop addres of matched BGP routes";
+          type srl_nokia-pol-types:bgp-next-hop-type;
+          must "(. = 'self' or (contains(., '.') and not(starts-with(., '0.') or starts-with(., '127.') or (number(substring-before(., '.')) >= 224))) or (contains(., ':') and not(re-match(., '[0:]+') or re-match(., '[0:]+:0*1') or re-match(., '[fF][fF].*') or re-match(., '[fF][eE]8.*') or re-match(., '[fF][eE]9.*') or re-match(., '[fF][eE][aA].*') or re-match(., '[fF][eE][bB].*'))))" {
+            error-message "Not a valid unicast address";
+          }
+        }
+      }
+      container next-hop-resolution {
+        if-feature "srl_nokia-feat:internal-tags and srl_nokia-feat:routing-policy-bgp-next-hop-resolution-action";
+        description
+          "Actions related to next-hop resolution of matched BGP routes";
+        leaf set-tag-set {
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:tag-set/srl_rpol:name";
+          }
+          description
+            "Reference to a tag-set to be used for controlling next-hop resolution";
+        }
+      }
+      container origin {
+        leaf set {
+          type enumeration {
+            enum igp;
+            enum egp;
+            enum incomplete;
+          }
+          description
+            "The new value of the ORIGIN attribute to write into the matching BGP routes";
+        }
+      }
+      container statistics {
+        if-feature "srl_nokia-feat:bgp-labeled-unicast-tunnel-statistics";
+        description
+          "BGP Labeled unicast tunnel statistics";
+        leaf ingress {
+          type boolean;
+          description
+            "Ingress statistics collection for BGP-LU tunnels";
+        }
+        leaf egress {
+          type boolean;
+          description
+            "Egress statistics collection for BGP-LU tunnels";
+        }
+      }
+      container label-allocation {
+        if-feature "srl_nokia-feat:bgp-labeled-unicast";
+        description
+          "Actions that determine the method used to assign labels to BGP LU routes matched and accepted by route-table-import policies";
+        choice label-allocation-method {
+          case prefix-sid {
+            container prefix-sid {
+              if-feature "srl_nokia-feat:bgp-labeled-unicast-prefix-sid";
+              description
+                "RIB-OUT label is based on prefix SID configuration";
+              leaf reuse-igp {
+                description
+                  "When true use the programmed SR-IGP label index for the matching prefix, resulting in a stitch to the IGP segment routing tunnel";
+                type boolean;
+              }
+            }
+          }
+        }
+      }
+    }
+    container isis {
+      if-feature "srl_nokia-feat:routing-policy-isis-actions";
+      leaf level {
+        type srl_nokia-isis-types:isis-level-number;
+        description
+          "Set the level that a prefix is to be imported into";
+      }
+      container metric {
+        description
+          "Policy actions related to ISIS metrics";
+        leaf set-type {
+          type srl_nokia-isis-types:isis-metric-type;
+          description
+            "Set the metric type, internal or external";
+        }
+        leaf set-style {
+          type srl_nokia-isis-types:isis-metric-style;
+          description
+            "Set the style of the metric, narrow or wide";
+        }
+        leaf set-value {
+          type srl_nokia-isis-types:isis-wide-metric;
+          description
+            "Set the metric of the IS-IS prefix";
+        }
+      }
+    }
+    uses route-preference-action;
+    uses tags-action;
+  }
+
+  grouping default-action-top {
+    srl_nokia-ext:first-released "19.11.1";
+    container default-action {
+      description
+        "Actions for routes that do not match any policy entry";
+      leaf policy-result {
+        type srl_nokia-pol-types:default-policy-result;
+        description
+          "Select the action type for routes that do not match any policy statement.";
+      }
+      uses common-action-top;
+    }
+  }
+
+  grouping match-prefix-set {
+    description
+      "Configuration for prefix-set match criteria";
+    leaf prefix-set {
+      type leafref {
+        path "/srl_rpol:routing-policy/srl_rpol:prefix-set/name";
+      }
+      description
+        "Reference to a prefix set name";
+    }
+    container prefix {
+      if-feature "srl_nokia-feat:routing-policy-prefix-set-match-options-any";
+      leaf prefix-set {
+        type leafref {
+          path "/srl_rpol:routing-policy/srl_rpol:prefix-set/name";
+        }
+        description
+          "Reference to a prefix set name";
+      }
+      leaf match-set-options {
+        if-feature "srl_nokia-feat:routing-policy-prefix-set-match-options-any";
+        type enumeration {
+          enum any {
+            description
+              "Match is true if any of the members in the referenced set is present in the route";
+          }
+        }
+      }
+    }
+  }
+
+  grouping match-bgp-evpn {
+    container evpn {
+      description
+        "Container for match conditions that are specific to BGP EVPN routes.";
+      leaf-list route-type {
+        type uint8 {
+          range "1..8";
+        }
+        max-elements 1;
+        description
+          "An EVPN route meets this condition if the route-type field in the NLRI is one of the values provided in this list.";
+      }
+    }
+  }
+
+  grouping match-bgp {
+    container bgp {
+      description
+        "Configuration for BGP-specific policy match criteria";
+      leaf as-path-set {
+        description
+          "Reference to an as-path-set name
+
+           A route meets this condition if it matches the regular expression";
+        type leafref {
+          path "/srl_rpol:routing-policy/srl_rpol:as-path-set/name";
+        }
+      }
+      container as-path {
+        if-feature "srl_nokia-feat:routing-policy-as-path-set-match-options-any";
+        leaf as-path-set {
+          description
+            "Reference to an as-path-set name
+
+             A route meets this condition if it matches the regular expression";
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:as-path-set/name";
+          }
+        }
+        leaf match-set-options {
+          if-feature "srl_nokia-feat:routing-policy-as-path-set-match-options-any";
+          type enumeration {
+            enum any {
+              description
+                "Match is true if any of the members in the referenced set is present in the route";
+            }
+          }
+        }
+      }
+      container as-path-length {
+        description
+          "A BGP route matches this condition if the number of (unique) AS numbers in its AS_PATH matches this value or the range implied by the value+operator.";
+        leaf value {
+          type uint8 {
+            range "0..255";
+          }
+          description
+            "The number of (unique) AS numbers in the AS path";
+        }
+        leaf operator {
+          type srl_nokia-pol-types:comparison-operator-type;
+          description
+            "The comparison operator that applies to the value";
+        }
+        leaf unique {
+          type boolean;
+          description
+            "Count a repeated sequence of the same AS number as just 1 element";
+        }
+      }
+      leaf community-set {
+        description
+          "Reference to a community-set name
+
+           A route meets this condition if has any community value matching a community member in the referenced community-set";
+        type leafref {
+          path "/srl_rpol:routing-policy/srl_rpol:community-set/name";
+        }
+      }
+      container standard-community {
+        if-feature "srl_nokia-feat:routing-policy-standard-community-sets";
+        leaf standard-community-set {
+          description
+            "Reference to a standard-community-set name
+
+             A route meets this condition if the configured match-set-options apply to the referenced standard-community-set";
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:standard-community-set/name";
+          }
+        }
+        uses srl_nokia-pol-types:match-set-options;
+      }
+      container extended-community {
+        if-feature "srl_nokia-feat:routing-policy-extended-community-sets";
+        leaf extended-community-set {
+          description
+            "Reference to an extended-community-set name
+
+             A route meets this condition if the configured match-set-options apply to the referenced extended-community-set";
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:extended-community-set/name";
+          }
+        }
+        uses srl_nokia-pol-types:match-set-options;
+      }
+      uses match-bgp-evpn;
+    }
+  }
+
+  grouping match-general {
+    description
+      "Configuration for general match criteria applicable to multiple route types";
+    leaf-list family {
+      type srl_nokia-pol-types:bgp-family-type;
+      description
+        "The name of an address family
+
+         A route meets this condition if the prefix belongs to one of the indicated address families.";
+    }
+    leaf protocol {
+      type identityref {
+        base srl_nokia-comm:routing-policy-protocol-match-type;
+      }
+      description
+        "The route type to match";
+    }
+    leaf-list call-policy {
+      if-feature "srl_nokia-feat:routing-policy-subroutines";
+      max-elements 1;
+      type leafref {
+        path "/routing-policy/policy/name";
+      }
+      description
+        "Call another policy as a subroutine
+
+         If the final action of the called policy (which may in turn call other policies) with respect to a route is 'accept' then the route is considered to satisfy this match condition. If the final action of the called policy with respect to a route is 'reject' then the route is considered a non-match of this condition and hence the policy statement";
+    }
+  }
+
+  grouping match-igp {
+    container isis {
+      srl_nokia-ext:first-released "20.12.1";
+      description
+        "Configuration for ISIS-specific policy match criteria";
+      leaf level {
+        description
+          "Match an IS-IS route based on its level";
+        type uint8 {
+          range "1..2";
+        }
+        must "../../protocol = 'isis'" {
+          error-message "Protocol must be isis";
+        }
+      }
+      leaf route-type {
+        description
+          "Match an IS-IS route based on its type
+
+           An IS-IS IPv4 prefix is external if it is signalled in TLV 130 or TLV135 with RFC 7794 X flag=1. An IS-IS IPv6 prefix is external if the TLV 236/TLV 237 external bit = 1.";
+        type enumeration {
+          enum internal {
+            description
+              "Match internal AND external routes";
+          }
+          enum external {
+            description
+              "Match only external routes";
+          }
+        }
+        must "../../protocol = 'isis'" {
+          error-message "Protocol must be isis";
+        }
+      }
+    }
+    container ospf {
+      srl_nokia-ext:first-released "20.12.1";
+      description
+        "Configuration for OSPF-specific policy match criteria";
+      leaf area-id {
+        type srl_nokia-ospf-types:ospf-area-identifier;
+        description
+          "The area identifier as a dotted-quad.";
+        must "../../protocol = 'ospfv2' or ../../protocol = 'ospfv3'" {
+          error-message "Protocol must be OSPF";
+        }
+      }
+      leaf route-type {
+        description
+          "The OSPF route type.";
+        type identityref {
+          base srl_nokia-pol-types:pol-ospf-path-type;
+        }
+        must "../../protocol = 'ospfv2' or ../../protocol = 'ospfv3'" {
+          error-message "Protocol must be OSPF";
+        }
+      }
+      leaf instance-id {
+        description
+          "OSPFv3 instance identifier";
+        type uint32 {
+          range "0..255";
+        }
+        must "((../../protocol = 'ospfv3') and ((. >= 0 and . <=31) or (. >= 64 and . <= 95)))" {
+          error-message "Protocol must be OSPFv3 and Instance-id range must either be 0..31 or 64..95";
+        }
+      }
+    }
+    container multicast {
+      if-feature "srl_nokia-feat:mcast-route-policy";
+      container group-address {
+        leaf prefix-set {
+          description
+            "Multicast group IP address
+
+             <S,G> the source needs to be present in the multicast source-address leafref and the
+             group needs to present in the group-address leafref.  To match a <*,G> the group has to
+             be programmed in the group-address leafref and no source in the source-address leafref.
+             Group address can be configured as a prefix.";
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:prefix-set/name";
+          }
+        }
+      }
+      container source-address {
+        leaf prefix-set {
+          description
+            "Multicast source IP address
+
+             Source address can be configured as a prefix.";
+          type leafref {
+            path "/srl_rpol:routing-policy/srl_rpol:prefix-set/name";
+          }
+        }
+      }
+    }
+  }
+
+  grouping match-tags {
+    description
+      "Configuration tag based match criteria";
+    container internal-tags {
+      if-feature "srl_nokia-feat:internal-tags";
+      description
+        "Configuration and state of internal tags";
+      leaf-list tag-set {
+        max-elements 1;
+        type leafref {
+          path "/srl_rpol:routing-policy/srl_rpol:tag-set/srl_rpol:name";
+        }
+        description
+          "Reference to a tag-set defined under routing-policy";
+      }
+      uses srl_nokia-pol-types:match-set-options {
+        if-feature "srl_nokia-feat:routing-policy-tag-set-match-options";
+      }
+    }
+  }
+
+  grouping match-top {
+    description
+      "Top-level grouping for match criteria";
+    container match {
+      description
+        "Match conditions of the policy statement";
+      uses match-prefix-set;
+      uses match-bgp;
+      uses match-general;
+      uses match-tags;
+      uses match-igp;
+    }
+  }
+
+  grouping action-top {
+    description
+      "Top-level grouping for policy actions";
+    container action {
+      srl_nokia-ext:first-released "19.11.1";
+      description
+        "Actions for routes that match the policy statement";
+      leaf policy-result {
+        type srl_nokia-pol-types:statement-policy-result;
+        description
+          "Select the action to apply to matching routes
+
+           If no value is configured for the policy-result then the entire statement is skipped and ignored.";
+      }
+      uses common-action-top;
+    }
+  }
+
+  grouping statement-top {
+    description
+      "Top-level grouping for the policy statements list";
+    list statement {
+      key "name";
+      ordered-by user;
+      description
+        "Policy statements group conditions and actions within a policy definition.  They are evaluated in configuration order.";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "Name given to the policy statement (rule).";
+      }
+      uses match-top;
+      uses action-top;
+    }
+  }
+
+  grouping policy-top {
+    description
+      "Top-level grouping for the policy list";
+    list policy {
+      key "name";
+      description
+        "List of policy definitions, keyed by unique name
+         These policy definitions are expected to be referenced (by name) in policy in import-policy and/or export-policy statements.";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "A name used to identify the policy";
+      }
+      uses default-action-top;
+      uses statement-top;
+    }
+  }
+
+  grouping routing-policy-top {
+    description
+      "Top level container for route policies";
+    container routing-policy {
+      description
+        "Top-level container for all routing policy configuration";
+      uses as-path-set-top;
+      uses prefix-set-top;
+      uses community-set-top;
+      uses standard-community-set-top {
+        if-feature "srl_nokia-feat:routing-policy-standard-community-sets";
+      }
+      uses extended-community-set-top {
+        if-feature "srl_nokia-feat:routing-policy-extended-community-sets";
+      }
+      uses tag-set-top;
+      uses policy-top;
+    }
+  }
+
+  uses routing-policy-top;
+}

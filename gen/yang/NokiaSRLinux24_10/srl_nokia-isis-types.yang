@@ -1,0 +1,381 @@
+module srl_nokia-isis-types {
+  yang-version 1.1;
+  prefix srl_nokia-isis-types;
+  namespace "urn:nokia.com:srlinux:general:isis-types";
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This yang file contains common ISIS types and identities";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+
+  typedef isis-level {
+    description
+      "Specifies the IS-IS Level.";
+    type enumeration {
+      enum L1 {
+        description
+          "This enum describes ISIS level 1";
+      }
+      enum L2 {
+        description
+          "This enum describes ISIS level 2";
+      }
+      enum L1L2 {
+        description
+          "This enum describes ISIS level 1-2";
+      }
+    }
+    default "L1L2";
+  }
+
+  typedef isis-level-number {
+    description
+      "This type defines ISIS level number.";
+    type uint8 {
+      range "1..2";
+    }
+  }
+
+  typedef isis-metric-type {
+    description
+      "This type defines ISIS metric type";
+    type enumeration {
+      enum internal {
+        description
+          "This enum describes internal route type";
+      }
+      enum external {
+        description
+          "This enum describes external route type";
+      }
+    }
+  }
+
+  typedef isis-metric-style {
+    description
+      "This type defines ISIS metric styles";
+    type enumeration {
+      enum narrow {
+        description
+          "This enum describes narrow metric style";
+        reference
+          "RFC1195";
+      }
+      enum wide {
+        description
+          "This enum describes wide metric style";
+        reference
+          "RFC5305";
+      }
+    }
+  }
+
+  typedef isis-wide-metric {
+    description
+      "This type defines ISIS wide metric.";
+    type uint32 {
+      range "0..16777215";
+    }
+  }
+
+  typedef isis-narrow-metric {
+    description
+      "This type defines ISIS narrow metric.";
+    type uint32 {
+      range "1..63";
+    }
+  }
+
+  typedef isis-tlv-wide-metric {
+    description
+      "This type defines ISIS wide metric value inside a TLV.";
+    type uint32 {
+      range "0..16777215";
+    }
+  }
+
+  typedef isis-tlv-narrow-metric {
+    description
+      "This type defines ISIS narrow metric value inside a TLV.";
+    type uint32 {
+      range "0..63";
+    }
+  }
+
+  typedef isis-hello-padding-type {
+    description
+      "This type defines ISIS hello padding type";
+    type enumeration {
+      enum strict {
+        description
+          "Strict padding option.
+           Hello padding is done continuously, regardless of adjacency state or interface type.";
+      }
+      enum loose {
+        description
+          "Loose padding option.
+           On p2p interfaces hello PDUs are padded from the initial detection of a new neighbor until the adjacency transitions to the INIT state.
+           On broadcast interfaces hello padding is done until there is at least one UP adjacency on the interface.";
+      }
+      enum adaptive {
+        description
+          "Adaptive padding option.
+           On p2p interfaces hello PDUs are padded until the sender declares the adjacency to be UP (based on  3-way handshake or the classic algorithm described in ISO 10589. If the p2p neighbor does not support the adjacency state TLV, then padding continues.
+           On broadcast interfaces hello padding is done until there is at least one UP adjacency on the interface.";
+      }
+      enum disable {
+        description
+          "This enum disables hello PDU padding";
+      }
+    }
+  }
+
+  typedef isis-ecmp {
+    description
+      "This type defines the range of IS-IS max-ecmp-paths";
+    type uint8 {
+      range "1..64";
+    }
+  }
+
+  typedef isis-net-id {
+    description
+      "This type defines OSI NET address. A NET should should be in the form xx.yyyy.yyyy.yyyy.00 with up to 9 sets of yyyy.";
+    type string {
+      pattern '[a-fA-F0-9]{2}(\.[a-fA-F0-9]{4}){3,9}\.[0]{2}';
+    }
+  }
+
+  typedef isis-area-address {
+    description
+      "This type defines the ISIS area address.";
+    type string {
+      pattern '[0-9A-Fa-f]{2}(\.[0-9A-Fa-f]{4}){0,6}';
+      length "2..38";
+    }
+  }
+
+  typedef isis-circuit-type {
+    description
+      "This type defines ISIS interface types ";
+    type enumeration {
+      enum point-to-point {
+        description
+          "This enum describes a point-to-point interface";
+      }
+      enum broadcast {
+        description
+          "This enum describes a broadcast interface";
+      }
+    }
+  }
+
+  typedef isis-extended-circuit-id {
+    description
+      "This type defines interface circuit ID.";
+    type uint32;
+  }
+
+  typedef isis-routing-topology {
+    description
+      "isis routing topology.
+       native(1) - Indicates standard topology.
+       mt(2) - Indicates multi-topology for IPv4/IPv6 unicast/multicast routing.";
+    type enumeration {
+      enum false {
+        value 0;
+      }
+      enum native {
+        value 1;
+      }
+      enum mt {
+        value 2;
+      }
+    }
+  }
+
+  typedef isis-admin-tag {
+    description
+      "This type defines the range administrative route tags that can be assigned to ISIS routes";
+    type uint32 {
+      range "1..4294967295";
+    }
+  }
+
+  typedef isis-level-state {
+    description
+      "States of the ISIS protocol.";
+    type enumeration {
+      enum off {
+        value 1;
+      }
+      enum on {
+        value 2;
+      }
+      enum waiting {
+        value 3;
+      }
+    }
+  }
+
+  typedef isis-interface-adj-state {
+    description
+      "This type defines the state of the interface.";
+    type enumeration {
+      enum up {
+        description
+          "This state describes that adjacency is established.";
+      }
+      enum down {
+        description
+          "This state describes that adjacency is NOT established.";
+      }
+      enum init {
+        description
+          "This state describes that adjacency is establishing.";
+      }
+      enum failed {
+        description
+          "This state describes that adjacency is failed.";
+      }
+    }
+  }
+
+  typedef isis-adjacency-down-reason {
+    type enumeration {
+      enum 3-way-handshake-failed;
+      enum address-mismatch;
+      enum hold-timer-expired;
+      enum area-mismatch;
+      enum bad-hello;
+      enum bfd-session-down;
+      enum interface-down;
+      enum interface-level-disabled;
+      enum level-changed;
+      enum level-mismatch;
+      enum mt-topology-changed;
+      enum mt-topology-mismatch;
+      enum remote-system-id-changed;
+      enum isis-protocol-disabled;
+      enum unknown;
+    }
+  }
+
+  typedef isis-pdu-type {
+    description
+      "Type of the ISIS PDU.";
+    type enumeration {
+      enum LSP {
+        description
+          "Link State PDU";
+      }
+      enum IIH {
+        description
+          "IS-to-IS Hello PDU";
+      }
+      enum CSNP {
+        description
+          "Complete Sequence Number PDU";
+      }
+      enum PSNP {
+        description
+          "Partial Sequence Number PDU";
+      }
+      enum Unknown {
+        description
+          "Unknown PDU type";
+      }
+    }
+  }
+
+  typedef isis-snpa {
+    description
+      "This type defines Subnetwork Point of Attachment format.";
+    type string {
+      length "0..20";
+    }
+  }
+
+  typedef isis-adjacent-neighbor {
+    description
+      "This type provides the identification of an adjacent neighbor IS.";
+    type string {
+      pattern '[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{4}\.[0-9A-Fa-f]{2}';
+      length "17";
+    }
+  }
+
+  typedef isis-protocols-supported {
+    type enumeration {
+      enum IPv4 {
+        description
+          "NLPID 0xCC corresponding to IPv4";
+      }
+      enum IPv6 {
+        description
+          "NLPID 0x8E corresponding to IPv6";
+      }
+      enum CLNS {
+        description
+          "NLPID 0x81 corresponding to CLNS";
+      }
+    }
+  }
+
+  typedef isis-adj-level {
+    description
+      "This type defines ISIS level number.";
+    type string {
+      pattern 'L1|L2|L1L2';
+    }
+  }
+
+  typedef isis-auth-check-type {
+    description
+      "Type of the ISIS authentication checks for received frames.";
+    type enumeration {
+      enum strict {
+        description
+          "Strict authentication option.
+           Reject all packets that do not have an authentication TLV or that do have an authentication TLV that cannot be validated.";
+      }
+      enum loose {
+        description
+          "Loose authentication option.
+           Accept packets received without an authentication TLV; validate packets received with an authentication TLV and reject those packets that cannot be validated.";
+      }
+      enum disable {
+        description
+          "This enum disables athentication checks.
+           Do not check authentication TLV (if any) of received PDUs; authentication TLV may still be added self-generated PDUs";
+      }
+    }
+  }
+
+  typedef isis-auth-type {
+    description
+      "This type defines the type of authentication used by ISIS PDUs";
+    type enumeration {
+      enum cleartext {
+        description
+          "The authentication-key is encoded in plaintext.";
+      }
+      enum hmac-md5 {
+        description
+          "The authentication-key is used to generate a 16-byte (128 bit) MD5 digest using the HMAC algorithm (RFC 2104).";
+      }
+      enum hmac-sha-256 {
+        description
+          "The authentication-key is used to generate a SHA2 digest using the HMAC algorithm (RFC 2104).The SHA-256 variant of SHA2 produces an output of 32 bytes (256 bits).";
+      }
+    }
+  }
+}

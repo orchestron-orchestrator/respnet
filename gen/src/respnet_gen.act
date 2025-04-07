@@ -28,7 +28,8 @@ actor main(env):
         rfs_layer,
     ], [
         orchestron.build.DeviceType.from_dir(fc, "CiscoIosXr_24_1_ncs55a1", "yang/CiscoIosXr_24_1_ncs55a1"),
-        orchestron.build.DeviceType.from_dir(fc, "JuniperCRPD_23_4R1_9", "yang/JuniperCRPD_23_4R1_9")
+        orchestron.build.DeviceType.from_dir(fc, "JuniperCRPD_23_4R1_9", "yang/JuniperCRPD_23_4R1_9"),
+        orchestron.build.DeviceType.from_dir(fc, "NokiaSRLinux24_10", "yang/NokiaSRLinux24_10")
     ])
     spec.gen_app(fc, "../src/")
 

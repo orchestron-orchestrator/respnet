@@ -1,0 +1,53 @@
+module srl_nokia-bridge-table-shg {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:net-inst:bridge-table-shg";
+  prefix srl_nokia-bridge-table-shg;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This yang file gives a description of split-horizon-groupss that can be configured under a mac-vrf network-instance.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2023-07-31 {
+    description
+      "SRLinux 23.7.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+
+  grouping bridge-table-split-horizon-groups-top {
+    list split-horizon-group {
+      if-feature "srl-feat:bt-split-horizon-groups";
+      max-elements 8;
+      description
+        "List of split-horizon-groups created in the network-instance";
+      key "name";
+      leaf name {
+        type srl_nokia-comm:name;
+        description
+          "Split-horizon-group created in the network-instance
+
+           Multiple split-horizon-groups can be configured within the
+           same network-instance of type mac-vrf. Only objects associated
+           to different split-horizon-groups can forward packets among
+           each other.";
+      }
+    }
+  }
+}

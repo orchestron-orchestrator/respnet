@@ -1,0 +1,90 @@
+module srl_nokia-system {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:general:system";
+  prefix srl_nokia-system;
+
+  import srl_nokia-extensions {
+    prefix srl-ext;
+  }
+  import srl_nokia-common {
+    prefix srl-comm;
+  }
+  import srl_nokia-features {
+    prefix srl_nokia-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This module defines configuration and operational state data
+     related to system management
+
+     Portions of this model reuse data definitions or structure from
+     RFC 7317 - A YANG Data Model for System Management";
+
+  revision 2024-03-31 {
+    description
+      "SRLinux 24.3.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2020-06-30 {
+    description
+      "SRLinux 20.6.1";
+  }
+  revision 2019-11-30 {
+    description
+      "SRLinux 19.11.1";
+  }
+
+  grouping management-top {
+    container management {
+      description
+        "Enclosing container for options relating to management server";
+    }
+  }
+
+  grouping control-plane-traffic {
+    container control-plane-traffic {
+      description
+        "Container for the control plane traffic.";
+      container output {
+        description
+          "Defines parameters determining the handling of system generated traffic.";
+      }
+      container input {
+        description
+          "Defines parameters determining the handling of system generated traffic.";
+      }
+    }
+  }
+
+  container system {
+    description
+      "Enclosing container for system management";
+    leaf-list features {
+      srl-ext:first-released "20.6.1";
+      config false;
+      description
+        "Features enabled on this platform";
+      type srl-comm:name;
+    }
+    leaf-list trace-options {
+      srl-ext:first-released "19.11.1";
+      description
+        "Management server trace options";
+      type enumeration {
+        enum request;
+        enum response;
+        enum common;
+      }
+    }
+    uses management-top;
+    uses control-plane-traffic;
+  }
+}

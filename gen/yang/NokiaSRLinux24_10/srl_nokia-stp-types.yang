@@ -1,0 +1,333 @@
+module srl_nokia-stp-types {
+  yang-version 1.1;
+  prefix srl_nokia-stp-types;
+  namespace "urn:nokia.com:srlinux:stp:stp-types";
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This yang file contains common STP and MLD types and identities";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+
+  typedef stp-mode-type {
+    type enumeration {
+      enum rstp;
+      enum dot1w;
+      enum mstp;
+      enum pmstp;
+    }
+    default "rstp";
+    description
+      "To be compatible with the different iterations of the IEEE 802.1D
+       standard, the following variants of the Spanning Tree protocol
+       are supported:
+
+       rstp
+       Rapid Spanning Tree Protocol (RSTP) compliant with IEEE 802.1D-2004.
+       dot1w
+       Compliant with IEEE 802.1w
+       comp-dot1w
+       Operation as in RSTP but backwards compatible with IEEE 802.1w
+       This mode was introduced for interoperability with some MTU types.
+       mstp
+       Compliant with the Multiple Spanning Tree Protocol specified in
+       IEEE 802.1Q REV/D5.0-09/2005.
+       pmstp
+       Compliant with the Multiple Spanning Tree Protocol specified in
+       IEEE 802.1Q REV/D3.0-04/2005 but with some changes to make it backwards
+       compatible to 802.1Q 2003 edition and IEEE 802.1w";
+    reference
+      "";
+  }
+
+  typedef stp-bridge-priority-type {
+    type uint32 {
+      range "1..65535";
+    }
+    default "32768";
+    description
+      "The bridge-priority command is used to populate the priority portion
+       of the bridge ID field within outbound BPDUs (the most significant 4
+       bits of the bridge ID). It is also used as part of the decision process
+       when determining the best BPDU between messages received and sent.
+       When running MSTP, this is the bridge priority used for the CIST.
+
+       All values are truncated to multiples of 4096, conforming with
+       IEEE 802.1t and 802.1D-2004.";
+    reference
+      "";
+  }
+
+  typedef stp-max-age-type {
+    type uint32 {
+      range "6..40";
+    }
+    default "20";
+    description
+      "The max-age command indicates how many hops a BPDU can traverse the
+       network starting from the root bridge. The message age field in a BPDU
+       transmitted by the root bridge is initialized to 0. Each other bridge
+       takes the message_age value from BPDUs received on their root port and
+       increment this value by 1. Therefore, the message_age reflects the
+       distance from the root bridge. BPDUs with a message age exceeding
+       max-age are ignored.
+
+       STP uses the max-age value configured in the root bridge.
+       This value is propagated to the other bridges by the BPDUs.
+       Modifying the max-age parameter must be done in the constraints of the
+       following two formulas:
+
+       2 x (Bridge_Forward_Delay - 1.0 seconds) ? Bridge_Max_Age Bridge_Max_Age ?
+       2 x (Bridge_Hello_Time + 1.0 seconds)";
+    reference
+      "";
+  }
+
+  typedef stp-forward-delay-type {
+    type uint32 {
+      range "4..30";
+    }
+    default "15";
+    units "seconds";
+    description
+      "RSTP, as defined in the IEEE 802.1D-2004 standards, normally transitions
+       to the forwarding state by a handshaking mechanism (rapid transition),
+       without any waiting times. If handshaking fails (for example, on shared
+       links, as follows), the system falls back to the timer-based mechanism
+       defined in the original STP (802.1D-1998) standard.
+
+       A shared link is a link with more than two Ethernet bridges (for example,
+       a shared 10/100BaseT segment). The port-type command is used to
+       configure a link as point-to-point or shared.
+
+       For timer-based transitions, the 802.1D-2004 standard defines an internal
+       variable forward-delay, which is used in calculating the default number
+       of seconds that a instance or sub-interface spends in the discarding and
+       learning states when transitioning to the forwarding state.
+       The value of the forward-delay variable depends on the STP operating mode
+       of the instance:
+
+       In RSTP mode, but only when the instance or sub-interface has not fallen
+       back to legacy STP operation, the value configured by the hello-time
+       command is used.
+
+       In all other situations, the value configured by the forward-delay
+       command is used.
+
+       Modifying the forward-delay parameter must be done in the constraints of the
+       following two formulas:
+
+       2 x (Bridge_Forward_Delay - 1.0 seconds) ? Bridge_Max_Age Bridge_Max_Age ?
+       2 x (Bridge_Hello_Time + 1.0 seconds)";
+    reference
+      "";
+  }
+
+  typedef stp-hello-time-type {
+    type uint32 {
+      range "1..10";
+    }
+    default "2";
+    units "seconds";
+    description
+      "The hello-time command configures the Spanning Tree Protocol (STP)
+       hello time for the Virtual Private LAN Service (VPLS) STP instance.
+
+       The seconds parameter defines the default timer value that controls
+       the sending interval between BPDU configuration messages by this bridge,
+       on ports where this bridge assumes the designated role.
+
+       The active hello time for the spanning tree is determined by the root
+       bridge (except when the STP is running in RSTP mode, then the hello time
+       is always taken from the locally configured parameter).
+
+       Modifying the hello-time parameter must be done in the constraints of the
+       following two formulas:
+
+       2 x (Bridge_Forward_Delay - 1.0 seconds) ? Bridge_Max_Age Bridge_Max_Age ?
+       2 x (Bridge_Hello_Time + 1.0 seconds)";
+    reference
+      "";
+  }
+
+  typedef stp-hold-count-type {
+    type uint32 {
+      range "4..20";
+    }
+    default "6";
+    description
+      "The hold-count command configures the peak number of BPDUs that
+       can be transmitted in a period of one second.";
+    reference
+      "";
+  }
+
+  typedef stp-path-cost-type {
+    type uint32 {
+      range "1..65535";
+    }
+    default "16";
+    description
+      "The interface path-cost is used by STP to calculate the path cost
+       to the root bridge. STP defined this as a function of link bandwidth
+       but this configuration is static.";
+    reference
+      "";
+  }
+
+  typedef stp-port-number-type {
+    type uint32 {
+      range "0..2047";
+    }
+    default "0";
+    description
+      "The virtual port number uniquely identifies subinterface within
+       configuration BPDUs. The internal representation is unique to a system
+       and has a reference space much bigger than the 12 bits definable in a
+       configuration BPDU. STP takes the internal representation value and
+       identifies it with its own virtual port number that is unique to every
+       other subinterface defined on the Mac-Vrf. The virtual port number is
+       assigned at the time that the subinterface is added to the Mac-Vrf.
+       The virtual port number can be specified explicitly
+
+       Default port number : 0 - System generated
+       Range 1 to 2047  ";
+    reference
+      "";
+  }
+
+  typedef stp-port-priority-type {
+    type uint32 {
+      range "16..255";
+    }
+    default "128";
+    description
+      "The port-priority command is used to populate the priority portion
+       of the bridge ID field within outbound BPDUs (the most significant 4
+       bits of the bridge ID). It is also used as part of the decision process
+       when determining the best BPDU between messages received and sent.
+       When running MSTP, this is the bridge priority used for the CIST.
+
+       All values are truncated to multiples of 4096, conforming with
+       IEEE 802.1t and 802.1D-2004.";
+    reference
+      "";
+  }
+
+  typedef stp-edge-port-type {
+    type enumeration {
+      enum yes;
+      enum no;
+    }
+    default "no";
+    description
+      "When subInterface is participating in STP it will experience delays,
+       timeouts and onboarding new devices would be difficult. Edge ports
+       are connected to end devices that do not speak STP and hence the
+       interfaces aren't expected to receive xSTP BPDUs. Setting edge port
+       indicates the interface is access edge and STP OPER_EDGE is set to true.
+       This flag dictates that STP transitions to the Forwarding state without
+       waiting for Bpdu with agreement flag set. If STP bpdu is received on
+       Edge port OPER_EDGE is made to false. (without changing configured valued)
+       Now the interface will switch back to the normal mode of timer-based
+       transitioning. User needs to do shut-no-shut manually to put it back to
+       configurated value";
+    reference
+      "";
+  }
+
+  typedef stp-auto-edge-type {
+    type enumeration {
+      enum yes;
+      enum no;
+    }
+    default "no";
+    description
+      "When auto-edge is enabled, STP will send bpdu to determine if there
+       exists a rstp peer. Upon receiving no response, the port is determined
+       as edge-port. Auto-Edge is enabled by default. It dynamically sets the
+       value of OPER_EDGE to true/false based on if stp bpdu is received on
+       the interface. ";
+    reference
+      "";
+  }
+
+  typedef stp-link-type {
+    type enumeration {
+      enum shared;
+      enum pt-pt;
+    }
+    default "pt-pt";
+    description
+      "";
+    reference
+      "";
+  }
+
+  typedef stp-root-guard-type {
+    type enumeration {
+      enum yes;
+      enum no;
+    }
+    default "no";
+    description
+      "";
+    reference
+      "";
+  }
+
+  typedef stp-msti-max-hops-type {
+    type uint32 {
+      range "1..40";
+    }
+    description
+      "Maximum number of hops the BPDU can traverse inside the region.
+       Outside the region, max-age is used.";
+    reference
+      "";
+  }
+
+  typedef stp-msti-region-name-type {
+    type string;
+    description
+      "The MST name defines the name that the operator gives to a region.
+       Together with MST revision and the VLAN to mst-instance mapping,
+       it forms the MST configuration identifier. Two bridges that have
+       the same MST configuration identifier form a region if they exchange
+       BPDUs.";
+    reference
+      "";
+  }
+
+  typedef stp-msti-revision-type {
+    type uint32 {
+      range "1..65535";
+    }
+    description
+      "Multiple Spanning Tree configuration revision. The MST revision together
+       with MST-name and VLAN to MST-instance mapping define the MST
+       configuration identifier. Two bridges that have the same MST
+       configuration identifier form a region if they exchange BPDUs.";
+    reference
+      "";
+  }
+
+  typedef stp-msti-priority-type {
+    type uint32 {
+      range "4..20";
+    }
+    description
+      "Multiple Spanning Tree instance bridge priority the bridge-priority
+       for this specific mst-instance. It follows the same rules as
+       bridge-priority. For the CIST, the bridge-priority is used.";
+    reference
+      "";
+  }
+}

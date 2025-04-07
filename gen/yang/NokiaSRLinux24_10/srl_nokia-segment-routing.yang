@@ -1,0 +1,224 @@
+module srl_nokia-segment-routing {
+  yang-version 1.1;
+  namespace "urn:nokia.com:srlinux:segrt:segment-routing";
+  prefix srl_nokia-sr;
+
+  import srl_nokia-common {
+    prefix srl_nokia-comm;
+  }
+  import srl_nokia-network-instance {
+    prefix srl_nokia-netinst;
+  }
+  import srl_nokia-system {
+    prefix srl_nokia-system;
+  }
+  import srl_nokia-mpls-label-management {
+    prefix srl_nokia-mplslbl;
+  }
+  import srl_nokia-features {
+    prefix srl-feat;
+  }
+
+  organization
+    "Nokia";
+  contact
+    "Nokia SR Linux Support
+     Web: <http://www.nokia.com>";
+  description
+    "This YANG file covers segment routing configuration and state at the network-instance level.";
+
+  revision 2024-10-31 {
+    description
+      "SRLinux 24.10.1";
+  }
+  revision 2023-03-31 {
+    description
+      "SRLinux 23.3.1";
+  }
+  revision 2022-06-30 {
+    description
+      "SRLinux 22.6.1";
+  }
+  revision 2022-03-31 {
+    description
+      "SRLinux 22.3.1";
+  }
+  revision 2021-11-30 {
+    description
+      "SRLinux 21.11.1";
+  }
+  revision 2021-06-30 {
+    description
+      "SRLinux 21.6.1";
+  }
+
+  grouping sid-database {
+    container sid-database {
+      config false;
+      description
+        "Database of all known prefix SIDs, local and remote.";
+      list prefix-sid {
+        description
+          "List of prefix SIDs";
+        key "prefix sid-label-value protocol protocol-instance protocol-multi-topology algorithm";
+        leaf prefix {
+          description
+            "The IPv4 or IPv6 prefix associated with the SID.";
+          type srl_nokia-comm:ip-prefix;
+        }
+        leaf sid-label-value {
+          description
+            "The MPLS label value associated with the SID.";
+          type srl_nokia-comm:mpls-label-non-reserved;
+        }
+        leaf protocol {
+          description
+            "The protocol that provided the prefix SID";
+          type enumeration {
+            enum isis;
+            enum direct;
+          }
+        }
+        leaf protocol-instance {
+          description
+            "The instance ID that provided the prefix SID";
+          type uint8;
+        }
+        leaf protocol-multi-topology {
+          description
+            "The multi-topology ID that provided the prefix SID";
+          type uint16 {
+            range "0..4095";
+          }
+        }
+        leaf algorithm {
+          description
+            "Contains the identifier of the algorithm the router uses to compute the reachability of the prefix to which the Prefix-SID is associated";
+          type uint8;
+        }
+        leaf active {
+          description
+            "When false, the prefix SID is inactive.
+
+             It could be inactive because it is involved in a prefix or SID conflict that occurred between different protocol-instance. It could also be inactive because datapath programming failed.";
+          type boolean;
+        }
+        leaf prefix-conflict {
+          type boolean;
+          description
+            "Reads true when the prefix SID entry is involved in a prefix conflict that has occurred between protocols. This occurs when there are multiple entries in the SID database for the same prefix. All the conflicting entries become inactive except for the one with the smallest sid-index.";
+        }
+        leaf sid-conflict {
+          type boolean;
+          description
+            "Reads true when the prefix SID entry is involved in a SID conflict that has occurred between protocols (after first removing inter-protocol prefix conflict entries). All entries involved in a SID conflict that do not have the absolute lowest 'preference' value become inactive. In the SRL implementation local-prefix-sid entries are considered to have a lower numerical preference than remote prefix-sid entries. If there are still SID conflicts then all the remaining conflicting entries become inactive except for the one with the smallest sid-index.";
+        }
+      }
+    }
+  }
+
+  grouping segment-routing-top {
+    container segment-routing {
+      description
+        "Container with segment routing configuration options";
+      container mpls {
+        presence "Enable segment routing based on the MPLS dataplane";
+        description
+          "Adding this container activates datapath support for SR-MPLS";
+        must '(/srl_nokia-netinst:network-instance[srl_nokia-netinst:name = current()/../../srl_nokia-netinst:name]/srl_nokia-netinst:type = "srl_nokia-netinst:default")' {
+          error-message "Segment routing is supported only in the default network instance";
+        }
+        must 'global-block/label-range' {
+          error-message "SRGB label-range must be defined.";
+        }
+        container global-block {
+          if-feature "srl-feat:label-management";
+          description
+            "Container with SRGB configuration that is applicable to all IGP protocol instances";
+          leaf label-range {
+            mandatory true;
+            type leafref {
+              path "/srl_nokia-system:system/srl_nokia-mplslbl:mpls/srl_nokia-mplslbl:label-ranges/srl_nokia-mplslbl:static/srl_nokia-mplslbl:name";
+            }
+            description
+              "Reference to a static label range";
+            must '((/srl_nokia-system:system/srl_nokia-mplslbl:mpls/srl_nokia-mplslbl:label-ranges/srl_nokia-mplslbl:static[srl_nokia-mplslbl:name = current()]/srl_nokia-mplslbl:shared) = true())' {
+              error-message "Label block for SRGB must be shareable";
+            }
+          }
+          leaf label-range-status {
+            config false;
+            type enumeration {
+              enum available;
+              enum unavailable;
+            }
+            description
+              "Status of the label block.
+               The label block may show as unavailable if there is pending cleanup.";
+          }
+        }
+        list local-prefix-sid {
+          if-feature "srl-feat:segment-routing-shared-sid";
+          max-elements 4;
+          description
+            "List of configured protocol-independent prefix SIDs associated with the network-instance";
+          key "prefix-sid-index";
+          leaf prefix-sid-index {
+            description
+              "An index to enumerate the different prefix sids";
+            type uint8 {
+              range "1..4";
+            }
+          }
+          leaf interface {
+            mandatory true;
+            description
+              "Reference to the subinterface that owns the prefix(es) to be advertised.
+
+               If ipv4-label-index is assigned a value then the primary IPv4 address of the referenced subinterface is advertised as a prefix SID.
+
+               If ipv6-label-index is assigned a value then the primary IPv6 address of the referenced subinterface is advertised as a prefix SID.";
+            type srl_nokia-comm:subinterface-all;
+            must "(current() = 'system0.0') or (starts-with(current(), 'lo'))" {
+              error-message "The local prefix SID can only be associated with the system0.0 or loopback subinterface";
+            }
+          }
+          leaf ipv4-label-index {
+            description
+              "Label index to add to SRGB base.";
+            type uint32 {
+              range "0..1048575";
+            }
+            must '(current() <= ((/srl_nokia-system:system/srl_nokia-mplslbl:mpls/srl_nokia-mplslbl:label-ranges/srl_nokia-mplslbl:static[srl_nokia-mplslbl:name=current()/../../global-block/label-range]/srl_nokia-mplslbl:end-label) - (/srl_nokia-system:system/srl_nokia-mplslbl:mpls/srl_nokia-mplslbl:label-ranges/srl_nokia-mplslbl:static[srl_nokia-mplslbl:name=current()/../../global-block/label-range]/srl_nokia-mplslbl:start-label)))' {
+              error-message "Label index is out of global label block's range";
+            }
+          }
+          leaf ipv6-label-index {
+            description
+              "Label index to add to SRGB base.";
+            type uint32 {
+              range "0..1048575";
+            }
+            must '(current() <= ((/srl_nokia-system:system/srl_nokia-mplslbl:mpls/srl_nokia-mplslbl:label-ranges/srl_nokia-mplslbl:static[srl_nokia-mplslbl:name=current()/../../global-block/label-range]/srl_nokia-mplslbl:end-label) - (/srl_nokia-system:system/srl_nokia-mplslbl:mpls/srl_nokia-mplslbl:label-ranges/srl_nokia-mplslbl:static[srl_nokia-mplslbl:name=current()/../../global-block/label-range]/srl_nokia-mplslbl:start-label)))' {
+              error-message "Label index is out of global label block's range";
+            }
+          }
+          leaf node-sid {
+            description
+              "If set, the prefix SID(s) identity the router as a whole.";
+            type boolean;
+            default "true";
+            must "not(. = false() and ../interface = 'system0.0')";
+          }
+        }
+        uses sid-database;
+      }
+    }
+  }
+
+  augment "/srl_nokia-netinst:network-instance" {
+    uses segment-routing-top {
+      if-feature "srl-feat:segment-routing";
+    }
+  }
+}
