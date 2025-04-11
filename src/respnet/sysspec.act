@@ -1,0 +1,6 @@
+import respnet.devices.CiscoIosXr_24_1_ncs55a1
+import respnet.devices.JuniperCRPD_23_4R1_9
+device_types = {
+    "CiscoIosXr_24_1_ncs55a1": respnet.devices.CiscoIosXr_24_1_ncs55a1.schema_namespaces,
+    "JuniperCRPD_23_4R1_9": respnet.devices.JuniperCRPD_23_4R1_9.schema_namespaces,
+}

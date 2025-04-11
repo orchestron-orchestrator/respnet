@@ -20,6 +20,10 @@ jobs:
             ~/.cache/acton
             out
           key: acton-${{ hashFiles('**/build.act.json') }}-${{ steps.setup-acton.outputs.version }}
+      - name: "Ensure generated code is up to date"
+        run: |
+          make gen
+          git diff --exit-code
       - run: acton build
       - run: acton test
       - run: acton test perf

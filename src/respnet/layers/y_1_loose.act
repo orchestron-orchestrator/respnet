@@ -8,25 +8,25 @@ import yang.gdata
 
 
 mut def from_json_netinfra_inter__netinfra__router__name(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__router__id(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint32", val)
+    return yang.gdata.Leaf('uint32', val)
 
 mut def from_json_netinfra_inter__netinfra__router__role(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__router__mock(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("enumeration", val)
+    return yang.gdata.Leaf('enumeration', val)
 
 mut def from_json_netinfra_inter__netinfra__router__base_config__asn(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint32", val)
+    return yang.gdata.Leaf('uint32', val)
 
 mut def from_json_netinfra_inter__netinfra__router__base_config__ipv4_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__router__base_config__ipv6_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 class netinfra_inter__netinfra__router__base_config(yang.adata.MNode):
     asn: ?int
@@ -34,7 +34,7 @@ class netinfra_inter__netinfra__router__base_config(yang.adata.MNode):
     ipv6_address: ?str
 
     mut def __init__(self, asn: ?int, ipv4_address: ?str, ipv6_address: ?str):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.asn = asn
         self.ipv4_address = ipv4_address
         self.ipv6_address = ipv6_address
@@ -42,12 +42,12 @@ class netinfra_inter__netinfra__router__base_config(yang.adata.MNode):
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _asn = self.asn
-        _ipv4_address = self.ipv4_address
-        _ipv6_address = self.ipv6_address
         if _asn is not None:
             children['asn'] = yang.gdata.Leaf('uint32', _asn)
+        _ipv4_address = self.ipv4_address
         if _ipv4_address is not None:
             children['ipv4-address'] = yang.gdata.Leaf('string', _ipv4_address)
+        _ipv6_address = self.ipv6_address
         if _ipv6_address is not None:
             children['ipv6-address'] = yang.gdata.Leaf('string', _ipv6_address)
         return yang.gdata.Container(children)
@@ -55,17 +55,17 @@ class netinfra_inter__netinfra__router__base_config(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> netinfra_inter__netinfra__router__base_config:
         if n != None:
-            return netinfra_inter__netinfra__router__base_config(asn=n.get_opt_int("asn"), ipv4_address=n.get_opt_str("ipv4-address"), ipv6_address=n.get_opt_str("ipv6-address"))
-        raise ValueError("Missing required subtree netinfra_inter__netinfra__router__base_config")
+            return netinfra_inter__netinfra__router__base_config(asn=n.get_opt_int('asn'), ipv4_address=n.get_opt_str('ipv4-address'), ipv6_address=n.get_opt_str('ipv6-address'))
+        raise ValueError('Missing required subtree netinfra_inter__netinfra__router__base_config')
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> netinfra_inter__netinfra__router__base_config:
         if n != None:
-            return netinfra_inter__netinfra__router__base_config(asn=yang.gdata.from_xml_opt_int(n, "asn"), ipv4_address=yang.gdata.from_xml_opt_str(n, "ipv4-address"), ipv6_address=yang.gdata.from_xml_opt_str(n, "ipv6-address"))
-        raise ValueError("Missing required subtree netinfra_inter__netinfra__router__base_config")
+            return netinfra_inter__netinfra__router__base_config(asn=yang.gdata.from_xml_opt_int(n, 'asn'), ipv4_address=yang.gdata.from_xml_opt_str(n, 'ipv4-address'), ipv6_address=yang.gdata.from_xml_opt_str(n, 'ipv6-address'))
+        raise ValueError('Missing required subtree netinfra_inter__netinfra__router__base_config')
 
 
-mut def from_json_path_netinfra_inter__netinfra__router__base_config(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra__router__base_config(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     # path handling
     if len(path) > 0:
         point = path[0]
@@ -118,7 +118,7 @@ mut def to_json_netinfra_inter__netinfra__router__base_config(n: yang.gdata.Node
     return children
 
 mut def from_json_netinfra_inter__netinfra__router__l3vpn_vrf__vpn_id(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__router__l3vpn_vrf__ebgp_customer_address(val: list[value]) -> yang.gdata.LeafList:
     return yang.gdata.LeafList(val)
@@ -128,33 +128,30 @@ class netinfra_inter__netinfra__router__l3vpn_vrf_entry(yang.adata.MNode):
     ebgp_customer_address: list[str]
 
     mut def __init__(self, vpn_id: str, ebgp_customer_address: ?list[str]=None):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.vpn_id = vpn_id
-        if ebgp_customer_address is not None:
-            self.ebgp_customer_address = ebgp_customer_address
-        else:
-            self.ebgp_customer_address = []
+        self.ebgp_customer_address = ebgp_customer_address if ebgp_customer_address is not None else []
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _vpn_id = self.vpn_id
         if _vpn_id is not None:
             children['vpn-id'] = yang.gdata.Leaf('string', _vpn_id)
-        children['ebgp-customer-address'] = yang.gdata.LeafList(self.ebgp_customer_address)
+        children['ebgp_customer_address'] = yang.gdata.LeafList(self.ebgp_customer_address)
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.vpn_id)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__router__l3vpn_vrf_entry:
-        return netinfra_inter__netinfra__router__l3vpn_vrf_entry(vpn_id=n.get_str("vpn-id"), ebgp_customer_address=n.get_opt_strs("ebgp-customer-address"))
+        return netinfra_inter__netinfra__router__l3vpn_vrf_entry(vpn_id=n.get_str('vpn-id'), ebgp_customer_address=n.get_opt_strs('ebgp-customer-address'))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__router__l3vpn_vrf_entry:
-        return netinfra_inter__netinfra__router__l3vpn_vrf_entry(vpn_id=yang.gdata.from_xml_str(n, "vpn-id"), ebgp_customer_address=yang.gdata.from_xml_opt_strs(n, "ebgp-customer-address"))
+        return netinfra_inter__netinfra__router__l3vpn_vrf_entry(vpn_id=yang.gdata.from_xml_str(n, 'vpn-id'), ebgp_customer_address=yang.gdata.from_xml_opt_strs(n, 'ebgp-customer-address'))
 
 class netinfra_inter__netinfra__router__l3vpn_vrf(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__router__l3vpn_vrf_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self._name = 'l3vpn-vrf'
         self.elements = elements
 
@@ -195,7 +192,7 @@ class netinfra_inter__netinfra__router__l3vpn_vrf(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_netinfra_inter__netinfra__router__l3vpn_vrf_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra__router__l3vpn_vrf_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -218,7 +215,7 @@ mut def from_json_path_netinfra_inter__netinfra__router__l3vpn_vrf_element(jd: v
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_netinfra_inter__netinfra__router__l3vpn_vrf(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_netinfra_inter__netinfra__router__l3vpn_vrf(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -253,7 +250,7 @@ mut def from_json_netinfra_inter__netinfra__router__l3vpn_vrf_element(jd: dict[s
     child_ebgp_customer_address = child_ebgp_customer_address_full if child_ebgp_customer_address_full is not None else jd.get('ebgp-customer-address')
     if child_ebgp_customer_address is not None and isinstance(child_ebgp_customer_address, list):
         children['ebgp-customer-address'] = from_json_netinfra_inter__netinfra__router__l3vpn_vrf__ebgp_customer_address(child_ebgp_customer_address)
-    return yang.gdata.Container(children, [str(child_vpn_id if child_vpn_id is not None else "")])
+    return yang.gdata.Container(children, [str(child_vpn_id if child_vpn_id is not None else '')])
 
 mut def from_json_netinfra_inter__netinfra__router__l3vpn_vrf(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -289,55 +286,48 @@ class netinfra_inter__netinfra__router_entry(yang.adata.MNode):
     l3vpn_vrf: netinfra_inter__netinfra__router__l3vpn_vrf
 
     mut def __init__(self, name: str, id: ?int, role: ?str, mock: ?str, base_config: ?netinfra_inter__netinfra__router__base_config=None, l3vpn_vrf: list[netinfra_inter__netinfra__router__l3vpn_vrf_entry]=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.name = name
         self.id = id
         self.role = role
         self.mock = mock
-        if base_config is not None:
-            self.base_config = base_config
-        else:
-            self.base_config = netinfra_inter__netinfra__router__base_config()
-        self_base_config = self.base_config
-        if self_base_config is not None:
-            self_base_config._parent = self
+        self.base_config = base_config if base_config is not None else netinfra_inter__netinfra__router__base_config()
         self.l3vpn_vrf = netinfra_inter__netinfra__router__l3vpn_vrf(elements=l3vpn_vrf)
-        self.l3vpn_vrf._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
-        _id = self.id
-        _role = self.role
-        _mock = self.mock
-        _base_config = self.base_config
-        _l3vpn_vrf = self.l3vpn_vrf
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
+        _id = self.id
         if _id is not None:
             children['id'] = yang.gdata.Leaf('uint32', _id)
+        _role = self.role
         if _role is not None:
             children['role'] = yang.gdata.Leaf('string', _role)
+        _mock = self.mock
         if _mock is not None:
             children['mock'] = yang.gdata.Leaf('enumeration', _mock)
+        _base_config = self.base_config
         if _base_config is not None:
             children['base-config'] = _base_config.to_gdata()
+        _l3vpn_vrf = self.l3vpn_vrf
         if _l3vpn_vrf is not None:
             children['l3vpn-vrf'] = _l3vpn_vrf.to_gdata()
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.name)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__router_entry:
-        return netinfra_inter__netinfra__router_entry(name=n.get_str("name"), id=n.get_opt_int("id"), role=n.get_opt_str("role"), mock=n.get_opt_str("mock"), base_config=netinfra_inter__netinfra__router__base_config.from_gdata(n.get_opt_container("base-config")), l3vpn_vrf=netinfra_inter__netinfra__router__l3vpn_vrf.from_gdata(n.get_opt_list("l3vpn-vrf")))
+        return netinfra_inter__netinfra__router_entry(name=n.get_str('name'), id=n.get_opt_int('id'), role=n.get_opt_str('role'), mock=n.get_opt_str('mock'), base_config=netinfra_inter__netinfra__router__base_config.from_gdata(n.get_opt_container('base-config')), l3vpn_vrf=netinfra_inter__netinfra__router__l3vpn_vrf.from_gdata(n.get_opt_list('l3vpn-vrf')))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__router_entry:
-        return netinfra_inter__netinfra__router_entry(name=yang.gdata.from_xml_str(n, "name"), id=yang.gdata.from_xml_opt_int(n, "id"), role=yang.gdata.from_xml_opt_str(n, "role"), mock=yang.gdata.from_xml_opt_str(n, "mock"), base_config=netinfra_inter__netinfra__router__base_config.from_xml(yang.gdata.get_xml_opt_child(n, "base-config")), l3vpn_vrf=netinfra_inter__netinfra__router__l3vpn_vrf.from_xml(yang.gdata.get_xml_children(n, "l3vpn-vrf")))
+        return netinfra_inter__netinfra__router_entry(name=yang.gdata.from_xml_str(n, 'name'), id=yang.gdata.from_xml_opt_int(n, 'id'), role=yang.gdata.from_xml_opt_str(n, 'role'), mock=yang.gdata.from_xml_opt_str(n, 'mock'), base_config=netinfra_inter__netinfra__router__base_config.from_xml(yang.gdata.get_xml_opt_child(n, 'base-config')), l3vpn_vrf=netinfra_inter__netinfra__router__l3vpn_vrf.from_xml(yang.gdata.get_xml_children(n, 'l3vpn-vrf')))
 
 class netinfra_inter__netinfra__router(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__router_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self._name = 'router'
         self.elements = elements
 
@@ -378,7 +368,7 @@ class netinfra_inter__netinfra__router(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_netinfra_inter__netinfra__router_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra__router_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -409,7 +399,7 @@ mut def from_json_path_netinfra_inter__netinfra__router_element(jd: value, path:
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_netinfra_inter__netinfra__router(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_netinfra_inter__netinfra__router(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -460,7 +450,7 @@ mut def from_json_netinfra_inter__netinfra__router_element(jd: dict[str, ?value]
     child_l3vpn_vrf = child_l3vpn_vrf_full if child_l3vpn_vrf_full is not None else jd.get('l3vpn-vrf')
     if child_l3vpn_vrf is not None and isinstance(child_l3vpn_vrf, list):
         children['l3vpn-vrf'] = from_json_netinfra_inter__netinfra__router__l3vpn_vrf(child_l3vpn_vrf)
-    return yang.gdata.Container(children, [str(child_name if child_name is not None else "")])
+    return yang.gdata.Container(children, [str(child_name if child_name is not None else '')])
 
 mut def from_json_netinfra_inter__netinfra__router(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -504,16 +494,16 @@ mut def to_json_netinfra_inter__netinfra__router(n: yang.gdata.List) -> list[dic
     return elements
 
 mut def from_json_netinfra_inter__netinfra__backbone_link__left_router(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__backbone_link__left_interface(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__backbone_link__right_router(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__backbone_link__right_interface(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 class netinfra_inter__netinfra__backbone_link_entry(yang.adata.MNode):
     left_router: str
@@ -522,7 +512,7 @@ class netinfra_inter__netinfra__backbone_link_entry(yang.adata.MNode):
     right_interface: str
 
     mut def __init__(self, left_router: str, left_interface: str, right_router: str, right_interface: str):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.left_router = left_router
         self.left_interface = left_interface
         self.right_router = right_router
@@ -531,31 +521,31 @@ class netinfra_inter__netinfra__backbone_link_entry(yang.adata.MNode):
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _left_router = self.left_router
-        _left_interface = self.left_interface
-        _right_router = self.right_router
-        _right_interface = self.right_interface
         if _left_router is not None:
             children['left-router'] = yang.gdata.Leaf('string', _left_router)
+        _left_interface = self.left_interface
         if _left_interface is not None:
             children['left-interface'] = yang.gdata.Leaf('string', _left_interface)
+        _right_router = self.right_router
         if _right_router is not None:
             children['right-router'] = yang.gdata.Leaf('string', _right_router)
+        _right_interface = self.right_interface
         if _right_interface is not None:
             children['right-interface'] = yang.gdata.Leaf('string', _right_interface)
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.left_router), yang.gdata.yang_str(self.left_interface), yang.gdata.yang_str(self.right_router), yang.gdata.yang_str(self.right_interface)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__backbone_link_entry:
-        return netinfra_inter__netinfra__backbone_link_entry(left_router=n.get_str("left-router"), left_interface=n.get_str("left-interface"), right_router=n.get_str("right-router"), right_interface=n.get_str("right-interface"))
+        return netinfra_inter__netinfra__backbone_link_entry(left_router=n.get_str('left-router'), left_interface=n.get_str('left-interface'), right_router=n.get_str('right-router'), right_interface=n.get_str('right-interface'))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__backbone_link_entry:
-        return netinfra_inter__netinfra__backbone_link_entry(left_router=yang.gdata.from_xml_str(n, "left-router"), left_interface=yang.gdata.from_xml_str(n, "left-interface"), right_router=yang.gdata.from_xml_str(n, "right-router"), right_interface=yang.gdata.from_xml_str(n, "right-interface"))
+        return netinfra_inter__netinfra__backbone_link_entry(left_router=yang.gdata.from_xml_str(n, 'left-router'), left_interface=yang.gdata.from_xml_str(n, 'left-interface'), right_router=yang.gdata.from_xml_str(n, 'right-router'), right_interface=yang.gdata.from_xml_str(n, 'right-interface'))
 
 class netinfra_inter__netinfra__backbone_link(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__backbone_link_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self._name = 'backbone-link'
         self.elements = elements
 
@@ -605,7 +595,7 @@ class netinfra_inter__netinfra__backbone_link(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_netinfra_inter__netinfra__backbone_link_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra__backbone_link_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -626,7 +616,7 @@ mut def from_json_path_netinfra_inter__netinfra__backbone_link_element(jd: value
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_netinfra_inter__netinfra__backbone_link(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_netinfra_inter__netinfra__backbone_link(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -669,7 +659,7 @@ mut def from_json_netinfra_inter__netinfra__backbone_link_element(jd: dict[str, 
     child_right_interface = child_right_interface_full if child_right_interface_full is not None else jd.get('right-interface')
     if child_right_interface is not None:
         children['right-interface'] = from_json_netinfra_inter__netinfra__backbone_link__right_interface(child_right_interface)
-    return yang.gdata.Container(children, [str(child_left_router if child_left_router is not None else ""), str(child_left_interface if child_left_interface is not None else ""), str(child_right_router if child_right_router is not None else ""), str(child_right_interface if child_right_interface is not None else "")])
+    return yang.gdata.Container(children, [str(child_left_router if child_left_router is not None else ''), str(child_left_interface if child_left_interface is not None else ''), str(child_right_router if child_right_router is not None else ''), str(child_right_interface if child_right_interface is not None else '')])
 
 mut def from_json_netinfra_inter__netinfra__backbone_link(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -705,48 +695,48 @@ mut def to_json_netinfra_inter__netinfra__backbone_link(n: yang.gdata.List) -> l
     return elements
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__asn(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint32", val)
+    return yang.gdata.Leaf('uint32', val)
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__authentication_key(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__name(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__ipv4_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 class netinfra_inter__netinfra__ibgp_fullmesh__router_entry(yang.adata.MNode):
     name: str
     ipv4_address: ?str
 
     mut def __init__(self, name: str, ipv4_address: ?str):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.name = name
         self.ipv4_address = ipv4_address
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
-        _ipv4_address = self.ipv4_address
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
+        _ipv4_address = self.ipv4_address
         if _ipv4_address is not None:
             children['ipv4-address'] = yang.gdata.Leaf('string', _ipv4_address)
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.name)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh__router_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=n.get_str("name"), ipv4_address=n.get_opt_str("ipv4-address"))
+        return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=n.get_str('name'), ipv4_address=n.get_opt_str('ipv4-address'))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__ibgp_fullmesh__router_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=yang.gdata.from_xml_str(n, "name"), ipv4_address=yang.gdata.from_xml_opt_str(n, "ipv4-address"))
+        return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=yang.gdata.from_xml_str(n, 'name'), ipv4_address=yang.gdata.from_xml_opt_str(n, 'ipv4-address'))
 
 class netinfra_inter__netinfra__ibgp_fullmesh__router(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self._name = 'router'
         self.elements = elements
 
@@ -787,7 +777,7 @@ class netinfra_inter__netinfra__ibgp_fullmesh__router(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -810,7 +800,7 @@ mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router_element(j
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh__router(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -845,7 +835,7 @@ mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router_element(jd: di
     child_ipv4_address = child_ipv4_address_full if child_ipv4_address_full is not None else jd.get('ipv4-address')
     if child_ipv4_address is not None:
         children['ipv4-address'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router__ipv4_address(child_ipv4_address)
-    return yang.gdata.Container(children, [str(child_name if child_name is not None else "")])
+    return yang.gdata.Container(children, [str(child_name if child_name is not None else '')])
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh__router(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -878,37 +868,36 @@ class netinfra_inter__netinfra__ibgp_fullmesh_entry(yang.adata.MNode):
     router: netinfra_inter__netinfra__ibgp_fullmesh__router
 
     mut def __init__(self, asn: int, authentication_key: ?str, router: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.asn = asn
         self.authentication_key = authentication_key
         self.router = netinfra_inter__netinfra__ibgp_fullmesh__router(elements=router)
-        self.router._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _asn = self.asn
-        _authentication_key = self.authentication_key
-        _router = self.router
         if _asn is not None:
             children['asn'] = yang.gdata.Leaf('uint32', _asn)
+        _authentication_key = self.authentication_key
         if _authentication_key is not None:
             children['authentication-key'] = yang.gdata.Leaf('string', _authentication_key)
+        _router = self.router
         if _router is not None:
             children['router'] = _router.to_gdata()
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.asn)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=n.get_int("asn"), authentication_key=n.get_opt_str("authentication-key"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list("router")))
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=n.get_int('asn'), authentication_key=n.get_opt_str('authentication-key'), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list('router')))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
-        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=yang.gdata.from_xml_int(n, "asn"), authentication_key=yang.gdata.from_xml_opt_str(n, "authentication-key"), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, "router")))
+        return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=yang.gdata.from_xml_int(n, 'asn'), authentication_key=yang.gdata.from_xml_opt_str(n, 'authentication-key'), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_xml(yang.gdata.get_xml_children(n, 'router')))
 
 class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self._name = 'ibgp-fullmesh'
         self.elements = elements
 
@@ -949,7 +938,7 @@ class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -974,7 +963,7 @@ mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: value
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_netinfra_inter__netinfra__ibgp_fullmesh(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -1013,7 +1002,7 @@ mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh_element(jd: dict[str, 
     child_router = child_router_full if child_router_full is not None else jd.get('router')
     if child_router is not None and isinstance(child_router, list):
         children['router'] = from_json_netinfra_inter__netinfra__ibgp_fullmesh__router(child_router)
-    return yang.gdata.Container(children, [str(child_asn if child_asn is not None else "")])
+    return yang.gdata.Container(children, [str(child_asn if child_asn is not None else '')])
 
 mut def from_json_netinfra_inter__netinfra__ibgp_fullmesh(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -1050,23 +1039,20 @@ class netinfra_inter__netinfra(yang.adata.MNode):
     ibgp_fullmesh: netinfra_inter__netinfra__ibgp_fullmesh
 
     mut def __init__(self, router: list[netinfra_inter__netinfra__router_entry]=[], backbone_link: list[netinfra_inter__netinfra__backbone_link_entry]=[], ibgp_fullmesh: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]=[]):
-        self._ns = "http://example.com/netinfra-inter"
+        self._ns = 'http://example.com/netinfra-inter'
         self.router = netinfra_inter__netinfra__router(elements=router)
-        self.router._parent = self
         self.backbone_link = netinfra_inter__netinfra__backbone_link(elements=backbone_link)
-        self.backbone_link._parent = self
         self.ibgp_fullmesh = netinfra_inter__netinfra__ibgp_fullmesh(elements=ibgp_fullmesh)
-        self.ibgp_fullmesh._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _router = self.router
-        _backbone_link = self.backbone_link
-        _ibgp_fullmesh = self.ibgp_fullmesh
         if _router is not None:
             children['router'] = _router.to_gdata()
+        _backbone_link = self.backbone_link
         if _backbone_link is not None:
             children['backbone-link'] = _backbone_link.to_gdata()
+        _ibgp_fullmesh = self.ibgp_fullmesh
         if _ibgp_fullmesh is not None:
             children['ibgp-fullmesh'] = _ibgp_fullmesh.to_gdata()
         return yang.gdata.Container(children, ns='http://example.com/netinfra-inter')
@@ -1074,17 +1060,17 @@ class netinfra_inter__netinfra(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> netinfra_inter__netinfra:
         if n != None:
-            return netinfra_inter__netinfra(router=netinfra_inter__netinfra__router.from_gdata(n.get_opt_list("router")), backbone_link=netinfra_inter__netinfra__backbone_link.from_gdata(n.get_opt_list("backbone-link")), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_gdata(n.get_opt_list("ibgp-fullmesh")))
+            return netinfra_inter__netinfra(router=netinfra_inter__netinfra__router.from_gdata(n.get_opt_list('router')), backbone_link=netinfra_inter__netinfra__backbone_link.from_gdata(n.get_opt_list('backbone-link')), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_gdata(n.get_opt_list('ibgp-fullmesh')))
         return netinfra_inter__netinfra()
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> netinfra_inter__netinfra:
         if n != None:
-            return netinfra_inter__netinfra(router=netinfra_inter__netinfra__router.from_xml(yang.gdata.get_xml_children(n, "router")), backbone_link=netinfra_inter__netinfra__backbone_link.from_xml(yang.gdata.get_xml_children(n, "backbone-link")), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_xml(yang.gdata.get_xml_children(n, "ibgp-fullmesh")))
+            return netinfra_inter__netinfra(router=netinfra_inter__netinfra__router.from_xml(yang.gdata.get_xml_children(n, 'router')), backbone_link=netinfra_inter__netinfra__backbone_link.from_xml(yang.gdata.get_xml_children(n, 'backbone-link')), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_xml(yang.gdata.get_xml_children(n, 'ibgp-fullmesh')))
         return netinfra_inter__netinfra()
 
 
-mut def from_json_path_netinfra_inter__netinfra(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_netinfra_inter__netinfra(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     # path handling
     if len(path) > 0:
         point = path[0]
@@ -1140,40 +1126,40 @@ mut def to_json_netinfra_inter__netinfra(n: yang.gdata.Node) -> dict[str, ?value
     return children
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__name(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__description(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__device(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__interface(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__site_network_access(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__provider_ipv4_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__customer_ipv4_address(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("string", val)
+    return yang.gdata.Leaf('string', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__ipv4_prefix_length(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint8", val)
+    return yang.gdata.Leaf('uint8', val)
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp__as_number(val: value) -> yang.gdata.Leaf:
-    return yang.gdata.Leaf("uint32", val)
+    return yang.gdata.Leaf('uint32', val)
 
 class l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.adata.MNode):
     as_number: ?int
 
     mut def __init__(self, as_number: ?int):
-        self._ns = "http://example.com/l3vpn-inter"
+        self._ns = 'http://example.com/l3vpn-inter'
         self.as_number = as_number
 
     mut def to_gdata(self) -> yang.gdata.Node:
@@ -1186,17 +1172,17 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp:
         if n != None:
-            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=n.get_opt_int("as-number"))
+            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=n.get_opt_int('as-number'))
         return None
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp:
         if n != None:
-            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=yang.gdata.from_xml_opt_int(n, "as-number"))
+            return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=yang.gdata.from_xml_opt_int(n, 'as-number'))
         return None
 
 
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     # path handling
     if len(path) > 0:
         point = path[0]
@@ -1239,7 +1225,7 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint_entry(yang.adata.MNode):
     bgp: ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp
 
     mut def __init__(self, device: str, interface: str, site: ?str, site_network_access: ?str, provider_ipv4_address: ?str, customer_ipv4_address: ?str, ipv4_prefix_length: ?int, bgp: ?l3vpn_inter__l3vpns__l3vpn__endpoint__bgp=None):
-        self._ns = "http://example.com/l3vpn-inter"
+        self._ns = 'http://example.com/l3vpn-inter'
         self.device = device
         self.interface = interface
         self.site = site
@@ -1248,9 +1234,6 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint_entry(yang.adata.MNode):
         self.customer_ipv4_address = customer_ipv4_address
         self.ipv4_prefix_length = ipv4_prefix_length
         self.bgp = bgp
-        self_bgp = self.bgp
-        if self_bgp is not None:
-            self_bgp._parent = self
 
     mut def create_bgp(self, as_number):
         res = l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number)
@@ -1260,43 +1243,43 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint_entry(yang.adata.MNode):
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _device = self.device
-        _interface = self.interface
-        _site = self.site
-        _site_network_access = self.site_network_access
-        _provider_ipv4_address = self.provider_ipv4_address
-        _customer_ipv4_address = self.customer_ipv4_address
-        _ipv4_prefix_length = self.ipv4_prefix_length
-        _bgp = self.bgp
         if _device is not None:
             children['device'] = yang.gdata.Leaf('string', _device)
+        _interface = self.interface
         if _interface is not None:
             children['interface'] = yang.gdata.Leaf('string', _interface)
+        _site = self.site
         if _site is not None:
             children['site'] = yang.gdata.Leaf('string', _site)
+        _site_network_access = self.site_network_access
         if _site_network_access is not None:
             children['site-network-access'] = yang.gdata.Leaf('string', _site_network_access)
+        _provider_ipv4_address = self.provider_ipv4_address
         if _provider_ipv4_address is not None:
             children['provider-ipv4-address'] = yang.gdata.Leaf('string', _provider_ipv4_address)
+        _customer_ipv4_address = self.customer_ipv4_address
         if _customer_ipv4_address is not None:
             children['customer-ipv4-address'] = yang.gdata.Leaf('string', _customer_ipv4_address)
+        _ipv4_prefix_length = self.ipv4_prefix_length
         if _ipv4_prefix_length is not None:
             children['ipv4-prefix-length'] = yang.gdata.Leaf('uint8', _ipv4_prefix_length)
+        _bgp = self.bgp
         if _bgp is not None:
             children['bgp'] = _bgp.to_gdata()
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.device), yang.gdata.yang_str(self.interface)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
-        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=n.get_str("device"), interface=n.get_str("interface"), site=n.get_opt_str("site"), site_network_access=n.get_opt_str("site-network-access"), provider_ipv4_address=n.get_opt_str("provider-ipv4-address"), customer_ipv4_address=n.get_opt_str("customer-ipv4-address"), ipv4_prefix_length=n.get_opt_int("ipv4-prefix-length"), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_gdata(n.get_opt_container("bgp")))
+        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=n.get_str('device'), interface=n.get_str('interface'), site=n.get_opt_str('site'), site_network_access=n.get_opt_str('site-network-access'), provider_ipv4_address=n.get_opt_str('provider-ipv4-address'), customer_ipv4_address=n.get_opt_str('customer-ipv4-address'), ipv4_prefix_length=n.get_opt_int('ipv4-prefix-length'), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_gdata(n.get_opt_container('bgp')))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
-        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=yang.gdata.from_xml_str(n, "device"), interface=yang.gdata.from_xml_str(n, "interface"), site=yang.gdata.from_xml_opt_str(n, "site"), site_network_access=yang.gdata.from_xml_opt_str(n, "site-network-access"), provider_ipv4_address=yang.gdata.from_xml_opt_str(n, "provider-ipv4-address"), customer_ipv4_address=yang.gdata.from_xml_opt_str(n, "customer-ipv4-address"), ipv4_prefix_length=yang.gdata.from_xml_opt_int(n, "ipv4-prefix-length"), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_xml(yang.gdata.get_xml_opt_child(n, "bgp")))
+        return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=yang.gdata.from_xml_str(n, 'device'), interface=yang.gdata.from_xml_str(n, 'interface'), site=yang.gdata.from_xml_opt_str(n, 'site'), site_network_access=yang.gdata.from_xml_opt_str(n, 'site-network-access'), provider_ipv4_address=yang.gdata.from_xml_opt_str(n, 'provider-ipv4-address'), customer_ipv4_address=yang.gdata.from_xml_opt_str(n, 'customer-ipv4-address'), ipv4_prefix_length=yang.gdata.from_xml_opt_int(n, 'ipv4-prefix-length'), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_xml(yang.gdata.get_xml_opt_child(n, 'bgp')))
 
 class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
     elements: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/l3vpn-inter"
+        self._ns = 'http://example.com/l3vpn-inter'
         self._name = 'endpoint'
         self.elements = elements
 
@@ -1340,7 +1323,7 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -1373,7 +1356,7 @@ mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: value, p
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -1432,7 +1415,7 @@ mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint_element(jd: dict[str, ?va
     child_bgp = child_bgp_full if child_bgp_full is not None else jd.get('bgp')
     if child_bgp is not None and isinstance(child_bgp, dict):
         children['bgp'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(child_bgp)
-    return yang.gdata.Container(children, [str(child_device if child_device is not None else ""), str(child_interface if child_interface is not None else "")])
+    return yang.gdata.Container(children, [str(child_device if child_device is not None else ''), str(child_interface if child_interface is not None else '')])
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn__endpoint(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -1489,37 +1472,36 @@ class l3vpn_inter__l3vpns__l3vpn_entry(yang.adata.MNode):
     endpoint: l3vpn_inter__l3vpns__l3vpn__endpoint
 
     mut def __init__(self, name: str, description: ?str, endpoint: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]=[]):
-        self._ns = "http://example.com/l3vpn-inter"
+        self._ns = 'http://example.com/l3vpn-inter'
         self.name = name
         self.description = description
         self.endpoint = l3vpn_inter__l3vpns__l3vpn__endpoint(elements=endpoint)
-        self.endpoint._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _name = self.name
-        _description = self.description
-        _endpoint = self.endpoint
         if _name is not None:
             children['name'] = yang.gdata.Leaf('string', _name)
+        _description = self.description
         if _description is not None:
             children['description'] = yang.gdata.Leaf('string', _description)
+        _endpoint = self.endpoint
         if _endpoint is not None:
             children['endpoint'] = _endpoint.to_gdata()
         return yang.gdata.Container(children, [yang.gdata.yang_str(self.name)])
 
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
-        return l3vpn_inter__l3vpns__l3vpn_entry(name=n.get_str("name"), description=n.get_opt_str("description"), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_gdata(n.get_opt_list("endpoint")))
+        return l3vpn_inter__l3vpns__l3vpn_entry(name=n.get_str('name'), description=n.get_opt_str('description'), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_gdata(n.get_opt_list('endpoint')))
 
     @staticmethod
     mut def from_xml(n: xml.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
-        return l3vpn_inter__l3vpns__l3vpn_entry(name=yang.gdata.from_xml_str(n, "name"), description=yang.gdata.from_xml_opt_str(n, "description"), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_xml(yang.gdata.get_xml_children(n, "endpoint")))
+        return l3vpn_inter__l3vpns__l3vpn_entry(name=yang.gdata.from_xml_str(n, 'name'), description=yang.gdata.from_xml_opt_str(n, 'description'), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_xml(yang.gdata.get_xml_children(n, 'endpoint')))
 
 class l3vpn_inter__l3vpns__l3vpn(yang.adata.MNode):
     elements: list[l3vpn_inter__l3vpns__l3vpn_entry]
     mut def __init__(self, elements=[]):
-        self._ns = "http://example.com/l3vpn-inter"
+        self._ns = 'http://example.com/l3vpn-inter'
         self._name = 'l3vpn'
         self.elements = elements
 
@@ -1560,7 +1542,7 @@ class l3vpn_inter__l3vpns__l3vpn(yang.adata.MNode):
         return res
 
 
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -1585,7 +1567,7 @@ mut def from_json_path_l3vpn_inter__l3vpns__l3vpn_element(jd: value, path: list[
         return yang.gdata.Container(children, keys)
     raise ValueError("unreachable - no keys to list element")
 
-mut def from_json_path_l3vpn_inter__l3vpns__l3vpn(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.List:
+mut def from_json_path_l3vpn_inter__l3vpns__l3vpn(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.List:
     if len(path) == 1:
         point = path[0]
         keys = point.split(",")
@@ -1624,7 +1606,7 @@ mut def from_json_l3vpn_inter__l3vpns__l3vpn_element(jd: dict[str, ?value]) -> y
     child_endpoint = child_endpoint_full if child_endpoint_full is not None else jd.get('endpoint')
     if child_endpoint is not None and isinstance(child_endpoint, list):
         children['endpoint'] = from_json_l3vpn_inter__l3vpns__l3vpn__endpoint(child_endpoint)
-    return yang.gdata.Container(children, [str(child_name if child_name is not None else "")])
+    return yang.gdata.Container(children, [str(child_name if child_name is not None else '')])
 
 mut def from_json_l3vpn_inter__l3vpns__l3vpn(jd: list[dict[str, ?value]]) -> yang.gdata.List:
     elements = []
@@ -1659,9 +1641,8 @@ class l3vpn_inter__l3vpns(yang.adata.MNode):
     l3vpn: l3vpn_inter__l3vpns__l3vpn
 
     mut def __init__(self, l3vpn: list[l3vpn_inter__l3vpns__l3vpn_entry]=[]):
-        self._ns = "http://example.com/l3vpn-inter"
+        self._ns = 'http://example.com/l3vpn-inter'
         self.l3vpn = l3vpn_inter__l3vpns__l3vpn(elements=l3vpn)
-        self.l3vpn._parent = self
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
@@ -1673,17 +1654,17 @@ class l3vpn_inter__l3vpns(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> l3vpn_inter__l3vpns:
         if n != None:
-            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_gdata(n.get_opt_list("l3vpn")))
+            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_gdata(n.get_opt_list('l3vpn')))
         return l3vpn_inter__l3vpns()
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> l3vpn_inter__l3vpns:
         if n != None:
-            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_xml(yang.gdata.get_xml_children(n, "l3vpn")))
+            return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_xml(yang.gdata.get_xml_children(n, 'l3vpn')))
         return l3vpn_inter__l3vpns()
 
 
-mut def from_json_path_l3vpn_inter__l3vpns(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path_l3vpn_inter__l3vpns(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     # path handling
     if len(path) > 0:
         point = path[0]
@@ -1721,28 +1702,16 @@ class root(yang.adata.MNode):
     l3vpns: l3vpn_inter__l3vpns
 
     mut def __init__(self, netinfra: ?netinfra_inter__netinfra=None, l3vpns: ?l3vpn_inter__l3vpns=None):
-        self._ns = ""
-        if netinfra is not None:
-            self.netinfra = netinfra
-        else:
-            self.netinfra = netinfra_inter__netinfra()
-        self_netinfra = self.netinfra
-        if self_netinfra is not None:
-            self_netinfra._parent = self
-        if l3vpns is not None:
-            self.l3vpns = l3vpns
-        else:
-            self.l3vpns = l3vpn_inter__l3vpns()
-        self_l3vpns = self.l3vpns
-        if self_l3vpns is not None:
-            self_l3vpns._parent = self
+        self._ns = ''
+        self.netinfra = netinfra if netinfra is not None else netinfra_inter__netinfra()
+        self.l3vpns = l3vpns if l3vpns is not None else l3vpn_inter__l3vpns()
 
     mut def to_gdata(self) -> yang.gdata.Node:
         children = {}
         _netinfra = self.netinfra
-        _l3vpns = self.l3vpns
         if _netinfra is not None:
             children['netinfra'] = _netinfra.to_gdata()
+        _l3vpns = self.l3vpns
         if _l3vpns is not None:
             children['l3vpns'] = _l3vpns.to_gdata()
         return yang.gdata.Container(children)
@@ -1750,17 +1719,17 @@ class root(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: ?yang.gdata.Node) -> root:
         if n != None:
-            return root(netinfra=netinfra_inter__netinfra.from_gdata(n.get_opt_container("netinfra")), l3vpns=l3vpn_inter__l3vpns.from_gdata(n.get_opt_container("l3vpns")))
+            return root(netinfra=netinfra_inter__netinfra.from_gdata(n.get_opt_container('netinfra')), l3vpns=l3vpn_inter__l3vpns.from_gdata(n.get_opt_container('l3vpns')))
         return root()
 
     @staticmethod
     mut def from_xml(n: ?xml.Node) -> root:
         if n != None:
-            return root(netinfra=netinfra_inter__netinfra.from_xml(yang.gdata.get_xml_opt_child(n, "netinfra", "http://example.com/netinfra-inter")), l3vpns=l3vpn_inter__l3vpns.from_xml(yang.gdata.get_xml_opt_child(n, "l3vpns", "http://example.com/l3vpn-inter")))
+            return root(netinfra=netinfra_inter__netinfra.from_xml(yang.gdata.get_xml_opt_child(n, 'netinfra', 'http://example.com/netinfra-inter')), l3vpns=l3vpn_inter__l3vpns.from_xml(yang.gdata.get_xml_opt_child(n, 'l3vpns', 'http://example.com/l3vpn-inter')))
         return root()
 
 
-mut def from_json_path(jd: value, path: list[str]=[], op: ?str="merge") -> yang.gdata.Node:
+mut def from_json_path(jd: value, path: list[str]=[], op: ?str='merge') -> yang.gdata.Node:
     # path handling
     if len(path) > 0:
         point = path[0]
@@ -1803,6 +1772,6 @@ mut def to_json(n: yang.gdata.Node) -> dict[str, ?value]:
     return children
 
 schema_namespaces: set[str] = {
-    "http://example.com/netinfra-inter",
-    "http://example.com/l3vpn-inter",
+    'http://example.com/netinfra-inter',
+    'http://example.com/l3vpn-inter',
 }
