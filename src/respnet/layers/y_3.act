@@ -42,6 +42,15 @@ class orchestron_device__devices__device_entry(yang.adata.MNode):
     mut def from_gdata(n: yang.gdata.Node) -> orchestron_device__devices__device_entry:
         return orchestron_device__devices__device_entry(name=n.get_str('name'), modset_id=n.get_opt_str('modset_id'))
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = orchestron_device__devices__device()')
+        _modset_id = self.modset_id
+        if _modset_id is not None:
+            res.append(f'{self_name}.modset_id = {repr(_modset_id)}')
+        return '\n'.join(res)
+
 class orchestron_device__devices__device(yang.adata.MNode):
     elements: list[orchestron_device__devices__device_entry]
     mut def __init__(self, elements=[]):
@@ -175,6 +184,17 @@ class orchestron_device__devices(yang.adata.MNode):
             return orchestron_device__devices(device=orchestron_device__devices__device.from_gdata(n.get_opt_list('device')))
         return orchestron_device__devices()
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = orchestron_device__devices()')
+        _device = self.device
+        for element in _device.elements:
+            list_elem = f'device_element = {self_name}.device.create({repr(element.name)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'device_element', False).splitlines())
+        return '\n'.join(res)
+
 
 mut def from_xml_orchestron_device__devices(node: xml.Node) -> yang.gdata.Container:
     children = {}
@@ -224,6 +244,15 @@ class root(yang.adata.MNode):
         if n != None:
             return root(devices=orchestron_device__devices.from_gdata(n.get_opt_container('devices')))
         return root()
+
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = root()')
+        _devices = self.devices
+        if _devices is not None:
+            res.extend(_devices.prsrc(f'{self_name}.devices', False).splitlines())
+        return '\n'.join(res)
 
 
 mut def from_xml(node: xml.Node) -> yang.gdata.Container:

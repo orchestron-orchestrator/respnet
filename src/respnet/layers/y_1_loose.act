@@ -79,6 +79,21 @@ class netinfra_inter__netinfra__router__base_config(yang.adata.MNode):
             return netinfra_inter__netinfra__router__base_config(asn=n.get_opt_int('asn'), ipv4_address=n.get_opt_str('ipv4-address'), ipv6_address=n.get_opt_str('ipv6-address'))
         raise ValueError('Missing required subtree netinfra_inter__netinfra__router__base_config')
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra__router__base_config()')
+        _asn = self.asn
+        if _asn is not None:
+            res.append(f'{self_name}.asn = {repr(_asn)}')
+        _ipv4_address = self.ipv4_address
+        if _ipv4_address is not None:
+            res.append(f'{self_name}.ipv4_address = {repr(_ipv4_address)}')
+        _ipv6_address = self.ipv6_address
+        if _ipv6_address is not None:
+            res.append(f'{self_name}.ipv6_address = {repr(_ipv6_address)}')
+        return '\n'.join(res)
+
 
 mut def from_xml_netinfra_inter__netinfra__router__base_config(node: xml.Node) -> yang.gdata.Container:
     children = {}
@@ -152,6 +167,15 @@ class netinfra_inter__netinfra__router__l3vpn_vrf_entry(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__router__l3vpn_vrf_entry:
         return netinfra_inter__netinfra__router__l3vpn_vrf_entry(vpn_id=n.get_str('vpn-id'), ebgp_customer_address=n.get_opt_strs('ebgp-customer-address'))
+
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra__router__l3vpn_vrf()')
+        _ebgp_customer_address = self.ebgp_customer_address
+        if _ebgp_customer_address is not None:
+            res.append(f'{self_name}.ebgp_customer_address = {repr(_ebgp_customer_address)}')
+        return '\n'.join(res)
 
 class netinfra_inter__netinfra__router__l3vpn_vrf(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__router__l3vpn_vrf_entry]
@@ -308,6 +332,29 @@ class netinfra_inter__netinfra__router_entry(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__router_entry:
         return netinfra_inter__netinfra__router_entry(name=n.get_str('name'), id=n.get_opt_int('id'), role=n.get_opt_str('role'), mock=n.get_opt_str('mock'), base_config=netinfra_inter__netinfra__router__base_config.from_gdata(n.get_opt_container('base-config')), l3vpn_vrf=netinfra_inter__netinfra__router__l3vpn_vrf.from_gdata(n.get_opt_list('l3vpn-vrf')))
+
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra__router()')
+        _id = self.id
+        if _id is not None:
+            res.append(f'{self_name}.id = {repr(_id)}')
+        _role = self.role
+        if _role is not None:
+            res.append(f'{self_name}.role = {repr(_role)}')
+        _mock = self.mock
+        if _mock is not None:
+            res.append(f'{self_name}.mock = {repr(_mock)}')
+        _base_config = self.base_config
+        if _base_config is not None:
+            res.extend(_base_config.prsrc(f'{self_name}.base_config', False).splitlines())
+        _l3vpn_vrf = self.l3vpn_vrf
+        for element in _l3vpn_vrf.elements:
+            list_elem = f'l3vpn_vrf_element = {self_name}.l3vpn_vrf.create({repr(element.vpn_id)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'l3vpn_vrf_element', False).splitlines())
+        return '\n'.join(res)
 
 class netinfra_inter__netinfra__router(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__router_entry]
@@ -503,6 +550,12 @@ class netinfra_inter__netinfra__backbone_link_entry(yang.adata.MNode):
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__backbone_link_entry:
         return netinfra_inter__netinfra__backbone_link_entry(left_router=n.get_str('left-router'), left_interface=n.get_str('left-interface'), right_router=n.get_str('right-router'), right_interface=n.get_str('right-interface'))
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra__backbone_link()')
+        return '\n'.join(res)
+
 class netinfra_inter__netinfra__backbone_link(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__backbone_link_entry]
     mut def __init__(self, elements=[]):
@@ -681,6 +734,15 @@ class netinfra_inter__netinfra__ibgp_fullmesh__router_entry(yang.adata.MNode):
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh__router_entry:
         return netinfra_inter__netinfra__ibgp_fullmesh__router_entry(name=n.get_str('name'), ipv4_address=n.get_opt_str('ipv4-address'))
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra__ibgp_fullmesh__router()')
+        _ipv4_address = self.ipv4_address
+        if _ipv4_address is not None:
+            res.append(f'{self_name}.ipv4_address = {repr(_ipv4_address)}')
+        return '\n'.join(res)
+
 class netinfra_inter__netinfra__ibgp_fullmesh__router(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__ibgp_fullmesh__router_entry]
     mut def __init__(self, elements=[]):
@@ -821,6 +883,20 @@ class netinfra_inter__netinfra__ibgp_fullmesh_entry(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> netinfra_inter__netinfra__ibgp_fullmesh_entry:
         return netinfra_inter__netinfra__ibgp_fullmesh_entry(asn=n.get_int('asn'), authentication_key=n.get_opt_str('authentication-key'), router=netinfra_inter__netinfra__ibgp_fullmesh__router.from_gdata(n.get_opt_list('router')))
+
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra__ibgp_fullmesh()')
+        _authentication_key = self.authentication_key
+        if _authentication_key is not None:
+            res.append(f'{self_name}.authentication_key = {repr(_authentication_key)}')
+        _router = self.router
+        for element in _router.elements:
+            list_elem = f'router_element = {self_name}.router.create({repr(element.name)}, {repr(element.ipv4_address)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'router_element', False).splitlines())
+        return '\n'.join(res)
 
 class netinfra_inter__netinfra__ibgp_fullmesh(yang.adata.MNode):
     elements: list[netinfra_inter__netinfra__ibgp_fullmesh_entry]
@@ -971,6 +1047,27 @@ class netinfra_inter__netinfra(yang.adata.MNode):
             return netinfra_inter__netinfra(router=netinfra_inter__netinfra__router.from_gdata(n.get_opt_list('router')), backbone_link=netinfra_inter__netinfra__backbone_link.from_gdata(n.get_opt_list('backbone-link')), ibgp_fullmesh=netinfra_inter__netinfra__ibgp_fullmesh.from_gdata(n.get_opt_list('ibgp-fullmesh')))
         return netinfra_inter__netinfra()
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = netinfra_inter__netinfra()')
+        _router = self.router
+        for element in _router.elements:
+            list_elem = f'router_element = {self_name}.router.create({repr(element.name)}, {repr(element.id)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'router_element', False).splitlines())
+        _backbone_link = self.backbone_link
+        for element in _backbone_link.elements:
+            list_elem = f'backbone_link_element = {self_name}.backbone_link.create({repr(element.left_router)}, {repr(element.left_interface)}, {repr(element.right_router)}, {repr(element.right_interface)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'backbone_link_element', False).splitlines())
+        _ibgp_fullmesh = self.ibgp_fullmesh
+        for element in _ibgp_fullmesh.elements:
+            list_elem = f'ibgp_fullmesh_element = {self_name}.ibgp_fullmesh.create({repr(element.asn)}, {repr(element.authentication_key)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'ibgp_fullmesh_element', False).splitlines())
+        return '\n'.join(res)
+
 
 mut def from_xml_netinfra_inter__netinfra(node: xml.Node) -> yang.gdata.Container:
     children = {}
@@ -1095,6 +1192,15 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(yang.adata.MNode):
             return l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(as_number=n.get_opt_int('as-number'))
         return None
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = l3vpn_inter__l3vpns__l3vpn__endpoint__bgp()')
+        _as_number = self.as_number
+        if _as_number is not None:
+            res.append(f'{self_name}.as_number = {repr(_as_number)}')
+        return '\n'.join(res)
+
 
 mut def from_xml_l3vpn_inter__l3vpns__l3vpn__endpoint__bgp(node: xml.Node) -> yang.gdata.Container:
     children = {}
@@ -1181,6 +1287,31 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint_entry(yang.adata.MNode):
     @staticmethod
     mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn__endpoint_entry:
         return l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device=n.get_str('device'), interface=n.get_str('interface'), site=n.get_opt_str('site'), site_network_access=n.get_opt_str('site-network-access'), provider_ipv4_address=n.get_opt_str('provider-ipv4-address'), customer_ipv4_address=n.get_opt_str('customer-ipv4-address'), ipv4_prefix_length=n.get_opt_int('ipv4-prefix-length'), bgp=l3vpn_inter__l3vpns__l3vpn__endpoint__bgp.from_gdata(n.get_opt_container('bgp')))
+
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = l3vpn_inter__l3vpns__l3vpn__endpoint()')
+        _site = self.site
+        if _site is not None:
+            res.append(f'{self_name}.site = {repr(_site)}')
+        _site_network_access = self.site_network_access
+        if _site_network_access is not None:
+            res.append(f'{self_name}.site_network_access = {repr(_site_network_access)}')
+        _provider_ipv4_address = self.provider_ipv4_address
+        if _provider_ipv4_address is not None:
+            res.append(f'{self_name}.provider_ipv4_address = {repr(_provider_ipv4_address)}')
+        _customer_ipv4_address = self.customer_ipv4_address
+        if _customer_ipv4_address is not None:
+            res.append(f'{self_name}.customer_ipv4_address = {repr(_customer_ipv4_address)}')
+        _ipv4_prefix_length = self.ipv4_prefix_length
+        if _ipv4_prefix_length is not None:
+            res.append(f'{self_name}.ipv4_prefix_length = {repr(_ipv4_prefix_length)}')
+        _bgp = self.bgp
+        if _bgp is not None:
+            res.append(f'bgp = {self_name}.create_bgp({repr(_bgp.as_number)})')
+            res.extend(_bgp.prsrc('bgp', False).splitlines())
+        return '\n'.join(res)
 
 class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
     elements: list[l3vpn_inter__l3vpns__l3vpn__endpoint_entry]
@@ -1361,6 +1492,20 @@ class l3vpn_inter__l3vpns__l3vpn_entry(yang.adata.MNode):
     mut def from_gdata(n: yang.gdata.Node) -> l3vpn_inter__l3vpns__l3vpn_entry:
         return l3vpn_inter__l3vpns__l3vpn_entry(name=n.get_str('name'), description=n.get_opt_str('description'), endpoint=l3vpn_inter__l3vpns__l3vpn__endpoint.from_gdata(n.get_opt_list('endpoint')))
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = l3vpn_inter__l3vpns__l3vpn()')
+        _description = self.description
+        if _description is not None:
+            res.append(f'{self_name}.description = {repr(_description)}')
+        _endpoint = self.endpoint
+        for element in _endpoint.elements:
+            list_elem = f'endpoint_element = {self_name}.endpoint.create({repr(element.device)}, {repr(element.interface)}, {repr(element.site)}, {repr(element.site_network_access)}, {repr(element.provider_ipv4_address)}, {repr(element.ipv4_prefix_length)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'endpoint_element', False).splitlines())
+        return '\n'.join(res)
+
 class l3vpn_inter__l3vpns__l3vpn(yang.adata.MNode):
     elements: list[l3vpn_inter__l3vpns__l3vpn_entry]
     mut def __init__(self, elements=[]):
@@ -1500,6 +1645,17 @@ class l3vpn_inter__l3vpns(yang.adata.MNode):
             return l3vpn_inter__l3vpns(l3vpn=l3vpn_inter__l3vpns__l3vpn.from_gdata(n.get_opt_list('l3vpn')))
         return l3vpn_inter__l3vpns()
 
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = l3vpn_inter__l3vpns()')
+        _l3vpn = self.l3vpn
+        for element in _l3vpn.elements:
+            list_elem = f'l3vpn_element = {self_name}.l3vpn.create({repr(element.name)})'
+            res.append(list_elem)
+            res.extend(element.prsrc(f'l3vpn_element', False).splitlines())
+        return '\n'.join(res)
+
 
 mut def from_xml_l3vpn_inter__l3vpns(node: xml.Node) -> yang.gdata.Container:
     children = {}
@@ -1554,6 +1710,18 @@ class root(yang.adata.MNode):
         if n != None:
             return root(netinfra=netinfra_inter__netinfra.from_gdata(n.get_opt_container('netinfra')), l3vpns=l3vpn_inter__l3vpns.from_gdata(n.get_opt_container('l3vpns')))
         return root()
+
+    def prsrc(self, self_name='ad', top=True):
+        res = []
+        if top:
+            res.append(f'{self_name} = root()')
+        _netinfra = self.netinfra
+        if _netinfra is not None:
+            res.extend(_netinfra.prsrc(f'{self_name}.netinfra', False).splitlines())
+        _l3vpns = self.l3vpns
+        if _l3vpns is not None:
+            res.extend(_l3vpns.prsrc(f'{self_name}.l3vpns', False).splitlines())
+        return '\n'.join(res)
 
 
 mut def from_xml(node: xml.Node) -> yang.gdata.Container:
