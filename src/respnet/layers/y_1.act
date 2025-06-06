@@ -1189,7 +1189,7 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
         self._name = 'endpoint'
         self.elements = elements
 
-    mut def create(self, device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length, bgp):
+    mut def create(self, device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length):
         for e in self.elements:
             match = True
             if e.device != device:
@@ -1201,7 +1201,7 @@ class l3vpn_inter__l3vpns__l3vpn__endpoint(yang.adata.MNode):
             if match:
                 return e
 
-        res = l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length, bgp)
+        res = l3vpn_inter__l3vpns__l3vpn__endpoint_entry(device, interface, site, site_network_access, provider_ipv4_address, ipv4_prefix_length)
         self.elements.append(res)
         return res
 

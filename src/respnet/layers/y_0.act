@@ -7376,7 +7376,7 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
         self._name = 'routing-protocol'
         self.elements = elements
 
-    mut def create(self, type, ospf, bgp, rip, vrrp):
+    mut def create(self, type):
         for e in self.elements:
             match = True
             if e.type != type:
@@ -7385,7 +7385,7 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protoco
             if match:
                 return e
 
-        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(type, ospf, bgp, rip, vrrp)
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__routing_protocols__routing_protocol_entry(type)
         self.elements.append(res)
         return res
 
@@ -12668,7 +12668,7 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
         self._name = 'routing-protocol'
         self.elements = elements
 
-    mut def create(self, type, ospf, bgp, rip, vrrp):
+    mut def create(self, type):
         for e in self.elements:
             match = True
             if e.type != type:
@@ -12677,7 +12677,7 @@ class ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_networ
             if match:
                 return e
 
-        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(type, ospf, bgp, rip, vrrp)
+        res = ietf_l3vpn_svc__l3vpn_svc__sites__site__site_network_accesses__site_network_access__routing_protocols__routing_protocol_entry(type)
         self.elements.append(res)
         return res
 
